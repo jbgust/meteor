@@ -1,6 +1,6 @@
 <template>
   <b-form>
-    <b-form-group @submit="runComputation" label="Throat diameter [mm]:">
+    <b-form-group label="Throat diameter [mm]:">
       <b-form-input id="throatDiameter" v-model="defaultValue.throatDiameter"/>
     </b-form-group>
     <b-form-group label="Grain outer diameter [mm]:">
@@ -39,16 +39,14 @@
       <b-form-input id="chamberLength" v-model="defaultValue.chamberLength"/>
     </b-form-group>
 
-    <b-button type="submit" variant="primary">Submit</b-button>
+    <b-button variant="primary" @click="runComputation">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
   </b-form>
 </template>
 
-<script lang="es6">
+<script type="text/ecmascript-6">
 
-import Vue from 'vue'
 import Axios from 'axios'
-Vue.use(Axios)
 
 export default {
   name: 'solid-rocket-motor',
@@ -83,14 +81,13 @@ export default {
   },
   methods: {
     runComputation () {
-      // console.log(Axios)
-      // Axios.post('http://jbise.lyon.tennaxia.org:8080/compute', {}, { data: this.defaultValue })
-      //   .then(function (response) {
-      //     console.log(response)
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error)
-      //   })
+      Axios.post('/compute', {}, { data: this.defaultValue })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
