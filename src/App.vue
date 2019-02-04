@@ -2,12 +2,10 @@
     <b-container fluid>
       <b-row>
         <b-col lg="4">
-          <solid-rocket-motor></solid-rocket-motor>
+          <solid-rocket-motor @computation-success="loadResult"></solid-rocket-motor>
         </b-col>
         <b-col>
-          <b-container>
-            toto
-          </b-container>
+          <thrust-graphical-result ref="thrustGraphicalResult"/>
         </b-col>
       </b-row>
     </b-container>
@@ -17,12 +15,18 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import SolidRocketMotor from './components/SolidRocketMotor'
+import ThrustGraphicalResult from './components/ThrustGraphicalResult'
 
 Vue.use(BootstrapVue)
 
 export default {
   name: 'app',
-  components: { SolidRocketMotor }
+  components: { ThrustGraphicalResult, SolidRocketMotor },
+  methods: {
+    loadResult (data) {
+      this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
+    }
+  }
 }
 </script>
 

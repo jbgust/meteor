@@ -81,9 +81,11 @@ export default {
   },
   methods: {
     runComputation () {
+      const component = this
       Axios.post('/compute', {}, { data: this.defaultValue })
         .then(function (response) {
           console.log(response)
+          component.$emit('computation-success', response.data)
         })
         .catch(function (error) {
           console.log(error)
