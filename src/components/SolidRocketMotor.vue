@@ -39,6 +39,8 @@
       <b-form-input id="chamberLength" v-model="defaultValue.chamberLength"/>
     </b-form-group>
 
+    <advanced-configuration v-model="defaultValue.extraConfig"/>
+
     <b-button variant="primary" @click="runComputation">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
   </b-form>
@@ -47,9 +49,11 @@
 <script type="text/ecmascript-6">
 
 import Axios from 'axios'
+import AdvancedConfiguration from './AdvancedConfiguration'
 
 export default {
   name: 'solid-rocket-motor',
+  components: { AdvancedConfiguration },
   data () {
     return {
       grainSurfaces: [
@@ -75,7 +79,18 @@ export default {
         coreSurface: 'EXPOSED',
         propellantType: 'KNDX',
         chamberInnerDiameter: 75,
-        chamberLength: 470
+        chamberLength: 470,
+        extraConfig: {
+          densityRatio: 0.95,
+          nozzleErosionInMillimeter: 0,
+          combustionEfficiencyRatio: 0.95,
+          ambiantPressureInMPa: 0.101,
+          erosiveBurningAreaRatioThreshold: 6,
+          erosiveBurningVelocityCoefficient: 0,
+          nozzleEfficiency: 0.85,
+          nozzleExpansionRatio: null,
+          optimalNozzleDesign: true
+        }
       }
     }
   },

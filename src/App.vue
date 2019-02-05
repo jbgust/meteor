@@ -2,8 +2,8 @@
     <b-container fluid>
       <b-row>
         <b-col lg="4">
-          <solid-rocket-motor @computation-success="loadResult"></solid-rocket-motor>
-          <performance-info ref="performanceResult"></performance-info>
+          <solid-rocket-motor @computation-success="loadResult"/>
+          <performance-info ref="performanceResult"/>
         </b-col>
         <b-col>
           <thrust-graphical-result ref="thrustGraphicalResult"/>
@@ -17,7 +17,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import SolidRocketMotor from './components/SolidRocketMotor'
 import ThrustGraphicalResult from './components/ThrustGraphicalResult'
-import PerformanceInfo from "./components/PerformanceInfo";
+import PerformanceInfo from './components/PerformanceInfo'
 
 Vue.use(BootstrapVue)
 
