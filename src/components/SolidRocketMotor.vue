@@ -5,6 +5,15 @@
 
     <b-button variant="primary" @click="runComputation">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
+
+    <b-modal ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered title="Computation failed">
+      <p class="my-4" v-model="errorMessage">{{errorMessage}}</p>
+      <b-form-textarea disabled
+                       v-show="errorDetail !== null"
+                       v-model="errorDetail"
+                       :max-rows="10"/>
+    </b-modal>
+
   </b-form>
 </template>
 
@@ -42,7 +51,10 @@
           nozzleExpansionRatio: null,
           optimalNozzleDesign: true
         }
-      }
+      },
+      errorMessage: null,
+      errorDetail: null,
+      showError: false,
     }
   },
   methods: {
@@ -50,11 +62,12 @@
       const component = this
       Axios.post('/compute', {}, { data: this.defaultValue })
         .then(function (response) {
-          console.log(response)
           component.$emit('computation-success', response.data)
         })
         .catch(function (error) {
-          console.log(error)
+          component.errorMessage=error.response.data.message
+          component.errorDetail=error.response.data.detail
+          component.showError=true;
         })
     }
   }
