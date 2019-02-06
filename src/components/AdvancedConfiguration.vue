@@ -1,5 +1,5 @@
 <template>
-  <b-card>
+  <div>
     <b-btn v-b-toggle.advancedConfig>Advanced configuration</b-btn>
     <b-collapse id="advancedConfig">
       <b-card>
@@ -32,7 +32,7 @@
         </b-form-group>
       </b-card>
     </b-collapse>
-  </b-card>
+  </div>
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
         }
     },
     methods: {
-        resetNozzleExpansionRation (newOptimalNozzleDesignValue) {
+        resetNozzleExpansionRation(newOptimalNozzleDesignValue) {
             if (newOptimalNozzleDesignValue) {
                 this.value.nozzleExpansionRatio = null
             }

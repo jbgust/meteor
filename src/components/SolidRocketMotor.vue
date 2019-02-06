@@ -1,20 +1,25 @@
 <template>
-  <b-form validated>
-    <motor-configuration v-model="defaultValue"/>
-    <advanced-configuration v-model="defaultValue.extraConfig"/>
+  <b-card>
+    <b-form validated>
+        <div class="form-container">
+              <motor-configuration v-model="defaultValue"/>
+              <advanced-configuration v-model="defaultValue.extraConfig"/>
+        </div>
 
-    <b-button variant="primary" @click="runComputation">Submit</b-button>
-    <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button variant="primary" @click="runComputation">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
 
-    <b-modal ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered title="Computation failed">
-      <p class="my-4">{{errorMessage}}</p>
-      <b-form-textarea disabled
-                       v-show="errorDetail !== null"
-                       v-model="errorDetail"
-                       :max-rows="10"/>
-    </b-modal>
+      <b-modal ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered
+               title="Computation failed">
+        <p class="my-4">{{errorMessage}}</p>
+        <b-form-textarea disabled
+                         v-show="errorDetail !== null"
+                         v-model="errorDetail"
+                         :max-rows="10"/>
+      </b-modal>
 
-  </b-form>
+    </b-form>
+  </b-card>
 </template>
 
 <script type="text/ecmascript-6">
@@ -26,7 +31,7 @@ import MotorConfiguration from './MotorConfiguration'
 export default {
     name: 'solid-rocket-motor',
     components: { MotorConfiguration, AdvancedConfiguration },
-    data () {
+    data() {
         return {
             defaultValue: {
                 throatDiameter: 17.3985248919802,
@@ -58,13 +63,13 @@ export default {
         }
     },
     methods: {
-        runComputation () {
+        runComputation() {
             const component = this
             Axios.post('/compute', {}, { data: this.defaultValue })
-                .then(function (response) {
+                .then(function(response) {
                     component.$emit('computation-success', response.data)
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     component.errorMessage = error.response.data.message
                     component.errorDetail = error.response.data.detail
                     component.showError = true
@@ -73,3 +78,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .form-container {
+        max-height: 600px;
+        overflow: auto;
+    }
+</style>

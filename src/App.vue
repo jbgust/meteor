@@ -1,12 +1,14 @@
 <template>
     <b-container fluid>
       <b-row>
-        <b-col lg="4">
+        <b-col cols="*">
           <solid-rocket-motor @computation-success="loadResult"/>
-          <performance-info ref="performanceResult"/>
+        </b-col>
+        <b-col cols="*">
+          <performance-info v-show="asResult" ref="performanceResult"/>
         </b-col>
         <b-col>
-          <thrust-graphical-result ref="thrustGraphicalResult"/>
+          <thrust-graphical-result v-show="asResult" ref="thrustGraphicalResult"/>
         </b-col>
       </b-row>
     </b-container>
@@ -24,10 +26,16 @@ Vue.use(BootstrapVue)
 export default {
     name: 'app',
     components: { PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
+    data() {
+        return {
+            asResult: false
+        }
+    },
     methods: {
-        loadResult (data) {
+        loadResult(data) {
             this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
             this.$refs.performanceResult.performance = data.performanceResult
+            this.asResult = true
         }
     }
 }

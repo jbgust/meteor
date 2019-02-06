@@ -1,7 +1,7 @@
 <template>
-  <b-card>
-    <b-form-group label="Throat diameter [mm]:">
-        <b-form-input id="throatDiameter" v-model="value.throatDiameter" required type="number"/>
+  <div>
+    <b-form-group label="Throat diameter [mm]:" class="sm">
+        <b-form-input id="throatDiameter" v-model="value.throatDiameter" required type="number" class="sm"/>
     </b-form-group>
     <b-form-group label="Grain outer diameter [mm]:">
         <b-form-input id="outerDiameter" v-model="value.outerDiameter" required type="number"/>
@@ -34,7 +34,7 @@
     <b-form-group label="Chamber length [mm]:">
         <b-form-input id="chamberLength" v-model="value.chamberLength" required type="number"/>
     </b-form-group>
-  </b-card>
+  </div>
 </template>
 <script>
 export default {
@@ -44,7 +44,7 @@ export default {
             type: Object
         }
     },
-    data () {
+    data() {
         return {
             grainSurfaces: [
                 { text: 'Exposed', value: 'EXPOSED' },

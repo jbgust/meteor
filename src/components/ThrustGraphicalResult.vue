@@ -12,12 +12,12 @@ am4core.useTheme(am4themesAnimated)
 
 export default {
     name: 'thrust-graphical-result',
-    data () {
+    data() {
         return {
             chart: null
         }
     },
-    mounted () {
+    mounted() {
         let chart = am4core.create(this.$refs.thrustResult, am4charts.XYChart)
 
         chart.paddingRight = 20
@@ -52,10 +52,9 @@ export default {
        return ".###";
       }); */
         this.chart = chart
-        console.log('data', this.chart.data)
     },
 
-    beforeDestroy () {
+    beforeDestroy() {
         if (this.chart) {
             this.chart.dispose()
         }

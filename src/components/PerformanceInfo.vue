@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-card>
         <h3 class="title-result">Performance</h3>
         <div class="resultat"><span class="label-resultat">Class : </span><span v-text="performance.motorDescription"></span></div>
         <div class="resultat"><span class="label-resultat">Thrust time : </span><span v-text="performance.thrustTime"></span></div>
@@ -14,13 +14,13 @@
         <div class="resultat"><span class="label-resultat">Divergence length : </span><span v-text="performance.divergenceLenght"></span></div>
         <div class="resultat"><span class="label-resultat">Convergence length : </span><span v-text="performance.convergenceLenght"></span></div>
         <div class="resultat"><span class="label-resultat">Initial exit speed : </span><span v-text="performance.exitSpeedInitial"></span></div>
-    </b-container>
+    </b-card>
 </template>
 
 <script>
 export default {
     name: 'PerformanceInfo',
-    data () {
+    data() {
         return {
             performance: {}
         }
