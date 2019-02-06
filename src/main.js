@@ -9,5 +9,5 @@ Axios.defaults.baseURL = 'http://jbise.lyon.tennaxia.org:8090'
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App)
+    render: h => h(App)
 }).$mount('#app')

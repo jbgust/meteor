@@ -37,19 +37,19 @@
 
 <script>
 export default {
-  name: 'advanced-configuration',
-  props: {
-    value: {
-      type: Object
+    name: 'advanced-configuration',
+    props: {
+        value: {
+            type: Object
+        }
+    },
+    methods: {
+        resetNozzleExpansionRation (newOptimalNozzleDesignValue) {
+            if (newOptimalNozzleDesignValue) {
+                this.value.nozzleExpansionRatio = null
+            }
+        }
     }
-  },
-  methods: {
-    resetNozzleExpansionRation (newOptimalNozzleDesignValue) {
-      if (newOptimalNozzleDesignValue) {
-        this.value.nozzleExpansionRatio = null
-      }
-    }
-  }
 
 }
 </script>

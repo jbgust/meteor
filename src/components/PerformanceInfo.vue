@@ -18,14 +18,14 @@
 </template>
 
 <script>
-    export default {
-        name: "PerformanceInfo",
-      data() {
+export default {
+    name: 'PerformanceInfo',
+    data () {
         return {
-          performance: {}
+            performance: {}
         }
-      },
     }
+}
 </script>
 
 <style scoped>

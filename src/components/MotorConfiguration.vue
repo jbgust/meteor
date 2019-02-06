@@ -38,27 +38,27 @@
 </template>
 <script>
 export default {
-  name: 'motor-configuration',
-  props: {
-    value: {
-      type: Object
+    name: 'motor-configuration',
+    props: {
+        value: {
+            type: Object
+        }
+    },
+    data () {
+        return {
+            grainSurfaces: [
+                { text: 'Exposed', value: 'EXPOSED' },
+                { text: 'Inhibited', value: 'INHIBITED' }
+            ],
+            propellantType: [
+                { text: 'KNDX', value: 'KNDX' },
+                { text: 'KNER_COARSE', value: 'KNER_COARSE' },
+                { text: 'KNMN_COARSE', value: 'KNMN_COARSE' },
+                { text: 'KNSB_COARSE', value: 'KNSB_COARSE' },
+                { text: 'KNSB_FINE', value: 'KNSB_FINE' },
+                { text: 'KNSU', value: 'KNSU' }
+            ]
+        }
     }
-  },
-  data () {
-    return {
-      grainSurfaces: [
-        { text: 'Exposed', value: 'EXPOSED' },
-        { text: 'Inhibited', value: 'INHIBITED' }
-      ],
-      propellantType: [
-        { text: 'KNDX', value: 'KNDX' },
-        { text: 'KNER_COARSE', value: 'KNER_COARSE' },
-        { text: 'KNMN_COARSE', value: 'KNMN_COARSE' },
-        { text: 'KNSB_COARSE', value: 'KNSB_COARSE' },
-        { text: 'KNSB_FINE', value: 'KNSB_FINE' },
-        { text: 'KNSU', value: 'KNSU' }
-      ]
-    }
-  }
 }
 </script>

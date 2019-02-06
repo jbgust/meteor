@@ -22,14 +22,14 @@ import PerformanceInfo from './components/PerformanceInfo'
 Vue.use(BootstrapVue)
 
 export default {
-  name: 'app',
-  components: { PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
-  methods: {
-    loadResult (data) {
-      this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
-      this.$refs.performanceResult.performance = data.performanceResult
+    name: 'app',
+    components: { PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
+    methods: {
+        loadResult (data) {
+            this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
+            this.$refs.performanceResult.performance = data.performanceResult
+        }
     }
-  }
 }
 </script>
 
