@@ -4,10 +4,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://jbise.lyon.tennaxia.org:8090'
-
+// TODO : a quoi ça sert?
 Vue.config.productionTip = false
 
 new Vue({
+    created: function() { Axios.defaults.baseURL = process.env.VUE_APP_BASE_URL },
     render: h => h(App)
 }).$mount('#app')
