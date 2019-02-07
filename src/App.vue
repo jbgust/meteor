@@ -18,8 +18,8 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import SolidRocketMotor from './components/SolidRocketMotor'
-import ThrustGraphicalResult from './components/ThrustGraphicalResult'
-import PerformanceInfo from './components/PerformanceInfo'
+import ThrustGraphicalResult from './components/result/ThrustGraphicalResult'
+import PerformanceInfo from './components/result/PerformanceInfo'
 
 Vue.use(BootstrapVue)
 

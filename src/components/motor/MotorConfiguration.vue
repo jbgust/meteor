@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-form-group label="Throat diameter [mm]:" class="sm">
-        <b-form-input id="throatDiameter" v-model="value.throatDiameter" required type="number" class="sm"/>
-    </b-form-group>
+    <!--<b-form-group label="Throat diameter [mm]:">-->
+        <!--<b-form-input id="throatDiameter" v-model="value.throatDiameter" required type="number"/>-->
+    <!--</b-form-group>-->
+      <decimal-input id="throatDiameter" label="Throat diameter [mm]:" v-model="value.throatDiameter"></decimal-input>
     <b-form-group label="Grain outer diameter [mm]:">
         <b-form-input id="outerDiameter" v-model="value.outerDiameter" required type="number"/>
     </b-form-group>
@@ -37,8 +38,10 @@
   </div>
 </template>
 <script>
+import DecimalInput from "../form/DecimalInput";
 export default {
     name: 'motor-configuration',
+    components: {DecimalInput},
     props: {
         value: {
             type: Object

@@ -25,8 +25,8 @@
 <script type="text/ecmascript-6">
 
 import Axios from 'axios'
-import AdvancedConfiguration from './AdvancedConfiguration'
-import MotorConfiguration from './MotorConfiguration'
+import AdvancedConfiguration from './motor/AdvancedConfiguration'
+import MotorConfiguration from './motor/MotorConfiguration'
 
 export default {
     name: 'solid-rocket-motor',
