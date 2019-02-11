@@ -1,47 +1,24 @@
 <template>
-  <div>
-    <!--<b-form-group label="Throat diameter [mm]:">-->
-        <!--<b-form-input id="throatDiameter" v-model="value.throatDiameter" required type="number"/>-->
-    <!--</b-form-group>-->
-      <decimal-input id="throatDiameter" label="Throat diameter [mm]:" v-model="value.throatDiameter"></decimal-input>
-    <b-form-group label="Grain outer diameter [mm]:">
-        <b-form-input id="outerDiameter" v-model="value.outerDiameter" required type="number"/>
-    </b-form-group>
-    <b-form-group label="Grain core diameter [mm]:">
-        <b-form-input id="coreDiameter" v-model="value.coreDiameter" required type="number"/>
-    </b-form-group>
-    <b-form-group label="Grain segment length [mm]:">
-        <b-form-input id="segmentLength" v-model="value.segmentLength" required type="number"/>
-    </b-form-group>
-    <b-form-group label="Number of segment:">
-        <b-form-input id="numberOfSegment" v-model="value.numberOfSegment" required type="number"/>
-    </b-form-group>
-    <b-form-group label="Outer surface:">
-        <b-form-select id="outerSurface" name="outerSurface" :options="grainSurfaces"
-                       v-model="value.outerSurface" required/>
-    </b-form-group>
-    <b-form-group label="Ends surface:">
-        <b-form-select id="endsSurface" :options="grainSurfaces" v-model="value.endsSurface" required/>
-    </b-form-group>
-    <b-form-group label="Core surface:">
-        <b-form-select id="coreSurface" :options="grainSurfaces" v-model="value.coreSurface" required/>
-    </b-form-group>
-    <b-form-group label="Propellant:">
-        <b-form-select id="propellantType" :options="propellantType" v-model="value.propellantType" required/>
-    </b-form-group>
-    <b-form-group label="Chamber inner diameter [mm]:">
-        <b-form-input id="chamberInnerDiameter" v-model="value.chamberInnerDiameter" required type="number"/>
-    </b-form-group>
-    <b-form-group label="Chamber length [mm]:">
-        <b-form-input id="chamberLength" v-model="value.chamberLength" required type="number"/>
-    </b-form-group>
-  </div>
+    <div>
+    <!--<label label="Throat diameter [mm]:">-->
+        <!--<v-text-field id="throatDiameter" v-model="value.throatDiameter" required type="number"/>-->
+    <!--</label>-->
+        <v-text-field id="throatDiameter" label="Throat diameter [mm]:" v-model="value.throatDiameter"></v-text-field>
+        <v-text-field id="outerDiameter" label="Grain outer diameter [mm]:" v-model="value.outerDiameter" required type="number"/>
+        <v-text-field id="coreDiameter" label="Grain core diameter [mm]:" v-model="value.coreDiameter" required type="number"/>
+        <v-text-field id="segmentLength" label="Grain segment length [mm]:" v-model="value.segmentLength" required type="number"/>
+        <v-text-field id="numberOfSegment" label="Number of segment:" v-model="value.numberOfSegment" required type="number"/>
+        <v-select id="outerSurface" label="Outer surface:" :items="grainSurfaces" v-model="value.outerSurface" required/>
+        <v-select id="endsSurface" label="Ends surface:" :items="grainSurfaces" v-model="value.endsSurface" required/>
+        <v-select id="coreSurface" label="Core surface:" :items="grainSurfaces" v-model="value.coreSurface" required/>
+        <v-select id="propellantType" label="Propellant:" :items="propellantType" v-model="value.propellantType" required/>
+        <v-text-field id="chamberInnerDiameter" label="Chamber inner diameter [mm]:" v-model="value.chamberInnerDiameter" required type="number"/>
+        <v-text-field id="chamberLength" label="Chamber length [mm]:" v-model="value.chamberLength" required type="number"/>
+    </div>
 </template>
 <script>
-import DecimalInput from "../form/DecimalInput";
 export default {
     name: 'motor-configuration',
-    components: {DecimalInput},
     props: {
         value: {
             type: Object

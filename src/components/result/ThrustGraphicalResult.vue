@@ -29,8 +29,6 @@ export default {
         categoryAxis.dataFields.category = 'timeSinceBurnStartInSecond'
         categoryAxis.renderer.minGridDistance = 50
         categoryAxis.renderer.grid.template.location = 0.5
-        categoryAxis.startLocation = -5
-        categoryAxis.endLocation = 10
         categoryAxis.title.text = 'Thrust time (sec.)'
 
         // Create value axis
@@ -44,7 +42,6 @@ export default {
         series.dataFields.categoryX = 'timeSinceBurnStartInSecond'
         series.tooltipText = "{valueY.value.formatNumber('#.')} N :  {categoryX.formatNumber('.##')} s"
         series.strokeWidth = 2
-        series.tensionX = 12
 
         chart.cursor = new am4charts.XYCursor()
         /*
@@ -65,6 +62,6 @@ export default {
 <style scoped>
   .thrust-graphic {
     width: 100%;
-    height: 100%;
+    height: 80%;
   }
 </style>

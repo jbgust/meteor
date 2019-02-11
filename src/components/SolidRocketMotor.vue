@@ -1,25 +1,25 @@
 <template>
-  <b-card>
-    <b-form validated>
+  <v-container fill-height>
+    <v-form validated>
         <div class="form-container">
               <motor-configuration v-model="defaultValue"/>
               <advanced-configuration v-model="defaultValue.extraConfig"/>
         </div>
 
-      <b-button variant="primary" @click="runComputation">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <v-btn variant="primary" @click="runComputation">Submit</v-btn>
+      <v-btn type="reset" variant="danger">Reset</v-btn>
 
-      <b-modal ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered
+      <v-dialog ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered
                title="Computation failed">
         <p class="my-4">{{errorMessage}}</p>
-        <b-form-textarea disabled
+        <v-textarea disabled
                          v-show="errorDetail !== null"
                          v-model="errorDetail"
                          :max-rows="10"/>
-      </b-modal>
+      </v-dialog>
 
-    </b-form>
-  </b-card>
+    </v-form>
+  </v-container>
 </template>
 
 <script type="text/ecmascript-6">
@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             defaultValue: {
-                throatDiameter: 17.3985248919802,
+                throatDiameter: 17.39,
                 outerDiameter: 69,
                 coreDiameter: 20,
                 segmentLength: 115,
@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
     .form-container {
-        max-height: 600px;
+        max-height: 800px;
         overflow: auto;
     }
 </style>
