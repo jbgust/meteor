@@ -1,10 +1,9 @@
 <template>
-  <v-container fill-height>
+  <v-container>
     <v-form validated>
-        <div class="form-container">
-              <motor-configuration v-model="defaultValue"/>
-              <advanced-configuration v-model="defaultValue.extraConfig"/>
-        </div>
+
+      <motor-configuration v-model="defaultValue"/>
+      <advanced-configuration v-model="defaultValue.extraConfig"/>
 
       <v-btn variant="primary" @click="runComputation">Submit</v-btn>
       <v-btn type="reset" variant="danger">Reset</v-btn>
@@ -78,10 +77,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .form-container {
-        max-height: 800px;
-        overflow: auto;
-    }
-</style>
