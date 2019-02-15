@@ -8,14 +8,36 @@
       <v-btn variant="primary" @click="runComputation">Submit</v-btn>
       <v-btn type="reset" variant="danger">Reset</v-btn>
 
-      <v-dialog ref="errorModal" :size="errorDetail !== null ? 'lg': 'sm'" v-model="showError" centered
-               title="Computation failed">
-        <p class="my-4">{{errorMessage}}</p>
-        <v-textarea disabled
-                         v-show="errorDetail !== null"
-                         v-model="errorDetail"
-                         :max-rows="10"/>
-      </v-dialog>
+      <v-dialog ref="errorModal" :width="errorDetail !== null ? '700px': '300px'" v-model="showError">
+
+            <v-card>
+                <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title>
+                    Computation failed
+                </v-card-title>
+
+                <v-card-text>
+                    <p class="my-4">{{errorMessage}}</p>
+                    <v-textarea readonly
+                                v-show="errorDetail !== null"
+                                v-model="errorDetail"
+                                rows="10"/>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        flat
+                        @click="showError = false">
+                        Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
 
     </v-form>
   </v-container>

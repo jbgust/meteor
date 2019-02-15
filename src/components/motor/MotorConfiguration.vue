@@ -1,8 +1,5 @@
 <template>
     <div>
-    <!--<label label="Throat diameter [mm]:">-->
-        <!--<v-text-field id="throatDiameter" v-model="value.throatDiameter" required type="number"/>-->
-    <!--</label>-->
         <v-text-field id="throatDiameter" label="Throat diameter [mm]:" v-model="value.throatDiameter"></v-text-field>
         <v-text-field id="outerDiameter" label="Grain outer diameter [mm]:" v-model="value.outerDiameter" required type="number"/>
         <v-text-field id="coreDiameter" label="Grain core diameter [mm]:" v-model="value.coreDiameter" required type="number"/>
