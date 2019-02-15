@@ -1,46 +1,49 @@
 <template>
-  <v-container>
-    <v-form validated>
+    <v-container>
+        <v-form validated>
 
-      <motor-configuration v-model="defaultValue"/>
-      <advanced-configuration v-model="defaultValue.extraConfig"/>
+            <motor-configuration v-model="defaultValue"/>
+            <advanced-configuration ref="advanceSettings" v-model="defaultValue.extraConfig" @reset="resetConfig"/>
 
-      <v-btn variant="primary" @click="runComputation">Submit</v-btn>
-      <v-btn type="reset" variant="danger">Reset</v-btn>
+            <v-btn @click="runComputation">Submit</v-btn>
+            <v-btn type="reset">Reset</v-btn>
+            <v-btn @click="$refs.advanceSettings.show()">
+                <v-icon dark>settings</v-icon>
+            </v-btn>
 
-      <v-dialog ref="errorModal" :width="errorDetail !== null ? '700px': '300px'" v-model="showError">
+            <v-dialog ref="errorModal" :width="errorDetail !== null ? '700px': '300px'" v-model="showError">
 
-            <v-card>
-                <v-card-title
-                    class="headline grey lighten-2"
-                    primary-title>
-                    Computation failed
-                </v-card-title>
+                <v-card>
+                    <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title>
+                        Computation failed
+                    </v-card-title>
 
-                <v-card-text>
-                    <p class="my-4">{{errorMessage}}</p>
-                    <v-textarea readonly
-                                v-show="errorDetail !== null"
-                                v-model="errorDetail"
-                                rows="10"/>
-                </v-card-text>
+                    <v-card-text>
+                        <p class="my-4">{{errorMessage}}</p>
+                        <v-textarea readonly
+                                    v-show="errorDetail !== null"
+                                    v-model="errorDetail"
+                                    rows="10"/>
+                    </v-card-text>
 
-                <v-divider></v-divider>
+                    <v-divider></v-divider>
 
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="primary"
-                        flat
-                        @click="showError = false">
-                        Ok
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            color="primary"
+                            flat
+                            @click="showError = false">
+                            Ok
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
 
-    </v-form>
-  </v-container>
+        </v-form>
+    </v-container>
 </template>
 
 <script type="text/ecmascript-6">
@@ -66,17 +69,7 @@ export default {
                 propellantType: 'KNDX',
                 chamberInnerDiameter: 75,
                 chamberLength: 470,
-                extraConfig: {
-                    densityRatio: 0.95,
-                    nozzleErosionInMillimeter: 0,
-                    combustionEfficiencyRatio: 0.95,
-                    ambiantPressureInMPa: 0.101,
-                    erosiveBurningAreaRatioThreshold: 6,
-                    erosiveBurningVelocityCoefficient: 0,
-                    nozzleEfficiency: 0.85,
-                    nozzleExpansionRatio: null,
-                    optimalNozzleDesign: true
-                }
+                extraConfig: this.getdefaultAdvanceConfig()
             },
             errorMessage: null,
             errorDetail: null,
@@ -84,6 +77,22 @@ export default {
         }
     },
     methods: {
+        resetConfig() {
+            this.defaultValue.extraConfig = this.getdefaultAdvanceConfig()
+        },
+        getdefaultAdvanceConfig() {
+            return {
+                densityRatio: 0.95,
+                nozzleErosionInMillimeter: 0,
+                combustionEfficiencyRatio: 0.95,
+                ambiantPressureInMPa: 0.101,
+                erosiveBurningAreaRatioThreshold: 6,
+                erosiveBurningVelocityCoefficient: 0,
+                nozzleEfficiency: 0.85,
+                nozzleExpansionRatio: null,
+                optimalNozzleDesign: true
+            }
+        },
         runComputation() {
             const component = this
             Axios.post('/compute', {}, { data: this.defaultValue })
