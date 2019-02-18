@@ -61,7 +61,13 @@ export default {
 
 <style scoped>
   .thrust-graphic {
-    width: 100%;
-    height: 100%;
+        width: 100%;
+        height: 100%;
+  }
+
+  @media all and (max-width: 1280px) {
+      .thrust-graphic {
+          min-height: 500px;
+      }
   }
 </style>

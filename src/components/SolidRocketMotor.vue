@@ -100,6 +100,7 @@ export default {
                     component.$emit('computation-success', response.data)
                 })
                 .catch(function(error) {
+                    console.log(error);
                     component.errorMessage = error.response.data.message
                     component.errorDetail = error.response.data.detail
                     component.showError = true

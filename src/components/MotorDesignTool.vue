@@ -1,19 +1,19 @@
 <template>
     <v-container fluid grid-list-md fill-height>
         <v-layout row wrap>
-            <v-flex d-flex xs3>
+            <v-flex d-flex lg3>
                 <v-card>
                     <solid-rocket-motor @computation-success="loadResult"/>
                 </v-card>
             </v-flex>
-            <v-flex d-flex xs9>
+            <v-flex d-flex lg9>
                 <v-layout column wrap>
                     <v-flex d-block shrink>
                         <v-card>
                             <performance-info v-show="asResult" ref="performanceResult"/>
                         </v-card>
                     </v-flex>
-                    <v-flex d-flex child-flex>
+                    <v-flex d-flex>
                         <v-card>
                             <thrust-graphical-result v-show="asResult" ref="thrustGraphicalResult"/>
                         </v-card>
