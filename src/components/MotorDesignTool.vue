@@ -7,15 +7,15 @@
                 </v-card>
             </v-flex>
             <v-flex d-flex lg9>
-                <v-layout column wrap>
+                <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
-                            <performance-info v-show="asResult" ref="performanceResult"/>
+                            <performance-info ref="performanceResult"/>
                         </v-card>
                     </v-flex>
                     <v-flex d-flex>
                         <v-card>
-                            <thrust-graphical-result v-show="asResult" ref="thrustGraphicalResult"/>
+                            <thrust-graphical-result ref="thrustGraphicalResult"/>
                         </v-card>
                     </v-flex>
                 </v-layout>
