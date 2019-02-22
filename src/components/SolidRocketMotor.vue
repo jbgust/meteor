@@ -1,12 +1,12 @@
 <template>
     <v-container>
-        <v-form validated>
+        <v-form ref="formJSRM">
 
             <motor-configuration v-model="defaultValue"/>
             <advanced-configuration ref="advanceSettings" v-model="defaultValue.extraConfig" @reset="resetConfig"/>
 
-            <v-btn @click="runComputation">Submit</v-btn>
-            <v-btn type="reset">Reset</v-btn>
+            <v-btn @click="runComputation" color="primary">Submit</v-btn>
+            <v-btn @click="reset">Reset</v-btn>
             <v-btn @click="$refs.advanceSettings.show()">
                 <v-icon dark>settings</v-icon>
             </v-btn>
@@ -95,17 +95,22 @@ export default {
         },
         runComputation() {
             const component = this
-            Axios.post('/compute', {}, { data: this.defaultValue })
-                .then(function(response) {
-                    component.$emit('computation-success', response.data)
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    component.errorMessage = error.response.data.message
-                    component.errorDetail = error.response.data.detail
-                    component.showError = true
-                })
-        }
+            if(this.$refs.formJSRM.validate()) {
+                Axios.post('/compute', {}, {data: this.defaultValue})
+                    .then(function (response) {
+                        component.$emit('computation-success', response.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        component.errorMessage = error.response.data.message
+                        component.errorDetail = error.response.data.detail
+                        component.showError = true
+                    })
+            }
+        },
+        reset () {
+            this.$refs.formJSRM.reset()
+        },
     }
 }
 </script>
