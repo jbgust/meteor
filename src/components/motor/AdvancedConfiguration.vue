@@ -8,7 +8,7 @@
                   Advance settings
               </v-card-title>
               <v-card-text>
-                  <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="numericGreater0Rules"/>
+                  <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
                   <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" suffix="mm" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
                   <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
                   <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
@@ -21,7 +21,7 @@
               <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn @click="resetConfig">Reset</v-btn>
-                  <v-btn @click="dialog = false">Close</v-btn>
+                  <v-btn @click="close">Close</v-btn>
               </v-card-actions>
           </v-card>
       </v-dialog>
@@ -29,7 +29,11 @@
 </template>
 
 <script>
-import { greaterThanRule, greaterOrEqualsThanRule, rangeRule } from '../../modules/formValidationRules'
+import { greaterOrEqualsThanRule, rangeRule, rangeValidator, greaterOrEqualsThanValidator } from '../../modules/formValidationRules'
+import Vue from 'vue'
+
+const rationBounds = [0.3, 1]
+const minAmbiantPressureinMPa = 0.101
 
 export default {
     name: 'advanced-configuration',
@@ -39,17 +43,18 @@ export default {
     data() {
         return {
             dialog: false,
-            numericGreater0Rules: greaterThanRule(0),
             numericGreaterOrEqual0Rules: greaterOrEqualsThanRule(0),
-            ratioRules: rangeRule(0.3, 1),
+            ratioRules: rangeRule(...rationBounds),
             expansionRules: greaterOrEqualsThanRule(1),
-            pressureRules: greaterOrEqualsThanRule(0.101)
+            pressureRules: greaterOrEqualsThanRule(minAmbiantPressureinMPa)
         }
     },
     methods: {
         resetNozzleExpansionRation(newOptimalNozzleDesignValue) {
             if (newOptimalNozzleDesignValue) {
                 this.value.nozzleExpansionRatio = null
+            } else {
+                Vue.nextTick(() => document.getElementById('nozzleExpansionRatio').focus())
             }
         },
         show() {
@@ -57,6 +62,30 @@ export default {
         },
         resetConfig() {
             this.$emit('reset')
+        },
+        close() {
+            if (this.isConfigValid()) {
+                this.dialog = false
+            }
+        },
+        isConfigValid() {
+            let isValid = true
+
+            for (const value of [this.value.densityRatio, this.value.combustionEfficiencyRatio, this.value.nozzleEfficiency]) {
+                isValid &= rangeValidator(...rationBounds)(value)
+            }
+
+            for (const value of [this.value.nozzleErosionInMillimeter, this.value.erosiveBurningAreaRatioThreshold, this.value.erosiveBurningVelocityCoefficient]) {
+                isValid &= greaterOrEqualsThanValidator(0)(value)
+            }
+
+            isValid &= greaterOrEqualsThanValidator(minAmbiantPressureinMPa)(this.value.ambiantPressureInMPa)
+
+            if (!this.value.optimalNozzleDesign) {
+                isValid &= greaterOrEqualsThanValidator(1)(this.value.nozzleExpansionRatio)
+            }
+
+            return isValid
         }
     }
 }
