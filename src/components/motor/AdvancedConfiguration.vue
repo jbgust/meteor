@@ -9,9 +9,9 @@
               </v-card-title>
               <v-card-text>
                   <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" required type="number"/>
-                  <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosionin millimeter:" v-model="value.nozzleErosionInMillimeter" required type="number"/>
+                  <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" suffix="mm" v-model="value.nozzleErosionInMillimeter" required type="number"/>
                   <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" required type="number"/>
-                  <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure in MPa:" v-model="value.ambiantPressureInMPa" required type="number"/>
+                  <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" suffix="MPa" v-model="value.ambiantPressureInMPa" required type="number"/>
                   <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" required type="number"/>
                   <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" required type="number"/>
                   <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="value.nozzleEfficiency" required type="number"/>

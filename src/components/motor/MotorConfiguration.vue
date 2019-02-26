@@ -1,22 +1,22 @@
 <template>
-        <v-layout row wrap>
+    <v-layout row wrap>
             <v-flex d-flex lg6>
                 <div>
-                    <v-text-field id="throatDiameter" label="Throat diameter [mm]:" v-model="value.throatDiameter" :rules="numericRules" step="0.01" ></v-text-field>
-                    <v-text-field id="outerDiameter" label="Grain outer diameter [mm]:" v-model="value.outerDiameter" :rules="numericRules" step="0.01" />
-                    <v-text-field id="coreDiameter" label="Grain core diameter [mm]:" v-model="value.coreDiameter" :rules="numericRules" step="0.01" />
-                    <v-text-field id="segmentLength" label="Grain segment length [mm]:" v-model="value.segmentLength" :rules="numericRules" step="0.01"/>
-                    <v-text-field id="numberOfSegment" label="Number of segment:" v-model="value.numberOfSegment" :rules="numericRules" step="0.01" />
-                    <v-select id="outerSurface" label="Outer surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
+                    <v-text-field id="throatDiameter" label="Throat diameter " suffix="mm" v-model="value.throatDiameter" :rules="numericRules" step="0.01" ></v-text-field>
+                    <v-text-field id="outerDiameter" label="Grain outer diameter " suffix="mm" v-model="value.outerDiameter" :rules="numericRules" step="0.01" />
+                    <v-text-field id="coreDiameter" label="Grain core diameter " suffix="mm" v-model="value.coreDiameter" :rules="numericRules" step="0.01" />
+                    <v-text-field id="segmentLength" label="Grain segment length " suffix="mm" v-model="value.segmentLength" :rules="numericRules" step="0.01"/>
+                    <v-text-field id="chamberInnerDiameter" label="Chamber inner diameter " suffix="mm" v-model="value.chamberInnerDiameter" :rules="numericRules" step="0.01" />
+                    <v-text-field id="chamberLength" label="Chamber length " suffix="mm" v-model="value.chamberLength" :rules="numericRules" step="0.01" />
                 </div>
             </v-flex>
             <v-flex d-flex lg6>
                 <div>
+                    <v-text-field id="numberOfSegment" label="Number of segment:" v-model="value.numberOfSegment" :rules="numericRules" step="0.01" />
                     <v-select id="endsSurface" label="Ends surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
                     <v-select id="coreSurface" label="Core surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
+                    <v-select id="outerSurface" label="Outer surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
                     <v-select id="propellantType" label="Propellant:" :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />
-                    <v-text-field id="chamberInnerDiameter" label="Chamber inner diameter [mm]:" v-model="value.chamberInnerDiameter" :rules="numericRules" step="0.01" />
-                    <v-text-field id="chamberLength" label="Chamber length [mm]:" v-model="value.chamberLength" :rules="numericRules" step="0.01" />
                 </div>
             </v-flex>
         </v-layout>
