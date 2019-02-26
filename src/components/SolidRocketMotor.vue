@@ -46,7 +46,7 @@
     </v-container>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 
 import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
@@ -95,22 +95,22 @@ export default {
         },
         runComputation() {
             const component = this
-            if(this.$refs.formJSRM.validate()) {
-                Axios.post('/compute', {}, {data: this.defaultValue})
-                    .then(function (response) {
+            if (this.$refs.formJSRM.validate()) {
+                Axios.post('/compute', {}, { data: this.defaultValue })
+                    .then(function(response) {
                         component.$emit('computation-success', response.data)
                     })
-                    .catch(function (error) {
-                        console.log(error);
+                    .catch(function(error) {
+                        console.log(error)
                         component.errorMessage = error.response.data.message
                         component.errorDetail = error.response.data.detail
                         component.showError = true
                     })
             }
         },
-        reset () {
+        reset() {
             this.$refs.formJSRM.reset()
-        },
+        }
     }
 }
 </script>
