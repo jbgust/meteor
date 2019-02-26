@@ -1,6 +1,11 @@
 <template>
     <v-layout row wrap>
-            <v-flex d-flex lg6>
+        <v-flex d-flex lg12>
+        <v-select id="propellantType" label="Propellant:"
+                  :hint="`${propellantHint}`" persistent-hint
+                  :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />
+        </v-flex>
+        <v-flex d-flex lg6>
                 <div>
                     <v-text-field id="throatDiameter" label="Throat diameter " suffix="mm" v-model="value.throatDiameter" :rules="numericRules" step="0.01" ></v-text-field>
                     <v-text-field id="outerDiameter" label="Grain outer diameter " suffix="mm" v-model="value.outerDiameter" :rules="numericRules" step="0.01" />
@@ -10,17 +15,17 @@
                     <v-text-field id="chamberLength" label="Chamber length " suffix="mm" v-model="value.chamberLength" :rules="numericRules" step="0.01" />
                 </div>
             </v-flex>
-            <v-flex d-flex lg6>
+        <v-flex d-flex lg6>
                 <div>
                     <v-text-field id="numberOfSegment" label="Number of segment:" v-model="value.numberOfSegment" :rules="numericRules" step="0.01" />
                     <v-select id="endsSurface" label="Ends surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
                     <v-select id="coreSurface" label="Core surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
                     <v-select id="outerSurface" label="Outer surface:" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
-                    <v-select id="propellantType" label="Propellant:" :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />
                 </div>
             </v-flex>
         </v-layout>
 </template>
+
 <script>
 export default {
     name: 'motor-configuration',
@@ -36,12 +41,12 @@ export default {
                 { text: 'Inhibited', value: 'INHIBITED' }
             ],
             propellantType: [
-                { text: 'KNDX', value: 'KNDX' },
-                { text: 'KNER_COARSE', value: 'KNER_COARSE' },
-                { text: 'KNMN_COARSE', value: 'KNMN_COARSE' },
-                { text: 'KNSB_COARSE', value: 'KNSB_COARSE' },
-                { text: 'KNSB_FINE', value: 'KNSB_FINE' },
-                { text: 'KNSU', value: 'KNSU' }
+                { value: 'KNDX', text: 'KNDX', description: 'KNO3/Dextrose, 65/35 O/F ratio', idealDensity: '1.879 g/cm³' },
+                { value: 'KNER_COARSE', text: 'KNER (oxidizer lightly milled)', description: 'KNO3/erythritol 65/35 O/F ratio', idealDensity: '1.820 g/cm³' },
+                { value: 'KNMN_COARSE', text: 'KNMN (oxidizer lightly milled)', description: 'KNO3/mannitol 65/35 O/F ratio', idealDensity: '1.854 g/cm³' },
+                { value: 'KNSB_COARSE', text: 'KNSB (oxidizer lightly milled)', description: 'KNO3/sorbitol 65/35 O/F ratio', idealDensity: '1.841 g/cm³' },
+                { value: 'KNSB_FINE', text: 'KNSB (oxidizer finely milled)', description: 'KNO3/sorbitol 65/35 O/F ratio', idealDensity: '1.841 g/cm³' },
+                { value: 'KNSU', text: 'KNSU', description: 'KNO3/sucrose 65/35 O/F ratio', idealDensity: '1.889 g/cm³' }
             ],
             numericRules: [
                 v => !!v || 'Value is required',
@@ -50,7 +55,17 @@ export default {
             ],
             requiredRules: [
                 v => !!v || 'Field is required'
-            ],
+            ]
+        }
+    },
+    computed: {
+        propellantHint() {
+            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantType)
+            if (matchingPropellants.length === 1) {
+                return `${matchingPropellants[0].description}, ${matchingPropellants[0].idealDensity}`
+            } else {
+                return ''
+            }
         }
     }
 }
