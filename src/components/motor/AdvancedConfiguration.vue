@@ -8,15 +8,25 @@
                   Advance settings
               </v-card-title>
               <v-card-text>
-                  <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
-                  <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" suffix="mm" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
-                  <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
-                  <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
-                  <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
-                  <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
-                  <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="value.nozzleEfficiency" :rules="ratioRules"/>
-                  <v-checkbox label="Optimal nozzle design:" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
-                  <v-text-field id="nozzleExpansionRatio" v-if="!value.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="value.nozzleExpansionRatio" :rules="expansionRules"/>
+                  <v-layout row wrap>
+                      <v-flex d-flex lg6 md6>
+                          <div style="padding: 10px;">
+                              <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
+                              <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" suffix="mm" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
+                              <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
+                          </div>
+                      </v-flex>
+                      <v-flex d-flex lg6 md6>
+                          <div style="padding: 10px;">
+                              <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="value.nozzleEfficiency" :rules="ratioRules"/>
+                              <v-checkbox label="Optimal nozzle design:" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
+                              <v-text-field id="nozzleExpansionRatio" v-if="!value.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="value.nozzleExpansionRatio" :rules="expansionRules"/>
+                          </div>
+                      </v-flex>
+                  </v-layout>
               </v-card-text>
               <v-card-actions>
                   <v-spacer></v-spacer>
@@ -25,7 +35,7 @@
               </v-card-actions>
           </v-card>
       </v-dialog>
-  </v-layout>
+    </v-layout>
 </template>
 
 <script>
@@ -47,6 +57,7 @@ export default {
             ratioRules: rangeRule(...rationBounds),
             expansionRules: greaterOrEqualsThanRule(1),
             pressureRules: greaterOrEqualsThanRule(minAmbiantPressureinMPa)
+
         }
     },
     methods: {

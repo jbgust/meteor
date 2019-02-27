@@ -67,7 +67,7 @@ export default {
 
   @media all and (max-width: 1280px) {
       .thrust-graphic {
-          min-height: 500px;
+          min-height: 350px;
       }
   }
 </style>
