@@ -65,7 +65,12 @@ export default {
             if (newOptimalNozzleDesignValue) {
                 this.value.nozzleExpansionRatio = null
             } else {
-                Vue.nextTick(() => document.getElementById('nozzleExpansionRatio').focus())
+                Vue.nextTick(() => {
+                    const input = document.getElementById('nozzleExpansionRatio')
+                    if (input !== null) {
+                        input.focus()
+                    }
+                })
             }
         },
         show() {

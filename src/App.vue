@@ -72,7 +72,10 @@ let router = new VueRouter({
         {
             path: '/motorDesign',
             name: 'Solid rocket motor design',
-            component: MotorDesignTool
+            component: MotorDesignTool,
+            props: {
+                demo: false
+            }
         },
         { path: '*', redirect: '/home' }
     ]

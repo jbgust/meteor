@@ -3,6 +3,9 @@
         <v-layout row wrap>
             <v-flex d-flex lg3 md5>
                 <v-card>
+                    <div v-if="demo" style="padding: 15px 15px 0 15px;">
+                        <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
+                    </div>
                     <solid-rocket-motor ref="form" @computation-success="loadResult"/>
                 </v-card>
             </v-flex>
@@ -46,13 +49,16 @@ export default {
     },
     data() {
         return {
-            asResult: false
+            asResult: false,
+            demoForm: Object.assign({}, demoForm),
+            demoResultData: Object.assign({}, demoResultData)
         }
     },
     mounted() {
         if (this.demo) {
-            this.$refs.form.loadForm(demoForm)
-            this.loadResult(demoResultData)
+            this.$refs.form.disabledControls(true)
+            this.$refs.form.loadForm(this.demoForm)
+            this.loadResult(this.demoResultData)
         }
     },
     methods: {
@@ -64,8 +70,11 @@ export default {
     },
     watch: {
         demo(newValue, oldValue) {
-            console.log('demo mode', oldValue, ' -> ', newValue)
-            // TODO : reset des data
+            if (newValue !== undefined && !newValue) {
+                this.asResult = false
+                this.$refs.form.loadForm()
+                this.$refs.form.disabledControls(false)
+            }
         }
     }
 }

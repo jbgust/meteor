@@ -1,3 +1,30 @@
+export const defaultAdvanceConfig = {
+    densityRatio: 0.95,
+    nozzleErosionInMillimeter: 0,
+    combustionEfficiencyRatio: 0.95,
+    ambiantPressureInMPa: 0.101,
+    erosiveBurningAreaRatioThreshold: 6,
+    erosiveBurningVelocityCoefficient: 0,
+    nozzleEfficiency: 0.85,
+    nozzleExpansionRatio: null,
+    optimalNozzleDesign: true
+}
+
+export const demoForm = {
+    throatDiameter: 17.39,
+    outerDiameter: 69,
+    coreDiameter: 20,
+    segmentLength: 115,
+    numberOfSegment: 4,
+    outerSurface: 'INHIBITED',
+    endsSurface: 'EXPOSED',
+    coreSurface: 'EXPOSED',
+    propellantType: 'KNDX',
+    chamberInnerDiameter: 75,
+    chamberLength: 470,
+    extraConfig: defaultAdvanceConfig
+}
+
 export const demoResultData = {
     performanceResult: {
         motorDescription: 'L1672',
@@ -147,28 +174,4 @@ export const demoResultData = {
             thrustInNewton: 186.48362526068277,
             timeSinceBurnStartInSecond: 2.1222227938468348
         }, { thrustInNewton: 32.96621839063804, timeSinceBurnStartInSecond: 2.152922462523503 }]
-}
-export const demoForm = {
-    throatDiameter: 17.39,
-    outerDiameter: 69,
-    coreDiameter: 20,
-    segmentLength: 115,
-    numberOfSegment: 4,
-    outerSurface: 'INHIBITED',
-    endsSurface: 'EXPOSED',
-    coreSurface: 'EXPOSED',
-    propellantType: 'KNDX',
-    chamberInnerDiameter: 75,
-    chamberLength: 470,
-    extraConfig: {
-        densityRatio: 0.95,
-        nozzleErosionInMillimeter: 0,
-        combustionEfficiencyRatio: 0.95,
-        ambiantPressureInMPa: 0.101,
-        erosiveBurningAreaRatioThreshold: 6,
-        erosiveBurningVelocityCoefficient: 0,
-        nozzleEfficiency: 0.85,
-        nozzleExpansionRatio: null,
-        optimalNozzleDesign: true
-    }
 }

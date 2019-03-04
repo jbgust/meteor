@@ -3,11 +3,11 @@
         <v-form ref="formJSRM">
 
             <motor-configuration v-model="formValue"/>
-            <advanced-configuration ref="advanceSettings" v-model="formValue.extraConfig" @reset="resetConfig"/>
+            <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig"/>
 
-            <v-btn @click="runComputation" color="primary">Submit</v-btn>
-            <v-btn @click="reset">Reset</v-btn>
-            <v-btn @click="$refs.advanceSettings.show()">
+            <v-btn v-if="!disabledButtons" @click="runComputation" color="primary">Submit</v-btn>
+            <v-btn v-if="!disabledButtons" @click="reset">Reset</v-btn>
+            <v-btn v-if="!disabledButtons" @click="$refs.advanceSettings.show()">
                 <v-icon dark>settings</v-icon>
             </v-btn>
 
@@ -51,56 +51,56 @@
 import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
+import { defaultAdvanceConfig } from '../modules/dataDemo'
 
 export default {
     name: 'solid-rocket-motor',
     components: { MotorConfiguration, AdvancedConfiguration },
-    data() {
-        return {
-            formValue: { extraConfig: this.getDefaultAdvanceConfig() },
-            errorMessage: null,
-            errorDetail: null,
-            showError: false
-        }
-    },
     methods: {
         resetConfig() {
-            this.formValue.extraConfig = this.getDefaultAdvanceConfig()
+            this.extraConfig = this.getDefaultAdvanceConfig()
         },
         getDefaultAdvanceConfig() {
-            // TODO : a déporter dans un fichier.mjs déjà présent dans dataDemo.mjs
-            return {
-                densityRatio: 0.95,
-                nozzleErosionInMillimeter: 0,
-                combustionEfficiencyRatio: 0.95,
-                ambiantPressureInMPa: 0.101,
-                erosiveBurningAreaRatioThreshold: 6,
-                erosiveBurningVelocityCoefficient: 0,
-                nozzleEfficiency: 0.85,
-                nozzleExpansionRatio: null,
-                optimalNozzleDesign: true
-            }
+            return Object.assign({}, defaultAdvanceConfig)
         },
         runComputation() {
             const component = this
             if (this.$refs.formJSRM.validate()) {
-                Axios.post('/compute', {}, { data: this.formValue })
+                const request = Object.assign({}, this.formValue)
+                request.extraConfig = this.extraConfig
+                Axios.post('/compute', {}, { data: request })
                     .then(function(response) {
                         component.$emit('computation-success', response.data)
                     })
                     .catch(function(error) {
-                        console.log(error)
                         component.errorMessage = error.response.data.message
                         component.errorDetail = error.response.data.detail
                         component.showError = true
                     })
             }
         },
-        loadForm(formData) {
+        loadForm(formData = {}) {
+            this.extraConfig = this.getDefaultAdvanceConfig()
             this.formValue = formData
+            this.$refs.formJSRM.resetValidation()
         },
         reset() {
-            this.$refs.formJSRM.reset()
+            this.formValue = {}
+            this.extraConfig = this.getDefaultAdvanceConfig()
+            this.$refs.formJSRM.resetValidation()
+        },
+        disabledControls(disabled) {
+            this.disabledButtons = disabled
+        }
+    },
+    data() {
+        return {
+            formValue: { },
+            extraConfig: this.getDefaultAdvanceConfig(),
+            errorMessage: null,
+            errorDetail: null,
+            showError: false,
+            disabledButtons: false
         }
     }
 }
