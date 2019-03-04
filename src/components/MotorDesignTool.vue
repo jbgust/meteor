@@ -3,7 +3,7 @@
         <v-layout row wrap>
             <v-flex d-flex lg3 md5>
                 <v-card>
-                    <solid-rocket-motor @computation-success="loadResult"/>
+                    <solid-rocket-motor ref="form" @computation-success="loadResult"/>
                 </v-card>
             </v-flex>
             <v-flex d-flex lg9 md7>
@@ -31,15 +31,28 @@ import 'vuetify/dist/vuetify.min.css'
 import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import PerformanceInfo from './result/PerformanceInfo'
+import { demoForm, demoResultData } from '../modules/dataDemo'
 
 Vue.use(Vuetify)
 
 export default {
     name: 'motor-design-tool',
     components: { PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
+    props: {
+        demo: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             asResult: false
+        }
+    },
+    mounted() {
+        if (this.demo) {
+            this.$refs.form.loadForm(demoForm)
+            this.loadResult(demoResultData)
         }
     },
     methods: {
@@ -47,6 +60,12 @@ export default {
             this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
             this.$refs.performanceResult.performance = data.performanceResult
             this.asResult = true
+        }
+    },
+    watch: {
+        demo(newValue, oldValue) {
+            console.log('demo mode', oldValue, ' -> ', newValue)
+            // TODO : reset des data
         }
     }
 }

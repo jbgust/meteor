@@ -2,8 +2,8 @@
     <v-container>
         <v-form ref="formJSRM">
 
-            <motor-configuration v-model="defaultValue"/>
-            <advanced-configuration ref="advanceSettings" v-model="defaultValue.extraConfig" @reset="resetConfig"/>
+            <motor-configuration v-model="formValue"/>
+            <advanced-configuration ref="advanceSettings" v-model="formValue.extraConfig" @reset="resetConfig"/>
 
             <v-btn @click="runComputation" color="primary">Submit</v-btn>
             <v-btn @click="reset">Reset</v-btn>
@@ -57,20 +57,7 @@ export default {
     components: { MotorConfiguration, AdvancedConfiguration },
     data() {
         return {
-            defaultValue: {
-                throatDiameter: 17.39,
-                outerDiameter: 69,
-                coreDiameter: 20,
-                segmentLength: 115,
-                numberOfSegment: 4,
-                outerSurface: 'INHIBITED',
-                endsSurface: 'EXPOSED',
-                coreSurface: 'EXPOSED',
-                propellantType: 'KNDX',
-                chamberInnerDiameter: 75,
-                chamberLength: 470,
-                extraConfig: this.getdefaultAdvanceConfig()
-            },
+            formValue: { extraConfig: this.getDefaultAdvanceConfig() },
             errorMessage: null,
             errorDetail: null,
             showError: false
@@ -78,9 +65,10 @@ export default {
     },
     methods: {
         resetConfig() {
-            this.defaultValue.extraConfig = this.getdefaultAdvanceConfig()
+            this.formValue.extraConfig = this.getDefaultAdvanceConfig()
         },
-        getdefaultAdvanceConfig() {
+        getDefaultAdvanceConfig() {
+            // TODO : a déporter dans un fichier.mjs déjà présent dans dataDemo.mjs
             return {
                 densityRatio: 0.95,
                 nozzleErosionInMillimeter: 0,
@@ -96,7 +84,7 @@ export default {
         runComputation() {
             const component = this
             if (this.$refs.formJSRM.validate()) {
-                Axios.post('/compute', {}, { data: this.defaultValue })
+                Axios.post('/compute', {}, { data: this.formValue })
                     .then(function(response) {
                         component.$emit('computation-success', response.data)
                     })
@@ -107,6 +95,9 @@ export default {
                         component.showError = true
                     })
             }
+        },
+        loadForm(formData) {
+            this.formValue = formData
         },
         reset() {
             this.$refs.formJSRM.reset()

@@ -5,8 +5,11 @@
                 <v-card>
                     <v-card-title class="headline grey lighten-2"
                                   primary-title>
-                        TODO : Home page
+                        TODO : Home pag
                     </v-card-title>
+                    <v-card-text>
+                        <v-btn :to="'/demo'">Demo</v-btn>
+                    </v-card-text>
                 </v-card>
             </v-flex>
         </v-layout>

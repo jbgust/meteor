@@ -62,6 +62,14 @@ let router = new VueRouter({
             component: Home
         },
         {
+            path: '/demo',
+            name: 'Demo : Solid rocket motor design',
+            component: MotorDesignTool,
+            props: {
+                demo: true
+            }
+        },
+        {
             path: '/motorDesign',
             name: 'Solid rocket motor design',
             component: MotorDesignTool
