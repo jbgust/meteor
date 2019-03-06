@@ -88,6 +88,7 @@ export default {
             this.formValue = {}
             this.extraConfig = this.getDefaultAdvanceConfig()
             this.$refs.formJSRM.resetValidation()
+            this.$emit('reset')
         },
         disabledControls(disabled) {
             this.disabledButtons = disabled

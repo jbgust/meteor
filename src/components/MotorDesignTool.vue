@@ -1,12 +1,33 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fluid grid-list-md fill-height>
         <v-layout row wrap>
             <v-flex d-flex lg3 md5>
                 <v-card>
+
+                    <v-toolbar card height="40px" v-if="!demo">
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on">
+                                    <v-icon>save_alt</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Save your work</span>
+                        </v-tooltip>
+
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="loadFile">
+                                    <v-icon>open_in_browser</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Load your project</span>
+                        </v-tooltip>
+                    </v-toolbar>
+
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
                         <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
                     </div>
-                    <solid-rocket-motor ref="form" @computation-success="loadResult"/>
+                    <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset"/>
                 </v-card>
             </v-flex>
             <v-flex d-flex lg9 md7>
@@ -66,6 +87,13 @@ export default {
             this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
             this.$refs.performanceResult.performance = data.performanceResult
             this.asResult = true
+        },
+        loadFile() {
+            this.$refs.form.loadForm(this.demoForm)
+            this.loadResult(this.demoResultData)
+        },
+        formReset() {
+            this.asResult = false
         }
     },
     watch: {
