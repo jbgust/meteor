@@ -62,6 +62,7 @@ import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
+import { getComputeHash } from '../modules/computationUtils'
 
 export default {
     name: 'solid-rocket-motor',
@@ -124,7 +125,7 @@ export default {
         },
         buildRequest() {
             if (this.$refs.formJSRM.validate()) {
-                const request = Object.assign({}, this.formValue)
+                const request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
 

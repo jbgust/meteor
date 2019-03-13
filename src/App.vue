@@ -28,6 +28,7 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
+import { computeHash } from './modules/computationUtils'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -63,7 +64,10 @@ export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
     components: { MotorDesignTool },
-    router
+    router,
+    mounted() {
+        computeHash()
+    }
 }
 </script>
 

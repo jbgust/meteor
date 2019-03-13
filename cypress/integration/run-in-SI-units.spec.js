@@ -24,6 +24,9 @@ describe('Run computation in SI units', function() {
         }
 
         cy.fillForm(formDatas, 'SI')
+
+        // Check presence of computationHash
+        expect(localStorage.getItem('computationHash')).not.to.be.null
     })
 
     it('Should check result', () => {
