@@ -10,13 +10,15 @@
                     Meteor
                 </v-btn>
                 <v-btn text href="http://meteor.boards.net/">
-                    <v-icon left size="25">mdi-forum-outline</v-icon>
+                    <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
             </v-toolbar-items>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
 
             </v-app-bar-nav-icon>
+            <v-spacer></v-spacer>
+            <meteor-news/>
         </v-app-bar>
         <v-navigation-drawer
             v-model="drawer"
@@ -75,6 +77,7 @@ import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
 import { computeHash } from './modules/computationUtils'
+import MeteorNews from './components/news/meteor-news'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -109,13 +112,14 @@ let router = new VueRouter({
 export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
-    components: { MotorDesignTool },
+    components: { MeteorNews },
     router,
     mounted() {
         computeHash()
     },
     data: () => ({
         drawer: false,
+        sheet: false,
         group: null
     }),
 
