@@ -77,10 +77,12 @@ export default {
                         component.errorDetail = error.response.data.detail
                         component.showError = true
                     })
+            } else {
+                console.log('not valid')
             }
         },
-        loadForm(formData = {}) {
-            this.extraConfig = this.getDefaultAdvanceConfig()
+        loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
+            this.extraConfig = extraConfig
             this.formValue = formData
             this.$refs.formJSRM.resetValidation()
         },

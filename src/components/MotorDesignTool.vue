@@ -22,11 +22,14 @@
                             </template>
                             <span>Load your project</span>
                         </v-tooltip>
+
                     </v-toolbar>
 
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
                         <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
                     </div>
+                    <input type="file"
+                           id="avatar" name="avatar" @change="loadFile" accept="application/json">
                     <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset"/>
                 </v-card>
             </v-flex>
@@ -56,8 +59,12 @@ import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData } from '../modules/dataDemo'
+import { importValidatorSchema } from '../modules/importValidator'
 
 Vue.use(Vuetify)
+
+// see : https://www.npmjs.com/package/ajv#related-packages
+const Ajv = require('ajv')
 
 export default {
     name: 'motor-design-tool',
@@ -88,9 +95,32 @@ export default {
             this.$refs.performanceResult.performance = data.performanceResult
             this.asResult = true
         },
-        loadFile() {
-            this.$refs.form.loadForm(this.demoForm)
-            this.loadResult(this.demoResultData)
+        loadFile(event) {
+            var ajv = new Ajv()
+
+            let file = event.target.files[0]
+            if (file) {
+                var reader = new FileReader()
+                reader.readAsText(file, 'UTF-8')
+                const toto = this
+                reader.onload = function(evt) {
+                    let data = JSON.parse(evt.target.result)
+                    toto.asResult = false
+                    toto.$refs.form.loadForm(data, data.extraConfig)
+
+                    let importValid = ajv.validate(importValidatorSchema, data)
+                    console.log('validation json JSON', importValid)
+                    if (importValid) {
+                        //TODO : le run ne fonctionne pas à cause du form qui n'est pas détecté comme valide
+                        toto.$refs.form.runComputation()
+                    } else {
+                        console.log(ajv.errors)
+                    }
+                }
+                reader.onerror = function(evt) {
+                    alert('error reading file')
+                }
+            }
         },
         formReset() {
             this.asResult = false
