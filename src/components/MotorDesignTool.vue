@@ -16,7 +16,7 @@
 
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="loadFile">
+                                <v-btn icon v-on="on" @click="browseFile">
                                     <v-icon>open_in_browser</v-icon>
                                 </v-btn>
                             </template>
@@ -25,12 +25,21 @@
 
                     </v-toolbar>
 
+                    <v-alert
+                        :value="displayImportError"
+                        color="warning"
+                        icon="priority_high">
+                        The file is not valid
+                    </v-alert>
+
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
                         <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
                     </div>
-                    <input type="file"
+
+                    <input v-if="!demo" type="file" style="display: none;" ref="fileBrowser"
                            id="avatar" name="avatar" @change="loadFile" accept="application/json">
                     <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset"/>
+
                 </v-card>
             </v-flex>
             <v-flex d-flex lg9 md7>
@@ -79,7 +88,8 @@ export default {
         return {
             asResult: false,
             demoForm: Object.assign({}, demoForm),
-            demoResultData: Object.assign({}, demoResultData)
+            demoResultData: Object.assign({}, demoResultData),
+            displayImportError: false
         }
     },
     mounted() {
@@ -90,7 +100,12 @@ export default {
         }
     },
     methods: {
+        browseFile() {
+            this.$refs.fileBrowser.value = ''
+            this.$refs.fileBrowser.click()
+        },
         loadResult(data) {
+            this.displayImportError = false
             this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
             this.$refs.performanceResult.performance = data.performanceResult
             this.asResult = true
@@ -109,17 +124,17 @@ export default {
                     let importValid = ajv.validate(importValidatorSchema, loadedConfig)
                     console.log('validation json JSON', importValid)
                     if (importValid) {
+                        me.displayImportError = false
                         me.asResult = false
                         me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-                        me.$refs.form.runComputation()
 
                         // If nextTick is not here, the form will not be valid when call runComputation()
                         Vue.nextTick(() => {
                             me.$refs.form.runComputation()
                         })
-
                     } else {
                         console.log(ajv.errors)
+                        me.displayImportError = true
                     }
                 }
                 reader.onerror = function(evt) {
@@ -129,6 +144,7 @@ export default {
         },
         formReset() {
             this.asResult = false
+            this.displayImportError = false
         }
     },
     watch: {
