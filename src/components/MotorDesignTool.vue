@@ -102,17 +102,22 @@ export default {
             if (file) {
                 var reader = new FileReader()
                 reader.readAsText(file, 'UTF-8')
-                const toto = this
+                const me = this
                 reader.onload = function(evt) {
-                    let data = JSON.parse(evt.target.result)
-                    toto.asResult = false
-                    toto.$refs.form.loadForm(data, data.extraConfig)
+                    let loadedConfig = JSON.parse(evt.target.result)
 
-                    let importValid = ajv.validate(importValidatorSchema, data)
+                    let importValid = ajv.validate(importValidatorSchema, loadedConfig)
                     console.log('validation json JSON', importValid)
                     if (importValid) {
-                        //TODO : le run ne fonctionne pas à cause du form qui n'est pas détecté comme valide
-                        toto.$refs.form.runComputation()
+                        me.asResult = false
+                        me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
+                        me.$refs.form.runComputation()
+
+                        // If nextTick is not here, the form will not be valid when call runComputation()
+                        Vue.nextTick(() => {
+                            me.$refs.form.runComputation()
+                        })
+
                     } else {
                         console.log(ajv.errors)
                     }

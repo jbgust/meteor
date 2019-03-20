@@ -77,8 +77,6 @@ export default {
                         component.errorDetail = error.response.data.detail
                         component.showError = true
                     })
-            } else {
-                console.log('not valid')
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
