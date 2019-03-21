@@ -30,15 +30,15 @@
         </v-navigation-drawer>
         <v-toolbar color="indigo" dark fixed app>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>Application</v-toolbar-title>
+            <v-toolbar-title>Meteor</v-toolbar-title>
         </v-toolbar>
         <v-content>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>
             </v-fade-transition>
         </v-content>
-        <v-footer color="indigo" app inset>
-            <span class="white--text">&copy; 2017</span>
+        <v-footer app inset>
+            <span class="footer-app">Made with love in France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
     </v-app>
 </template>
@@ -90,3 +90,9 @@ export default {
     })
 }
 </script>
+
+<style>
+    .footer-app {
+        margin-left: 10px;
+    }
+</style>
