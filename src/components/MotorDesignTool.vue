@@ -7,7 +7,7 @@
                     <v-toolbar card height="40px" v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on">
+                                <v-btn icon v-on="on" @click="exportConfig">
                                     <v-icon>save_alt</v-icon>
                                 </v-btn>
                             </template>
@@ -29,7 +29,7 @@
                         :value="displayImportError"
                         color="warning"
                         icon="priority_high">
-                        The file is not valid
+                        {{errorMessage}}
                     </v-alert>
 
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
@@ -86,6 +86,7 @@ export default {
     },
     data() {
         return {
+            errorMessage: null,
             asResult: false,
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
@@ -111,7 +112,7 @@ export default {
             this.asResult = true
         },
         loadFile(event) {
-            var ajv = new Ajv()
+            let ajv = new Ajv()
 
             let file = event.target.files[0]
             if (file) {
@@ -119,27 +120,52 @@ export default {
                 reader.readAsText(file, 'UTF-8')
                 const me = this
                 reader.onload = function(evt) {
-                    let loadedConfig = JSON.parse(evt.target.result)
+                    try {
+                        let loadedConfig = JSON.parse(evt.target.result)
+                        if (ajv.validate(importValidatorSchema, loadedConfig)) {
+                            me.displayImportError = false
+                            me.asResult = false
+                            me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
 
-                    let importValid = ajv.validate(importValidatorSchema, loadedConfig)
-                    console.log('validation json JSON', importValid)
-                    if (importValid) {
-                        me.displayImportError = false
-                        me.asResult = false
-                        me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-
-                        // If nextTick is not here, the form will not be valid when call runComputation()
-                        Vue.nextTick(() => {
-                            me.$refs.form.runComputation()
-                        })
-                    } else {
-                        console.log(ajv.errors)
+                            // If nextTick is not here, the form will not be valid when call runComputation()
+                            Vue.nextTick(() => {
+                                me.$refs.form.runComputation()
+                            })
+                        } else {
+                            // console.log(ajv.errors)
+                            me.errorMessage = 'The file is not valid'
+                            me.displayImportError = true
+                        }
+                    } catch (e) {
+                        me.errorMessage = 'The file is not valid'
                         me.displayImportError = true
                     }
                 }
                 reader.onerror = function(evt) {
-                    alert('error reading file')
+                    me.errorMessage = 'Can\'t read file'
+                    me.displayImportError = true
                 }
+            }
+        },
+        exportConfig() {
+            const dataToExport = {
+                version: 1,
+                configs: [
+                    this.$refs.form.getValues()
+                ]
+            }
+
+            if (dataToExport.configs[0] != null) {
+                var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(dataToExport))
+                var downloadAnchorNode = document.createElement('a')
+                downloadAnchorNode.setAttribute('href', dataStr)
+                downloadAnchorNode.setAttribute('download', 'meteor-export' + '.json')
+                document.body.appendChild(downloadAnchorNode) // required for firefox
+                downloadAnchorNode.click()
+                downloadAnchorNode.remove()
+            } else {
+                this.errorMessage = 'The form should be valid to be exported'
+                this.displayImportError = true
             }
         },
         formReset() {

@@ -66,9 +66,7 @@ export default {
         runComputation() {
             const component = this
             if (this.$refs.formJSRM.validate()) {
-                const request = Object.assign({}, this.formValue)
-                request.extraConfig = this.extraConfig
-                Axios.post('/compute', {}, { data: request })
+                Axios.post('/compute', {}, { data: this.getValues() })
                     .then(function(response) {
                         component.$emit('computation-success', response.data)
                     })
@@ -77,6 +75,15 @@ export default {
                         component.errorDetail = error.response.data.detail
                         component.showError = true
                     })
+            }
+        },
+        getValues() {
+            if (this.$refs.formJSRM.validate()) {
+                const request = Object.assign({}, this.formValue)
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                return request
+            } else {
+                return null
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
