@@ -7,10 +7,6 @@
                 <div class="resultat"><span class="label-resultat">Total impulse : </span><span v-text="performance.totalImpulse"></span></div>
                 <div class="resultat"><span class="label-resultat">Specific impulse : </span><span v-text="performance.specificImpulse"></span></div>
                 <div class="resultat"><span class="label-resultat">Max pressure : </span><span v-text="performance.maxPressure"></span></div>
-
-                <div class="resultat"><span class="label-resultat">Nozzle exit diam. : </span><span v-text="performance.nozzleExitDiameter"></span></div>
-                <div class="resultat"><span class="label-resultat">Divergence length : </span><span v-text="performance.divergenceLenght"></span></div>
-                <div class="resultat"><span class="label-resultat">Convergence length : </span><span v-text="performance.convergenceLenght"></span></div>
                 <div class="resultat"><span class="label-resultat">Initial exit speed : </span><span v-text="performance.exitSpeedInitial"></span></div>
                 <div class="resultat"><span class="label-resultat">Average pressure : </span><span v-text="performance.averagePressure"></span></div>
         </v-layout>

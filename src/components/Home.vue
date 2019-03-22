@@ -42,6 +42,9 @@
                                     <li>
                                         Tweak the computation model with the advanced configuration
                                     </li>
+                                    <li>
+                                        TODO : ça dimensionne les tuyères (choix des angles, dimensions, ...)
+                                    </li>
                                 </ul>
                             </v-card-text>
                         </v-card>
@@ -66,6 +69,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

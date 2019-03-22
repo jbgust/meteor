@@ -47,6 +47,7 @@
                     <v-flex d-block shrink>
                         <v-card>
                             <performance-info ref="performanceResult"/>
+                            <nozzle-design ref="nozzleDesign"></nozzle-design>
                         </v-card>
                     </v-flex>
                     <v-flex d-flex>
@@ -69,6 +70,7 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData } from '../modules/dataDemo'
 import { importValidatorSchema } from '../modules/importValidator'
+import NozzleDesign from './result/NozzleDesign'
 
 Vue.use(Vuetify)
 
@@ -77,7 +79,7 @@ const Ajv = require('ajv')
 
 export default {
     name: 'motor-design-tool',
-    components: { PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
+    components: { NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
     props: {
         demo: {
             type: Boolean,
@@ -109,6 +111,7 @@ export default {
             this.displayImportError = false
             this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
             this.$refs.performanceResult.performance = data.performanceResult
+            this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
         },
         loadFile(event) {
