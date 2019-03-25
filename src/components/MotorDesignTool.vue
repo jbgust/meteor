@@ -158,6 +158,12 @@ export default {
                 ]
             }
 
+            dataToExport.configs[0].nozzleDesign = {
+                convergenceAngle: this.$refs.nozzleDesign.convergenceAngle,
+                divergenceAngle: this.$refs.nozzleDesign.divergenceAngle
+                // TODO : gestion des erreurs lors de l'export sur les deux valeurs ci-dessus
+            }
+
             if (dataToExport.configs[0] != null) {
                 var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(dataToExport))
                 var downloadAnchorNode = document.createElement('a')
