@@ -129,13 +129,13 @@ export default {
                             me.displayImportError = false
                             me.asResult = false
                             me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-
+                            me.$refs.nozzleDesign.loadConfig(loadedConfig.configs[0].nozzleDesign)
                             // If nextTick is not here, the form will not be valid when call runComputation()
                             Vue.nextTick(() => {
                                 me.$refs.form.runComputation()
                             })
                         } else {
-                            // console.log(ajv.errors)
+                            console.error('import fail', ajv.errors)
                             me.errorMessage = 'The file is not valid'
                             me.displayImportError = true
                         }

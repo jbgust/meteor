@@ -10,7 +10,7 @@
                 <div class="resultat"><span class="label-resultat">Initial exit speed : </span><span v-text="performance.exitSpeedInitial"></span></div>
                 <div class="resultat"><span class="label-resultat">Average pressure : </span><span v-text="performance.averagePressure"></span></div>
         </v-layout>
-        <div class="resultat"><span class="label-resultat" style="color: orange;" v-if="performance.optimalDesign">Optimal design</span></div>
+        <div class="resultat"><span class="label-resultat" style="color: orange;" v-if="performance.optimalDesign">Optimal design => donner le ration calculé?</span></div>
     </v-container>
 </template>
 

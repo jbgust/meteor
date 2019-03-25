@@ -47,6 +47,17 @@ export const importValidatorSchema = {
                             'nozzleExpansionRatio',
                             'optimalNozzleDesign'
                         ]
+                    },
+                    nozzleDesign: {
+                        type: 'object',
+                        properties: {
+                            divergenceAngle: { type: 'number', minimum: 1, maximum: 90 },
+                            convergenceAngle: { type: 'number', minimum: 1, maximum: 90 }
+                        },
+                        required: [
+                            'divergenceAngle',
+                            'convergenceAngle'
+                        ]
                     }
                 },
                 required: [
