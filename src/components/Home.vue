@@ -34,7 +34,7 @@
                                     Tweak the computation model with the advanced configuration
                                 </li>
                                 <li>
-                                    TODO : ça dimensionne les tuyères (choix des angles, dimensions, ...)
+                                    Nozzle dimensioning tool
                                 </li>
                             </ul>
                         </div>
@@ -77,11 +77,12 @@ export default {
 
 <style>
 .meteor-container {
-    height: 400px;
+    padding: 40px 30px 40px 30px;
+    border-bottom: 3px solid dimgrey;
+    min-height: 400px;
 }
 .meteor-container h1{
     text-align: center;
-    padding: 40px 0 0 0;
     color: black;
 }
 .meteor-container h3 {
@@ -91,49 +92,6 @@ export default {
 .meteor-container > div {
     margin: 10px 0 10px 0;
 }
-    .block1{
-        width: 100wh;
-        color: #fff;
-        background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-        background-size: 400% 400%;
-        -webkit-animation: Gradient 15s ease infinite;
-        -moz-animation: Gradient 15s ease infinite;
-        animation: Gradient 15s ease infinite;
-    }
-
-@-webkit-keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-@-moz-keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-@keyframes Gradient {
-    0% {
-        background-position: 0% 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0% 50%
-    }
+.block1{
 }
 </style>

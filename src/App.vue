@@ -4,33 +4,17 @@
         <head>
             <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
         </head>
-        <v-navigation-drawer
-            v-model="drawer"
-            app
-            absolute
-            temporary>
-            <v-list dense>
-                <v-list-tile :to="'/home'">
-                    <v-list-tile-action>
-                        <v-icon>home</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Home</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile :to="'/motorDesign'">
-                    <v-list-tile-action>
-                        <v-icon>build</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Motor design</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-navigation-drawer>
         <v-toolbar color="indigo" dark fixed app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>Meteor</v-toolbar-title>
+            <v-toolbar-items>
+                <v-btn flat :to="'/home'">
+                    <v-icon left>home</v-icon>
+                    Home
+                </v-btn>
+                <v-btn flat :to="'/motorDesign'">
+                    <v-icon left>build</v-icon>
+                    Meteor
+                </v-btn>
+            </v-toolbar-items>
         </v-toolbar>
         <v-content>
             <v-fade-transition mode="out-in">
@@ -84,10 +68,7 @@ let router = new VueRouter({
 export default {
     name: 'app',
     components: { MotorDesignTool },
-    router,
-    data: () => ({
-        drawer: null
-    })
+    router
 }
 </script>
 
