@@ -42,6 +42,6 @@ export function rangeRule(minValue, maxValue) {
     return [
         requiredValidator('Field is required'),
         numberValidator('Value is not a number'),
-        rangeValidator(minValue, maxValue, `Value must be in range ]${minValue};${maxValue}]`)
+        rangeValidator(minValue, maxValue, `Value must be in range [${minValue};${maxValue}]`)
     ]
 }

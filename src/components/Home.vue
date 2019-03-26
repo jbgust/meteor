@@ -3,10 +3,6 @@
         <v-layout row wrap>
             <v-flex d-flex>
                 <v-card>
-                    <!--<v-card-title class="headline grey lighten-2"-->
-                                  <!--primary-title>-->
-                        <!--TODO : Home page-->
-                    <!--</v-card-title>-->
                     <v-card-text>
                         <v-flex tag="h1" class="headline">
                             Build and design your own solid rocket motor

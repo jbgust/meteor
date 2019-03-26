@@ -22,7 +22,11 @@ export const demoForm = {
     propellantType: 'KNDX',
     chamberInnerDiameter: 75,
     chamberLength: 470,
-    extraConfig: defaultAdvanceConfig
+    extraConfig: defaultAdvanceConfig,
+    nozzleDesign: {
+        divergenceAngle: 18,
+        convergenceAngle: 38
+    }
 }
 
 export const demoResultData = {
@@ -38,7 +42,8 @@ export const demoResultData = {
         convergenceCrossSectionDiameter: 57.61,
         divergenceCrossSectionDiameter: 36.6356,
         exitSpeedInitial: '3,07 mach',
-        averagePressure: '49,06 Bar'
+        averagePressure: '49,06 Bar',
+        optimalNozzleExpansionRatio: '9.65'
     },
     thrustResults: [
         {

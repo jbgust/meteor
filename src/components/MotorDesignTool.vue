@@ -46,8 +46,13 @@
                 <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
+                            <v-toolbar card height="40px">
+                                <v-toolbar-title>Motor performance</v-toolbar-title>
+                                <v-spacer></v-spacer>
+                                <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign"></nozzle-design>
+                            </v-toolbar>
                             <performance-info ref="performanceResult"/>
-                            <nozzle-design ref="nozzleDesign"></nozzle-design>
+
                         </v-card>
                     </v-flex>
                     <v-flex d-flex>
@@ -92,7 +97,8 @@ export default {
             asResult: false,
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
-            displayImportError: false
+            displayImportError: false,
+            nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 }
         }
     },
     mounted() {
@@ -129,7 +135,7 @@ export default {
                             me.displayImportError = false
                             me.asResult = false
                             me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-                            me.$refs.nozzleDesign.loadConfig(loadedConfig.configs[0].nozzleDesign)
+                            me.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
                             // If nextTick is not here, the form will not be valid when call runComputation()
                             Vue.nextTick(() => {
                                 me.$refs.form.runComputation()
@@ -157,11 +163,10 @@ export default {
                     this.$refs.form.getValues()
                 ]
             }
-
+            // TODO: bug parse float sur toutes les données exporté
             dataToExport.configs[0].nozzleDesign = {
-                convergenceAngle: this.$refs.nozzleDesign.convergenceAngle,
-                divergenceAngle: this.$refs.nozzleDesign.divergenceAngle
-                // TODO : gestion des erreurs lors de l'export sur les deux valeurs ci-dessus
+                convergenceAngle: Number.parseFloat(this.nozzleDesignValue.convergenceAngle),
+                divergenceAngle: Number.parseFloat(this.nozzleDesignValue.divergenceAngle)
             }
 
             if (dataToExport.configs[0] != null) {
