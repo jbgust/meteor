@@ -121,7 +121,7 @@ export default {
             this.asResult = true
         },
         loadFile(event) {
-            let ajv = new Ajv()
+            let ajv = new Ajv({ coerceTypes: true })
 
             let file = event.target.files[0]
             if (file) {
@@ -163,11 +163,8 @@ export default {
                     this.$refs.form.getValues()
                 ]
             }
-            // TODO: bug parse float sur toutes les données exporté
-            dataToExport.configs[0].nozzleDesign = {
-                convergenceAngle: Number.parseFloat(this.nozzleDesignValue.convergenceAngle),
-                divergenceAngle: Number.parseFloat(this.nozzleDesignValue.divergenceAngle)
-            }
+
+            dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
 
             if (dataToExport.configs[0] != null) {
                 var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(dataToExport))
