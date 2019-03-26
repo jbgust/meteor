@@ -5,7 +5,7 @@
             <motor-configuration v-model="formValue"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig"/>
 
-            <v-btn v-if="!disabledButtons" @click="runComputation" color="primary">Submit</v-btn>
+            <v-btn v-if="!disabledButtons" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
             <v-btn v-if="!disabledButtons" @click="reset">Reset</v-btn>
             <v-btn v-if="!disabledButtons" @click="$refs.advanceSettings.show()">
                 <v-icon dark>settings</v-icon>
@@ -66,11 +66,14 @@ export default {
         runComputation() {
             const component = this
             if (this.$refs.formJSRM.validate()) {
+                this.loading = true
                 Axios.post('/compute', {}, { data: this.getValues() })
                     .then(function(response) {
                         component.$emit('computation-success', response.data)
+                        component.loading = false
                     })
                     .catch(function(error) {
+                        component.loading = false
                         component.errorMessage = error.response.data.message
                         component.errorDetail = error.response.data.detail
                         component.showError = true
@@ -108,7 +111,8 @@ export default {
             errorMessage: null,
             errorDetail: null,
             showError: false,
-            disabledButtons: false
+            disabledButtons: false,
+            loading: false
         }
     }
 }
