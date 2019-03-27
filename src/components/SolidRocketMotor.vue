@@ -73,9 +73,14 @@ export default {
                     })
                     .catch(function(error) {
                         component.loading = false
-                        component.errorMessage = error.response.data.message
 
-                        if (error.response.data.detail) {
+                        if (error.response && error.response.data) {
+                            component.errorMessage = error.response.data.message
+                        } else {
+                            component.errorMessage = 'Computation failed due to unknown error'
+                        }
+
+                        if (error.response && error.response.data && error.response.data.detail) {
                             component.errorDetail = 'This ofen occurs when the ratio between the burning area and the throat area is too low. Try to increase your grain core diameter and/or decrease the throat diameter.'
                             console.error(error.response.data.detail)
                         }
