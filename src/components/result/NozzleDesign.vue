@@ -2,7 +2,7 @@
     <div>
         <v-btn color="info" round small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
 
-        <v-dialog persistent ref="errorModal" width="400px" v-model="showNozzleDesignDialog">
+        <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
             <v-card>
                 <v-card-title
                     class="headline grey lighten-2"
@@ -23,13 +23,15 @@
                             <v-flex>
                                     <v-form ref="nozzleDesignForm">
                                         <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="value.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
-                                        <div class="resultat"><span class="label-nozzle">Convergence length : </span><span v-text="convergenceLenght"></span></div>
-                                        <br>
                                         <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="value.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
-                                        <div class="resultat"><span class="label-nozzle">Divergence length : </span><span v-text="divergenceLenght"></span></div>
                                     </v-form>
                                 <br>
-                                <div class="resultat"><span class="label-nozzle">Nozzle exit diam. : </span><span v-text="performance.nozzleExitDiameter"></span></div>
+                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Convergence length :&nbsp;</span><span v-text="convergenceLenght"></span></div>
+                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Divergence length :&nbsp;</span><span v-text="divergenceLenght"></span></div>
+                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Nozzle exit diameter :&nbsp;</span><span v-text="performance.nozzleExitDiameter"></span></div>
+                                <br>
+                                <h3>Legend:</h3>
+                                <img src="../../assets/Nozzle_illustration.svg" width="440px"/>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -84,9 +86,12 @@ export default {
 }
 </script>
 
-<style>
-    .label-nozzle {
+<style >
+    .label-nozzle-desing {
         font-weight: bold;
+        width: 150px;
         display: inline-block;
+    }
+    .resultat-nozzle {
     }
 </style>

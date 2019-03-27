@@ -23,6 +23,7 @@ export default {
         chart.paddingRight = 20
 
         chart.numberFormatter.numberFormat = '.##'
+        chart.exporting.menu = new am4core.ExportMenu()
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
@@ -44,10 +45,10 @@ export default {
         series.strokeWidth = 2
 
         chart.cursor = new am4charts.XYCursor()
-        /*
-      categoryAxis.adapter.add("getTooltipText", (text) => {
-       return ".###";
-      }); */
+
+        categoryAxis.adapter.add('getTooltipText', (text) => {
+            return Number.parseFloat(text).toFixed(2)
+        })
         this.chart = chart
     },
 

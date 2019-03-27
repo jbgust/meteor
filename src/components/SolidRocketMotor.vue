@@ -24,8 +24,7 @@
                         <p class="my-4">{{errorMessage}}</p>
                         <v-textarea readonly
                                     v-show="errorDetail !== null"
-                                    v-model="errorDetail"
-                                    rows="10"/>
+                                    v-model="errorDetail"/>
                     </v-card-text>
 
                     <v-divider></v-divider>
@@ -75,7 +74,11 @@ export default {
                     .catch(function(error) {
                         component.loading = false
                         component.errorMessage = error.response.data.message
-                        component.errorDetail = error.response.data.detail
+
+                        if (error.response.data.detail) {
+                            component.errorDetail = 'This ofen occurs when the ratio between the burning area and the throat area is too low. Try to increase your grain core diameter and/or decrease the throat diameter.'
+                            console.error(error.response.data.detail)
+                        }
                         component.showError = true
                     })
             }

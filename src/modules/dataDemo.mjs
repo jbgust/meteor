@@ -32,17 +32,17 @@ export const demoForm = {
 export const demoResultData = {
     performanceResult: {
         motorDescription: 'L1672',
-        maxThrust: '2060,35 N',
-        totalImpulse: '3603, 07 N.S',
-        specificImpulse: '130,65 s',
-        maxPressure: '59,36 Bar',
-        thrustTime: '2,15 s',
+        maxThrust: '2060.35 N',
+        totalImpulse: '3603.07 N.S',
+        specificImpulse: '130.65 s',
+        maxPressure: '59.36 Bar',
+        thrustTime: '2.15 s',
         optimalDesign: true,
-        nozzleExitDiameter: '54,03 mm',
+        nozzleExitDiameter: '54.03 mm',
         convergenceCrossSectionDiameter: 57.61,
         divergenceCrossSectionDiameter: 36.6356,
-        exitSpeedInitial: '3,07 mach',
-        averagePressure: '49,06 Bar',
+        exitSpeedInitial: '3.07 mach',
+        averagePressure: '49.06 Bar',
         optimalNozzleExpansionRatio: '9.65'
     },
     thrustResults: [
