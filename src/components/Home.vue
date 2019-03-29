@@ -45,6 +45,18 @@
                             </v-card-text>
                         </v-card>
                         <v-card flat>
+                            <v-card-title>
+                                Next features
+                            </v-card-title>
+                            <v-card-text>
+                                <ul>
+                                    <li>
+                                        TODO
+                                    </li>
+                                </ul>
+                            </v-card-text>
+                        </v-card>
+                        <v-card flat>
                             <v-card-text>
                                 Meteor use <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
                                 JSRM is the Java implementation of SRM Excel file made By <a href="https://www.nakka-rocketry.net/author.html" target="_blank">Richard Nakka</a>.
