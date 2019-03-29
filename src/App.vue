@@ -5,10 +5,10 @@
             <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
         </head>
         <v-navigation-drawer
-            clipped
             v-model="drawer"
             app
-        >
+            absolute
+            temporary>
             <v-list dense>
                 <v-list-tile :to="'/home'">
                     <v-list-tile-action>
@@ -20,7 +20,7 @@
                 </v-list-tile>
                 <v-list-tile :to="'/motorDesign'">
                     <v-list-tile-action>
-                        <v-icon>whatshot</v-icon>
+                        <v-icon>build</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>Motor design</v-list-tile-title>
