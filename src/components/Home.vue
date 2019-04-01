@@ -3,7 +3,7 @@
             <v-flex>
                 <div class="meteor-container block1">
                     <h1>
-                        Build and design your own solid rocket motor
+                        DESIGN YOUR SOLID ROCKET MOTOR
                     </h1>
                     <h3>
                         Meteor is a modern and free application that helps you to design your motor
@@ -40,24 +40,45 @@
                         </div>
                     </div>
                     <div style="text-align: center">
-                        <v-btn :to="'/demo'">View demo</v-btn>
-                        <v-btn :to="'/motorDesign'">Try it!</v-btn>
-                        <h4>TODO : CONTACT</h4>
+                        <v-btn :to="'/demo'" outline>
+                            View demo
+                            <v-icon right>play_arrow</v-icon>
+                        </v-btn>
+                        <v-btn :to="'/motorDesign'" outline>Try it!</v-btn>
+                        <v-btn outline href="mailto:postmaster@pixelife.net?subject=METEOR">
+                            Contact
+                            <v-icon right>mail_outline</v-icon>
+                        </v-btn>
+
                     </div>
                 </div>
 
-                <div class="meteor-container">
+                <div class="meteor-container block2">
                     <h1 align="center">
-                        Next features
+                        NEXT FEATURES
                     </h1>
                     <div style="display: flex; width: 100%;justify-content: center;">
-                        <div>
-                            todo
-                        </div>
+                            <ul>
+                                <li>
+                                    Comparing multiple motor configuration on same graph
+                                </li>
+                                <li>
+                                    Automatic optimization of the configuration (ex: finding best grain core diameter)
+                                </li>
+                                <li>
+                                    Additionnal units (US Standard Units)
+                                </li>
+                                <li>
+                                    Support other languages (help needed)
+                                </li>
+                            </ul>
                     </div>
                 </div>
 
-                <div class="meteor-container">
+                <div class="meteor-container block3">
+                    <h1 align="center">
+                        ABOUT JSRM
+                    </h1>
                     <div style="display: flex; width: 100%;justify-content: center;">
                         <div>
                             Meteor use <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
@@ -76,12 +97,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="css">
 .meteor-container {
     padding: 40px 30px 40px 30px;
-    border-bottom: 3px solid dimgrey;
     min-height: 400px;
-    background-color: white;
+    font-size: 15px;
 }
 .meteor-container h1{
     text-align: center;
@@ -94,6 +114,26 @@ export default {
 .meteor-container > div {
     margin: 10px 0 10px 0;
 }
+.block1 {
+    color: white;
+}
+
+.block1 h1 {
+    color: white;
+}
+.block1 h3 {
+    color: white;
+}
 .block1{
+
+    background: #3f51b5; /* Old browsers */
+    background: -moz-linear-gradient(top, #3f51b5 0%, rgb(92, 187, 246) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #3f51b5 0%,rgb(92, 187, 246) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #3f51b5 0%,rgb(92, 187, 246) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f51b5', endColorstr='rgb(92, 187, 246)',GradientType=0 ); /* IE6-9 */
+}
+
+.block3 {
+    background-color: white;
 }
 </style>
