@@ -42,6 +42,7 @@
                     <div style="text-align: center">
                         <v-btn :to="'/demo'">View demo</v-btn>
                         <v-btn :to="'/motorDesign'">Try it!</v-btn>
+                        <h4>TODO : CONTACT</h4>
                     </div>
                 </div>
 
@@ -80,6 +81,7 @@ export default {
     padding: 40px 30px 40px 30px;
     border-bottom: 3px solid dimgrey;
     min-height: 400px;
+    background-color: white;
 }
 .meteor-container h1{
     text-align: center;

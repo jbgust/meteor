@@ -27,7 +27,7 @@ export default {
 
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
-        categoryAxis.dataFields.category = 'timeSinceBurnStartInSecond'
+        categoryAxis.dataFields.category = 'x'
         categoryAxis.renderer.minGridDistance = 50
         categoryAxis.renderer.grid.template.location = 0.5
         categoryAxis.title.text = 'Thrust time (sec.)'
@@ -39,8 +39,8 @@ export default {
 
         // Create series
         var series = chart.series.push(new am4charts.LineSeries())
-        series.dataFields.valueY = 'thrustInNewton'
-        series.dataFields.categoryX = 'timeSinceBurnStartInSecond'
+        series.dataFields.valueY = 'y'
+        series.dataFields.categoryX = 'x'
         series.tooltipText = "{valueY.value.formatNumber('#.')} N :  {categoryX.formatNumber('.##')} s"
         series.strokeWidth = 2
 
