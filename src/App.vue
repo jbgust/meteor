@@ -7,8 +7,7 @@
         <v-toolbar color="indigo" dark fixed app>
             <v-toolbar-items>
                 <v-btn flat :to="'/home'">
-                    <v-icon left>home</v-icon>
-                    Home
+                    <v-icon>home</v-icon>
                 </v-btn>
                 <v-btn flat :to="'/motorDesign'">
                     <v-icon left>build</v-icon>
@@ -22,7 +21,7 @@
             </v-fade-transition>
         </v-content>
         <v-footer app inset>
-            <span class="footer-app">Made with love in France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
+            <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
     </v-app>
 </template>

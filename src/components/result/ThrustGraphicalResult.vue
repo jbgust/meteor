@@ -6,9 +6,8 @@
 <script>
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
-import am4themesAnimated from '@amcharts/amcharts4/themes/animated'
 
-am4core.useTheme(am4themesAnimated)
+am4core.unuseAllThemes()
 
 export default {
     name: 'thrust-graphical-result',
@@ -28,9 +27,8 @@ export default {
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
         categoryAxis.dataFields.category = 'x'
-        categoryAxis.renderer.minGridDistance = 50
-        categoryAxis.renderer.grid.template.location = 0.5
         categoryAxis.title.text = 'Thrust time (sec.)'
+        categoryAxis.baseValue = 0
 
         // Create value axis
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis())
@@ -41,7 +39,7 @@ export default {
         var series = chart.series.push(new am4charts.LineSeries())
         series.dataFields.valueY = 'y'
         series.dataFields.categoryX = 'x'
-        series.tooltipText = "{valueY.value.formatNumber('#.')} N :  {categoryX.formatNumber('.##')} s"
+        series.tooltipText = "{valueY.value.formatNumber('#.')} N /  {categoryX.formatNumber('.##')} s"
         series.strokeWidth = 2
 
         chart.cursor = new am4charts.XYCursor()

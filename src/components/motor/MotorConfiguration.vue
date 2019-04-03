@@ -18,7 +18,7 @@
                     </v-flex>
                 <v-flex d-flex lg6 md6>
                         <div>
-                            <v-text-field id="numberOfSegment" label="Number of segment" v-model="value.numberOfSegment" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="numericGreater0Rules" step="0.01" />
                             <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
                             <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
                             <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>

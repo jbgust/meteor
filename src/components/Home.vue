@@ -13,10 +13,10 @@
                             Why using it?
                             <ul>
                                 <li>
-                                    It's free, why take a paid solution?
+                                    It's free, why taking a paid solution?
                                 </li>
                                 <li>
-                                    Reliable results because it uses the same calculations model as the famous <a href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
+                                    Reliable results : Meteor uses the same calculation model as the famous <a href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
                                 </li>
                                 <li>
                                     6 native propellants
@@ -25,13 +25,13 @@
                                     Easy to use
                                 </li>
                                 <li>
-                                    Export and import your work
+                                    Save and import your work
                                 </li>
                                 <li>
-                                    Optimal nozzle design, by default Meteor compute the best nozzle expansion ratio
+                                    Optimal nozzle design, by default Meteor computes the best nozzle expansion ratio
                                 </li>
                                 <li>
-                                    Tweak the computation model with the advanced configuration
+                                    Tweak computation model with an advanced configuration
                                 </li>
                                 <li>
                                     Nozzle dimensioning tool
@@ -60,7 +60,7 @@
                     <div style="display: flex; width: 100%;justify-content: center;">
                             <ul>
                                 <li>
-                                    Comparing multiple motor configuration on same graph
+                                    Comparison of multiple motor configurations on one same graph
                                 </li>
                                 <li>
                                     Automatic optimization of the configuration (ex: finding best grain core diameter)
@@ -69,7 +69,7 @@
                                     Additionnal units (US Standard Units)
                                 </li>
                                 <li>
-                                    Support other languages (help needed)
+                                    Support of other languages (contribution needed, feel free to contact us)
                                 </li>
                             </ul>
                     </div>
@@ -79,9 +79,12 @@
                     <h1 align="center">
                         ABOUT JSRM
                     </h1>
+                    <h3>
+                        Java Solid Rocket Motor
+                    </h3>
                     <div style="display: flex; width: 100%;justify-content: center;">
                         <div>
-                            Meteor use <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
+                            Meteor uses <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
                             It works solely for cylindrical grain configurations, such as BATES.
                             JSRM is the Java implementation of SRM Excel file made By <a href="https://www.nakka-rocketry.net/author.html" target="_blank">Richard Nakka</a>.
                         </div>
@@ -131,6 +134,10 @@ export default {
     background: -webkit-linear-gradient(top, #3f51b5 0%,rgb(92, 187, 246) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #3f51b5 0%,rgb(92, 187, 246) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f51b5', endColorstr='rgb(92, 187, 246)',GradientType=0 ); /* IE6-9 */
+}
+
+.block1 a{
+    color: rebeccapurple;
 }
 
 .block3 {
