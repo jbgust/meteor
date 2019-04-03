@@ -164,16 +164,24 @@ export default {
                 ]
             }
 
-            dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
-
             if (dataToExport.configs[0] != null) {
-                var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(dataToExport))
-                var downloadAnchorNode = document.createElement('a')
-                downloadAnchorNode.setAttribute('href', dataStr)
-                downloadAnchorNode.setAttribute('download', 'meteor-export' + '.json')
-                document.body.appendChild(downloadAnchorNode) // required for firefox
-                downloadAnchorNode.click()
-                downloadAnchorNode.remove()
+                dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
+
+                const fileContent = JSON.stringify(dataToExport)
+                const fileName = 'meteor-export' + '.json'
+
+                if (window.navigator.msSaveOrOpenBlob) {
+                    const blob = new Blob([fileContent], { type: 'application/json' })
+                    window.navigator.msSaveOrOpenBlob(blob, fileName)
+                } else {
+                    var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(fileContent)
+                    var downloadAnchorNode = document.createElement('a')
+                    downloadAnchorNode.setAttribute('href', dataStr)
+                    downloadAnchorNode.setAttribute('download', fileName)
+                    document.body.appendChild(downloadAnchorNode) // required for firefox
+                    downloadAnchorNode.click()
+                    downloadAnchorNode.remove()
+                }
             } else {
                 this.errorMessage = 'The form should be valid to be exported'
                 this.displayImportError = true
