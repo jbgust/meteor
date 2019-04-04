@@ -66,7 +66,7 @@ let router = new VueRouter({
 
 export default {
     name: 'app',
-    components: { MotorDesignTool },
+    components: MotorDesignTool,
     router
 }
 </script>
