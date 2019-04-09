@@ -1,27 +1,14 @@
 <template>
-    <v-container>
-        <table>
-            <tr>
-                <td><span class="label-resultat">Class: </span><span v-text="performance.motorDescription"></span></td>
-                <td><span class="label-resultat">Thrust time: </span><span v-text="performance.thrustTime"></span></td>
-            </tr>
-            <tr>
-                <td><span class="label-resultat">Max thrust: </span><span v-text="performance.maxThrust"></span></td>
-                <td><span class="label-resultat">Total impulse: </span><span v-text="performance.totalImpulse"></span></td>
-            </tr>
-            <tr>
-                <td><span class="label-resultat">Specific impulse: </span><span v-text="performance.specificImpulse"></span></td>
-                <td><span class="label-resultat">Max pressure: </span><span v-text="performance.maxPressure"></span></td>
-            </tr>
-            <tr>
-                <td><span class="label-resultat">Initial exit speed: </span><span v-text="performance.exitSpeedInitial"></span></td>
-                <td><span class="label-resultat">Average pressure: </span><span v-text="performance.averagePressure"></span></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center" style="padding-top: 15px;"><span class="label-nozzle" style="color: orange;" v-if="performance.optimalDesign">Optimally designed nozzle with an expansion ratio of {{performance.optimalNozzleExpansionRatio}}</span></td>
-            </tr>
-        </table>
-    </v-container>
+        <v-layout d-flex wrap>
+            <v-text-field hide-details outline class="resultElement" readonly label="Class" v-model="performance.motorDescription"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Thrust time" suffix="s" v-model="performance.thrustTime"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Max thrust" suffix="N" v-model="performance.maxThrust" ></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Total impulse" suffix="Ns" v-model="performance.totalImpulse"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Specific impulse" suffix="s" v-model="performance.specificImpulse"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Max pressure" suffix="bar" v-model="performance.maxPressure"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Average pressure" suffix="bar" v-model="performance.averagePressure"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial"></v-text-field>
+        </v-layout>
 </template>
 
 <script>
@@ -35,20 +22,12 @@ export default {
 }
 </script>
 
-<style scoped>
-    .label-resultat {
-        font-weight: bold;
-        display: inline-block;
-        width: 185px;
-        padding-left: 20px;
+<style lang="scss" scoped>
+    .resultElement {
+        width: 160px;
         margin: 0 10px;
-        text-align: right;
-    }
-    .label-nozzle {
-        font-weight: bold;
-        display: inline-block;
-        padding-left: 20px;
-        margin: 0 10px;
-        text-align: right;
+        /*flex-grow: 0 !important;*/
+        /*max-width: 250px;*/
+        padding: 5px 0;
     }
 </style>
