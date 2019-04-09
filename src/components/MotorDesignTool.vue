@@ -50,8 +50,11 @@
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign"></nozzle-design>
+                                <v-btn color="info" small><v-icon @click="showPerformanceInfo = !showPerformanceInfo">{{showPerformanceInfo? 'expand_less' : 'expand_more'}}</v-icon></v-btn>
                             </v-toolbar>
-                            <performance-info ref="performanceResult"/>
+                            <v-card-text v-show="showPerformanceInfo">
+                                <performance-info ref="performanceResult"/>
+                            </v-card-text>
 
                         </v-card>
                     </v-flex>
@@ -98,7 +101,8 @@ export default {
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
-            nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 }
+            nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 },
+            showPerformanceInfo: true
         }
     },
     mounted() {

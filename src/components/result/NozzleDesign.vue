@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-btn color="info" round small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
+        <v-btn color="info" small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
             <v-card>
