@@ -1,5 +1,13 @@
 <template>
-  <div class="thrust-graphic" ref="thrustResult">
+  <div class="thrust-graphic" >
+      <div style="position: absolute;z-index: 99;background-color: white;" class="thrust-graphic" v-if="loadingGraphic">
+          <div style="width: 150px;text-align: center;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%)">
+              <v-icon size="90" color="primary">refresh</v-icon>
+              <h3>Loading graphic...</h3>
+          </div>
+      </div>
+      <div class="thrust-graphic" ref="thrustResult">
+      </div>
   </div>
 </template>
 
@@ -7,13 +15,12 @@
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
 
-am4core.unuseAllThemes()
-
 export default {
     name: 'thrust-graphical-result',
     data() {
         return {
-            chart: null
+            chart: null,
+            loadingGraphic: false
         }
     },
     mounted() {
@@ -47,9 +54,17 @@ export default {
         categoryAxis.adapter.add('getTooltipText', (text) => {
             return Number.parseFloat(text).toFixed(2)
         })
+
+        chart.preloader.disabled = true
+        chart.events.on('validated', function(ev) {
+            this.loadingGraphic = false
+        }, this)
+        chart.events.on('beforedatavalidated', function(ev) {
+            this.loadingGraphic = true
+        }, this)
+
         this.chart = chart
     },
-
     beforeDestroy() {
         if (this.chart) {
             this.chart.dispose()
