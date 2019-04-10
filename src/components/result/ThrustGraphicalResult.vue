@@ -3,7 +3,7 @@
       <div style="position: absolute;z-index: 99;background-color: white;" class="thrust-graphic" v-if="loadingGraphic">
           <div style="width: 150px;text-align: center;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%)">
               <v-icon size="90" color="primary">refresh</v-icon>
-              <h3>Loading graphic...</h3>
+              <h3>Loading chart...</h3>
           </div>
       </div>
       <div class="thrust-graphic" ref="thrustResult">

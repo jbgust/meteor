@@ -66,7 +66,8 @@ let router = new VueRouter({
 
 export default {
     name: 'app',
-    components: MotorDesignTool,
+    // eslint-disable-next-line vue/no-unused-components
+    components: { MotorDesignTool },
     router
 }
 </script>

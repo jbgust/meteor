@@ -23,6 +23,17 @@
                             <span>Load your project</span>
                         </v-tooltip>
 
+                        <v-spacer></v-spacer>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="$refs.helpDialog.show()">
+                                    <v-icon>
+                                        import_contacts</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Documentation</span>
+                        </v-tooltip>
+
                     </v-toolbar>
 
                     <v-alert
@@ -66,6 +77,7 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <help-dialog ref="helpDialog"></help-dialog>
     </v-container>
 </template>
 
@@ -75,6 +87,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
+import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData } from '../modules/dataDemo'
 import { importValidatorSchema } from '../modules/importValidator'
@@ -87,7 +100,7 @@ const Ajv = require('ajv')
 
 export default {
     name: 'motor-design-tool',
-    components: { NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor },
+    components: { NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,
