@@ -3,12 +3,16 @@
         <v-btn color="info" small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
-            <v-card>
-                <v-card-title
-                    class="headline grey lighten-2"
-                    primary-title>
+            <v-toolbar dark color="primary">
+                <v-toolbar-title>
                     Nozzle design tool
-                </v-card-title>
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon dark @click="showNozzleDesignDialog = !formIsValid()">
+                    <v-icon>close</v-icon>
+                </v-btn>
+            </v-toolbar>
+            <v-card>
 
                 <v-card-text>
                     <v-flex>
@@ -31,23 +35,11 @@
                                 <div class="resultat-nozzle"><span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span><span v-text="performance.nozzleExitDiameter"></span></div>
                                 <br>
                                 <h3>Legend</h3>
-                                <img src="../../assets/Nozzle_illustration.svg" width="440px"/>
+                                <img src="../../assets/Nozzle_illustration.svg" width="100%"/>
                             </v-flex>
                         </v-layout>
                     </v-flex>
                 </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="primary"
-                        flat
-                        @click="showNozzleDesignDialog = !formIsValid()">
-                        Ok
-                    </v-btn>
-                </v-card-actions>
             </v-card>
         </v-dialog>
     </div>
