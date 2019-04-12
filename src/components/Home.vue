@@ -146,6 +146,10 @@ export default {
     color: rebeccapurple;
 }
 
+.block2 {
+    background-color: #f5f5f5;
+}
+
 .block3 {
     background-color: white;
 }
