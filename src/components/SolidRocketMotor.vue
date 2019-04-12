@@ -72,7 +72,7 @@ export default {
         },
         runComputation() {
             const component = this
-            if (this.$refs.formJSRM.validate()) {
+            if (this.$refs.formJSRM.validate() && this.checkMotorDimensions()) {
                 this.loading = true
                 Axios.post('/compute', {}, { data: this.getValues() })
                     .then(function(response) {
@@ -96,6 +96,15 @@ export default {
                         component.showError = true
                     })
             }
+        },
+        checkMotorDimensions() {
+            if (this.formValue.chamberLength < this.formValue.segmentLength * this.formValue.numberOfSegment) {
+                const errorMessage = `The 'motor inner length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your motor inner length and/or decrease : grain segment length, number of segment.`
+                this.errorMessage = errorMessage
+                this.showError = true
+                return false
+            }
+            return true
         },
         getValues() {
             if (this.$refs.formJSRM.validate()) {

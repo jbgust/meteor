@@ -10,18 +10,18 @@
                 <v-flex d-flex lg6 md6>
                         <div>
                             <v-text-field id="throatDiameter" label="Throat diameter" suffix="mm" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
-                            <v-text-field id="outerDiameter" label="Grain outer diameter" suffix="mm" v-model="value.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                             <v-text-field id="coreDiameter" label="Grain core diameter" suffix="mm" v-model="value.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="outerDiameter" label="Grain outer diameter" suffix="mm" v-model="value.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                             <v-text-field id="segmentLength" label="Grain segment length" suffix="mm" v-model="value.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
-                            <v-text-field id="chamberInnerDiameter" label="Motor inner diameter" hint="Combustion chamber diameter" suffix="mm" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="numericGreater0Rules" step="0.01" />
                         </div>
                     </v-flex>
                 <v-flex d-flex lg6 md6>
                         <div>
-                            <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="numericGreater0Rules" step="0.01" />
                             <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
                             <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
                             <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
+                            <v-text-field id="chamberInnerDiameter" label="Motor inner diameter" hint="Combustion chamber diameter" suffix="mm" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
                             <v-text-field id="chamberLength" label="Motor inner length" hint="From bulkhead to throat" suffix="mm" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
                         </div>
                     </v-flex>
