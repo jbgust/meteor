@@ -73,6 +73,12 @@
                                 </li>
                             </ul>
                     </div>
+                    <div style="text-align: center">
+                        <v-btn outline href="mailto:postmaster@pixelife.net?subject=New Feature METEOR">
+                            Request new feature
+                            <v-icon right>mail_outline</v-icon>
+                        </v-btn>
+                    </div>
                 </div>
 
                 <div class="meteor-container block3">
