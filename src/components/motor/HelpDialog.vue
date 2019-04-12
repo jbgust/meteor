@@ -16,7 +16,7 @@
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title>
-                                    Which form field's refer to?
+                                    Refer to the section below for dimensions fields signification
                                 </v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
@@ -35,22 +35,22 @@
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title>
-                                    What grain surface refer to?
+                                    Refer to the section below for each grain surface signification
                                 </v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex>
+                                <v-layout row wrap justify-space-around>
+                                    <v-flex shrink>
                                         <h3 align="center">Outer surface</h3>
-                                        <v-img :src="require('@/assets/help/outer_surface.png')" max-width="220px"></v-img>
+                                        <v-img :src="require('@/assets/help/outer_surface.png')"></v-img>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex shrink>
                                         <h3 align="center">End surface</h3>
-                                        <v-img :src="require('@/assets/help/end_surface.png')" max-width="220px"></v-img>
+                                        <v-img :src="require('@/assets/help/end_surface.png')"></v-img>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex shrink>
                                         <h3 align="center">Core surface</h3>
-                                        <v-img :src="require('@/assets/help/core_surface.png')" max-width="220px"></v-img>
+                                        <v-img :src="require('@/assets/help/core_surface.png')"></v-img>
                                     </v-flex>
                                 </v-layout>
                                 <v-divider></v-divider>

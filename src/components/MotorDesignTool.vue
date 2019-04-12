@@ -49,7 +49,7 @@
 
                     <input v-if="!demo" type="file" style="display: none;" ref="fileBrowser"
                            id="avatar" name="avatar" @change="loadFile" accept="application/json">
-                    <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset"/>
+                    <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 
                 </v-card>
             </v-flex>

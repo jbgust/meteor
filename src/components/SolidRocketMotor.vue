@@ -11,7 +11,7 @@
                 <v-icon dark>settings</v-icon>
             </v-btn>
 
-            <v-dialog ref="errorModal" :width="errorDetail !== null ? '700px': '300px'" v-model="showError">
+            <v-dialog ref="errorModal" max-width="700px" v-model="showError">
 
                 <v-card>
                     <v-card-title
@@ -21,8 +21,12 @@
                     </v-card-title>
 
                     <v-card-text>
-                        <p class="my-4">{{errorMessage}}</p>
-                        <v-textarea readonly
+                        <v-textarea readonly outline
+                                    v-show="errorDetail == null"
+                                    v-model="errorMessage"/>
+
+                        <v-textarea readonly outline
+                                    :label="errorMessage"
                                     v-show="errorDetail !== null"
                                     v-model="errorDetail"/>
                     </v-card-text>
@@ -32,10 +36,14 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
+                            color="secondary"
+                            @click="$emit('showDocumentation')">
+                            Read documentation
+                        </v-btn>
+                        <v-btn
                             color="primary"
-                            flat
                             @click="showError = false">
-                            Ok
+                            Close
                         </v-btn>
                     </v-card-actions>
                 </v-card>
