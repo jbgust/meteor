@@ -22,7 +22,7 @@
                             <v-card-text>
                                 <v-layout column>
                                     <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="require('@/assets/help/motor.png')" max-width="550px"></v-img>
                                     </v-flex>
                                     <v-flex>
                                         <v-img :src="require('@/assets/help/grain.png')" max-width="320px"></v-img>

@@ -100,7 +100,7 @@ export default {
         },
         checkMotorDimensions() {
             if (this.formValue.chamberLength < this.formValue.segmentLength * this.formValue.numberOfSegment) {
-                this.errorDetail = `The 'motor inner length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your motor inner length and/or decrease : grain segment length, number of segment.`
+                this.errorDetail = `The 'combustion chamber length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your combustion chamber length and/or decrease : grain segment length, number of segment.`
                 this.showError = true
                 return false
             }

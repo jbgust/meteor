@@ -21,8 +21,8 @@
                             <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
                             <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
                             <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
-                            <v-text-field id="chamberInnerDiameter" label="Motor inner diameter" hint="Combustion chamber diameter" suffix="mm" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
-                            <v-text-field id="chamberLength" label="Motor inner length" hint="From bulkhead to throat" suffix="mm" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter" suffix="mm" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" suffix="mm" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
                         </div>
                     </v-flex>
                 </v-layout>
