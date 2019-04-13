@@ -61,7 +61,11 @@
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign"></nozzle-design>
-                                <v-btn color="info" small><v-icon @click="showPerformanceInfo = !showPerformanceInfo">{{showPerformanceInfo? 'expand_less' : 'expand_more'}}</v-icon></v-btn>
+                                <v-btn color="info" small class="tooglePerf">
+                                    <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
+                                        {{showPerformanceInfo? 'expand_less' : 'expand_more'}}
+                                    </v-icon>
+                                </v-btn>
                             </v-toolbar>
                             <v-card-text v-show="showPerformanceInfo">
                                 <performance-info ref="performanceResult"/>
@@ -220,3 +224,21 @@ export default {
     }
 }
 </script>
+
+<style lang="css">
+
+    .v-btn.tooglePerf {
+        min-width: 40px;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .tooglePerf > div {
+        width: 40px !important;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+</style>

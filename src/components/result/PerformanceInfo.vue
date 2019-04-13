@@ -1,4 +1,5 @@
 <template>
+    <div>
         <v-layout d-flex wrap>
             <v-text-field hide-details outline class="resultElement" readonly label="Class" v-model="performance.motorDescription"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Thrust time" suffix="s" v-model="performance.thrustTime"></v-text-field>
@@ -9,6 +10,11 @@
             <v-text-field hide-details outline class="resultElement" readonly label="Average pressure" suffix="bar" v-model="performance.averagePressure"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial"></v-text-field>
         </v-layout>
+        <v-flex>
+            <span class="label-nozzle" style="color: orange;" v-if="performance.optimalDesign">Optimally designed nozzle with an expansion ratio of {{performance.optimalNozzleExpansionRatio}}</span>
+        </v-flex>
+    </div>
+
 </template>
 
 <script>

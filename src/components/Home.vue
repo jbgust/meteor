@@ -8,7 +8,7 @@
                     <h3>
                         Meteor is a modern and free application that helps you to design your motor
                     </h3>
-                    <div style="display: flex; width: 100%;justify-content: center;">
+                    <div class="block-text">
                         <div>
                             Why using it?
                             <ul>
@@ -16,7 +16,7 @@
                                     It's free, why taking a paid solution?
                                 </li>
                                 <li>
-                                    Reliable results : Meteor uses the same calculation model as the famous <a href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
+                                    Reliable results : Meteor uses the same calculation model as the famous <a class="block1-link" href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
                                 </li>
                                 <li>
                                     6 native propellants
@@ -39,7 +39,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div style="text-align: center">
+                    <div class="block-button">
                         <v-btn :to="'/demo'" outline>
                             View demo
                             <v-icon right>play_arrow</v-icon>
@@ -57,8 +57,14 @@
                     <h1 align="center">
                         NEXT FEATURES
                     </h1>
-                    <div style="display: flex; width: 100%;justify-content: center;">
+                    <div class="block-text">
                             <ul>
+                                <li>
+                                    New propellants: APCP, ...
+                                </li>
+                                <li>
+                                    New grain configurations
+                                </li>
                                 <li>
                                     Comparison of multiple motor configurations on one same graph
                                 </li>
@@ -73,7 +79,7 @@
                                 </li>
                             </ul>
                     </div>
-                    <div style="text-align: center">
+                    <div class="block-button">
                         <v-btn outline href="mailto:postmaster@pixelife.net?subject=New Feature METEOR">
                             Request new feature
                             <v-icon right>mail_outline</v-icon>
@@ -88,7 +94,7 @@
                     <h3>
                         Java Solid Rocket Motor
                     </h3>
-                    <div style="display: flex; width: 100%;justify-content: center;">
+                    <div class="block-text">
                         <div>
                             Meteor uses <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
                             It works solely for cylindrical grain configurations, such as BATES.
@@ -106,51 +112,60 @@ export default {
 }
 </script>
 
-<style lang="css">
-.meteor-container {
-    padding: 40px 30px 40px 30px;
-    min-height: 400px;
-    font-size: 15px;
-}
-.meteor-container h1{
-    text-align: center;
-    color: black;
-}
-.meteor-container h3 {
-    text-align: center;
-    color: black;
-}
-.meteor-container > div {
-    margin: 10px 0 10px 0;
-}
-.block1 {
-    color: white;
-}
+<style lang="css" scoped>
+    .meteor-container {
+        padding: 40px 30px 40px 30px;
+        min-height: 400px;
+        font-size: 15px;
+    }
+    .meteor-container h1{
+        text-align: center;
+        color: black;
+    }
+    .meteor-container h3 {
+        text-align: center;
+        color: black;
+    }
+    .meteor-container > div {
+        margin: 10px 0 10px 0;
+    }
+    .block1 {
+        color: white;
+    }
 
-.block1 h1 {
-    color: white;
-}
-.block1 h3 {
-    color: white;
-}
-.block1{
+    .block1 h1 {
+        color: white;
+    }
+    .block1 h3 {
+        color: white;
+    }
+    .block1{
+        background: #3f51b5; /* Old browsers */
+        background: -moz-linear-gradient(top, #3f51b5 0%, rgb(92, 187, 246) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #3f51b5 0%,rgb(92, 187, 246) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #3f51b5 0%,rgb(92, 187, 246) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f51b5', endColorstr='rgb(92, 187, 246)',GradientType=0 ); /* IE6-9 */
+    }
 
-    background: #3f51b5; /* Old browsers */
-    background: -moz-linear-gradient(top, #3f51b5 0%, rgb(92, 187, 246) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #3f51b5 0%,rgb(92, 187, 246) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #3f51b5 0%,rgb(92, 187, 246) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f51b5', endColorstr='rgb(92, 187, 246)',GradientType=0 ); /* IE6-9 */
-}
+    .block1-link{
+        color: rebeccapurple;
+    }
 
-.block1 a{
-    color: rebeccapurple;
-}
+    .block2 {
+        background-color: #f5f5f5;
+    }
 
-.block2 {
-    background-color: #f5f5f5;
-}
+    .block3 {
+        background-color: white;
+    }
+    .block-text {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
 
-.block3 {
-    background-color: white;
-}
+    .block-button {
+        text-align: center;
+        margin-top: 40px !important;
+    }
 </style>

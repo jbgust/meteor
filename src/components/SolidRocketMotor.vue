@@ -90,6 +90,7 @@ export default {
 
                         component.errorDetail = null
                         if (error.response && error.response.data && error.response.data.detail != null) {
+                            component.errorMessage = null
                             component.errorDetail = 'This often occurs when the ratio between the burning area and the throat area is too low. Try to increase your grain core diameter and/or decrease the throat diameter.'
                             console.error(error.response.data.detail)
                         }
@@ -99,8 +100,7 @@ export default {
         },
         checkMotorDimensions() {
             if (this.formValue.chamberLength < this.formValue.segmentLength * this.formValue.numberOfSegment) {
-                const errorMessage = `The 'motor inner length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your motor inner length and/or decrease : grain segment length, number of segment.`
-                this.errorMessage = errorMessage
+                this.errorDetail = `The 'motor inner length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your motor inner length and/or decrease : grain segment length, number of segment.`
                 this.showError = true
                 return false
             }

@@ -12,17 +12,17 @@
             <v-card-text>
                 <v-container grid-list-md>
                 <v-layout row wrap>
-                    <v-flex>
+                    <v-flex lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title>
-                                    Refer to the section below for dimensions fields signification
+                                    Which form field's refer to?
                                 </v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
                                 <v-layout column>
                                     <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')"></v-img>
+                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
                                     </v-flex>
                                     <v-flex>
                                         <v-img :src="require('@/assets/help/grain.png')" max-width="320px"></v-img>
@@ -31,11 +31,11 @@
                             </v-card-text>
                         </v-card>
                     </v-flex>
-                    <v-flex>
+                    <v-flex lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title>
-                                    Refer to the section below for each grain surface signification
+                                    What grain surface refer to?
                                 </v-toolbar-title>
                             </v-toolbar>
                             <v-card-text>
