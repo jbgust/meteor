@@ -57,7 +57,7 @@
                 <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
-                            <v-toolbar card height="40px">
+                            <v-toolbar card height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign"></nozzle-design>
@@ -140,6 +140,9 @@ export default {
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
+            Vue.nextTick(() =>  {
+                this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: "easeInOutCubic" })
+            }, this)
         },
         loadFile(event) {
             let ajv = new Ajv({ coerceTypes: true })
