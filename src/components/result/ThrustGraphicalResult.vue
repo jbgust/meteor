@@ -6,7 +6,7 @@
               <h3>Loading chart...</h3>
           </div>
       </div>
-      <div class="thrust-graphic" ref="thrustResult">
+      <div class="thrust-graphic" ref="motorParameters">
       </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         }
     },
     mounted() {
-        let chart = am4core.create(this.$refs.thrustResult, am4charts.XYChart)
+        let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
 
         chart.paddingRight = 20
 
@@ -34,20 +34,15 @@ export default {
         // Create axes
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
         categoryAxis.dataFields.category = 'x'
-        categoryAxis.title.text = 'Thrust time (sec.)'
+        categoryAxis.title.text = 'Burn time (sec.)'
         categoryAxis.baseValue = 0
 
-        // Create value axis
-        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis())
-        valueAxis.baseValue = 0
-        valueAxis.title.text = 'Thrust (N)'
+        chart.colors.step = 2
 
-        // Create series
-        var series = chart.series.push(new am4charts.LineSeries())
-        series.dataFields.valueY = 'y'
-        series.dataFields.categoryX = 'x'
-        series.tooltipText = "{valueY.value.formatNumber('#.')} N /  {categoryX.formatNumber('.##')} s"
-        series.strokeWidth = 2
+        this.createAxisAndSeries(chart, 'kn', 'KN', true, 'triangle')
+        this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', 'bar')
+        this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', 'Kg/s')
+        this.createAxisAndSeries(chart, 'y', 'Thrust', false, 'circle', 'N')
 
         chart.cursor = new am4charts.XYCursor()
 
@@ -63,7 +58,30 @@ export default {
             this.loadingGraphic = true
         }, this)
 
+        chart.legend = new am4charts.Legend()
+
         this.chart = chart
+    },
+    methods: {
+        createAxisAndSeries(chart, field, name, opposite, bullet, unit = '') {
+            // see https://www.amcharts.com/demos/multiple-value-axes/
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis())
+
+            var series = chart.series.push(new am4charts.LineSeries())
+            series.dataFields.valueY = field
+            series.dataFields.categoryX = 'x'
+            series.strokeWidth = 2
+            series.yAxis = valueAxis
+            series.name = name
+            series.tooltipText = `{name}: [bold]{valueY}[/] ${unit}`
+
+            valueAxis.renderer.line.strokeOpacity = 1
+            valueAxis.renderer.line.strokeWidth = 2
+            valueAxis.renderer.line.stroke = series.stroke
+            valueAxis.renderer.labels.template.fill = series.stroke
+            valueAxis.renderer.opposite = opposite
+            valueAxis.renderer.grid.template.disabled = true
+        }
     },
     beforeDestroy() {
         if (this.chart) {

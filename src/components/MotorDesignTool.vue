@@ -136,7 +136,7 @@ export default {
         },
         loadResult(data) {
             this.displayImportError = false
-            this.$refs.thrustGraphicalResult.chart.data = data.thrustResults
+            this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
