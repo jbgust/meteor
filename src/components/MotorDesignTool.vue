@@ -192,7 +192,11 @@ export default {
                 dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
 
                 const fileContent = JSON.stringify(dataToExport)
-                const fileName = 'meteor-export' + '.json'
+                let fileName = 'meteor-export' + '.json'
+                let motorName = dataToExport.configs[0].name;
+                if (motorName != null) {
+                    fileName = motorName + '.json'
+                }
 
                 if (window.navigator.msSaveOrOpenBlob) {
                     const blob = new Blob([fileContent], { type: 'application/json' })

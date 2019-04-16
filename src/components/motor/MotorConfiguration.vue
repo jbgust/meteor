@@ -1,6 +1,9 @@
 <template>
     <v-layout column>
         <v-flex d-flex lg12>
+            <v-text-field box hide-details id="name" label="Motor name" v-model="value.name" />
+        </v-flex>
+        <v-flex d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
                       :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />

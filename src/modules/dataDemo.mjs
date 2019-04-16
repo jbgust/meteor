@@ -23,6 +23,7 @@ export const demoForm = {
     chamberInnerDiameter: 75,
     chamberLength: 470,
     extraConfig: defaultAdvanceConfig,
+    name: 'Demo',
     nozzleDesign: {
         divergenceAngle: 18,
         convergenceAngle: 38
