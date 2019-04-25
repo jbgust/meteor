@@ -2,6 +2,11 @@ export const importValidatorSchema = {
     type: 'object',
     properties: {
         version: { type: 'number', minimum: 1, maximum: 1 },
+        measureUnit: {
+            type: 'string',
+            default: 'SI',
+            pattern: '(^(SI)|(IMPERIAL)$)'
+        },
         configs: {
             type: 'array',
             minItems: 1,
@@ -14,12 +19,12 @@ export const importValidatorSchema = {
                     coreDiameter: { type: 'number' },
                     segmentLength: { type: 'number' },
                     numberOfSegment: { type: 'number' },
-                    outerSurface: { type: 'string', pattern: '((INHIBITED)|(EXPOSED))' },
-                    endsSurface: { type: 'string', pattern: '((INHIBITED)|(EXPOSED))' },
-                    coreSurface: { type: 'string', pattern: '((INHIBITED)|(EXPOSED))' },
+                    outerSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
+                    endsSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
+                    coreSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
                     propellantType: {
                         type: 'string',
-                        pattern: '((KNDX)|(KNER_COARSE)|(KNMN_COARSE)|(KNSB_COARSE)|(KNSB_FINE)|(KNSU))'
+                        pattern: '^((KNDX)|(KNER_COARSE)|(KNMN_COARSE)|(KNSB_COARSE)|(KNSB_FINE)|(KNSU))$'
                     },
                     chamberInnerDiameter: { type: 'number' },
                     chamberLength: { type: 'number' },

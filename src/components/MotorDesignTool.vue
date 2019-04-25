@@ -164,7 +164,7 @@ export default {
             }, this)
         },
         loadFile(event) {
-            let ajv = new Ajv({ coerceTypes: true })
+            let ajv = new Ajv({ useDefaults: true, coerceTypes: true })
 
             let file = event.target.files[0]
             if (file) {
@@ -179,7 +179,7 @@ export default {
                             me.asResult = false
                             me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
                             me.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
-                            me.unitSelected = loadedConfig.measureUnit != null ? loadedConfig.measureUnit : 'SI'
+                            me.unitSelected = loadedConfig.measureUnit
                             // If nextTick is not here, the form will not be valid when call runComputation()
                             Vue.nextTick(() => {
                                 me.$refs.form.runComputation()
