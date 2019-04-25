@@ -7,7 +7,7 @@
                     <v-toolbar card height="40px" v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="exportConfig">
+                                <v-btn icon v-on="on" @click="exportConfig" flat>
                                     <v-icon>save_alt</v-icon>
                                 </v-btn>
                             </template>
@@ -16,14 +16,32 @@
 
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="browseFile">
+                                <v-btn icon v-on="on" @click="browseFile" flat>
                                     <v-icon>open_in_browser</v-icon>
                                 </v-btn>
                             </template>
                             <span>Load your project</span>
                         </v-tooltip>
+                        <v-divider
+                            class="mx-2"
+                            vertical
+                        ></v-divider>
+                        <v-btn-toggle
+                            v-model="unitSelected"
+                            class="transparent">
+                            <div>
+                                Units:
+                                <v-btn value="SI" flat>
+                                    SI
+                                </v-btn>
+                                <v-btn value="IMPERIAL" flat>
+                                    IMPERIAL
+                                </v-btn>
+                            </div>
+                        </v-btn-toggle>
 
                         <v-spacer></v-spacer>
+
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-btn icon v-on="on" @click="$refs.helpDialog.show()">
@@ -49,7 +67,7 @@
 
                     <input v-if="!demo" type="file" style="display: none;" ref="fileBrowser"
                            id="avatar" name="avatar" @change="loadFile" accept="application/json">
-                    <solid-rocket-motor ref="form" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
+                    <solid-rocket-motor ref="form" :units="units" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 
                 </v-card>
             </v-flex>
@@ -60,7 +78,7 @@
                             <v-toolbar card height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
-                                <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign"></nozzle-design>
+                                <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign" :units="units"></nozzle-design>
                                 <v-btn color="info" small class="tooglePerf">
                                     <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
                                         {{showPerformanceInfo? 'expand_less' : 'expand_more'}}
@@ -68,14 +86,14 @@
                                 </v-btn>
                             </v-toolbar>
                             <v-card-text v-show="showPerformanceInfo">
-                                <performance-info ref="performanceResult"/>
+                                <performance-info :units="units" ref="performanceResult"/>
                             </v-card-text>
 
                         </v-card>
                     </v-flex>
                     <v-flex d-flex>
                         <v-card>
-                            <thrust-graphical-result ref="thrustGraphicalResult"/>
+                            <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
                         </v-card>
                     </v-flex>
                 </v-layout>
@@ -119,7 +137,8 @@ export default {
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
             nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 },
-            showPerformanceInfo: true
+            showPerformanceInfo: true,
+            unitSelected: 'IMPERIAL'
         }
     },
     mounted() {
@@ -140,8 +159,8 @@ export default {
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
-            Vue.nextTick(() =>  {
-                this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: "easeInOutCubic" })
+            Vue.nextTick(() => {
+                this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
             }, this)
         },
         loadFile(event) {
@@ -160,6 +179,7 @@ export default {
                             me.asResult = false
                             me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
                             me.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
+                            me.unitSelected = loadedConfig.measureUnit != null ? loadedConfig.measureUnit : 'SI'
                             // If nextTick is not here, the form will not be valid when call runComputation()
                             Vue.nextTick(() => {
                                 me.$refs.form.runComputation()
@@ -184,8 +204,9 @@ export default {
             const dataToExport = {
                 version: 1,
                 configs: [
-                    this.$refs.form.getValues()
-                ]
+                    this.$refs.form.buildRequest()
+                ],
+                measureUnit: this.unitSelected
             }
 
             if (dataToExport.configs[0] != null) {
@@ -193,7 +214,7 @@ export default {
 
                 const fileContent = JSON.stringify(dataToExport)
                 let fileName = 'meteor-export' + '.json'
-                let motorName = dataToExport.configs[0].name;
+                let motorName = dataToExport.configs[0].name
                 if (motorName != null) {
                     fileName = motorName + '.json'
                 }
@@ -226,6 +247,15 @@ export default {
                 this.asResult = false
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
+            }
+        }
+    },
+    computed: {
+        units() {
+            if (this.unitSelected === 'SI') {
+                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', massFluxUnit: 'Kg/s' }
+            } else {
+                return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', massFluxUnit: 'lb/s' }
             }
         }
     }

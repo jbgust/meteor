@@ -12,9 +12,9 @@
                       <v-flex d-flex lg6 md6>
                           <div style="padding: 10px;">
                               <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
-                              <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" suffix="mm" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" :suffix="units.lengthUnit" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
-                              <v-text-field v-if="false" id="ambiantPressureInMPa" label="Ambiant pressure:" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
+                              <v-text-field v-if="false" id="ambiantPressureInMPa" label="Ambiant pressure:" :suffix="units.pressureUnit" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
                           </div>
                       </v-flex>
                       <v-flex d-flex lg6 md6>
@@ -48,7 +48,8 @@ const minAmbiantPressureinMPa = 0.101
 export default {
     name: 'advanced-configuration',
     props: {
-        value: Object
+        value: Object,
+        units: Object
     },
     data() {
         return {

@@ -23,6 +23,9 @@ export default {
             loadingGraphic: false
         }
     },
+    props: {
+        units: Object
+    },
     mounted() {
         let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
 
@@ -40,8 +43,8 @@ export default {
         chart.colors.step = 2
 
         this.createAxisAndSeries(chart, 'kn', 'KN', true, 'triangle')
-        this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', 'bar')
-        this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', 'Kg/s')
+        this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.pressureUnit)
+        this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', this.units.massFluxUnit)
         this.createAxisAndSeries(chart, 'y', 'Thrust', false, 'circle', 'N')
 
         chart.cursor = new am4charts.XYCursor()

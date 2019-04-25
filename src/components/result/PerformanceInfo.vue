@@ -6,8 +6,8 @@
             <v-text-field hide-details outline class="resultElement" readonly label="Max thrust" suffix="N" v-model="performance.maxThrust" ></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Total impulse" suffix="Ns" v-model="performance.totalImpulse"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Specific impulse" suffix="s" v-model="performance.specificImpulse"></v-text-field>
-            <v-text-field hide-details outline class="resultElement" readonly label="Max pressure" suffix="bar" v-model="performance.maxPressure"></v-text-field>
-            <v-text-field hide-details outline class="resultElement" readonly label="Average pressure" suffix="bar" v-model="performance.averagePressure"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Max pressure" :suffix="units.pressureUnit" v-model="performance.maxPressure"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly label="Average pressure" :suffix="units.pressureUnit" v-model="performance.averagePressure"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial"></v-text-field>
         </v-layout>
         <v-flex>
@@ -24,6 +24,9 @@ export default {
         return {
             performance: {}
         }
+    },
+    props: {
+        units: Object
     }
 }
 </script>

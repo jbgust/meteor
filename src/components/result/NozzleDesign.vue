@@ -32,7 +32,7 @@
                                 <br>
                                 <div class="resultat-nozzle"><span class="label-nozzle-desing">Convergence length:&nbsp;</span><span v-text="convergenceLenght"></span></div>
                                 <div class="resultat-nozzle"><span class="label-nozzle-desing">Divergence length:&nbsp;</span><span v-text="divergenceLenght"></span></div>
-                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span><span v-text="performance.nozzleExitDiameter"></span></div>
+                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span><span v-text="`${performance.nozzleExitDiameter} ${units.lengthUnit}`"></span></div>
                                 <br>
                                 <h3>Legend</h3>
                                 <img src="../../assets/Nozzle_illustration.svg" width="100%"/>
@@ -57,11 +57,12 @@ export default {
         }
     },
     props: {
-        value: { type: Object, default: () => { return { convergenceAngle: 60, divergenceAngle: 24 } } }
+        value: { type: Object, default: () => { return { convergenceAngle: 60, divergenceAngle: 24 } } },
+        units: Object
     },
     methods: {
         computeResult(sectionDiameter, angle) {
-            return Number.parseFloat(sectionDiameter / 2 / Math.tan(angle / 2 * Math.PI / 180)).toFixed(2) + ' mm'
+            return Number.parseFloat(sectionDiameter / 2 / Math.tan(angle / 2 * Math.PI / 180)).toFixed(2) + ' ' + this.units.lengthUnit
         },
         formIsValid() {
             return this.$refs.nozzleDesignForm ? this.$refs.nozzleDesignForm.validate() : true

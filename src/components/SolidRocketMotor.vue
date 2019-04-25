@@ -2,8 +2,8 @@
     <v-container>
         <v-form ref="formJSRM">
 
-            <motor-configuration v-model="formValue"/>
-            <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig"/>
+            <motor-configuration v-model="formValue" :units="units"/>
+            <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <v-btn v-if="!disabledButtons" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
             <v-btn v-if="!disabledButtons" @click="reset">Reset</v-btn>
@@ -63,6 +63,20 @@ import { defaultAdvanceConfig } from '../modules/dataDemo'
 export default {
     name: 'solid-rocket-motor',
     components: { MotorConfiguration, AdvancedConfiguration },
+    data() {
+        return {
+            formValue: { },
+            extraConfig: this.getDefaultAdvanceConfig(),
+            errorMessage: null,
+            errorDetail: null,
+            showError: false,
+            disabledButtons: false,
+            loading: false
+        }
+    },
+    props: {
+        units: Object
+    },
     methods: {
         resetConfig() {
             this.extraConfig = this.getDefaultAdvanceConfig()
@@ -74,7 +88,7 @@ export default {
             const component = this
             if (this.$refs.formJSRM.validate() && this.checkMotorDimensions()) {
                 this.loading = true
-                Axios.post('/compute', {}, { data: this.getValues() })
+                Axios.post('/compute', {}, { data: this.buildRequest() })
                     .then(function(response) {
                         component.$emit('computation-success', response.data)
                         component.loading = false
@@ -106,10 +120,11 @@ export default {
             }
             return true
         },
-        getValues() {
+        buildRequest() {
             if (this.$refs.formJSRM.validate()) {
                 const request = Object.assign({}, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
                 return request
             } else {
                 return null
@@ -128,17 +143,6 @@ export default {
         },
         disabledControls(disabled) {
             this.disabledButtons = disabled
-        }
-    },
-    data() {
-        return {
-            formValue: { },
-            extraConfig: this.getDefaultAdvanceConfig(),
-            errorMessage: null,
-            errorDetail: null,
-            showError: false,
-            disabledButtons: false,
-            loading: false
         }
     }
 }
