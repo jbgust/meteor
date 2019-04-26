@@ -39,7 +39,7 @@ export const demoResultData = {
         maxPressure: '59.36',
         thrustTime: '2.15',
         optimalDesign: true,
-        nozzleExitDiameter: '54.03 mm',
+        nozzleExitDiameter: '54.03',
         convergenceCrossSectionDiameter: 57.61,
         divergenceCrossSectionDiameter: 36.6356,
         exitSpeedInitial: '3.07',

@@ -252,10 +252,18 @@ export default {
     },
     watch: {
         demo(newValue, oldValue) {
+            // if leave demo
             if (newValue !== undefined && !newValue) {
                 this.asResult = false
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
+
+                // reset the default unit to IMPERIAL when exit demo
+                this.importInProgress = true
+                this.unitSelected = 'IMPERIAL'
+                Vue.nextTick(() => {
+                    this.importInProgress = false
+                }, this)
             }
         },
         unitSelected(newValue, oldValue) {
