@@ -264,12 +264,16 @@ describe('Import Validation', () => {
             divergenceAngle: 60,
             convergenceAngle: 35
         }
+        const fields = [
+            'divergenceAngle',
+            'convergenceAngle'
+        ]
 
-        Object.keys(requiredFields).forEach((key, value) => {
+        fields.forEach(field => {
             expect(validateJSONImport(json)).toBeFalsy()
-            assertAjvError('', `should have required property '${key}'`, { field: 'missingProperty', value: key })
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
-            json.configs[0].nozzleDesign[key] = value
+            json.configs[0].nozzleDesign[field] = requiredFields[field]
         })
     })
 })
