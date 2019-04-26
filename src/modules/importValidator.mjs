@@ -1,3 +1,11 @@
+const Ajv = require('ajv')
+
+export const ajvValidator = new Ajv({ useDefaults: true, coerceTypes: true })
+
+export function validateJSONImport(loadedConfig) {
+    return ajvValidator.validate(importValidatorSchema, loadedConfig)
+}
+
 export const importValidatorSchema = {
     type: 'object',
     properties: {
@@ -19,9 +27,9 @@ export const importValidatorSchema = {
                     coreDiameter: { type: 'number' },
                     segmentLength: { type: 'number' },
                     numberOfSegment: { type: 'number' },
-                    outerSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
-                    endsSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
-                    coreSurface: { type: 'string', pattern: '(^(INHIBITED)|(EXPOSED)$)' },
+                    outerSurface: { type: 'string', pattern: '^((INHIBITED)|(EXPOSED))$' },
+                    endsSurface: { type: 'string', pattern: '^((INHIBITED)|(EXPOSED))$' },
+                    coreSurface: { type: 'string', pattern: '^((INHIBITED)|(EXPOSED))$' },
                     propellantType: {
                         type: 'string',
                         pattern: '^((KNDX)|(KNER_COARSE)|(KNMN_COARSE)|(KNSB_COARSE)|(KNSB_FINE)|(KNSU))$'
@@ -83,6 +91,6 @@ export const importValidatorSchema = {
         }
     },
     required: [
-        'version'
+        'version', 'configs'
     ]
 }
