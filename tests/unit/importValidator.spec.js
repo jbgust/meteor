@@ -136,10 +136,31 @@ describe('Import Validation', () => {
         expect(validateJSONImport(jsonToValidate)).toBeTruthy()
     })
 
-    test('should import configs without nozzleDesign', () => {
+    test('should import measure unit', () => {
         let jsonToValidate = createDefaultJsonConfig()
-        delete jsonToValidate.configs[0].nozzleDesign
+        jsonToValidate.measureUnit = 'IMPERIAL'
         expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(jsonToValidate.measureUnit).toBe('IMPERIAL')
+    })
+
+    test('should replace invalid measure unit with SI', () => {
+        let jsonToValidate = createDefaultJsonConfig()
+        jsonToValidate.measureUnit = 'xSI'
+        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+
+        jsonToValidate.measureUnit = 'IMPERIALx'
+        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+
+        jsonToValidate.measureUnit = 'imperial'
+        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+    })
+
+    test('should use SI as default measure unit', () => {
+        let jsonToValidate = createDefaultJsonConfig()
+
+        expect(jsonToValidate.measureUnit).toBeUndefined()
+        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(jsonToValidate.measureUnit).toBe('SI')
     })
 
     test('should coerceTypes', () => {
@@ -182,11 +203,6 @@ describe('Import Validation', () => {
     test('should failed when version is missing', () => {
         expect(validateJSONImport({})).toBeFalsy()
         assertAjvError('', 'should have required property \'version\'', { field: 'missingProperty', value: 'version' })
-    })
-
-    test('should failed when configs is missing', () => {
-        expect(validateJSONImport({ version: 1 })).toBeFalsy()
-        assertAjvError('', 'should have required property \'configs\'', { field: 'missingProperty', value: 'configs' })
     })
 
     test('should failed when configs is missing', () => {

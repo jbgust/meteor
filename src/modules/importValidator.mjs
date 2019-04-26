@@ -13,7 +13,7 @@ export const importValidatorSchema = {
         measureUnit: {
             type: 'string',
             default: 'SI',
-            pattern: '(^(SI)|(IMPERIAL)$)'
+            pattern: '^((SI)|(IMPERIAL))$'
         },
         configs: {
             type: 'array',

@@ -152,6 +152,7 @@ export default {
         if (this.demo) {
             this.$refs.form.disabledControls(true)
             this.$refs.form.loadForm(this.demoForm)
+            this.unitSelected = 'SI'
             this.loadResult(this.demoResultData)
         }
     },
@@ -258,8 +259,11 @@ export default {
             }
         },
         unitSelected(newValue, oldValue) {
-            if (newValue !== oldValue && !this.importInProgress) {
-                this.displayUnitInfo = true
+            if (newValue !== oldValue && !this.demo) {
+                this.asResult = false
+                if (!this.importInProgress) {
+                    this.displayUnitInfo = true
+                }
             }
         }
     },
