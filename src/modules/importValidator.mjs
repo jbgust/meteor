@@ -1,4 +1,4 @@
-const Ajv = require('ajv')
+import Ajv from 'ajv'
 
 export const ajvValidator = new Ajv({ useDefaults: true, coerceTypes: true })
 

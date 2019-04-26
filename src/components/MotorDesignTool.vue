@@ -119,13 +119,11 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData } from '../modules/dataDemo'
-import { importValidatorSchema } from '../modules/importValidator'
+import { validateJSONImport, ajvValidator } from '../modules/importValidator'
+// see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
 
 Vue.use(Vuetify)
-
-// see : https://www.npmjs.com/package/ajv#related-packages
-const Ajv = require('ajv')
 
 export default {
     name: 'motor-design-tool',
@@ -174,8 +172,6 @@ export default {
             }, this)
         },
         loadFile(event) {
-            let ajv = new Ajv({ useDefaults: true, coerceTypes: true })
-
             let file = event.target.files[0]
             if (file) {
                 var reader = new FileReader()
@@ -184,7 +180,7 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (ajv.validate(importValidatorSchema, loadedConfig)) {
+                        if (validateJSONImport(loadedConfig)) {
                             me.importInProgress = true
                             me.displayImportError = false
                             me.asResult = false
@@ -197,7 +193,7 @@ export default {
                                 me.importInProgress = false
                             })
                         } else {
-                            console.error('import fail', ajv.errors)
+                            console.error('import fail', ajvValidator.errors)
                             me.errorMessage = 'The file is not valid'
                             me.displayImportError = true
                         }
