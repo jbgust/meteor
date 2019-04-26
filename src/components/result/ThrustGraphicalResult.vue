@@ -22,7 +22,8 @@ export default {
             chart: null,
             loadingGraphic: false,
             pressureSerie: null,
-            massFluxSerie: null
+            massFluxSerie: null,
+            categoryAxis: null
         }
     },
     props: {
@@ -37,10 +38,10 @@ export default {
         chart.exporting.menu = new am4core.ExportMenu()
 
         // Create axes
-        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
-        categoryAxis.dataFields.category = 'x'
-        categoryAxis.title.text = 'Burn time (sec.)'
-        categoryAxis.baseValue = 0
+        this.categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis())
+        this.categoryAxis.dataFields.category = 'x'
+        this.categoryAxis.title.text = 'Burn time (sec.)'
+        this.categoryAxis.baseValue = 0
 
         chart.colors.step = 2
 
@@ -51,7 +52,7 @@ export default {
 
         chart.cursor = new am4charts.XYCursor()
 
-        categoryAxis.adapter.add('getTooltipText', (text) => {
+        this.categoryAxis.adapter.add('getTooltipText', (text) => {
             return Number.parseFloat(text).toFixed(2)
         })
 
@@ -88,6 +89,9 @@ export default {
             valueAxis.renderer.grid.template.disabled = true
 
             return series
+        },
+        resetZoom() {
+            this.categoryAxis.zoom({ start: 0, end: 1 })
         }
     },
     watch: {

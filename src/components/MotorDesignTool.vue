@@ -164,6 +164,7 @@ export default {
         loadResult(data) {
             this.displayImportError = false
             this.displayUnitInfo = false
+            this.$refs.thrustGraphicalResult.resetZoom()
             this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
@@ -278,7 +279,7 @@ export default {
     computed: {
         units() {
             if (this.unitSelected === 'SI') {
-                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', massFluxUnit: 'Kg/s' }
+                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'bar', massFluxUnit: 'Kg/s' }
             } else {
                 return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', massFluxUnit: 'lb/s' }
             }
