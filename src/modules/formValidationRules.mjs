@@ -7,6 +7,13 @@ export function numberValidator(valueIfFalse = false) {
     return fieldValue => !isNaN(fieldValue) || valueIfFalse
 }
 
+export function integerValidator(valueIfFalse = false) {
+    return fieldValue => {
+        const convertedValue = typeof fieldValue === 'string' ? Number(fieldValue) : fieldValue
+        return Number.isInteger(convertedValue) || valueIfFalse
+    }
+}
+
 export function greaterThanValidator(minValueExcluded, valueIfFalse = false) {
     return fieldValue => (fieldValue > minValueExcluded) || valueIfFalse
 }
@@ -26,6 +33,14 @@ export function greaterThanRule(minValueExcluded) {
     return [
         requiredValidator('Field is required'),
         numberValidator('Value is not a number'),
+        greaterThanValidator(minValueExcluded, `Value must be > ${minValueExcluded}`)
+    ]
+}
+
+export function integerGreaterThanRule(minValueExcluded) {
+    return [
+        requiredValidator('Field is required'),
+        integerValidator('Value is not a integer'),
         greaterThanValidator(minValueExcluded, `Value must be > ${minValueExcluded}`)
     ]
 }

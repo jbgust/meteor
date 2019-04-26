@@ -16,7 +16,7 @@
                             <v-text-field id="coreDiameter" label="Grain core diameter" :suffix="units.lengthUnit" v-model="value.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
                             <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                             <v-text-field id="segmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
-                            <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="numericGreater0Rules" step="0.01" />
+                            <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                         </div>
                     </v-flex>
                 <v-flex d-flex lg6 md6>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { requiredRule, greaterThanRule } from '../../modules/formValidationRules'
+import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'motor-configuration',
@@ -57,6 +57,7 @@ export default {
                 { value: 'KNSU', text: 'KNSU', description: '65% KNO3 / 35% sucrose', idealDensity: '1.889 g/cm³' }
             ],
             numericGreater0Rules: greaterThanRule(0),
+            integerGreater0Rules: integerGreaterThanRule(0),
             requiredRules: requiredRule
         }
     },
