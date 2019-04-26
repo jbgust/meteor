@@ -28,7 +28,7 @@
                         ></v-divider>
                         <v-btn-toggle
                             v-model="unitSelected"
-                            class="transparent">
+                            class="transparent" mandatory>
                             <div>
                                 Units:
                                 <v-btn value="SI" flat>
@@ -59,6 +59,13 @@
                         color="warning"
                         icon="priority_high">
                         {{errorMessage}}
+                    </v-alert>
+
+                    <v-alert
+                        :value="displayUnitInfo"
+                        type="info"
+                    >
+                        Changing unit doesn't convert values in the form. Please check your values even in advanced settings.
                     </v-alert>
 
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
@@ -136,9 +143,11 @@ export default {
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
+            displayUnitInfo: false,
             nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 },
             showPerformanceInfo: true,
-            unitSelected: 'IMPERIAL'
+            unitSelected: 'IMPERIAL',
+            importInProgress: false
         }
     },
     mounted() {
@@ -155,6 +164,7 @@ export default {
         },
         loadResult(data) {
             this.displayImportError = false
+            this.displayUnitInfo = false
             this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
@@ -175,6 +185,7 @@ export default {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
                         if (ajv.validate(importValidatorSchema, loadedConfig)) {
+                            me.importInProgress = true
                             me.displayImportError = false
                             me.asResult = false
                             me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
@@ -183,6 +194,7 @@ export default {
                             // If nextTick is not here, the form will not be valid when call runComputation()
                             Vue.nextTick(() => {
                                 me.$refs.form.runComputation()
+                                me.importInProgress = false
                             })
                         } else {
                             console.error('import fail', ajv.errors)
@@ -247,6 +259,11 @@ export default {
                 this.asResult = false
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
+            }
+        },
+        unitSelected(newValue, oldValue) {
+            if (newValue !== oldValue && !this.importInProgress) {
+                this.displayUnitInfo = true
             }
         }
     },

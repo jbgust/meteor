@@ -20,7 +20,9 @@ export default {
     data() {
         return {
             chart: null,
-            loadingGraphic: false
+            loadingGraphic: false,
+            pressureSerie: null,
+            massFluxSerie: null
         }
     },
     props: {
@@ -43,8 +45,8 @@ export default {
         chart.colors.step = 2
 
         this.createAxisAndSeries(chart, 'kn', 'KN', true, 'triangle')
-        this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.pressureUnit)
-        this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', this.units.massFluxUnit)
+        this.pressureSerie = this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.pressureUnit)
+        this.massFluxSerie = this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', this.units.massFluxUnit)
         this.createAxisAndSeries(chart, 'y', 'Thrust', false, 'circle', 'N')
 
         chart.cursor = new am4charts.XYCursor()
@@ -84,6 +86,14 @@ export default {
             valueAxis.renderer.labels.template.fill = series.stroke
             valueAxis.renderer.opposite = opposite
             valueAxis.renderer.grid.template.disabled = true
+
+            return series
+        }
+    },
+    watch: {
+        units(newValue, oldValue) {
+            this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.pressureUnit}`
+            this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
         }
     },
     beforeDestroy() {

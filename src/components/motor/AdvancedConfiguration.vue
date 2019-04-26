@@ -5,7 +5,7 @@
               <v-card-title
                   class="headline grey lighten-2"
                   primary-title>
-                  Advance settings
+                  Advanced settings
               </v-card-title>
               <v-card-text>
                   <v-layout row wrap>
