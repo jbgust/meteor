@@ -1,7 +1,7 @@
 # Meteor
 A web application to help conception of solid rocket motor. This tool use the [JSRM library](https://github.com/jbgust/jsrm) (based on Richard Nakka SRM Excel file).
 
-**BUILD STATUS: ** [![CircleCI](https://circleci.com/gh/jbgust/meteor/tree/master.svg?style=svg)](https://circleci.com/gh/jbgust/meteor/tree/master)
+**BUILD STATUS:** [![CircleCI](https://circleci.com/gh/jbgust/meteor/tree/master.svg?style=svg)](https://circleci.com/gh/jbgust/meteor/tree/master)
 ## Project setup
 ```
 npm install
