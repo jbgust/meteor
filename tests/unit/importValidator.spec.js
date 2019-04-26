@@ -38,13 +38,13 @@ function createDefaultJsonConfig() {
 }
 
 function assertAjvError(dataPath, message = false, params = false) {
-    expect(ajvValidator.errors[0].dataPath).toMatch(dataPath)
+    expect(ajvValidator.errors[0].dataPath).toBe(dataPath)
     if (message) {
-        expect(ajvValidator.errors[0].message).toMatch(message)
+        expect(ajvValidator.errors[0].message).toBe(message)
     }
 
     if (params) {
-        expect(ajvValidator.errors[0].params[params.field]).toMatch(params.value)
+        expect(ajvValidator.errors[0].params[params.field]).toBe(params.value)
     }
 }
 
@@ -64,7 +64,7 @@ describe('Import Validation', () => {
         jsonToValidate.configs[0].propellantType = 'kndx'
         expect(validateJSONImport(jsonToValidate)).toBeFalsy()
 
-        assertAjvError('.propellantType')
+        assertAjvError('.configs[0].propellantType')
     })
 
     test('should not import invalid core surface', () => {
@@ -78,7 +78,7 @@ describe('Import Validation', () => {
         jsonToValidate.configs[0].coreSurface = 'inhibited'
         expect(validateJSONImport(jsonToValidate)).toBeFalsy()
 
-        assertAjvError('.coreSurface')
+        assertAjvError('.configs[0].coreSurface')
     })
 
     test('should not import invalid end surface', () => {
@@ -92,7 +92,7 @@ describe('Import Validation', () => {
         jsonToValidate.configs[0].endsSurface = 'inhibited'
         expect(validateJSONImport(jsonToValidate)).toBeFalsy()
 
-        assertAjvError('.endsSurface')
+        assertAjvError('.configs[0].endsSurface')
     })
 
     test('should not import invalid outer surface', () => {
@@ -106,7 +106,7 @@ describe('Import Validation', () => {
         jsonToValidate.configs[0].outerSurface = 'inhibited'
         expect(validateJSONImport(jsonToValidate)).toBeFalsy()
 
-        assertAjvError('.outerSurface')
+        assertAjvError('.configs[0].outerSurface')
     })
 
     test('should not import invalid version', () => {
@@ -226,7 +226,7 @@ describe('Import Validation', () => {
         ]
         requiredFields.forEach(field => {
             expect(validateJSONImport(json)).toBeFalsy()
-            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+            assertAjvError('.configs[0]', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json.configs[0][field] = fieldsValues[field]
         })
@@ -250,7 +250,7 @@ describe('Import Validation', () => {
 
         Object.keys(requiredFields).forEach((key, value) => {
             expect(validateJSONImport(json)).toBeFalsy()
-            assertAjvError('', `should have required property '${key}'`, { field: 'missingProperty', value: key })
+            assertAjvError('.configs[0].extraConfig', `should have required property '${key}'`, { field: 'missingProperty', value: key })
 
             json.configs[0].extraConfig[key] = value
         })
@@ -271,9 +271,41 @@ describe('Import Validation', () => {
 
         fields.forEach(field => {
             expect(validateJSONImport(json)).toBeFalsy()
-            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+            assertAjvError('.configs[0].nozzleDesign', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json.configs[0].nozzleDesign[field] = requiredFields[field]
         })
+    })
+
+    test('should failed when nozzleDesign has invalid field', () => {
+        let json = createDefaultJsonConfig()
+        json.configs[0].nozzleDesign = {
+            divergenceAngle: 0.9,
+            convergenceAngle: 35
+        }
+
+        expect(validateJSONImport(json)).toBeFalsy()
+        assertAjvError('.configs[0].nozzleDesign.divergenceAngle', 'should be >= 1')
+
+        json.configs[0].nozzleDesign = {
+            divergenceAngle: 90.1,
+            convergenceAngle: 35
+        }
+        expect(validateJSONImport(json)).toBeFalsy()
+        assertAjvError('.configs[0].nozzleDesign.divergenceAngle', 'should be <= 90')
+
+        json.configs[0].nozzleDesign = {
+            divergenceAngle: 45,
+            convergenceAngle: 0.9
+        }
+        expect(validateJSONImport(json)).toBeFalsy()
+        assertAjvError('.configs[0].nozzleDesign.convergenceAngle', 'should be >= 1')
+
+        json.configs[0].nozzleDesign = {
+            divergenceAngle: 45,
+            convergenceAngle: 91
+        }
+        expect(validateJSONImport(json)).toBeFalsy()
+        assertAjvError('.configs[0].nozzleDesign.convergenceAngle', 'should be <= 90')
     })
 })
