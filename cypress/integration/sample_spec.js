@@ -23,19 +23,20 @@ describe('First test', function() {
         cy.contains('SI').click()
         cy.get('input#name').should('have.value', '')
 
-        let selects = cy.get('.v-select__selections')
-        selects.eq(0).click()
+        cy.get('.v-select__selections')
+            .as('coreSurfaces').eq(0)
+            .click()
         cy.contains('KNDX').click()
 
-        cy.get('.v-select__selections').eq(1).click()
+        cy.get('@coreSurfaces').eq(1).click()
         cy.get('div.menuable__content__active')
             .contains('Exposed').click()
 
-        cy.get('.v-select__selections').eq(2).click()
+        cy.get('@coreSurfaces').eq(2).click()
         cy.get('div.menuable__content__active')
             .contains('Exposed').click()
 
-        cy.get('.v-select__selections').eq(3).click()
+        cy.get('@coreSurfaces').eq(3).click()
         cy.get('div.menuable__content__active')
             .contains('Inhibited').click()
 
