@@ -42,11 +42,14 @@ describe('First test', function() {
         cy.get('input#throatDiameter').type(17.39)
         cy.get('input#coreDiameter').type(20)
         cy.get('input#outerDiameter').type(69)
-        cy.get('input#segmentLength').type(4)
-        cy.get('input#numberOfSegment').type(115)
+        cy.get('input#segmentLength').type(115)
+        cy.get('input#numberOfSegment').type(4)
         cy.get('input#chamberInnerDiameter').type(75)
         cy.get('input#chamberLength').type(470)
 
         cy.contains('Submit').click()
+
+        cy.get('input#motor-class').should('have.value', 'L1672')
+        cy.get('div#thrust-chart')
     })
 })

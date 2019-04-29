@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-layout d-flex wrap>
-            <v-text-field hide-details outline class="resultElement" readonly label="Class" v-model="performance.motorDescription"></v-text-field>
+            <v-text-field hide-details outline class="resultElement" readonly id="motor-class" label="Class" v-model="performance.motorDescription"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Thrust time" suffix="s" v-model="performance.thrustTime"></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Max thrust" suffix="N" v-model="performance.maxThrust" ></v-text-field>
             <v-text-field hide-details outline class="resultElement" readonly label="Total impulse" suffix="Ns" v-model="performance.totalImpulse"></v-text-field>

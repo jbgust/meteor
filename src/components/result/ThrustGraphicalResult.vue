@@ -6,7 +6,7 @@
               <h3>Loading chart...</h3>
           </div>
       </div>
-      <div class="thrust-graphic" ref="motorParameters">
+      <div id="thrust-chart" class="thrust-graphic" ref="motorParameters">
       </div>
   </div>
 </template>
