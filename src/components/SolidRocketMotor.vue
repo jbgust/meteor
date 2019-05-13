@@ -125,6 +125,7 @@ export default {
                 const request = Object.assign({}, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
+                request.customPropellant = JSON.parse(localStorage.getItem('CUSTOM_PROPELLANT'))
                 return request
             } else {
                 return null

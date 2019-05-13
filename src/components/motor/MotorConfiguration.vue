@@ -7,6 +7,20 @@
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
                       :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />
+            <v-flex class="add-propellant-icon">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-btn flat icon @click="addCustomPropellant" v-on="on">
+                            <v-icon>add</v-icon>
+                            <v-icon>playlist_add</v-icon>
+                            <v-icon>create</v-icon>
+                            <v-icon>note_add</v-icon>
+                            <v-icon>library_add</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Add custom propellant</span>
+                </v-tooltip>
+            </v-flex>
         </v-flex>
         <v-flex d-flex lg12>
             <v-layout row wrap>
@@ -64,12 +78,37 @@ export default {
     computed: {
         propellantHint() {
             const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantType)
-            if (matchingPropellants.length === 1) {
+            if (matchingPropellants.length === 1 && !!matchingPropellants[0].description && !!matchingPropellants[0].idealDensity) {
                 return `${matchingPropellants[0].description} (${matchingPropellants[0].idealDensity})`
             } else {
                 return ''
             }
         }
+    },
+    methods: {
+        addCustomPropellant() {
+            this.propellantType.unshift({ value: 'CUSTOM_PROPELLANT', text: 'Your propellant' })
+            this.value.propellantType = 'CUSTOM_PROPELLANT'
+            localStorage.setItem('CUSTOM_PROPELLANT',
+                JSON.stringify(
+                    {
+                        'burnRateCoefficient': 0.0174,
+                        'pressureExponent': 0.4285,
+                        'cstar': 5468.4,
+                        'density': 0.06,
+                        'k': 1.2768,
+                        'k2ph': null,
+                        'chamberTemperature': null,
+                        'molarMass': 45.0,
+                        'burnRateDataSet': null
+                    }))
+        }
     }
 }
 </script>
+
+<style scoped>
+    .add-propellant-icon {
+        max-width: 40px;
+    }
+</style>
