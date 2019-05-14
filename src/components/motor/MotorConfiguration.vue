@@ -49,6 +49,7 @@
 
 <script>
 import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
+import { setCustomPropellant } from '../../modules/customPropellant'
 
 export default {
     name: 'motor-configuration',
@@ -87,21 +88,21 @@ export default {
     },
     methods: {
         addCustomPropellant() {
-            this.propellantType.unshift({ value: 'CUSTOM_PROPELLANT', text: 'Your propellant' })
-            this.value.propellantType = 'CUSTOM_PROPELLANT'
-            localStorage.setItem('CUSTOM_PROPELLANT',
-                JSON.stringify(
-                    {
-                        'burnRateCoefficient': 0.0174,
-                        'pressureExponent': 0.4285,
-                        'cstar': 5468.4,
-                        'density': 0.06,
-                        'k': 1.2768,
-                        'k2ph': null,
-                        'chamberTemperature': null,
-                        'molarMass': 45.0,
-                        'burnRateDataSet': null
-                    }))
+            let customPropellant = { value: 'CUSTOM_Your propellant', text: 'Your propellant' }
+            this.propellantType.unshift(customPropellant)
+            this.value.propellantType = customPropellant.value
+            setCustomPropellant('Your propellant',
+                {
+                    'burnRateCoefficient': 0.0174,
+                    'pressureExponent': 0.4285,
+                    'cstar': 5468.4,
+                    'density': 0.06,
+                    'k': 1.2768,
+                    'k2ph': null,
+                    'chamberTemperature': null,
+                    'molarMass': 45.0,
+                    'burnRateDataSet': null
+                })
         }
     }
 }
