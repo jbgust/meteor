@@ -21,3 +21,6 @@ junit.xml
 *.sln
 *.sw*
 *.iml
+
+/cypress/screenshots
+/cypress/videos
