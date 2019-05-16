@@ -20,9 +20,10 @@ describe('Load/save custom propellant', () => {
 
     test('should save propellant', () => {
         let propellant = { text: 'fakePropellant' }
-        setCustomPropellant('my Propellant', propellant)
+        let propellantId = setCustomPropellant('my Propellant', propellant);
 
-        expect(localStorage.getItem('CUSTOM_my Propellant')).toBe(JSON.stringify(propellant))
+        expect(propellantId).toBe('CUSTOM_my Propellant')
+        expect(localStorage.getItem(propellantId)).toBe(JSON.stringify(propellant))
     })
 
     test('should get propellant', () => {
