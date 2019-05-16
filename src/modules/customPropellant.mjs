@@ -11,5 +11,7 @@ export function getCustomPropellant(propellantId) {
 }
 
 export function setCustomPropellant(propellantName, propellant) {
-    return localStorage.setItem(getPropellantID(propellantName), JSON.stringify(propellant))
+    let propellantID = getPropellantID(propellantName)
+    localStorage.setItem(propellantID, JSON.stringify(propellant))
+    return propellantID
 }

@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-layout column>
         <v-flex d-flex lg12>
             <v-text-field box hide-details id="name" label="Motor name" v-model="value.name" />
@@ -11,11 +11,7 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <v-btn flat icon @click="addCustomPropellant" v-on="on">
-                            <v-icon>add</v-icon>
                             <v-icon>playlist_add</v-icon>
-                            <v-icon>create</v-icon>
-                            <v-icon>note_add</v-icon>
-                            <v-icon>library_add</v-icon>
                         </v-btn>
                     </template>
                     <span>Add custom propellant</span>
@@ -42,17 +38,20 @@
                             <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
                         </div>
                     </v-flex>
-                </v-layout>
+            </v-layout>
         </v-flex>
+        <custom-propellant-dialog ref="customPropellantDialog" @save-propellant="savePropellant"/>
     </v-layout>
 </template>
 
 <script>
 import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
 import { setCustomPropellant } from '../../modules/customPropellant'
+import CustomPropellantDialog from './CustomPropellantDialog'
 
 export default {
     name: 'motor-configuration',
+    components: {CustomPropellantDialog},
     props: {
         value: Object,
         units: Object
@@ -88,21 +87,13 @@ export default {
     },
     methods: {
         addCustomPropellant() {
-            let customPropellant = { value: 'CUSTOM_Your propellant', text: 'Your propellant' }
+            this.$refs.customPropellantDialog.show();
+        },
+        savePropellant(propellant) {
+            let propellantId = setCustomPropellant(propellant.name, propellant);
+            let customPropellant = { value: propellantId, text: propellant.name }
             this.propellantType.unshift(customPropellant)
             this.value.propellantType = customPropellant.value
-            setCustomPropellant('Your propellant',
-                {
-                    'burnRateCoefficient': 0.0174,
-                    'pressureExponent': 0.4285,
-                    'cstar': 5468.4,
-                    'density': 0.06,
-                    'k': 1.2768,
-                    'k2ph': null,
-                    'chamberTemperature': null,
-                    'molarMass': 45.0,
-                    'burnRateDataSet': null
-                })
         }
     }
 }

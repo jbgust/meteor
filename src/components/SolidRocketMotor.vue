@@ -128,9 +128,7 @@ export default {
                 request.measureUnit = this.units.type
 
                 if(isCustomPropellant(this.formValue.propellantType)){
-                    console.log(request.propellantType, getCustomPropellant(request.propellantType))
                     request.customPropellant = getCustomPropellant(request.propellantType)
-                    console.log(request)
                 }
 
                 return request
