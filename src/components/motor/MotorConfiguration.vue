@@ -40,7 +40,7 @@
                     </v-flex>
             </v-layout>
         </v-flex>
-        <custom-propellant-dialog ref="customPropellantDialog" @save-propellant="savePropellant"/>
+        <custom-propellant-dialog ref="customPropellantDialog" :units="units" @save-propellant="loadPropellant"/>
     </v-layout>
 </template>
 
@@ -51,7 +51,7 @@ import CustomPropellantDialog from './CustomPropellantDialog'
 
 export default {
     name: 'motor-configuration',
-    components: {CustomPropellantDialog},
+    components: { CustomPropellantDialog },
     props: {
         value: Object,
         units: Object
@@ -89,8 +89,8 @@ export default {
         addCustomPropellant() {
             this.$refs.customPropellantDialog.show();
         },
-        savePropellant(propellant) {
-            let propellantId = setCustomPropellant(propellant.name, propellant);
+        loadPropellant(propellant) {
+            let propellantId = setCustomPropellant('propellant', propellant)
             let customPropellant = { value: propellantId, text: propellant.name }
             this.propellantType.unshift(customPropellant)
             this.value.propellantType = customPropellant.value

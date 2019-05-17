@@ -7,6 +7,14 @@ export function numberValidator(valueIfFalse = false) {
     return fieldValue => !isNaN(fieldValue) || valueIfFalse
 }
 
+function isFieldEmpty(fieldValue) {
+    return fieldValue == null || fieldValue === ''
+}
+
+export function numberValidatorNotRequired(valueIfFalse = false) {
+    return fieldValue => isFieldEmpty(fieldValue) || !isNaN(fieldValue) || valueIfFalse
+}
+
 export function integerValidator(valueIfFalse = false) {
     return fieldValue => {
         const convertedValue = typeof fieldValue === 'string' ? Number(fieldValue) : fieldValue
@@ -14,20 +22,31 @@ export function integerValidator(valueIfFalse = false) {
     }
 }
 
+export function rangeValidator(minValue, maxValue, valueIfFalse = false) {
+    return fieldValue => (fieldValue >= minValue && fieldValue <= maxValue) || valueIfFalse
+}
+
 export function greaterThanValidator(minValueExcluded, valueIfFalse = false) {
     return fieldValue => (fieldValue > minValueExcluded) || valueIfFalse
+}
+
+export function greaterThanValidatorNotRequired(minValueExcluded, valueIfFalse = false) {
+    return fieldValue => isFieldEmpty(fieldValue) || (fieldValue > minValueExcluded) || valueIfFalse
 }
 
 export function greaterOrEqualsThanValidator(minValue, valueIfFalse = false) {
     return fieldValue => (fieldValue >= minValue) || valueIfFalse
 }
 
-export function rangeValidator(minValue, maxValue, valueIfFalse = false) {
-    return fieldValue => (fieldValue >= minValue && fieldValue <= maxValue) || valueIfFalse
-}
-
 // Form Rules
 export const requiredRule = [requiredValidator('Field is required')]
+
+export function greaterThanRuleNotRequired(minValueExcluded) {
+    return [
+        numberValidatorNotRequired('Value is not a number'),
+        greaterThanValidatorNotRequired(minValueExcluded, `Value must be > ${minValueExcluded}`)
+    ]
+}
 
 export function greaterThanRule(minValueExcluded) {
     return [
@@ -49,7 +68,7 @@ export function greaterOrEqualsThanRule(minValue) {
     return [
         requiredValidator('Field is required'),
         numberValidator('Value is not a number'),
-        greaterOrEqualsThanValidator(minValue, `Value must be >=  ${minValue}`)
+        greaterOrEqualsThanValidator(minValue, `Value must be >= ${minValue}`)
     ]
 }
 

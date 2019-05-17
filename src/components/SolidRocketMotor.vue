@@ -128,7 +128,7 @@ export default {
                 request.measureUnit = this.units.type
 
                 if(isCustomPropellant(this.formValue.propellantType)){
-                    request.customPropellant = getCustomPropellant(request.propellantType)
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
 
                 return request
@@ -138,7 +138,7 @@ export default {
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
             if(isCustomPropellant(formData.propellantType)){
-                this.$refs.motorConfiguration.addCustomPropellant()
+                this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
             }
 
             this.extraConfig = extraConfig
