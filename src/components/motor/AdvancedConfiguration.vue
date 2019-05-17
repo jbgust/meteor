@@ -22,7 +22,7 @@
                               <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="value.nozzleEfficiency" :rules="ratioRules"/>
-                              <v-checkbox label="Optimal nozzle design:" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
+                              <v-checkbox label="Optimal nozzle design" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
                               <v-text-field id="nozzleExpansionRatio" v-if="!value.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="value.nozzleExpansionRatio" :rules="expansionRules"/>
                           </div>
                       </v-flex>

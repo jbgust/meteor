@@ -59,7 +59,7 @@ import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
-import {getCustomPropellant, isCustomPropellant} from '../modules/customPropellant'
+import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 
 export default {
     name: 'solid-rocket-motor',
@@ -127,7 +127,7 @@ export default {
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
 
-                if(isCustomPropellant(this.formValue.propellantType)){
+                if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
 
@@ -137,7 +137,7 @@ export default {
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
-            if(isCustomPropellant(formData.propellantType)){
+            if (isCustomPropellant(formData.propellantType)) {
                 this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
             }
 

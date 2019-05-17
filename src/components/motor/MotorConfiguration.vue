@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         addCustomPropellant() {
-            this.$refs.customPropellantDialog.show();
+            this.$refs.customPropellantDialog.show()
         },
         loadPropellant(propellant) {
             let propellantId = setCustomPropellant('propellant', propellant)

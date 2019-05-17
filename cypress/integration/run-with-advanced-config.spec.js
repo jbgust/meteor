@@ -10,7 +10,7 @@ describe('Run computation with advanced settings', function() {
 
         cy.get('button').contains('settings').click()
 
-        cy.get('label').contains('Optimal nozzle design:').click()
+        cy.get('label').contains('Optimal nozzle design').click()
         cy.get('input#nozzleExpansionRatio').type(1)
 
         cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Close').click()

@@ -6,7 +6,8 @@
                     Custom propellant
                 </v-toolbar-title>
             </v-toolbar>
-            <v-card-text>
+            <!-- v-if="dialog" is here to disable inputs when popup is not show to prevent form validation failure -->
+            <v-card-text v-if="dialog">
                 <v-container grid-list-md>
                 <v-layout row wrap align-center justify-center>
                     <v-flex lg6 md6>
