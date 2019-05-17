@@ -99,9 +99,16 @@ export default {
         show(showHelp = true) {
             let customPropellant = getCustomPropellant('CUSTOM_propellant')
             this.propellant = customPropellant || {}
+
+            this.useK2ph = !!this.propellant.k2ph
+            this.useChamberTemperature = !!this.propellant.chamberTemperature
+
             this.dialog = showHelp
         },
         savePropellant() {
+            this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
+            this.propellant.chamberTemperature = this.useChamberTemperature ? this.propellant.chamberTemperature : null
+            // Faire une validation manuelle (comme advance config) mais dans un mjs pour être testé avec JEST
             this.$emit('save-propellant', this.propellant)
             this.dialog = false
         }
