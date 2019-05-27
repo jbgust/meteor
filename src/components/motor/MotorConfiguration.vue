@@ -46,7 +46,7 @@
 
 <script>
 import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
-import { setCustomPropellant } from '../../modules/customPropellant'
+import { getCustomPropellant, setCustomPropellant } from '../../modules/customPropellant'
 import CustomPropellantDialog from './CustomPropellantDialog'
 
 export default {
@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         addCustomPropellant() {
-            this.$refs.customPropellantDialog.show()
+            this.$refs.customPropellantDialog.show(getCustomPropellant('CUSTOM_propellant'))
         },
         loadPropellant(propellant) {
             let propellantId = setCustomPropellant('propellant', propellant)

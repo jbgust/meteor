@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { getCustomPropellant } from '../../modules/customPropellant'
+import { validatePropellant } from '../../modules/customPropellant'
 import { greaterThanRule, greaterThanRuleNotRequired } from '../../modules/formValidationRules'
 
 export default {
@@ -96,21 +96,24 @@ export default {
         }
     },
     methods: {
-        show(showHelp = true) {
-            let customPropellant = getCustomPropellant('CUSTOM_propellant')
+        show(customPropellant, show = true) {
             this.propellant = customPropellant || {}
 
             this.useK2ph = !!this.propellant.k2ph
             this.useChamberTemperature = !!this.propellant.chamberTemperature
 
-            this.dialog = showHelp
+            this.dialog = show
         },
         savePropellant() {
             this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
             this.propellant.chamberTemperature = this.useChamberTemperature ? this.propellant.chamberTemperature : null
-            // Faire une validation manuelle (comme advance config) mais dans un mjs pour être testé avec JEST
-            this.$emit('save-propellant', this.propellant)
-            this.dialog = false
+
+            if (validatePropellant(this.propellant)) {
+                this.$emit('save-propellant', this.propellant)
+                this.dialog = false
+            } else {
+                console.error('cutom propellant not valid', this.propellant)
+            }
         }
     }
 }
