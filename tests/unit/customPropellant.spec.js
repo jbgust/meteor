@@ -58,6 +58,7 @@ describe('Custom propellant validation', () => {
 
     test('should fail if cstar is invalid', () => {
         const propellant = createCustomPropellant()
+        propellant.chamberTemperature = null
 
         propellant.cstar = 0
         expect(validatePropellant(propellant)).toBeFalsy()
@@ -160,6 +161,23 @@ describe('Custom propellant validation', () => {
         // not required
         propellant.chamberTemperature = null
         expect(validatePropellant(propellant)).toBeTruthy()
+    })
+
+    test('C* should not be required if chamber temperature is set and vice versa', () => {
+        const propellant = createCustomPropellant()
+
+        propellant.chamberTemperature = 1720
+        propellant.cstar = null
+        expect(validatePropellant(propellant)).toBeTruthy()
+
+        propellant.chamberTemperature = null
+        propellant.cstar = 880
+        expect(validatePropellant(propellant)).toBeTruthy()
+
+        propellant.chamberTemperature = null
+        propellant.cstar = null
+        expect(validatePropellant(propellant)).toBeFalsy()
+
     })
 })
 

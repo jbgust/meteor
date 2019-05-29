@@ -38,6 +38,7 @@
                             <v-flex d-flex lg12>
                                 <v-switch
                                     hide-details
+                                    id="k2ph-switch"
                                     v-model="useK2ph"
                                     label="Use specific heat ratio for two-phase flow">
                                 </v-switch>
@@ -48,6 +49,7 @@
                             <v-flex d-flex lg12>
                                 <v-switch
                                     hide-details
+                                    id="chamberTemperature-switch"
                                     v-model="useChamberTemperature"
                                     label="Set chamber temperature">
                                 </v-switch>

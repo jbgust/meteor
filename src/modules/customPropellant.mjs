@@ -13,7 +13,7 @@ export function getCustomPropellant(propellantId) {
 }
 
 export function validatePropellant(propellant) {
-    return greaterThanValidator(0)(propellant.cstar) &&
+    return (greaterThanValidator(0)(propellant.cstar) || greaterThanValidator(0)(propellant.chamberTemperature)) &&
         greaterThanValidator(0)(propellant.burnRateCoefficient) &&
         greaterThanValidator(0)(propellant.pressureExponent) &&
         greaterThanValidator(0)(propellant.k) &&

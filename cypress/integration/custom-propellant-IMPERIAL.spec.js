@@ -91,7 +91,7 @@ describe('Use custom propellant', function() {
         cy.contains('Submit').click()
     })
 
-    it('Should check result', () => {
+    it('Should check result in IMPERIALS', () => {
         cy.get('input#motor-class')
             .should('have.value', 'M1660')
 
@@ -133,4 +133,5 @@ describe('Use custom propellant', function() {
         cy.get('span')
             .contains('Optimally designed nozzle with an expansion ratio of 6.29')
     })
+
 })
