@@ -10,7 +10,7 @@
             <v-flex class="add-propellant-icon">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <v-btn flat icon @click="addCustomPropellant" v-on="on">
+                        <v-btn flat icon @click="addCustomPropellant" v-on="on" id="custom-propellant-add">
                             <v-icon>playlist_add</v-icon>
                         </v-btn>
                     </template>

@@ -108,6 +108,9 @@ export default {
             this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
             this.propellant.chamberTemperature = this.useChamberTemperature ? this.propellant.chamberTemperature : null
 
+            const hasName = this.propellant.name == null || this.propellant.name === ''
+            this.propellant.name = hasName ? 'My propellant' : this.propellant.name
+
             if (validatePropellant(this.propellant)) {
                 this.$emit('save-propellant', this.propellant)
                 this.dialog = false
