@@ -19,7 +19,7 @@
                                 <v-layout row wrap>
                                     <v-flex d-flex lg6 md6>
                                         <div>
-                                            <v-text-field id="cstar" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
+                                            <v-text-field id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
                                             <v-text-field id="burnRateCoefficient" :hint="hintBurnRate" label="Burn rate coefficient" v-model="propellant.burnRateCoefficient" :rules="numericGreater0Rules" step="0.01" />
                                             <v-text-field id="pressureExponent" :hint="hintBurnRate" label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" />
                                         </div>
@@ -38,17 +38,6 @@
                             <v-flex d-flex lg12>
                                 <v-switch
                                     hide-details
-                                    id="k2ph-switch"
-                                    v-model="useK2ph"
-                                    label="Use specific heat ratio for two-phase flow">
-                                </v-switch>
-                            </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-text-field id="k2ph" v-show="useK2ph" label="k2ph" hint="Specific heat ratio for two-phase flow" v-model="propellant.k2ph" :rules="numericGreater0RulesNotrequired" step="0.01"/>
-                            </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-switch
-                                    hide-details
                                     id="chamberTemperature-switch"
                                     v-model="useChamberTemperature"
                                     label="Set chamber temperature">
@@ -56,6 +45,17 @@
                             </v-flex>
                             <v-flex d-flex lg12>
                                 <v-text-field id="chamberTemperature" v-show="useChamberTemperature" suffix="K" label="Chamber temperature" v-model="propellant.chamberTemperature" :rules="numericGreater0RulesNotrequired" step="0.01"/>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-switch
+                                hide-details
+                                id="k2ph-switch"
+                                v-model="useK2ph"
+                                label="Use specific heat ratio for two-phase flow">
+                                </v-switch>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-text-field id="k2ph" v-show="useK2ph" label="k2ph" hint="Specific heat ratio for two-phase flow" v-model="propellant.k2ph" :rules="numericGreater0RulesNotrequired" step="0.01"/>
                             </v-flex>
                             <v-flex lg12 style="text-align: right;">
                                 <v-btn
