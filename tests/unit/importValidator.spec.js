@@ -67,6 +67,20 @@ describe('Import Validation', () => {
         assertAjvError('.configs[0].propellantType')
     })
 
+    test('should import custom propellant', () => {
+        let jsonToValidate = createDefaultJsonConfig()
+        jsonToValidate.configs[0].propellantType = 'CUSTOM_idPropellant'
+        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+
+        jsonToValidate.configs[0].propellantType = 'custom_'
+        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+
+        jsonToValidate.configs[0].propellantType = 'xCUSTOM_'
+        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+
+        assertAjvError('.configs[0].propellantType')
+    })
+
     test('should not import invalid core surface', () => {
         let jsonToValidate = createDefaultJsonConfig()
         jsonToValidate.configs[0].coreSurface = 'INHIBITEDd'

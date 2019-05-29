@@ -19,7 +19,7 @@
                                     Reliable results : Meteor uses the same calculation model as the famous <a class="block1-link" href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
                                 </li>
                                 <li>
-                                    6 native propellants
+                                    6 native propellants and you can also configure your own propellant
                                 </li>
                                 <li>
                                     Easy to use
@@ -60,9 +60,6 @@
                     <div class="block-text">
                             <ul>
                                 <li>
-                                    New propellants: APCP, ...
-                                </li>
-                                <li>
                                     New grain configurations
                                 </li>
                                 <li>
@@ -70,9 +67,6 @@
                                 </li>
                                 <li>
                                     Automatic optimization of the configuration (ex: finding best grain core diameter)
-                                </li>
-                                <li>
-                                    Additionnal units (US Standard Units)
                                 </li>
                                 <li>
                                     Support of other languages (contribution needed, feel free to contact us)

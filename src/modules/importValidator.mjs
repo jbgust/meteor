@@ -32,7 +32,7 @@ export const importValidatorSchema = {
                     coreSurface: { type: 'string', pattern: '^((INHIBITED)|(EXPOSED))$' },
                     propellantType: {
                         type: 'string',
-                        pattern: '^((KNDX)|(KNER_COARSE)|(KNMN_COARSE)|(KNSB_COARSE)|(KNSB_FINE)|(KNSU))$'
+                        pattern: '(^((KNDX)|(KNER_COARSE)|(KNMN_COARSE)|(KNSB_COARSE)|(KNSB_FINE)|(KNSU))$)|(^CUSTOM_)'
                     },
                     chamberInnerDiameter: { type: 'number' },
                     chamberLength: { type: 'number' },

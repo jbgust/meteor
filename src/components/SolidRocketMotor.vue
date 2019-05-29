@@ -2,7 +2,7 @@
     <v-container>
         <v-form ref="formJSRM">
 
-            <motor-configuration v-model="formValue" :units="units"/>
+            <motor-configuration v-model="formValue" :units="units" ref="motorConfiguration"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <v-btn v-if="!disabledButtons" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
@@ -59,6 +59,7 @@ import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
+import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 
 export default {
     name: 'solid-rocket-motor',
@@ -125,12 +126,21 @@ export default {
                 const request = Object.assign({}, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
+
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
+
                 return request
             } else {
                 return null
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
+            if (isCustomPropellant(formData.propellantType)) {
+                this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
+            }
+
             this.extraConfig = extraConfig
             this.formValue = formData
             this.$refs.formJSRM.resetValidation()

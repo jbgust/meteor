@@ -47,6 +47,8 @@
 
 <script>
 import { rangeRule } from '../../modules/formValidationRules'
+import { computeNozzleLength } from '../../modules/computationUtils'
+
 export default {
     name: 'NozzleDesign',
     data() {
@@ -62,7 +64,7 @@ export default {
     },
     methods: {
         computeResult(sectionDiameter, angle) {
-            return Number.parseFloat(sectionDiameter / 2 / Math.tan(angle / 2 * Math.PI / 180)).toFixed(2) + ' ' + this.units.lengthUnit
+            return computeNozzleLength(sectionDiameter, angle).toFixed(2) + ' ' + this.units.lengthUnit
         },
         formIsValid() {
             return this.$refs.nozzleDesignForm ? this.$refs.nozzleDesignForm.validate() : true
