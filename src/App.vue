@@ -1,9 +1,5 @@
 <template>
     <v-app id="inspire">
-        <!-- TODO : https://vuetifyjs.com/en/framework/icons -->
-        <head>
-            <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
-        </head>
         <v-toolbar color="indigo" dark fixed app>
             <v-toolbar-items>
                 <v-btn flat :to="'/home'">
