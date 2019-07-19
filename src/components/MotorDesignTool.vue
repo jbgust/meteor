@@ -278,7 +278,7 @@ export default {
     computed: {
         units() {
             if (this.unitSelected === 'SI') {
-                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
+                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'Bar', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
             } else {
                 return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
             }

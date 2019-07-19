@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "measureUnit": "IMPERIAL",
+  "configs": [
+    {
+      "throatDiameter": 0.27559055118,
+      "outerDiameter": 1.1023622047,
+      "coreDiameter": 0.55118110236,
+      "segmentLength": 3.1496062992,
+      "numberOfSegment": 1,
+      "outerSurface": "INHIBITED",
+      "endsSurface": "INHIBITED",
+      "coreSurface": "EXPOSED",
+      "propellantType": "KNSB_FINE",
+      "chamberInnerDiameter": 1.1023622047,
+      "chamberLength": 3.1496062992,
+      "extraConfig": {
+        "densityRatio": 0.95,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.95,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": null,
+        "optimalNozzleDesign": true
+      },
+      "nozzleDesign": {
+        "divergenceAngle": 18,
+        "convergenceAngle": 38
+      }
+    }
+  ]
+}

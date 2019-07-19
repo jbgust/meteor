@@ -98,12 +98,12 @@ describe('Run computation with advanced settings', function() {
         cy.get('input#max-pressure')
             .should('have.value', '21.87')
             .parent()
-            .contains('MPa')
+            .contains('Bar')
 
         cy.get('input#average-pressure')
             .should('have.value', '16.00')
             .parent()
-            .contains('MPa')
+            .contains('Bar')
 
         cy.get('input#nozzle-exit-speed')
             .should('have.value', '1.00')

@@ -129,12 +129,12 @@ describe('Use custom propellant', function() {
         cy.get('input#max-pressure')
             .should('have.value', '70.36')
             .parent()
-            .contains('MPa')
+            .contains('Bar')
 
         cy.get('input#average-pressure')
             .should('have.value', '62.07')
             .parent()
-            .contains('MPa')
+            .contains('Bar')
 
         cy.get('input#nozzle-exit-speed')
             .should('have.value', '3.19')
