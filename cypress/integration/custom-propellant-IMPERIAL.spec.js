@@ -1,4 +1,4 @@
-describe('Use custom propellant', function() {
+describe('Use custom propellant in IMPERIAL', function() {
     it('Should set custom propellant in IMPERIAL', function() {
         cy.visit('http://localhost:8080/#/motorDesign')
 

@@ -13,6 +13,16 @@ describe('Run computation with advanced settings', function() {
         cy.get('label').contains('Optimal nozzle design').click()
         cy.get('input#nozzleExpansionRatio').type(1)
 
+        cy.get('input#ambiantPressureInMPa')
+            .clear()
+            .type(0.0845)
+            .parent()
+            .contains('MPa')
+            .parent()
+            .parent()
+            .parent()
+            .contains('12.255 psi')
+
         cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Close').click()
     })
 
@@ -81,17 +91,17 @@ describe('Run computation with advanced settings', function() {
             .contains('s')
 
         cy.get('input#max-thrust')
-            .should('have.value', '95.25')
+            .should('have.value', '95.18')
             .parent()
             .contains('N')
 
         cy.get('input#total-impulse')
-            .should('have.value', '64.90')
+            .should('have.value', '64.85')
             .parent()
             .contains('Ns')
 
         cy.get('input#specific-impulse')
-            .should('have.value', '102.43')
+            .should('have.value', '102.35')
             .parent()
             .contains('s')
 
@@ -101,7 +111,7 @@ describe('Run computation with advanced settings', function() {
             .contains('Bar')
 
         cy.get('input#average-pressure')
-            .should('have.value', '16.00')
+            .should('have.value', '15.99')
             .parent()
             .contains('Bar')
 

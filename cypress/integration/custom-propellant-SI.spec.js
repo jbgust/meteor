@@ -1,4 +1,4 @@
-describe('Use custom propellant', function() {
+describe('Use custom propellant in SI', function() {
 
     it('Should set custom propellant in SI', function() {
         cy.visit('http://localhost:8080/#/motorDesign')
