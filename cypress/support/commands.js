@@ -24,13 +24,15 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-
 function getLengthUnit(units) {
     return units === 'SI' ? 'mm' : 'inch'
 }
 
-Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
+function getPressureUnit(units) {
+    return units === 'SI' ? 'Bar' : 'psi'
+}
 
+Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     cy.contains(units).click()
     cy.get('input#name').should('have.value', '')
 
@@ -85,7 +87,54 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
         .parent()
         .contains(getLengthUnit(units))
 
-    if(submit){
+    if (submit) {
         cy.contains('Submit').click()
+    }
+})
+
+Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
+    cy.get('input#motor-class')
+        .should('have.value', expectedResults.motorClasss)
+
+    cy.get('input#thrust-time')
+        .should('have.value', expectedResults.thrustTime)
+        .parent()
+        .contains('s')
+
+    cy.get('input#max-thrust')
+        .should('have.value', expectedResults.maxThrust)
+        .parent()
+        .contains('N')
+
+    cy.get('input#total-impulse')
+        .should('have.value', expectedResults.totalImpulse)
+        .parent()
+        .contains('Ns')
+
+    cy.get('input#specific-impulse')
+        .should('have.value', expectedResults.isp)
+        .parent()
+        .contains('s')
+
+    cy.get('input#max-pressure')
+        .should('have.value', expectedResults.maxPressure)
+        .parent()
+        .contains(getPressureUnit(units))
+
+    cy.get('input#average-pressure')
+        .should('have.value', expectedResults.averagePressure)
+        .parent()
+        .contains(getPressureUnit(units))
+
+    cy.get('input#nozzle-exit-speed')
+        .should('have.value', expectedResults.nozzleExitSpeed)
+        .parent()
+        .contains('Mach')
+
+    if (expectedResults.optimalExpansionRatio) {
+        cy.get('span')
+            .contains('Optimally designed nozzle with an expansion ratio of ' + expectedResults.optimalExpansionRatio)
+    } else {
+        cy.get('span').should('not.contain', 'Optimally designed')
     }
 })

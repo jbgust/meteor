@@ -70,45 +70,18 @@ describe('Use custom propellant in SI', function() {
         cy.fillForm(formDatas, 'SI')
 
         // check result
-        cy.get('input#motor-class')
-            .should('have.value', 'L2174')
+        const expectedResults = {
+            motorClasss: 'L2174',
+            thrustTime: '1.71',
+            maxThrust: '2479.63',
+            totalImpulse: '3726.09',
+            isp: '134.39',
+            maxPressure: '70.36',
+            averagePressure: '62.07',
+            nozzleExitSpeed: '3.19',
+            optimalExpansionRatio: '11.71'
+        }
 
-        cy.get('input#thrust-time')
-            .should('have.value', '1.71')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-thrust')
-            .should('have.value', '2479.63')
-            .parent()
-            .contains('N')
-
-        cy.get('input#total-impulse')
-            .should('have.value', '3726.09')
-            .parent()
-            .contains('Ns')
-
-        cy.get('input#specific-impulse')
-            .should('have.value', '134.39')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-pressure')
-            .should('have.value', '70.36')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#average-pressure')
-            .should('have.value', '62.07')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#nozzle-exit-speed')
-            .should('have.value', '3.19')
-            .parent()
-            .contains('Mach')
-
-        cy.get('span')
-            .contains('Optimally designed nozzle with an expansion ratio of 11.71')
+        cy.checkPerformanceResults(expectedResults, 'SI')
     })
 })

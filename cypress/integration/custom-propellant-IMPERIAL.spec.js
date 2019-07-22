@@ -59,46 +59,20 @@ describe('Use custom propellant in IMPERIAL', function() {
     })
 
     it('Should check result in IMPERIALS', () => {
-        cy.get('input#motor-class')
-            .should('have.value', 'M1660')
 
-        cy.get('input#thrust-time')
-            .should('have.value', '3.24')
-            .parent()
-            .contains('s')
+        const expectedResults = {
+            motorClasss: 'M1660',
+            thrustTime: '3.24',
+            maxThrust: '1915.97',
+            totalImpulse: '5379.02',
+            isp: '220.66',
+            maxPressure: '874.35',
+            averagePressure: '741.54',
+            nozzleExitSpeed: '3.12',
+            optimalExpansionRatio: '6.29'
+        }
 
-        cy.get('input#max-thrust')
-            .should('have.value', '1915.97')
-            .parent()
-            .contains('N')
-
-        cy.get('input#total-impulse')
-            .should('have.value', '5379.02')
-            .parent()
-            .contains('Ns')
-
-        cy.get('input#specific-impulse')
-            .should('have.value', '220.66')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-pressure')
-            .should('have.value', '874.35')
-            .parent()
-            .contains('psi')
-
-        cy.get('input#average-pressure')
-            .should('have.value', '741.54')
-            .parent()
-            .contains('psi')
-
-        cy.get('input#nozzle-exit-speed')
-            .should('have.value', '3.12')
-            .parent()
-            .contains('Mach')
-
-        cy.get('span')
-            .contains('Optimally designed nozzle with an expansion ratio of 6.29')
+        cy.checkPerformanceResults(expectedResults, 'IMPERIAL')
     })
 
 })

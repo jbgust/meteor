@@ -46,44 +46,17 @@ describe('Run computation with advanced settings', function() {
     })
 
     it('Should check result', () => {
-        cy.get('input#motor-class')
-            .should('have.value', 'F72')
+        const expectedResults = {
+            motorClasss: 'F72',
+            thrustTime: '0.91',
+            maxThrust: '95.18',
+            totalImpulse: '64.85',
+            isp: '102.35',
+            maxPressure: '21.87',
+            averagePressure: '15.99',
+            nozzleExitSpeed: '1.00'
+        }
 
-        cy.get('input#thrust-time')
-            .should('have.value', '0.91')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-thrust')
-            .should('have.value', '95.18')
-            .parent()
-            .contains('N')
-
-        cy.get('input#total-impulse')
-            .should('have.value', '64.85')
-            .parent()
-            .contains('Ns')
-
-        cy.get('input#specific-impulse')
-            .should('have.value', '102.35')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-pressure')
-            .should('have.value', '21.87')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#average-pressure')
-            .should('have.value', '15.99')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#nozzle-exit-speed')
-            .should('have.value', '1.00')
-            .parent()
-            .contains('Mach')
-
-        cy.get('span').should('not.contain', 'Optimally designed')
+        cy.checkPerformanceResults(expectedResults, 'SI')
     })
 })

@@ -27,46 +27,19 @@ describe('Run computation in SI units', function() {
     })
 
     it('Should check result', () => {
-        cy.get('input#motor-class')
-            .should('have.value', 'F82')
+        const expectedResults = {
+            motorClasss: 'F82',
+            thrustTime: '0.91',
+            maxThrust: '111.61',
+            totalImpulse: '73.99',
+            isp: '116.78',
+            maxPressure: '21.87',
+            averagePressure: '16.00',
+            nozzleExitSpeed: '2.53',
+            optimalExpansionRatio: '4.00'
+        }
 
-        cy.get('input#thrust-time')
-            .should('have.value', '0.91')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-thrust')
-            .should('have.value', '111.61')
-            .parent()
-            .contains('N')
-
-        cy.get('input#total-impulse')
-            .should('have.value', '73.99')
-            .parent()
-            .contains('Ns')
-
-        cy.get('input#specific-impulse')
-            .should('have.value', '116.78')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-pressure')
-            .should('have.value', '21.87')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#average-pressure')
-            .should('have.value', '16.00')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#nozzle-exit-speed')
-            .should('have.value', '2.53')
-            .parent()
-            .contains('Mach')
-
-        cy.get('span')
-            .contains('Optimally designed nozzle with an expansion ratio of 4.00')
+        cy.checkPerformanceResults(expectedResults, 'SI')
     })
 
     it('Should design nozzle', () => {
