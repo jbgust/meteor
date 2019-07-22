@@ -6,49 +6,18 @@ describe('Use custom propellant in SI', function() {
         cy.url().should('include', '/#/motorDesign')
         cy.contains('SI').click()
 
-        cy.get('button#custom-propellant-add').click()
 
-        cy.get('div.v-toolbar__content').contains('Custom propellant')
-
-        cy.get('input#propellantName')
-            .type('custom KNSU')
-
-        cy.get('input#cstar')
-            .parent()
-            .contains('m/s')
-
-        cy.get('input#burnRateCoefficient')
-            .type(8.26)
-
-        cy.get('input#pressureExponent')
-            .type(0.319)
-
-        cy.get('input#k')
-            .type(1.133)
-
-        cy.get('input#density')
-            .type(1.889)
-            .parent()
-            .contains('g/cm3')
-
-        cy.get('input#molarMass')
-            .type(41.98)
-            .parent()
-            .contains('kg/kmol')
-
-        cy.get('input#k2ph-switch')
-            .parent()
-            .click()
-        cy.get('input#k2ph')
-            .type(1.044)
-
-        cy.get('input#chamberTemperature-switch')
-            .parent()
-            .click()
-        cy.get('input#chamberTemperature')
-            .type(1720)
-
-        cy.get('button').contains('Save').click()
+        const propellant = {
+            name: 'custom KNSU',
+            burnRateCoefficient: 8.26,
+            pressureExponent: 0.319,
+            k: 1.133,
+            density: 1.889,
+            molarMass: 41.98,
+            k2ph: 1.044,
+            chamberTemperature: 1720
+        }
+        cy.addPropellant(propellant, 'SI')
 
         // To check default selection of custom propellant
         cy.contains('custom KNSU')

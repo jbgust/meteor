@@ -32,6 +32,14 @@ function getPressureUnit(units) {
     return units === 'SI' ? 'Bar' : 'psi'
 }
 
+function getDensityUnit(units) {
+    return units === 'SI' ? 'g/cm3' : 'lb/cubic inch'
+}
+
+function getCstarUnit(units) {
+    return units === 'SI' ? 'm/s' : 'feet/sec'
+}
+
 Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     cy.contains(units).click()
     cy.get('input#name').should('have.value', '')
@@ -137,4 +145,62 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
     } else {
         cy.get('span').should('not.contain', 'Optimally designed')
     }
+})
+
+Cypress.Commands.add("addPropellant", (propellant, unit) => {
+
+    cy.get('button#custom-propellant-add').click()
+
+    cy.get('div.v-toolbar__content').contains('Custom propellant')
+
+    cy.get('input#propellantName')
+        .type(propellant.name)
+
+    if (propellant.cstar) {
+        cy.get('input#cstar')
+            .type(propellant.cstar)
+            .parent()
+            .contains(getCstarUnit(unit))
+    } else {
+        cy.get('input#cstar')
+            .parent()
+            .contains(getCstarUnit(unit))
+    }
+
+    cy.get('input#burnRateCoefficient')
+        .type(propellant.burnRateCoefficient)
+
+    cy.get('input#pressureExponent')
+        .type(propellant.pressureExponent)
+
+    cy.get('input#k')
+        .type(propellant.k)
+
+    cy.get('input#density')
+        .type(propellant.density)
+        .parent()
+        .contains(getDensityUnit(unit))
+
+    cy.get('input#molarMass')
+        .type(propellant.molarMass)
+        .parent()
+        .contains('kg/kmol')
+
+    if (propellant.k2ph) {
+        cy.get('input#k2ph-switch')
+            .parent()
+            .click()
+        cy.get('input#k2ph')
+            .type(propellant.k2ph)
+    }
+
+    if (propellant.chamberTemperature) {
+        cy.get('input#chamberTemperature-switch')
+            .parent()
+            .click()
+        cy.get('input#chamberTemperature')
+            .type(propellant.chamberTemperature)
+    }
+
+    cy.get('button').contains('Save').click()
 })

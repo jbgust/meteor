@@ -5,38 +5,16 @@ describe('Use custom propellant in IMPERIAL', function() {
         cy.url().should('include', '/#/motorDesign')
         cy.contains('IMPERIAL').click()
 
-        cy.get('button#custom-propellant-add').click()
-
-        cy.get('div.v-toolbar__content').contains('Custom propellant')
-
-        cy.get('input#propellantName')
-            .type('my propellant')
-
-        cy.get('input#cstar')
-            .type(5468.4)
-            .parent()
-            .contains('feet/sec')
-
-        cy.get('input#burnRateCoefficient')
-            .type(0.0174)
-
-        cy.get('input#pressureExponent')
-            .type(0.4285)
-
-        cy.get('input#k')
-            .type(1.2768)
-
-        cy.get('input#density')
-            .type(0.06)
-            .parent()
-            .contains('lb/cubic inch')
-
-        cy.get('input#molarMass')
-            .type(0.45)
-            .parent()
-            .contains('kg/kmol')
-
-        cy.get('button').contains('Save').click()
+        const propellant = {
+            name: 'my propellant',
+            cstar: 5468.4,
+            burnRateCoefficient: 0.0174,
+            pressureExponent: 0.4285,
+            k: 1.2768,
+            density: 0.06,
+            molarMass: 0.45
+        }
+        cy.addPropellant(propellant, 'IMPERIAL')
 
         // To check default selection of custom propellant
         cy.contains('my propellant')
