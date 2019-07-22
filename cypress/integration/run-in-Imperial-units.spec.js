@@ -8,57 +8,21 @@ describe('Run computation in imperial units', function() {
 
     it('Should submit form', function() {
 
-        cy.get('.v-select__selections')
-            .as('coreSurfaces').eq(0)
-            .click()
-        cy.contains('KNDX').click()
+        const formDatas = {
+            throatDiameter: 0.68464,
+            outerDiameter: 2.7165354,
+            coreDiameter: 0.787401,
+            segmentLength: 4.527559,
+            numberOfSegment: 4,
+            endsSurface: 'Exposed',
+            coreSurface: 'Exposed',
+            outerSurface: 'Inhibited',
+            propellantType: 'KNDX',
+            chamberInnerDiameter: 2.95275,
+            chamberLength: 18.503937
+        }
 
-        cy.get('@coreSurfaces').eq(1).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@coreSurfaces').eq(2).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@coreSurfaces').eq(3).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('input#throatDiameter')
-            .type(0.68464)
-            .parent()
-            .contains('inch')
-
-        cy.get('input#coreDiameter')
-            .type(0.787401)
-            .parent()
-            .contains('inch')
-
-        cy.get('input#outerDiameter')
-            .type(2.7165354)
-            .parent()
-            .contains('inch')
-
-        cy.get('input#segmentLength')
-            .type(4.527559)
-            .parent()
-            .contains('inch')
-
-        cy.get('input#numberOfSegment')
-            .type(4)
-
-        cy.get('input#chamberInnerDiameter')
-            .type(2.95275)
-            .parent()
-            .contains('inch')
-
-        cy.get('input#chamberLength')
-            .type(18.503937)
-            .parent()
-            .contains('inch')
-
-        cy.contains('Submit').click()
+        cy.fillForm(formDatas, 'IMPERIAL')
     })
 
     it('Should check result', () => {

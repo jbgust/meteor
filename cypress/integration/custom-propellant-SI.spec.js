@@ -50,57 +50,24 @@ describe('Use custom propellant in SI', function() {
 
         cy.get('button').contains('Save').click()
 
+        // To check default selection of custom propellant
         cy.contains('custom KNSU')
 
-        cy.get('.v-select__selections')
-            .as('comboBox')
+        const formDatas = {
+            throatDiameter: 17.39,
+            outerDiameter: 69,
+            coreDiameter: 20,
+            segmentLength: 115,
+            numberOfSegment: 4,
+            endsSurface: 'Exposed',
+            coreSurface: 'Exposed',
+            outerSurface: 'Inhibited',
+            propellantType: 'custom KNSU',
+            chamberInnerDiameter: 75,
+            chamberLength: 470
+        }
 
-        cy.get('@comboBox').eq(1).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@comboBox').eq(2).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@comboBox').eq(3).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('input#throatDiameter')
-            .type(17.39)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#coreDiameter')
-            .type(20)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#outerDiameter')
-            .type(69)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#segmentLength')
-            .type(115)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#numberOfSegment')
-            .type(4)
-
-        cy.get('input#chamberInnerDiameter')
-            .type(75)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#chamberLength')
-            .type(470)
-            .parent()
-            .contains('mm')
-
-        cy.contains('Submit').click()
+        cy.fillForm(formDatas, 'SI')
 
         // check result
         cy.get('input#motor-class')
