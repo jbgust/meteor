@@ -10,6 +10,7 @@
             :headers="headers"
             :items="burnRateDatas"
             hide-actions
+            no-data-text="No burn rate data"
             class="elevation-1">
             <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
@@ -24,11 +25,10 @@
                 </v-tooltip>
             </template>
             <template v-slot:items="props">
-                <td>{{ props.item.fromPressureIncluded}}</td>
-                <td>{{ props.item.toPressureExcluded}}</td>
+                <td>{{ `[ ${props.item.fromPressureIncluded} to ${props.item.toPressureExcluded} [ ${units.pressureUnit}`}}</td>
                 <td>{{ props.item.burnRateCoefficient}}</td>
                 <td>{{ props.item.pressureExponent}}</td>
-                <td class="justify-center layout px-0">
+                <td>
                     <v-icon
                         small
                         class="mr-2"
@@ -59,20 +59,12 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'From pressure', value: 'fromPressureIncluded' },
-                { text: 'To pressure', value: 'toPressureExcluded' },
+                { text: 'Pressure', value: 'fromPressureIncluded' },
                 { text: 'Burn rate coeff.', value: 'burnRateCoefficient' },
                 { text: 'Pressure exp.', value: 'pressureExponent' },
                 { text: 'Actions', value: 'name', sortable: false }
             ],
-            burnRateDatas: [
-                {
-                    burnRateCoefficient: '8.26',
-                    pressureExponent: '0.319',
-                    fromPressureIncluded: '0',
-                    toPressureExcluded: '9999999999'
-                }
-            ]
+            burnRateDatas: []
         }
     },
     methods: {
@@ -88,7 +80,9 @@ export default {
         editItem(item) {
             this.$refs.dataEditor.edit(item)
         },
-
+        loadBurnRateDataSet(datas) {
+            this.burnRateDatas = datas
+        },
         deleteItem(item) {
             const index = this.burnRateDatas.indexOf(item)
             this.burnRateDatas.splice(index, 1)

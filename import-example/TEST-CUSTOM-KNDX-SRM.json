@@ -1,0 +1,79 @@
+{
+    "version": 1,
+    "configs": [
+        {
+            "throatDiameter": 17.39,
+            "outerDiameter": 69,
+            "coreDiameter": 20,
+            "segmentLength": 115,
+            "numberOfSegment": 4,
+            "outerSurface": "INHIBITED",
+            "endsSurface": "EXPOSED",
+            "coreSurface": "EXPOSED",
+            "propellantType": "CUSTOM_propellant",
+            "chamberInnerDiameter": 75,
+            "chamberLength": 470,
+            "extraConfig": {
+                "densityRatio": 0.95,
+                "nozzleErosionInMillimeter": 0,
+                "combustionEfficiencyRatio": 0.95,
+                "ambiantPressureInMPa": 0.101,
+                "erosiveBurningAreaRatioThreshold": 6,
+                "erosiveBurningVelocityCoefficient": 0,
+                "nozzleEfficiency": 0.85,
+                "nozzleExpansionRatio": null,
+                "optimalNozzleDesign": true
+            },
+            "nozzleDesign": {
+                "divergenceAngle": 18,
+                "convergenceAngle": 38
+            },
+            "name": "TEST-CUSTOM-KNDX-SRM",
+            "measureUnit": "SI",
+            "customPropellant": {
+                "name": "CUSTOM KNDX SI",
+                "burnRateCoefficient": "0.0665",
+                "pressureExponent": "0.319",
+                "cstar": null,
+                "density": "1.879",
+                "k": "1.131",
+                "k2ph": "1.043",
+                "chamberTemperature": "1710",
+                "molarMass": "42.39",
+                "burnRateDataSet": [
+                    {
+                        "fromPressureIncluded": "1",
+                        "toPressureExcluded": "7.79",
+                        "burnRateCoefficient": "8.87544496778536",
+                        "pressureExponent": "0.6193"
+                    },
+                    {
+                        "fromPressureIncluded": "7.79",
+                        "toPressureExcluded": "25.72",
+                        "burnRateCoefficient": "7.55278442387944",
+                        "pressureExponent": "-0.0087"
+                    },
+                    {
+                        "fromPressureIncluded": "25.72",
+                        "toPressureExcluded": "59.30",
+                        "burnRateCoefficient": "3.84087990499602",
+                        "pressureExponent": "0.6882"
+                    },
+                    {
+                        "fromPressureIncluded": "59.30",
+                        "toPressureExcluded": "85.02",
+                        "burnRateCoefficient": "17.2041864098062",
+                        "pressureExponent": "-0.1481"
+                    },
+                    {
+                        "fromPressureIncluded": "85.02",
+                        "toPressureExcluded": "112.0",
+                        "burnRateCoefficient": "4.77524086347659",
+                        "pressureExponent": "0.4417"
+                    }
+                ]
+            }
+        }
+    ],
+    "measureUnit": "SI"
+}

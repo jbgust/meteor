@@ -11,29 +11,17 @@
                 <v-container grid-list-md>
                 <v-layout row wrap align-center justify-center>
 
-                    <v-flex lg6 md6>
+                    <v-flex>
                         <v-layout column>
                             <v-flex d-flex lg12>
                                 <v-text-field box hide-details id="propellantName" label="Propellant name" v-model="propellant.name" />
                             </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-layout row wrap>
-                                    <v-flex d-flex lg6 md6>
-                                        <div>
-                                            <v-text-field id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
-                                            <v-text-field id="burnRateCoefficient" v-show="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Burn rate coefficient" v-model="propellant.burnRateCoefficient" :rules="numericGreater0Rules" step="0.01" />
-                                            <v-text-field id="pressureExponent" v-show="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" />
-                                        </div>
-                                    </v-flex>
-                                    <v-flex d-flex lg6 md6>
-                                        <div>
-                                            <v-text-field id="k" label="Specific heat ratio" v-model="propellant.k" :rules="numericGreater0Rules" step="0.01" />
-                                            <v-text-field id="density" :suffix="units.densityUnit" label="Density" v-model="propellant.density" :rules="numericGreater0Rules" step="0.01"/>
-                                            <v-text-field id="molarMass" label="Molar mass" hint="Try 45 if you don't know this value" suffix="kg/kmol" v-model="propellant.molarMass" :rules="numericGreater0Rules" step="0.01"/>
-                                        </div>
-                                    </v-flex>
-                                </v-layout>
-                            </v-flex>
+                            <v-layout d-flex wrap>
+                                <v-text-field class="custom-prop-element" id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
+                                <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio" v-model="propellant.k" :rules="numericGreater0Rules" step="0.01" />
+                                <v-text-field class="custom-prop-element" id="density" :suffix="units.densityUnit" label="Density" v-model="propellant.density" :rules="numericGreater0Rules" step="0.01"/>
+                                <v-text-field class="custom-prop-element" id="molarMass" label="Molar mass" hint="Try 45 if you don't know this value" suffix="kg/kmol" v-model="propellant.molarMass" :rules="numericGreater0Rules" step="0.01"/>
+                            </v-layout>
                         </v-layout>
                         <v-layout column>
                             <v-flex d-flex lg12>
@@ -67,7 +55,11 @@
                                 </v-switch>
                             </v-flex>
                             <v-flex d-flex lg12>
-                                <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units" ref="burnRateDataEditor"></complex-burn-rate-datas>
+                                <v-layout d-flex wrap>
+                                    <v-text-field id="burnRateCoefficient" v-if="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Burn rate coefficient" v-model="propellant.burnRateCoefficient" :rules="numericGreater0Rules" step="0.01" class="custom-prop-element" />
+                                    <v-text-field id="pressureExponent" v-if="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" class="custom-prop-element" />
+                                    <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units" ref="burnRateDataEditor"></complex-burn-rate-datas>
+                                </v-layout>
                             </v-flex>
                             <v-flex lg12 style="text-align: right;">
                                 <v-btn
@@ -93,6 +85,7 @@
 import { validatePropellant } from '../../modules/customPropellant'
 import { greaterThanRule, greaterThanRuleNotRequired } from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
+import Vue from 'vue'
 
 export default {
     name: 'CustomPropellantDialog',
@@ -120,6 +113,12 @@ export default {
             this.useChamberTemperature = !!this.propellant.chamberTemperature
             this.useComplexBurnRate = !!this.propellant.burnRateDataSet
             this.dialog = show
+
+            Vue.nextTick(() => {
+                if (this.useComplexBurnRate) {
+                    this.$refs.burnRateDataEditor.loadBurnRateDataSet(this.propellant.burnRateDataSet)
+                }
+            })
         },
         savePropellant() {
             this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
@@ -140,6 +139,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .custom-prop-element {
+        width: 160px;
+        margin: 10px 10px;
+        flex-grow: 0 !important;
+        max-width: 250px;
+        padding: 5px 0;
+    }
 </style>
