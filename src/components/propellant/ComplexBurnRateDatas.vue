@@ -4,7 +4,7 @@
             <v-icon>playlist_add</v-icon>
             add
         </v-btn>
-        <burn-data-editor ref="dataEditor" :units="units" @save="addBurnRateData"></burn-data-editor>
+        <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
 
         <v-data-table
             :headers="headers"
@@ -28,6 +28,21 @@
                 <td>{{ props.item.toPressureExcluded}}</td>
                 <td>{{ props.item.burnRateCoefficient}}</td>
                 <td>{{ props.item.pressureExponent}}</td>
+                <td class="justify-center layout px-0">
+                    <v-icon
+                        small
+                        class="mr-2"
+                        @click="editItem(props.item)"
+                    >
+                        edit
+                    </v-icon>
+                    <v-icon
+                        small
+                        @click="deleteItem(props.item)"
+                    >
+                        delete
+                    </v-icon>
+                </td>
             </template>
         </v-data-table>
     </div>
@@ -44,13 +59,11 @@ export default {
     data() {
         return {
             headers: [
-                {
-                    text: 'From pressure',
-                    value: 'fromPressureIncluded'
-                },
+                { text: 'From pressure', value: 'fromPressureIncluded' },
                 { text: 'To pressure', value: 'toPressureExcluded' },
                 { text: 'Burn rate coeff.', value: 'burnRateCoefficient' },
-                { text: 'Pressure exp.', value: 'pressureExponent' }
+                { text: 'Pressure exp.', value: 'pressureExponent' },
+                { text: 'Actions', value: 'name', sortable: false }
             ],
             burnRateDatas: [
                 {
@@ -64,13 +77,21 @@ export default {
     },
     methods: {
         openEditor() {
-            this.$refs.dataEditor.show()
+            this.$refs.dataEditor.add()
         },
         addBurnRateData(burnData) {
             this.burnRateDatas.push(burnData)
         },
         getBurnRateDataSet() {
             return this.burnRateDatas
+        },
+        editItem(item) {
+            this.$refs.dataEditor.edit(item)
+        },
+
+        deleteItem(item) {
+            const index = this.burnRateDatas.indexOf(item)
+            this.burnRateDatas.splice(index, 1)
         }
     }
 }

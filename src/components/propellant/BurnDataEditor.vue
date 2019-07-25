@@ -36,7 +36,8 @@ export default {
         return {
             dialog: false,
             burnData: {},
-            hintBurnRate: 'Value is different between SI and Imperial'
+            hintBurnRate: 'Value is different between SI and Imperial',
+            createMode: false
         }
     },
     props: {
@@ -46,8 +47,20 @@ export default {
         show() {
             this.dialog = true
         },
+        add() {
+            this.createMode = true
+            this.burnData = {}
+            this.show()
+        },
+        edit(item) {
+            this.createMode = false
+            this.burnData = item
+            this.show()
+        },
         save() {
-            this.$emit('save', this.burnData)
+            if (this.createMode) {
+                this.$emit('created', this.burnData)
+            }
             this.dialog = false
         },
         cancel() {

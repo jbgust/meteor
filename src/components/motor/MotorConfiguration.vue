@@ -47,7 +47,7 @@
 <script>
 import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
 import { getCustomPropellant, setCustomPropellant } from '../../modules/customPropellant'
-import CustomPropellantDialog from './CustomPropellantDialog'
+import CustomPropellantDialog from '../propellant/CustomPropellantDialog'
 
 export default {
     name: 'motor-configuration',
