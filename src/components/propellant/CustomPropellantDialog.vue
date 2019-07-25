@@ -10,6 +10,7 @@
             <v-card-text v-if="dialog">
                 <v-container grid-list-md>
                 <v-layout row wrap align-center justify-center>
+
                     <v-flex lg6 md6>
                         <v-layout column>
                             <v-flex d-flex lg12>
@@ -20,8 +21,8 @@
                                     <v-flex d-flex lg6 md6>
                                         <div>
                                             <v-text-field id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
-                                            <v-text-field id="burnRateCoefficient" :hint="hintBurnRate" label="Burn rate coefficient" v-model="propellant.burnRateCoefficient" :rules="numericGreater0Rules" step="0.01" />
-                                            <v-text-field id="pressureExponent" :hint="hintBurnRate" label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" />
+                                            <v-text-field id="burnRateCoefficient" v-show="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Burn rate coefficient" v-model="propellant.burnRateCoefficient" :rules="numericGreater0Rules" step="0.01" />
+                                            <v-text-field id="pressureExponent" v-show="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" />
                                         </div>
                                     </v-flex>
                                     <v-flex d-flex lg6 md6>
@@ -57,6 +58,17 @@
                             <v-flex d-flex lg12>
                                 <v-text-field id="k2ph" v-show="useK2ph" label="k2ph" hint="Specific heat ratio for two-phase flow" v-model="propellant.k2ph" :rules="numericGreater0RulesNotrequired" step="0.01"/>
                             </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-switch
+                                    hide-details
+                                    id="complexBurnRate"
+                                    v-model="useComplexBurnRate"
+                                    label="Use complexe burnrate coeff and pressure exponent">
+                                </v-switch>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units" ref="burnRateDataEditor"></complex-burn-rate-datas>
+                            </v-flex>
                             <v-flex lg12 style="text-align: right;">
                                 <v-btn
                                     @click="dialog = false">
@@ -80,9 +92,11 @@
 <script>
 import { validatePropellant } from '../../modules/customPropellant'
 import { greaterThanRule, greaterThanRuleNotRequired } from '../../modules/formValidationRules'
+import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 
 export default {
     name: 'CustomPropellantDialog',
+    components: { ComplexBurnRateDatas },
     props: {
         units: Object
     },
@@ -92,6 +106,7 @@ export default {
             propellant: {},
             useK2ph: false,
             useChamberTemperature: false,
+            useComplexBurnRate: false,
             hintBurnRate: 'Value is different between SI and Imperial',
             numericGreater0Rules: greaterThanRule(0),
             numericGreater0RulesNotrequired: greaterThanRuleNotRequired(0)
@@ -103,12 +118,13 @@ export default {
 
             this.useK2ph = !!this.propellant.k2ph
             this.useChamberTemperature = !!this.propellant.chamberTemperature
-
+            this.useComplexBurnRate = !!this.propellant.burnRateDataSet
             this.dialog = show
         },
         savePropellant() {
             this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
             this.propellant.chamberTemperature = this.useChamberTemperature ? this.propellant.chamberTemperature : null
+            this.propellant.burnRateDataSet = this.useComplexBurnRate ? this.$refs.burnRateDataEditor.getBurnRateDataSet() : null
 
             const hasName = this.propellant.name == null || this.propellant.name === ''
             this.propellant.name = hasName ? 'My propellant' : this.propellant.name
