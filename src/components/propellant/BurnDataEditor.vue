@@ -11,10 +11,12 @@
                     <v-layout row wrap>
                         <v-flex d-flex>
                             <div style="padding: 10px;">
-                                <v-text-field id="startPressureInput" label="From pressure:" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit"/>
-                                <v-text-field id="endPressureInput" label="To pressure:" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit"/>
-                                <v-text-field id="burnRateCoeffInput" label="Burn rate coefficient:" v-model="burnData.burnRateCoefficient" :hint="hintBurnRate" persistent-hint/>
-                                <v-text-field id="pressureExponentInput" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint/>
+                                <v-form ref="burnRateEditorForm">
+                                    <v-text-field id="startPressureInput" label="From pressure (included):" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit" :rules="numberRule"/>
+                                    <v-text-field id="endPressureInput" label="To pressure (excluded):" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit" :rules="numberRule"/>
+                                    <v-text-field id="burnRateCoeffInput" label="Burn rate coefficient:" v-model="burnData.burnRateCoefficient" :hint="hintBurnRate" persistent-hint :rules="numberRule"/>
+                                    <v-text-field id="pressureExponentInput" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint :rules="numberRule"/>
+                                </v-form>
                             </div>
                         </v-flex>
                     </v-layout>
@@ -30,6 +32,7 @@
 </template>
 
 <script>
+import { numberRule } from '../../modules/formValidationRules'
 export default {
     name: 'BurnDataEditor',
     data() {
@@ -37,7 +40,8 @@ export default {
             dialog: false,
             burnData: {},
             hintBurnRate: 'Value is different between SI and Imperial',
-            createMode: false
+            createMode: false,
+            numberRule: numberRule()
         }
     },
     props: {
@@ -58,10 +62,15 @@ export default {
             this.show()
         },
         save() {
-            if (this.createMode) {
-                this.$emit('created', this.burnData)
+            if (this.isFormValid()) {
+                if (this.createMode) {
+                    this.$emit('created', this.burnData)
+                }
+                this.dialog = false
             }
-            this.dialog = false
+        },
+        isFormValid() {
+            return this.$refs.burnRateEditorForm ? this.$refs.burnRateEditorForm.validate() : true
         },
         cancel() {
             this.burnData = {}

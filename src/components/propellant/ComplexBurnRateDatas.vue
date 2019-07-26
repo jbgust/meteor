@@ -1,11 +1,18 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
+        <v-alert
+            :value="true"
+            color="info"
+            icon="info"
+            dismissible
+            outline>
+            The pressure intervals must not overlap. If the combustion chamber encounters a value that is not covered by your data, the calculation will fail. Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.
+        </v-alert>
         <v-btn @click="openEditor">
             <v-icon>playlist_add</v-icon>
             add
         </v-btn>
         <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
-
         <v-data-table
             :headers="headers"
             :items="burnRateDatas"

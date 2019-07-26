@@ -17,35 +17,12 @@
                                 <v-text-field box hide-details id="propellantName" label="Propellant name" v-model="propellant.name" />
                             </v-flex>
                             <v-layout d-flex wrap>
-                                <v-text-field class="custom-prop-element" id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
                                 <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio" v-model="propellant.k" :rules="numericGreater0Rules" step="0.01" />
                                 <v-text-field class="custom-prop-element" id="density" :suffix="units.densityUnit" label="Density" v-model="propellant.density" :rules="numericGreater0Rules" step="0.01"/>
                                 <v-text-field class="custom-prop-element" id="molarMass" label="Molar mass" hint="Try 45 if you don't know this value" suffix="kg/kmol" v-model="propellant.molarMass" :rules="numericGreater0Rules" step="0.01"/>
                             </v-layout>
                         </v-layout>
                         <v-layout column>
-                            <v-flex d-flex lg12>
-                                <v-switch
-                                    hide-details
-                                    id="chamberTemperature-switch"
-                                    v-model="useChamberTemperature"
-                                    label="Set chamber temperature">
-                                </v-switch>
-                            </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-text-field id="chamberTemperature" v-show="useChamberTemperature" suffix="K" label="Chamber temperature" v-model="propellant.chamberTemperature" :rules="numericGreater0RulesNotrequired" step="0.01"/>
-                            </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-switch
-                                hide-details
-                                id="k2ph-switch"
-                                v-model="useK2ph"
-                                label="Use specific heat ratio for two-phase flow">
-                                </v-switch>
-                            </v-flex>
-                            <v-flex d-flex lg12>
-                                <v-text-field id="k2ph" v-show="useK2ph" label="k2ph" hint="Specific heat ratio for two-phase flow" v-model="propellant.k2ph" :rules="numericGreater0RulesNotrequired" step="0.01"/>
-                            </v-flex>
                             <v-flex d-flex lg12>
                                 <v-switch
                                     hide-details
@@ -60,6 +37,29 @@
                                     <v-text-field id="pressureExponent" v-if="!useComplexBurnRate" :hint="hintBurnRate" persistent-hint label="Pressure exponent" v-model="propellant.pressureExponent" :rules="numericGreater0Rules" step="0.01" class="custom-prop-element" />
                                     <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units" ref="burnRateDataEditor"></complex-burn-rate-datas>
                                 </v-layout>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-switch
+                                    hide-details
+                                    id="chamberTemperature-switch"
+                                    v-model="useChamberTemperature"
+                                    label="Set chamber temperature">
+                                </v-switch>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-text-field class="custom-prop-element" id="cstar" v-show="!useChamberTemperature" label="C*" :suffix="units.speedUnit" v-model="propellant.cstar" :rules="numericGreater0Rules" step="0.01" />
+                                <v-text-field class="custom-prop-element" id="chamberTemperature" v-show="useChamberTemperature" suffix="K" label="Chamber temperature" v-model="propellant.chamberTemperature" :rules="numericGreater0RulesNotrequired" step="0.01"/>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-switch
+                                hide-details
+                                id="k2ph-switch"
+                                v-model="useK2ph"
+                                label="Use specific heat ratio for two-phase flow">
+                                </v-switch>
+                            </v-flex>
+                            <v-flex d-flex lg12>
+                                <v-text-field class="custom-prop-element" id="k2ph" v-show="useK2ph" label="k2ph" hint="Specific heat ratio for two-phase flow" v-model="propellant.k2ph" :rules="numericGreater0RulesNotrequired" step="0.01"/>
                             </v-flex>
                             <v-flex lg12 style="text-align: right;">
                                 <v-btn
@@ -142,7 +142,7 @@ export default {
 
 <style lang="scss" scoped>
     .custom-prop-element {
-        width: 160px;
+        width: 200px;
         margin: 10px 10px;
         flex-grow: 0 !important;
         max-width: 250px;
