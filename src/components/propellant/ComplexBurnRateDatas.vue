@@ -8,7 +8,7 @@
             outline>
             The pressure intervals must not overlap. If the combustion chamber encounters a value that is not covered by your data, the calculation will fail. Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.
         </v-alert>
-        <v-btn @click="openEditor">
+        <v-btn @click="openEditor" id="addBurRateDateBtn">
             <v-icon>playlist_add</v-icon>
             add
         </v-btn>

@@ -96,6 +96,14 @@ describe('Custom propellant validation', () => {
         expect(validatePropellant(propellant)).toBeFalsy()
     })
 
+    test('should use advance burn rate datas', () => {
+        const propellant = createCustomPropellant()
+        propellant.burnRateCoefficient = null
+        propellant.pressureExponent = null
+        propellant.burnRateDataSet = []
+        expect(validatePropellant(propellant)).toBeTruthy()
+    })
+
     test('should fail if k is invalid', () => {
         const propellant = createCustomPropellant()
 

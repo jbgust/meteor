@@ -26,7 +26,7 @@
                             <v-flex d-flex lg12>
                                 <v-switch
                                     hide-details
-                                    id="complexBurnRate"
+                                    id="complexBurnRate-switch"
                                     v-model="useComplexBurnRate"
                                     label="Use complexe burnrate coeff and pressure exponent">
                                 </v-switch>

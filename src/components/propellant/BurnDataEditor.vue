@@ -24,7 +24,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn @click="cancel">Cancel</v-btn>
-                    <v-btn color="primary" @click="save">Save</v-btn>
+                    <v-btn color="primary" @click="save" id="saveBurnRateDataBtn">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

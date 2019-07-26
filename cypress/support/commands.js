@@ -147,7 +147,7 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
     }
 })
 
-Cypress.Commands.add("addPropellant", (propellant, unit) => {
+Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
     cy.get('button#custom-propellant-add').click()
 
@@ -167,11 +167,15 @@ Cypress.Commands.add("addPropellant", (propellant, unit) => {
             .contains(getCstarUnit(unit))
     }
 
-    cy.get('input#burnRateCoefficient')
-        .type(propellant.burnRateCoefficient)
+    if (propellant.burnRateCoefficient) {
+        cy.get('input#burnRateCoefficient')
+            .type(propellant.burnRateCoefficient)
+    }
 
-    cy.get('input#pressureExponent')
-        .type(propellant.pressureExponent)
+    if(propellant.pressureExponent) {
+        cy.get('input#pressureExponent')
+            .type(propellant.pressureExponent)
+    }
 
     cy.get('input#k')
         .type(propellant.k)
@@ -202,5 +206,40 @@ Cypress.Commands.add("addPropellant", (propellant, unit) => {
             .type(propellant.chamberTemperature)
     }
 
+    if(closeForm) {
+        cy.get('#savePropellant').click()
+    }
+})
+
+Cypress.Commands.add('addComplexeBurnRate', (burnRateDataSet) => {
+    cy.get('input#complexBurnRate-switch')
+        .parent()
+        .click()
+
+    burnRateDataSet.forEach(item => {
+        cy.get('#addBurRateDateBtn')
+            .click()
+
+        cy.get('input#startPressureInput')
+            .type(item.fromPressureIncluded)
+            .parent()
+            .contains('MPa')
+
+        cy.get('input#endPressureInput')
+            .type(item.toPressureExcluded)
+            .parent()
+            .contains('MPa')
+
+        cy.get('input#burnRateCoeffInput')
+            .type(item.burnRateCoefficient)
+            .parent()
+
+        cy.get('input#pressureExponentInput')
+            .type(item.pressureExponent)
+            .parent()
+
+        cy.get('#saveBurnRateDataBtn')
+            .click()
+    })
     cy.get('#savePropellant').click()
 })
