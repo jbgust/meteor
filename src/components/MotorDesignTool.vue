@@ -65,7 +65,7 @@
                         :value="displayUnitInfo"
                         type="info"
                     >
-                        Changing unit doesn't convert values in the form. Please check your values even in advanced settings.
+                        Changing unit <b>doesn't convert values</b> in the form. Please check your values even in <b>advanced settings</b> and your <b>custom propellant</b>.
                     </v-alert>
 
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
