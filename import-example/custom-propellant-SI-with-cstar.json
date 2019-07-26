@@ -2,18 +2,18 @@
   "version": 1,
   "configs": [
     {
-      "name": "CUSTOM-PROP",
+      "name": "CUSTOM-PROP-SI-CSTAR",
       "propellantType": "CUSTOM_propellant",
-      "throatDiameter": 0.68464,
-      "outerDiameter": 2.7165354,
-      "coreDiameter": 0.787401,
-      "segmentLength": 4.527559,
+      "throatDiameter": 17.39,
+      "outerDiameter": 69,
+      "coreDiameter": 20,
+      "segmentLength": 115,
       "numberOfSegment": 4,
       "endsSurface": "EXPOSED",
       "coreSurface": "EXPOSED",
       "outerSurface": "INHIBITED",
-      "chamberInnerDiameter": 2.95275,
-      "chamberLength": 18.503937,
+      "chamberInnerDiameter": 75,
+      "chamberLength": 470,
       "extraConfig": {
         "densityRatio": 0.95,
         "nozzleErosionInMillimeter": 0,
@@ -30,17 +30,15 @@
         "divergenceAngle": 24
       },
       "customPropellant": {
-        "name": "CHOKNO - IMPERIAL",
-        "burnRateCoefficient": "0.0665",
-        "pressureExponent": "0.319",
-        "cstar": null,
-        "density": "0.06824",
-        "k": "1.133",
-        "k2ph": "1.044",
-        "chamberTemperature": "1720",
-        "molarMass": "41.98"
+        "name": "TEST",
+        "burnRateCoefficient": "3.728816657",
+        "pressureExponent": "0.4285",
+        "cstar": "1666.7988",
+        "density": "1.6607939148",
+        "k": "1.2768",
+        "molarMass": "45"
       }
     }
   ],
-  "measureUnit": "IMPERIAL"
+  "measureUnit": "SI"
 }

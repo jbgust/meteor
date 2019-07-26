@@ -28,9 +28,9 @@
                 "divergenceAngle": 18,
                 "convergenceAngle": 38
             },
-            "name": "TEST-CUSTOM-KNDX-SRM",
+            "name": "TEST-CUSTOM-KNDX-OVERLAPPING",
             "customPropellant": {
-                "name": "CUSTOM KNDX SI",
+                "name": "FAKE KNDX (overlapping pressure)",
                 "burnRateCoefficient": "0.0665",
                 "pressureExponent": "0.319",
                 "cstar": null,
@@ -41,34 +41,16 @@
                 "molarMass": "42.39",
                 "burnRateDataSet": [
                     {
-                        "fromPressureIncluded": "0.1",
-                        "toPressureExcluded": "0.779",
+                        "fromPressureIncluded": "1",
+                        "toPressureExcluded": "7.79",
                         "burnRateCoefficient": "8.87544496778536",
                         "pressureExponent": "0.6193"
                     },
                     {
-                        "fromPressureIncluded": "0.779",
-                        "toPressureExcluded": "2.572",
+                        "fromPressureIncluded": "6.79",
+                        "toPressureExcluded": "25.72",
                         "burnRateCoefficient": "7.55278442387944",
                         "pressureExponent": "-0.0087"
-                    },
-                    {
-                        "fromPressureIncluded": "2.572",
-                        "toPressureExcluded": "5.930",
-                        "burnRateCoefficient": "3.84087990499602",
-                        "pressureExponent": "0.6882"
-                    },
-                    {
-                        "fromPressureIncluded": "5.930",
-                        "toPressureExcluded": "8.502",
-                        "burnRateCoefficient": "17.2041864098062",
-                        "pressureExponent": "-0.1481"
-                    },
-                    {
-                        "fromPressureIncluded": "8.502",
-                        "toPressureExcluded": "11.20",
-                        "burnRateCoefficient": "4.77524086347659",
-                        "pressureExponent": "0.4417"
                     }
                 ]
             }

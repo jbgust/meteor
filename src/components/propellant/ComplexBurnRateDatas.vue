@@ -25,7 +25,7 @@
                 </v-tooltip>
             </template>
             <template v-slot:items="props">
-                <td>{{ `[ ${props.item.fromPressureIncluded} to ${props.item.toPressureExcluded} [ ${units.pressureUnit}`}}</td>
+                <td>{{ `${props.item.fromPressureIncluded} to ${props.item.toPressureExcluded} ${units.pressureUnit}`}}</td>
                 <td>{{ props.item.burnRateCoefficient}}</td>
                 <td>{{ props.item.pressureExponent}}</td>
                 <td>

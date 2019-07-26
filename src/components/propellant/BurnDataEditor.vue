@@ -11,10 +11,10 @@
                     <v-layout row wrap>
                         <v-flex d-flex>
                             <div style="padding: 10px;">
-                                <v-text-field id="startPressure" label="From pressure:" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit"/>
-                                <v-text-field id="endPressure" label="To pressure:" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit"/>
-                                <v-text-field id="burnRateCoeff" label="Burn rate coefficient:" v-model="burnData.burnRateCoefficient" :hint="hintBurnRate" persistent-hint/>
-                                <v-text-field id="pressureExponent" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint/>
+                                <v-text-field id="startPressureInput" label="From pressure:" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit"/>
+                                <v-text-field id="endPressureInput" label="To pressure:" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit"/>
+                                <v-text-field id="burnRateCoeffInput" label="Burn rate coefficient:" v-model="burnData.burnRateCoefficient" :hint="hintBurnRate" persistent-hint/>
+                                <v-text-field id="pressureExponentInput" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint/>
                             </div>
                         </v-flex>
                     </v-layout>

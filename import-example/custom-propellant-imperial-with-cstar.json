@@ -29,7 +29,6 @@
         "convergenceAngle": 60,
         "divergenceAngle": 24
       },
-      "measureUnit": "IMPERIAL",
       "customPropellant": {
         "name": "TEST",
         "burnRateCoefficient": "0.0174",

@@ -28,7 +28,7 @@ function getLengthUnit(units) {
     return units === 'SI' ? 'mm' : 'inch'
 }
 
-function getPressureUnit(units) {
+function getResultPressureUnit(units) {
     return units === 'SI' ? 'Bar' : 'psi'
 }
 
@@ -127,12 +127,12 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
     cy.get('input#max-pressure')
         .should('have.value', expectedResults.maxPressure)
         .parent()
-        .contains(getPressureUnit(units))
+        .contains(getResultPressureUnit(units))
 
     cy.get('input#average-pressure')
         .should('have.value', expectedResults.averagePressure)
         .parent()
-        .contains(getPressureUnit(units))
+        .contains(getResultPressureUnit(units))
 
     cy.get('input#nozzle-exit-speed')
         .should('have.value', expectedResults.nozzleExitSpeed)
@@ -202,5 +202,5 @@ Cypress.Commands.add("addPropellant", (propellant, unit) => {
             .type(propellant.chamberTemperature)
     }
 
-    cy.get('button').contains('Save').click()
+    cy.get('#savePropellant').click()
 })

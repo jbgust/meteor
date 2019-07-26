@@ -25,7 +25,6 @@
         "nozzleExpansionRatio": null,
         "optimalNozzleDesign": true
       },
-      "measureUnit": "SI",
       "customPropellant": {
         "cstar": "1",
         "k": "1.133",

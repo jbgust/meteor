@@ -199,6 +199,7 @@ export default {
                             me.displayImportError = true
                         }
                     } catch (e) {
+                        console.error('import fail', ajvValidator.errors)
                         me.errorMessage = 'The file is not valid'
                         me.displayImportError = true
                     }
@@ -278,9 +279,9 @@ export default {
     computed: {
         units() {
             if (this.unitSelected === 'SI') {
-                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'Bar', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
+                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
             } else {
-                return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
+                return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
             }
         }
     }
