@@ -6,12 +6,25 @@
             icon="info"
             dismissible
             outline>
-            The pressure intervals must not overlap. If the combustion chamber encounters a value that is not covered by your data, the calculation will fail. Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.
+            Pressure intervals must not overlap. If combustion chamber encounters a value that is not covered by your data, the calculation will fail. Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.
         </v-alert>
-        <v-btn @click="openEditor" id="addBurRateDateBtn">
-            <v-icon>playlist_add</v-icon>
-            add
-        </v-btn>
+        <v-layout row>
+                <v-btn @click="openEditor" id="addBurRateDateBtn">
+                <v-icon>playlist_add</v-icon>
+                add
+            </v-btn>
+            <v-flex d-flex>
+                <v-alert
+                    :value="showError"
+                    color="error"
+                    icon="warning"
+                    outline
+                >
+                    Your burn rate data should not be empty or has incorrect values.
+                </v-alert>
+            </v-flex>
+
+        </v-layout>
         <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
         <v-data-table
             :headers="headers"
@@ -22,13 +35,13 @@
             <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                                              <span v-on="on">
-                                                {{ props.header.text }}
-                                              </span>
+                        <span v-on="on">
+                            {{ props.header.text }}
+                        </span>
                     </template>
-                    <span>
-                                              {{ props.header.text }}
-                                            </span>
+                        <span>
+                            {{ props.header.text }}
+                        </span>
                 </v-tooltip>
             </template>
             <template v-slot:items="props">
@@ -57,6 +70,7 @@
 
 <script>
 import BurnDataEditor from './BurnDataEditor'
+import { validateComplexBurnRateData } from '../../modules/customPropellant'
 export default {
     name: 'ComplexBurnRateDatas',
     components: { BurnDataEditor },
@@ -71,7 +85,8 @@ export default {
                 { text: 'Pressure exp.', value: 'pressureExponent' },
                 { text: 'Actions', value: 'name', sortable: false }
             ],
-            burnRateDatas: []
+            burnRateDatas: [],
+            showError: false
         }
     },
     methods: {
@@ -93,6 +108,10 @@ export default {
         deleteItem(item) {
             const index = this.burnRateDatas.indexOf(item)
             this.burnRateDatas.splice(index, 1)
+        },
+        validate() {
+            this.showError = !validateComplexBurnRateData(this.burnRateDatas)
+            return this.showError
         }
     }
 }

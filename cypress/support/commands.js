@@ -32,6 +32,10 @@ function getResultPressureUnit(units) {
     return units === 'SI' ? 'Bar' : 'psi'
 }
 
+function getPressureUnit(units) {
+    return units === 'SI' ? 'MPa' : 'psi'
+}
+
 function getDensityUnit(units) {
     return units === 'SI' ? 'g/cm3' : 'lb/cubic inch'
 }
@@ -211,7 +215,7 @@ Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
     }
 })
 
-Cypress.Commands.add('addComplexeBurnRate', (burnRateDataSet) => {
+Cypress.Commands.add('addComplexeBurnRate', (burnRateDataSet, unit) => {
     cy.get('input#complexBurnRate-switch')
         .parent()
         .click()
@@ -223,12 +227,12 @@ Cypress.Commands.add('addComplexeBurnRate', (burnRateDataSet) => {
         cy.get('input#startPressureInput')
             .type(item.fromPressureIncluded)
             .parent()
-            .contains('MPa')
+            .contains(getPressureUnit(unit))
 
         cy.get('input#endPressureInput')
             .type(item.toPressureExcluded)
             .parent()
-            .contains('MPa')
+            .contains(getPressureUnit(unit))
 
         cy.get('input#burnRateCoeffInput')
             .type(item.burnRateCoefficient)

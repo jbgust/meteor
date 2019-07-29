@@ -122,8 +122,6 @@ export default {
             })
         },
         savePropellant() {
-            this.propellant.k2ph = this.useK2ph ? this.propellant.k2ph : null
-            this.propellant.chamberTemperature = this.useChamberTemperature ? this.propellant.chamberTemperature : null
             this.propellant.burnRateDataSet = this.useComplexBurnRate ? this.$refs.burnRateDataEditor.getBurnRateDataSet() : null
 
             const hasName = this.propellant.name == null || this.propellant.name === ''
@@ -133,7 +131,32 @@ export default {
                 this.$emit('save-propellant', this.propellant)
                 this.dialog = false
             } else {
+                if (this.useComplexBurnRate) {
+                    this.$refs.burnRateDataEditor.validate()
+                }
                 console.error('cutom propellant not valid', this.propellant)
+            }
+        }
+    },
+    watch: {
+        useComplexBurnRate(newValue, oldValue) {
+            if (newValue) {
+                this.propellant.burnRateCoefficient = null
+                this.propellant.pressureExponent = null
+            } else {
+                this.burnRateDataSet = null
+            }
+        },
+        useChamberTemperature(newValue, oldValue) {
+            if (newValue) {
+                this.propellant.cstar = null
+            } else {
+                this.propellant.chamberTemperature = null
+            }
+        },
+        useK2ph(newValue, oldValue) {
+            if (!newValue) {
+                this.propellant.k2ph = null
             }
         }
     }

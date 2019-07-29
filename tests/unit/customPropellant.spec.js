@@ -2,7 +2,7 @@ import {
     isCustomPropellant,
     getCustomPropellant,
     setCustomPropellant,
-    validatePropellant
+    validatePropellant, validateComplexBurnRateData
 } from '../../src/modules/customPropellant'
 
 describe('Identify custom propellant', () => {
@@ -100,8 +100,17 @@ describe('Custom propellant validation', () => {
         const propellant = createCustomPropellant()
         propellant.burnRateCoefficient = null
         propellant.pressureExponent = null
-        propellant.burnRateDataSet = []
+        propellant.burnRateDataSet = [{ data: 1 }]
         expect(validatePropellant(propellant)).toBeTruthy()
+    })
+
+    test('should not validate invalide advance burn rate datas', () => {
+        expect(validateComplexBurnRateData([])).toBeFalsy()
+        expect(validateComplexBurnRateData(null)).toBeFalsy()
+    })
+
+    test('should validate advance burn rate datas', () => {
+        expect(validateComplexBurnRateData([{ data: 1 }])).toBeTruthy()
     })
 
     test('should fail if k is invalid', () => {
