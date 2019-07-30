@@ -112,84 +112,84 @@
 </template>
 
 <script>
-    import {validatePropellant} from '../../modules/customPropellant'
-    import {greaterThanRule, greaterThanRuleNotRequired} from '../../modules/formValidationRules'
-    import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
-    import Vue from 'vue'
+import { validatePropellant } from '../../modules/customPropellant'
+import { greaterThanRule, greaterThanRuleNotRequired } from '../../modules/formValidationRules'
+import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
+import Vue from 'vue'
 
-    export default {
-        name: 'CustomPropellantDialog',
-        components: {ComplexBurnRateDatas},
-        props: {
-            units: Object
+export default {
+    name: 'CustomPropellantDialog',
+    components: { ComplexBurnRateDatas },
+    props: {
+        units: Object
+    },
+    data() {
+        return {
+            dialog: false,
+            propellant: {},
+            useK2ph: false,
+            useChamberTemperature: false,
+            useComplexBurnRate: false,
+            hintBurnRate: 'Value is different between SI and Imperial',
+            numericGreater0Rules: greaterThanRule(0)
+        }
+    },
+    methods: {
+        show(customPropellant, show = true) {
+            this.propellant = customPropellant || {}
+
+            this.useK2ph = !!this.propellant.k2ph
+            this.useChamberTemperature = !!this.propellant.chamberTemperature
+            this.useComplexBurnRate = !!this.propellant.burnRateDataSet
+            this.dialog = show
+
+            Vue.nextTick(() => {
+                if (this.useComplexBurnRate) {
+                    this.$refs.burnRateDataEditor.loadBurnRateDataSet(this.propellant.burnRateDataSet)
+                }
+            })
         },
-        data() {
-            return {
-                dialog: false,
-                propellant: {},
-                useK2ph: false,
-                useChamberTemperature: false,
-                useComplexBurnRate: false,
-                hintBurnRate: 'Value is different between SI and Imperial',
-                numericGreater0Rules: greaterThanRule(0)
+        savePropellant() {
+            this.propellant.burnRateDataSet = this.useComplexBurnRate ? this.$refs.burnRateDataEditor.getBurnRateDataSet() : null
+
+            const hasName = this.propellant.name == null || this.propellant.name === ''
+            this.propellant.name = hasName ? 'My propellant' : this.propellant.name
+
+            if (validatePropellant(this.propellant)) {
+                this.$emit('save-propellant', this.propellant)
+                this.dialog = false
+            } else {
+                this.$refs.formCustomPropellant.validate()
+                if (this.useComplexBurnRate) {
+                    this.$refs.burnRateDataEditor.validate()
+                }
+                console.error('cutom propellant not valid', this.propellant)
+            }
+        }
+    },
+    watch: {
+        useComplexBurnRate(newValue, oldValue) {
+            if (newValue) {
+                this.propellant.burnRateCoefficient = null
+                this.propellant.pressureExponent = null
+            } else {
+                this.burnRateDataSet = null
             }
         },
-        methods: {
-            show(customPropellant, show = true) {
-                this.propellant = customPropellant || {}
-
-                this.useK2ph = !!this.propellant.k2ph
-                this.useChamberTemperature = !!this.propellant.chamberTemperature
-                this.useComplexBurnRate = !!this.propellant.burnRateDataSet
-                this.dialog = show
-
-                Vue.nextTick(() => {
-                    if (this.useComplexBurnRate) {
-                        this.$refs.burnRateDataEditor.loadBurnRateDataSet(this.propellant.burnRateDataSet)
-                    }
-                })
-            },
-            savePropellant() {
-                this.propellant.burnRateDataSet = this.useComplexBurnRate ? this.$refs.burnRateDataEditor.getBurnRateDataSet() : null
-
-                const hasName = this.propellant.name == null || this.propellant.name === ''
-                this.propellant.name = hasName ? 'My propellant' : this.propellant.name
-
-                if (validatePropellant(this.propellant)) {
-                    this.$emit('save-propellant', this.propellant)
-                    this.dialog = false
-                } else {
-                    this.$refs.formCustomPropellant.validate()
-                    if (this.useComplexBurnRate) {
-                        this.$refs.burnRateDataEditor.validate()
-                    }
-                    console.error('cutom propellant not valid', this.propellant)
-                }
+        useChamberTemperature(newValue, oldValue) {
+            if (newValue) {
+                this.propellant.cstar = null
+            } else {
+                this.propellant.chamberTemperature = null
             }
         },
-        watch: {
-            useComplexBurnRate(newValue, oldValue) {
-                if (newValue) {
-                    this.propellant.burnRateCoefficient = null
-                    this.propellant.pressureExponent = null
-                } else {
-                    this.burnRateDataSet = null
-                }
-            },
-            useChamberTemperature(newValue, oldValue) {
-                if (newValue) {
-                    this.propellant.cstar = null
-                } else {
-                    this.propellant.chamberTemperature = null
-                }
-            },
-            useK2ph(newValue, oldValue) {
-                if (!newValue) {
-                    this.propellant.k2ph = null
-                }
+        useK2ph(newValue, oldValue) {
+            if (!newValue) {
+                this.propellant.k2ph = null
             }
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
