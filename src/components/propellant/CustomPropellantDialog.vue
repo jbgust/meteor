@@ -113,7 +113,7 @@
 
 <script>
 import { validatePropellant } from '../../modules/customPropellant'
-import { greaterThanRule, greaterThanRuleNotRequired } from '../../modules/formValidationRules'
+import { greaterThanRule } from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
 
