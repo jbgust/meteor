@@ -105,8 +105,7 @@ export default {
 
                         component.errorDetail = null
                         if (error.response && error.response.data && error.response.data.detail != null) {
-                            component.errorMessage = null
-                            component.errorDetail = 'This often occurs when the ratio between the burning area and the throat area is too low. Try to increase your grain core diameter and/or decrease the throat diameter.'
+                            component.errorDetail = error.response.data.detail
                             console.error(error.response.data.detail)
                         }
                         component.showError = true

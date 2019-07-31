@@ -2,7 +2,7 @@ import {
     greaterOrEqualsThanRule,
     greaterOrEqualsThanValidator, greaterThanRule, greaterThanRuleNotRequired,
     greaterThanValidator, greaterThanValidatorNotRequired, integerGreaterThanRule,
-    integerValidator,
+    integerValidator, numberRule,
     numberValidator,
     numberValidatorNotRequired, rangeRule, rangeValidator, requiredRule,
     requiredValidator
@@ -208,5 +208,18 @@ describe('Check Rules', () => {
         expect(rangeRule(1.1, 1.3)[2](1.0)).toBe('Value must be in range [1.1;1.3]')
 
         expect(rangeRule(1.1, 1.3)[2](1.2)).toBeTruthy()
+    })
+
+    test('numberRule', () => {
+        expect(numberRule(1).length).toBe(2)
+
+        expect(numberRule(1)[0]()).toBe('Field is required')
+
+        expect(numberRule(1)[1]('v1.2')).toBe('Value is not a number')
+
+        expect(numberRule(1)[1]('1.2')).toBeTruthy()
+        expect(numberRule(1)[1](1.2)).toBeTruthy()
+        expect(numberRule(1)[1](-1.2)).toBeTruthy()
+        expect(numberRule(1)[1](-.2)).toBeTruthy()
     })
 })

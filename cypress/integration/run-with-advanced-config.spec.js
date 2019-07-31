@@ -13,103 +13,50 @@ describe('Run computation with advanced settings', function() {
         cy.get('label').contains('Optimal nozzle design').click()
         cy.get('input#nozzleExpansionRatio').type(1)
 
+        cy.get('input#ambiantPressureInMPa')
+            .clear()
+            .type(0.0845)
+            .parent()
+            .contains('MPa')
+            .parent()
+            .parent()
+            .parent()
+            .contains('12.255 psi')
+
         cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Close').click()
     })
 
     it('Should fill and submit the form', function(){
 
-        cy.get('.v-select__selections')
-            .as('coreSurfaces').eq(0)
-            .click()
-        cy.contains('KNSB (oxidizer finely milled)').click()
+        const formDatas = {
+            throatDiameter: 7,
+            outerDiameter: 28,
+            coreDiameter: 14,
+            segmentLength: 80,
+            numberOfSegment: 1,
+            endsSurface: 'Inhibited',
+            coreSurface: 'Exposed',
+            outerSurface: 'Inhibited',
+            propellantType: 'KNSB (oxidizer finely milled)',
+            chamberInnerDiameter: 28,
+            chamberLength: 80
+        }
 
-        cy.get('@coreSurfaces').eq(1).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('@coreSurfaces').eq(2).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@coreSurfaces').eq(3).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('input#throatDiameter')
-            .type(7)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#coreDiameter')
-            .type(14)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#outerDiameter')
-            .type(28)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#segmentLength')
-            .type(80)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#numberOfSegment')
-            .type(1)
-
-        cy.get('input#chamberInnerDiameter')
-            .type(28)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#chamberLength')
-            .type(80)
-            .parent()
-            .contains('mm')
-
-        cy.contains('Submit').click()
+        cy.fillForm(formDatas, 'SI')
     })
 
     it('Should check result', () => {
-        cy.get('input#motor-class')
-            .should('have.value', 'F72')
+        const expectedResults = {
+            motorClasss: 'F72',
+            thrustTime: '0.91',
+            maxThrust: '95.18',
+            totalImpulse: '64.85',
+            isp: '102.35',
+            maxPressure: '21.87',
+            averagePressure: '15.99',
+            nozzleExitSpeed: '1.00'
+        }
 
-        cy.get('input#thrust-time')
-            .should('have.value', '0.91')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-thrust')
-            .should('have.value', '95.25')
-            .parent()
-            .contains('N')
-
-        cy.get('input#total-impulse')
-            .should('have.value', '64.90')
-            .parent()
-            .contains('Ns')
-
-        cy.get('input#specific-impulse')
-            .should('have.value', '102.43')
-            .parent()
-            .contains('s')
-
-        cy.get('input#max-pressure')
-            .should('have.value', '21.87')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#average-pressure')
-            .should('have.value', '16.00')
-            .parent()
-            .contains('Bar')
-
-        cy.get('input#nozzle-exit-speed')
-            .should('have.value', '1.00')
-            .parent()
-            .contains('Mach')
-
-        cy.get('span').should('not.contain', 'Optimally designed')
+        cy.checkPerformanceResults(expectedResults, 'SI')
     })
 })

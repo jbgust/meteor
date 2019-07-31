@@ -14,7 +14,7 @@
                               <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
                               <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" :suffix="units.lengthUnit" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
-                              <v-text-field v-if="false" id="ambiantPressureInMPa" label="Ambiant pressure:" :suffix="units.pressureUnit" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
+                              <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" :hint="psiLabel" :persistent-hint="true" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
                           </div>
                       </v-flex>
                       <v-flex d-flex lg6 md6>
@@ -43,7 +43,6 @@ import { greaterOrEqualsThanRule, rangeRule, rangeValidator, greaterOrEqualsThan
 import Vue from 'vue'
 
 const rationBounds = [0.3, 1]
-const minAmbiantPressureinMPa = 0.101
 
 export default {
     name: 'advanced-configuration',
@@ -57,8 +56,7 @@ export default {
             numericGreaterOrEqual0Rules: greaterOrEqualsThanRule(0),
             ratioRules: rangeRule(...rationBounds),
             expansionRules: greaterOrEqualsThanRule(1),
-            pressureRules: greaterOrEqualsThanRule(minAmbiantPressureinMPa)
-
+            pressureRules: greaterOrEqualsThanRule(0)
         }
     },
     methods: {
@@ -96,13 +94,18 @@ export default {
                 isValid &= greaterOrEqualsThanValidator(0)(value)
             }
 
-            isValid &= greaterOrEqualsThanValidator(minAmbiantPressureinMPa)(this.value.ambiantPressureInMPa)
+            isValid &= greaterOrEqualsThanValidator(0)(this.value.ambiantPressureInMPa)
 
             if (!this.value.optimalNozzleDesign) {
                 isValid &= greaterOrEqualsThanValidator(1)(this.value.nozzleExpansionRatio)
             }
 
             return isValid
+        }
+    },
+    computed: {
+        psiLabel() {
+            return Number(this.value.ambiantPressureInMPa * 1000000 / 6895).toFixed(3) + ' psi'
         }
     }
 }

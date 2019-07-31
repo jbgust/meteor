@@ -19,13 +19,13 @@
                                     Reliable results : Meteor uses the same calculation model as the famous <a class="block1-link" href="https://www.nakka-rocketry.net/softw.html#SRM" target="_blank">SRM Excel file</a>
                                 </li>
                                 <li>
-                                    6 native propellants and you can also configure your own propellant
+                                    Compatible with any solid propellant
                                 </li>
                                 <li>
                                     Easy to use
                                 </li>
                                 <li>
-                                    Save and import your work
+                                    Save your work
                                 </li>
                                 <li>
                                     Optimal nozzle design, by default Meteor computes the best nozzle expansion ratio
@@ -54,6 +54,34 @@
                 </div>
 
                 <div class="meteor-container block2">
+                    <h1 align="center">
+                        NEW FEATURES
+                    </h1>
+                    <div class="block-text">
+                        <ul>
+                            <li>
+                                <b>August 2019</b>
+                                <ul>
+                                    <li>Define burn rate data by pressure</li>
+                                    <li>Atmospheric pressure setting</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>May 2019</b>
+                                <ul>
+                                    <li>Custom propellant setting (like APCP or other)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>April 2019</b>
+                                <ul>
+                                    <li>Adding: KN, mass flow rate and chamber pressure in chart result</li>
+                                    <li>Documentation</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
                     <h1 align="center">
                         NEXT FEATURES
                     </h1>

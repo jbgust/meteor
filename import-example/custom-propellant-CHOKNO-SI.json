@@ -2,18 +2,18 @@
   "version": 1,
   "configs": [
     {
-      "name": "CUSTOM-PROP",
       "propellantType": "CUSTOM_propellant",
-      "throatDiameter": 0.68464,
-      "outerDiameter": 2.7165354,
-      "coreDiameter": 0.787401,
-      "segmentLength": 4.527559,
-      "numberOfSegment": 4,
+      "name": "Custom-prop-sucre-SI",
+      "throatDiameter": "17.39",
+      "coreDiameter": "20",
+      "outerDiameter": "69",
+      "segmentLength": "115",
+      "numberOfSegment": "4",
       "endsSurface": "EXPOSED",
       "coreSurface": "EXPOSED",
       "outerSurface": "INHIBITED",
-      "chamberInnerDiameter": 2.95275,
-      "chamberLength": 18.503937,
+      "chamberInnerDiameter": "75",
+      "chamberLength": "470",
       "extraConfig": {
         "densityRatio": 0.95,
         "nozzleErosionInMillimeter": 0,
@@ -25,21 +25,22 @@
         "nozzleExpansionRatio": null,
         "optimalNozzleDesign": true
       },
+      "customPropellant": {
+        "cstar": "1",
+        "k": "1.133",
+        "burnRateCoefficient": "8.26",
+        "density": "1.889",
+        "pressureExponent": "0.319",
+        "molarMass": "41.98",
+        "k2ph": "1.044",
+        "chamberTemperature": "1720",
+        "name": "CHOKNO (65% KNO3 / 35% sucre )"
+      },
       "nozzleDesign": {
         "convergenceAngle": 60,
         "divergenceAngle": 24
-      },
-      "measureUnit": "IMPERIAL",
-      "customPropellant": {
-        "name": "TEST",
-        "burnRateCoefficient": "0.0174",
-        "pressureExponent": "0.4285",
-        "cstar": "5468.4",
-        "density": "0.06",
-        "k": "1.2768",
-        "molarMass": "45"
       }
     }
   ],
-  "measureUnit": "IMPERIAL"
+  "measureUnit": "SI"
 }

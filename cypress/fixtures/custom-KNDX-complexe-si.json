@@ -1,0 +1,40 @@
+{
+  "name": "custom KNDX",
+  "k": 1.131,
+  "density": 1.879,
+  "molarMass": 42.39,
+  "k2ph": 1.043,
+  "chamberTemperature": 1710,
+  "burnRateDataSet": [
+    {
+      "fromPressureIncluded": 0.1,
+      "toPressureExcluded": 0.779,
+      "burnRateCoefficient": 8.87544496778536,
+      "pressureExponent": 0.6193
+    },
+    {
+      "fromPressureIncluded": 0.779,
+      "toPressureExcluded": 2.572,
+      "burnRateCoefficient": 7.55278442387944,
+      "pressureExponent": -0.0087
+    },
+    {
+      "fromPressureIncluded": 2.572,
+      "toPressureExcluded": 5.930,
+      "burnRateCoefficient": 3.84087990499602,
+      "pressureExponent": 0.6882
+    },
+    {
+      "fromPressureIncluded": 5.930,
+      "toPressureExcluded": 8.502,
+      "burnRateCoefficient": 17.2041864098062,
+      "pressureExponent": -0.1481
+    },
+    {
+      "fromPressureIncluded": 8.502,
+      "toPressureExcluded": 11.20,
+      "burnRateCoefficient": 4.77524086347659,
+      "pressureExponent": 0.4417
+    }
+  ]
+}

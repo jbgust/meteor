@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "configs": [
+    {
+      "name": "CUSTOM-PROP",
+      "propellantType": "CUSTOM_propellant",
+      "throatDiameter": 0.68464,
+      "outerDiameter": 2.7165354,
+      "coreDiameter": 0.787401,
+      "segmentLength": 4.527559,
+      "numberOfSegment": 4,
+      "endsSurface": "EXPOSED",
+      "coreSurface": "EXPOSED",
+      "outerSurface": "INHIBITED",
+      "chamberInnerDiameter": 2.95275,
+      "chamberLength": 18.503937,
+      "extraConfig": {
+        "densityRatio": 0.95,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.95,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": null,
+        "optimalNozzleDesign": true
+      },
+      "nozzleDesign": {
+        "convergenceAngle": 60,
+        "divergenceAngle": 24
+      },
+      "customPropellant": {
+        "name": "TEST",
+        "burnRateCoefficient": "0.0174",
+        "pressureExponent": "0.4285",
+        "cstar": "5468.4",
+        "density": "0.06",
+        "k": "1.2768",
+        "molarMass": "45"
+      }
+    }
+  ],
+  "measureUnit": "IMPERIAL"
+}

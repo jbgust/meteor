@@ -45,7 +45,7 @@ export default {
         chart.colors.step = 2
 
         this.createAxisAndSeries(chart, 'kn', 'KN', true, 'triangle')
-        this.pressureSerie = this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.pressureUnit)
+        this.pressureSerie = this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.resultPressureUnit)
         this.massFluxSerie = this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', this.units.massFluxUnit)
         this.createAxisAndSeries(chart, 'y', 'Thrust', false, 'circle', 'N')
 
@@ -92,7 +92,7 @@ export default {
     },
     watch: {
         units(newValue, oldValue) {
-            this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.pressureUnit}`
+            this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.resultPressureUnit}`
             this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
         }
     },
