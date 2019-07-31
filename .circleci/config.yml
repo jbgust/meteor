@@ -46,8 +46,6 @@ workflows:
           requires:
             - build-and-test
           filters:
-            branches:
-              only: master
             tags:
               only: /v.*/
       - package:
