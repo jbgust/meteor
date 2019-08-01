@@ -3,7 +3,7 @@
         <v-btn color="info" small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
-            <v-toolbar dark color="primary">
+            <v-app-bar dark color="primary">
                 <v-toolbar-title>
                     Nozzle design tool
                 </v-toolbar-title>
@@ -11,7 +11,7 @@
                 <v-btn icon dark @click="showNozzleDesignDialog = !formIsValid()">
                     <v-icon>close</v-icon>
                 </v-btn>
-            </v-toolbar>
+            </v-app-bar>
             <v-card>
 
                 <v-card-text>

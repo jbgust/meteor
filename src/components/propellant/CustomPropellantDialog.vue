@@ -1,11 +1,9 @@
 <template>
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
-            <v-toolbar dark color="primary">
-                <v-toolbar-title>
-                    Custom propellant
-                </v-toolbar-title>
-            </v-toolbar>
+            <v-app-bar dark color="primary">
+                <v-toolbar-title>Custom propellant</v-toolbar-title>
+            </v-app-bar>
             <!-- v-if="dialog" is here to disable inputs when popup is not show to prevent form validation failure -->
             <v-card-text v-if="dialog">
                 <v-container grid-list-md>
@@ -14,7 +12,7 @@
                             <v-flex>
                                 <v-layout column>
                                     <v-flex d-flex lg12>
-                                        <v-text-field box hide-details id="propellantName" label="Propellant name"
+                                        <v-text-field filled hide-details id="propellantName" label="Propellant name"
                                                       v-model="propellant.name"/>
                                     </v-flex>
                                     <v-layout d-flex wrap>
@@ -89,18 +87,21 @@
                                                       v-model="propellant.k2ph" :rules="numericGreater0Rules"
                                                       step="0.01"/>
                                     </v-flex>
-                                    <v-flex lg12 style="text-align: right;">
-                                        <v-btn
-                                            @click="dialog = false">
-                                            Close
-                                        </v-btn>
-                                        <v-btn
-                                            id="savePropellant"
-                                            color="primary"
-                                            @click="savePropellant()">
-                                            Save
-                                        </v-btn>
-                                    </v-flex>
+
+                                        <div class="text-right">
+                                            <v-btn
+                                                class="mr-4"
+                                                @click="dialog = false">
+                                                Close
+                                            </v-btn>
+                                            <v-btn
+                                                id="savePropellant"
+                                                color="primary"
+                                                class="mr-4"
+                                                @click="savePropellant()">
+                                                Save
+                                            </v-btn>
+                                        </div>
                                 </v-layout>
                             </v-flex>
                         </v-form>

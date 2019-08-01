@@ -5,11 +5,13 @@
             <motor-configuration v-model="formValue" :units="units" ref="motorConfiguration"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
-            <v-btn v-if="!disabledButtons" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
-            <v-btn v-if="!disabledButtons" @click="reset">Reset</v-btn>
-            <v-btn v-if="!disabledButtons" @click="$refs.advanceSettings.show()">
-                <v-icon dark>settings</v-icon>
-            </v-btn>
+            <div class="text-center" v-if="!disabledButtons">
+                <v-btn class="mr-4" @click="reset">Reset</v-btn>
+                <v-btn class="mr-4" @click="$refs.advanceSettings.show()">
+                    <v-icon dark id="btnAdvancedSettings">mdi-settings</v-icon>
+                </v-btn>
+                <v-btn class="mr-4" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
+            </div>
 
             <v-dialog ref="errorModal" max-width="700px" v-model="showError">
 

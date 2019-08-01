@@ -55,6 +55,7 @@ export default {
             this.createMode = true
             this.burnData = {}
             this.show()
+            this.$refs.burnRateEditorForm.reset()
         },
         edit(item) {
             this.createMode = false

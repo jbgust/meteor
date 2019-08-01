@@ -3,12 +3,11 @@
         <v-layout row wrap>
             <v-flex d-flex lg3 md5>
                 <v-card>
-
-                    <v-toolbar card height="40px" v-if="!demo">
+                    <v-app-bar height="40px" v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="exportConfig" flat>
-                                    <v-icon>save_alt</v-icon>
+                                <v-btn icon v-on="on" @click="exportConfig" text>
+                                    <v-icon>mdi-cloud-download</v-icon>
                                 </v-btn>
                             </template>
                             <span>Save your work</span>
@@ -16,8 +15,8 @@
 
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="browseFile" flat>
-                                    <v-icon>open_in_browser</v-icon>
+                                <v-btn icon v-on="on" @click="browseFile" text>
+                                    <v-icon>mdi-file-upload</v-icon>
                                 </v-btn>
                             </template>
                             <span>Load your project</span>
@@ -31,10 +30,10 @@
                             class="transparent" mandatory>
                             <div>
                                 Units:
-                                <v-btn value="SI" flat>
+                                <v-btn value="SI" text>
                                     SI
                                 </v-btn>
-                                <v-btn value="IMPERIAL" flat>
+                                <v-btn value="IMPERIAL" text>
                                     IMPERIAL
                                 </v-btn>
                             </div>
@@ -45,14 +44,13 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-btn icon v-on="on" @click="$refs.helpDialog.show()">
-                                    <v-icon>
-                                        import_contacts</v-icon>
+                                    <v-icon id="btnHelp">mdi-book-open-variant</v-icon>
                                 </v-btn>
                             </template>
                             <span>Documentation</span>
                         </v-tooltip>
 
-                    </v-toolbar>
+                    </v-app-bar>
 
                     <v-alert
                         :value="displayImportError"
@@ -82,7 +80,7 @@
                 <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
-                            <v-toolbar card height="40px" id="performanceInfosToolbar">
+                            <v-app-bar height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign" :units="units"></nozzle-design>
@@ -91,7 +89,7 @@
                                         {{showPerformanceInfo? 'expand_less' : 'expand_more'}}
                                     </v-icon>
                                 </v-btn>
-                            </v-toolbar>
+                            </v-app-bar>
                             <v-card-text v-show="showPerformanceInfo">
                                 <performance-info :units="units" ref="performanceResult"/>
                             </v-card-text>

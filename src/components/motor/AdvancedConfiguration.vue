@@ -31,7 +31,7 @@
               <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn @click="resetConfig">Reset</v-btn>
-                  <v-btn @click="close">Close</v-btn>
+                  <v-btn @click="close" color="primary">Save</v-btn>
               </v-card-actions>
           </v-card>
       </v-dialog>

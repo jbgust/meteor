@@ -1,16 +1,16 @@
 <template>
     <v-app id="inspire">
-        <v-toolbar color="indigo" dark fixed app>
+        <v-app-bar color="indigo" dark fixed app>
             <v-toolbar-items>
-                <v-btn flat :to="'/home'">
-                    <v-icon>home</v-icon>
+                <v-btn text :to="'/home'">
+                    <v-icon>mdi-home</v-icon>
                 </v-btn>
-                <v-btn flat :to="'/motorDesign'">
-                    <v-icon left>build</v-icon>
+                <v-btn text :to="'/motorDesign'">
+                    <v-icon left id="btnMeteor">mdi-rocket</v-icon>
                     Meteor
                 </v-btn>
             </v-toolbar-items>
-        </v-toolbar>
+        </v-app-bar>
         <v-content>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>

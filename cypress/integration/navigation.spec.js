@@ -1,7 +1,7 @@
 describe('Navigation check', function() {
     it('Should open meteor from menu', function() {
         cy.visit('http://localhost:8080')
-        cy.get('a.v-btn--router > div').contains('Meteor').click()
+        cy.get('i#btnMeteor').click()
 
         cy.url().should('include', '/#/motorDesign')
 
@@ -21,7 +21,7 @@ describe('Navigation check', function() {
 
     it('Should open meteor from home page', function() {
         cy.visit('http://localhost:8080/')
-        cy.get('a.v-btn--router > div').contains('Try it!').click()
+        cy.get('#btnTryIt').click()
 
         cy.url().should('include', '/#/motorDesign')
 

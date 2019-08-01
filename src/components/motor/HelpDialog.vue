@@ -1,14 +1,14 @@
 <template>
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-card>
-            <v-toolbar dark color="primary">
+            <v-app-bar dark color="primary">
                 <v-btn icon dark @click="dialog = false">
-                    <v-icon>close</v-icon>
+                    <v-icon id="btnCloseHelp">mdi-close</v-icon>
                 </v-btn>
                 <v-toolbar-title>
                     Meteor Manual
                 </v-toolbar-title>
-            </v-toolbar>
+            </v-app-bar>
             <v-card-text>
                 <v-container grid-list-md>
                 <v-layout row wrap>

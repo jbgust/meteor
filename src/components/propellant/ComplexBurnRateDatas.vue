@@ -2,10 +2,9 @@
     <div>
         <v-alert
             :value="true"
-            color="info"
-            icon="info"
+            type="info"
             dismissible
-            outline>
+            outlined>
             <ul>
                 <li>Pressure intervals must not overlap.</li>
                 <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
@@ -13,17 +12,12 @@
             </ul>
         </v-alert>
         <v-layout row>
-                <v-btn @click="openEditor" id="addBurRateDateBtn">
-                <v-icon>playlist_add</v-icon>
-                add
-            </v-btn>
             <v-flex d-flex>
                 <v-alert
                     :value="showError"
                     color="error"
                     icon="warning"
-                    outline
-                >
+                    outlined>
                     Your burn rate data should not be empty or has incorrect values.
                 </v-alert>
             </v-flex>
@@ -33,40 +27,30 @@
         <v-data-table
             :headers="headers"
             :items="burnRateDatas"
-            hide-actions
+            hide-default-footer
             no-data-text="No burn rate data"
             class="elevation-1">
-            <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <span v-on="on">
-                            {{ props.header.text }}
-                        </span>
-                    </template>
-                        <span>
-                            {{ props.header.text }}
-                        </span>
-                </v-tooltip>
+
+            <template v-slot:top>
+                <v-toolbar flat color="white">
+                    <v-btn @click="openEditor" id="addBurRateDateBtn">
+                        <v-icon>mdi-playlist-plus</v-icon>
+                        add
+                    </v-btn>
+                </v-toolbar>
             </template>
-            <template v-slot:items="props">
-                <td>{{ `${props.item.fromPressureIncluded} to ${props.item.toPressureExcluded} ${units.pressureUnit}`}}</td>
-                <td>{{ props.item.burnRateCoefficient}}</td>
-                <td>{{ props.item.pressureExponent}}</td>
-                <td>
-                    <v-icon
-                        small
-                        class="mr-2"
-                        @click="editItem(props.item)"
-                    >
-                        edit
-                    </v-icon>
-                    <v-icon
-                        small
-                        @click="deleteItem(props.item)"
-                    >
-                        delete
-                    </v-icon>
-                </td>
+            <template v-slot:item.action="{ item }">
+                <v-icon
+                    small
+                    class="mr-2"
+                    @click="editItem(item)">
+                    mdi-pencil
+                </v-icon>
+                <v-icon
+                    small
+                    @click="deleteItem(item)">
+                    mdi-delete
+                </v-icon>
             </template>
         </v-data-table>
     </div>
@@ -87,7 +71,7 @@ export default {
                 { text: 'Pressure', value: 'fromPressureIncluded' },
                 { text: 'Burn rate coeff.', value: 'burnRateCoefficient' },
                 { text: 'Pressure exp.', value: 'pressureExponent' },
-                { text: 'Actions', value: 'name', sortable: false }
+                { text: 'Actions', value: 'action', sortable: false }
             ],
             burnRateDatas: [],
             showError: false
