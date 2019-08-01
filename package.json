@@ -12,6 +12,7 @@
     "@amcharts/amcharts4": "^4.3.5",
     "ajv": "^6.10.0",
     "axios": "^0.18.0",
+    "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.7",
     "vuetify": "^2.0.0"
