@@ -3,7 +3,7 @@
         <v-layout row wrap>
             <v-flex d-flex lg3 md5>
                 <v-card>
-                    <v-app-bar height="40px" v-if="!demo">
+                    <v-app-bar flat height="40px" v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-btn icon v-on="on" @click="exportConfig" text>
@@ -80,13 +80,13 @@
                 <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
-                            <v-app-bar height="40px" id="performanceInfosToolbar">
+                            <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
                                 <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign" :units="units"></nozzle-design>
-                                <v-btn color="info" small class="tooglePerf">
+                                <v-btn color="info" small class="ml-4 tooglePerf">
                                     <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
-                                        {{showPerformanceInfo? 'expand_less' : 'expand_more'}}
+                                        {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
                                     </v-icon>
                                 </v-btn>
                             </v-app-bar>
@@ -96,10 +96,8 @@
 
                         </v-card>
                     </v-flex>
-                    <v-flex d-flex>
-                        <v-card>
-                            <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
-                        </v-card>
+                    <v-flex>
+                        <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
                     </v-flex>
                 </v-layout>
             </v-flex>

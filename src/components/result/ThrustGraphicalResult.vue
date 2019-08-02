@@ -1,8 +1,8 @@
 <template>
   <div class="thrust-graphic" >
-      <div style="position: absolute;z-index: 99;background-color: white;" class="thrust-graphic" v-if="loadingGraphic">
-          <div style="width: 150px;text-align: center;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%)">
-              <v-icon size="90" color="primary">refresh</v-icon>
+      <div style="z-index: 99;" class="thrust-graphic" v-if="loadingGraphic">
+          <div class="text-center">
+              <v-icon size="90" color="primary">mdi-refresh</v-icon>
               <h3>Loading chart...</h3>
           </div>
       </div>
