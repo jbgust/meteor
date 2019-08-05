@@ -1,28 +1,27 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <div>
-        <v-alert
-            :value="true"
-            type="info"
-            dismissible
-            outlined>
-            <ul>
-                <li>Pressure intervals must not overlap.</li>
-                <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
-                <li>Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.</li>
-            </ul>
-        </v-alert>
-        <v-layout row>
-            <v-flex d-flex>
+        <v-layout column>
+            <v-flex>
+                <v-alert
+                    type="info"
+                    dismissible
+                    outlined>
+                    <ul>
+                        <li>Pressure intervals must not overlap.</li>
+                        <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
+                        <li>Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.</li>
+                    </ul>
+                </v-alert>
+            </v-flex>
+            <v-flex>
                 <v-alert
                     :value="showError"
                     color="error"
-                    icon="warning"
+                    icon="mdi-alert-box-outline"
                     outlined>
                     Your burn rate data should not be empty or has incorrect values.
                 </v-alert>
             </v-flex>
 
-        </v-layout>
         <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
         <v-data-table
             :headers="headers"
@@ -39,6 +38,9 @@
                     </v-btn>
                 </v-toolbar>
             </template>
+            <template v-slot:item.fromPressureIncluded="{ item }">
+                {{ `${item.fromPressureIncluded} to ${item.toPressureExcluded} ${units.pressureUnit}`}}
+            </template>
             <template v-slot:item.action="{ item }">
                 <v-icon
                     small
@@ -53,7 +55,7 @@
                 </v-icon>
             </template>
         </v-data-table>
-    </div>
+        </v-layout>
 </template>
 
 <script>

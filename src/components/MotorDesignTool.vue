@@ -26,8 +26,7 @@
                             vertical
                         ></v-divider>
                         <v-btn-toggle
-                            v-model="unitSelected"
-                            class="transparent" mandatory>
+                            v-model="unitSelected" mandatory>
                             <div>
                                 Units:
                                 <v-btn value="SI" text>
@@ -55,7 +54,7 @@
                     <v-alert
                         :value="displayImportError"
                         color="warning"
-                        icon="priority_high">
+                        icon="mdi-alert-box-outline">
                         {{errorMessage}}
                     </v-alert>
 
@@ -284,20 +283,13 @@ export default {
 }
 </script>
 
-<style lang="css">
-
-    .v-btn.tooglePerf {
-        min-width: 40px;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 0;
-        padding-right: 0;
+<style lang="css" scoped>
+    .tooglePerf > span > i{
+        width: 45px;
     }
 
-    .tooglePerf > div {
-        width: 40px !important;
-        margin-left: 0;
-        margin-right: 0;
+    .tooglePerf {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
-
 </style>

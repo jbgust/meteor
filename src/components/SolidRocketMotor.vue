@@ -22,7 +22,7 @@
                         Computation failed
                     </v-card-title>
 
-                    <v-card-text>
+                    <v-card-text class="mt-5">
                         <v-textarea readonly outline
                                     v-show="errorDetail == null"
                                     v-model="errorMessage"/>
