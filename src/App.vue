@@ -6,7 +6,7 @@
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
                 <v-btn text :to="'/motorDesign'">
-                    <v-icon left id="btnMeteor">mdi-rocket</v-icon>
+                    <v-icon left id="btnMeteor" size="25">mdi-rocket</v-icon>
                     Meteor
                 </v-btn>
             </v-toolbar-items>
@@ -25,8 +25,7 @@
 <script>
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
 

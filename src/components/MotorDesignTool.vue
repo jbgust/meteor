@@ -107,8 +107,6 @@
 
 <script>
 import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
 import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
@@ -117,8 +115,6 @@ import { demoForm, demoResultData } from '../modules/dataDemo'
 import { validateJSONImport, ajvValidator } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
-
-Vue.use(Vuetify)
 
 export default {
     name: 'motor-design-tool',

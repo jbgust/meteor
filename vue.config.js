@@ -1,6 +1,7 @@
 const ObsoleteWebpackPlugin = require('obsolete-webpack-plugin');
 
 module.exports = {
+    transpileDependencies: ['vuetify'],
     configureWebpack: {
         plugins: [
             new ObsoleteWebpackPlugin({
