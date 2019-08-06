@@ -1,6 +1,6 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog scrollable v-model="dialog" persistent max-width="600px">
+        <v-dialog scrollable v-model="dialog" persistent max-width="350px">
             <v-card>
                 <v-card-title
                     class="headline grey lighten-2"
@@ -9,15 +9,14 @@
                 </v-card-title>
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex d-flex>
-                            <div style="padding: 10px;">
-                                <v-form ref="burnRateEditorForm">
+                        <v-flex>
+                                <v-form ref="burnRateEditorForm" class="mr-5 ml-5">
                                     <v-text-field id="startPressureInput" label="From pressure (included):" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit" :rules="numberRule"/>
-                                    <v-text-field id="endPressureInput" label="To pressure (excluded):" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit" :rules="numberRule"/>
+                                    <v-text-field id="endPressureInput" label="To pressure (excluded):" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit" :rules="numberRule" :error-messages="endPressureErrorMessage"/>
                                     <v-text-field id="burnRateCoeffInput" label="Burn rate coefficient:" v-model="burnData.burnRateCoefficient" :hint="hintBurnRate" persistent-hint :rules="numberRule"/>
                                     <v-text-field id="pressureExponentInput" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint :rules="numberRule"/>
                                 </v-form>
-                            </div>
+
                         </v-flex>
                     </v-layout>
                 </v-card-text>
@@ -33,6 +32,7 @@
 
 <script>
 import { numberRule } from '../../modules/formValidationRules'
+import Vue from 'vue'
 export default {
     name: 'BurnDataEditor',
     data() {
@@ -55,6 +55,7 @@ export default {
             this.createMode = true
             this.burnData = {}
             this.show()
+            Vue.nextTick(() => this.$refs.burnRateEditorForm.reset())
         },
         edit(item) {
             this.createMode = false
@@ -75,6 +76,16 @@ export default {
         cancel() {
             this.burnData = {}
             this.dialog = false
+        }
+    },
+    computed: {
+        endPressureErrorMessage() {
+            let errors = []
+            if (this.burnData && this.burnData.toPressureExcluded && this.burnData.fromPressureIncluded &&
+                parseFloat(this.burnData.fromPressureIncluded) >= parseFloat(this.burnData.toPressureExcluded)) {
+                errors.push('\'To pressure\' should be greater than \'From pressure\'')
+            }
+            return errors
         }
     }
 }

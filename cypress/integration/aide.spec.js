@@ -7,17 +7,13 @@ describe('Help page', function() {
     })
 
     it('Should display help content', function() {
-        cy.get('i').contains('import_contacts').click()
-
-        cy.contains("Meteor Manual")
-
+        cy.get('i#btnHelp').click()
+        cy.contains('Meteor Manual')
     })
 
     it('Should close help', function() {
-        cy.get('i').contains('close').click()
-
+        cy.get('i#btnCloseHelp').click()
         cy.should('not.contain', 'Meteor Manual')
-
     })
 
     it('Should display help when computation failed', function() {

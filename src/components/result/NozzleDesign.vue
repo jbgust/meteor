@@ -3,38 +3,46 @@
         <v-btn color="info" small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
-            <v-toolbar dark color="primary">
+            <v-app-bar dark color="primary">
                 <v-toolbar-title>
                     Nozzle design tool
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon dark @click="showNozzleDesignDialog = !formIsValid()">
-                    <v-icon>close</v-icon>
+                    <v-icon>mdi-close</v-icon>
                 </v-btn>
-            </v-toolbar>
+            </v-app-bar>
             <v-card>
 
                 <v-card-text>
                     <v-flex>
                         <v-alert
-                            outline
+                            outlined
                             :value="!formIsValid()"
                             color="error"
-                            icon="priority_high">
+                            icon="mdi-alert-box-outline">
                             The form should be valid to close the dialog
                         </v-alert>
                         <v-layout row>
-                            <v-flex>
+                            <v-flex class="pl-5 pr-5">
                                     <v-form ref="nozzleDesignForm">
                                         <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="value.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
                                         <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="value.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
                                     </v-form>
-                                <br>
-                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Convergence length:&nbsp;</span><span v-text="convergenceLenght"></span></div>
-                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Divergence length:&nbsp;</span><span v-text="divergenceLenght"></span></div>
-                                <div class="resultat-nozzle"><span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span><span v-text="`${performance.nozzleExitDiameter} ${units.lengthUnit}`"></span></div>
-                                <br>
-                                <h3>Legend</h3>
+                                <div>
+                                    <span class="label-nozzle-desing">Convergence length:&nbsp;</span>
+                                    <span v-text="convergenceLenght"></span>
+                                </div>
+                                <div>
+                                    <span class="label-nozzle-desing">Divergence length:&nbsp;</span>
+                                    <span v-text="divergenceLenght"></span>
+                                </div>
+                                <div>
+                                    <span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span>
+                                    <span v-text="`${performance.nozzleExitDiameter} ${units.lengthUnit}`">
+                                    </span>
+                                </div>
+                                <h3 class="mt-5">Legend</h3>
                                 <img src="../../assets/Nozzle_illustration.svg" width="100%"/>
                             </v-flex>
                         </v-layout>
@@ -81,12 +89,10 @@ export default {
 }
 </script>
 
-<style >
+<style lang="css">
     .label-nozzle-desing {
         font-weight: bold;
         width: 150px;
         display: inline-block;
-    }
-    .resultat-nozzle {
     }
 </style>

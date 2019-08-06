@@ -8,7 +8,7 @@ describe('Run computation with advanced settings', function() {
         cy.contains('SI').click()
         cy.get('input#name').should('have.value', '')
 
-        cy.get('button').contains('settings').click()
+        cy.get('#btnAdvancedSettings').click()
 
         cy.get('label').contains('Optimal nozzle design').click()
         cy.get('input#nozzleExpansionRatio').type(1)
@@ -23,11 +23,10 @@ describe('Run computation with advanced settings', function() {
             .parent()
             .contains('12.255 psi')
 
-        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Close').click()
+        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
     })
 
-    it('Should fill and submit the form', function(){
-
+    it ('Should fill and submit the form', function() {
         const formDatas = {
             throatDiameter: 7,
             outerDiameter: 28,

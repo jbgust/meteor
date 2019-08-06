@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-layout column>
         <v-flex d-flex lg12>
-            <v-text-field box hide-details id="name" label="Motor name" v-model="value.name" />
+            <v-text-field filled hide-details id="name" label="Motor name" v-model="value.name" />
         </v-flex>
         <v-flex d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
@@ -10,8 +10,8 @@
             <v-flex class="add-propellant-icon">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <v-btn flat icon @click="addCustomPropellant" v-on="on" id="custom-propellant-add">
-                            <v-icon>playlist_add</v-icon>
+                        <v-btn text icon @click="addCustomPropellant" v-on="on" id="custom-propellant-add">
+                            <v-icon>mdi-playlist-plus</v-icon>
                         </v-btn>
                     </template>
                     <span>Add custom propellant</span>

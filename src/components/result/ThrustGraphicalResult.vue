@@ -1,13 +1,5 @@
 <template>
-  <div class="thrust-graphic" >
-      <div style="position: absolute;z-index: 99;background-color: white;" class="thrust-graphic" v-if="loadingGraphic">
-          <div style="width: 150px;text-align: center;position: relative;top: 50%;left: 50%;transform: translate(-50%, -50%)">
-              <v-icon size="90" color="primary">refresh</v-icon>
-              <h3>Loading chart...</h3>
-          </div>
-      </div>
-      <div id="thrust-chart" class="thrust-graphic" ref="motorParameters">
-      </div>
+  <div class="thrust-graphic" id="thrust-chart" ref="motorParameters">
   </div>
 </template>
 
@@ -20,9 +12,9 @@ export default {
     data() {
         return {
             chart: null,
-            loadingGraphic: false,
             pressureSerie: null,
-            massFluxSerie: null
+            massFluxSerie: null,
+            chartLoader: null
         }
     },
     props: {
@@ -30,9 +22,9 @@ export default {
     },
     mounted() {
         let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
+        this.createChartLoader(chart)
 
         chart.paddingRight = 20
-
         chart.numberFormatter.numberFormat = '.##'
         chart.exporting.menu = new am4core.ExportMenu()
 
@@ -57,10 +49,14 @@ export default {
 
         chart.preloader.disabled = true
         chart.events.on('validated', function(ev) {
-            this.loadingGraphic = false
+            if (this.chartLoader) {
+                this.chartLoader.hide()
+            }
         }, this)
         chart.events.on('beforedatavalidated', function(ev) {
-            this.loadingGraphic = true
+            if (this.chartLoader) {
+                this.chartLoader.show()
+            }
         }, this)
 
         chart.legend = new am4charts.Legend()
@@ -88,6 +84,19 @@ export default {
             valueAxis.renderer.grid.template.disabled = true
 
             return series
+        },
+        createChartLoader(chart) {
+            this.chartLoader = chart.tooltipContainer.createChild(am4core.Container)
+            this.chartLoader.background.fill = am4core.color('#fff')
+            this.chartLoader.background.fillOpacity = 0.8
+            this.chartLoader.width = am4core.percent(100)
+            this.chartLoader.height = am4core.percent(100)
+
+            let indicatorLabel = this.chartLoader.createChild(am4core.Label)
+            indicatorLabel.text = 'Loading result...'
+            indicatorLabel.align = 'center'
+            indicatorLabel.valign = 'middle'
+            indicatorLabel.fontSize = 20
         }
     },
     watch: {

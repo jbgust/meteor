@@ -39,17 +39,18 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="block-button">
-                        <v-btn :to="'/demo'" outline>
-                            View demo
-                            <v-icon right>play_arrow</v-icon>
-                        </v-btn>
-                        <v-btn :to="'/motorDesign'" outline>Try it!</v-btn>
-                        <v-btn outline href="mailto:postmaster@pixelife.net?subject=METEOR">
-                            Contact
-                            <v-icon right>mail_outline</v-icon>
-                        </v-btn>
-
+                    <div class="block-text">
+                        <div class="block-button">
+                            <v-btn :to="'/demo'" outlined>
+                                View demo
+                                <v-icon right>mdi-play</v-icon>
+                            </v-btn>
+                            <v-btn :to="'/motorDesign'" outlined id="btnTryIt">Try it!</v-btn>
+                            <v-btn outlined href="mailto:postmaster@pixelife.net?subject=METEOR">
+                                Contact
+                                <v-icon right>mdi-email-edit-outline</v-icon>
+                            </v-btn>
+                        </div>
                     </div>
                 </div>
 
@@ -101,11 +102,13 @@
                                 </li>
                             </ul>
                     </div>
-                    <div class="block-button">
-                        <v-btn outline href="mailto:postmaster@pixelife.net?subject=New Feature METEOR">
-                            Request new feature
-                            <v-icon right>mail_outline</v-icon>
-                        </v-btn>
+                    <div class="block-text">
+                        <div class="block-button">
+                            <v-btn outlined href="mailto:postmaster@pixelife.net?subject=New Feature METEOR">
+                                Request new feature
+                                <v-icon right>mdi-email-edit-outline</v-icon>
+                            </v-btn>
+                        </div>
                     </div>
                 </div>
 
@@ -187,7 +190,9 @@ export default {
     }
 
     .block-button {
-        text-align: center;
+        width: 500px;
+        display: flex;
+        justify-content: space-around;
         margin-top: 40px !important;
     }
 </style>
