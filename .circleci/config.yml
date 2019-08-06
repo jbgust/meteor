@@ -48,6 +48,8 @@ workflows:
           filters:
             tags:
               only: /v.*/
+            branches:
+              ignore: /.*/
       - package:
           requires:
             - hold
