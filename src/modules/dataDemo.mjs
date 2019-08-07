@@ -43,6 +43,7 @@ export const demoResultData = {
         convergenceCrossSectionDiameter: 57.61,
         divergenceCrossSectionDiameter: 36.6356,
         exitSpeedInitial: '3.07',
+        grainMass: '2.812',
         averagePressure: '49.06',
         optimalNozzleExpansionRatio: '9.65'
     },

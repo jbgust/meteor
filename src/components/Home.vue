@@ -63,8 +63,10 @@
                             <li>
                                 <b>August 2019</b>
                                 <ul>
-                                    <li>Define burn rate data by pressure</li>
                                     <li>Atmospheric pressure setting</li>
+                                    <li>Adding grain mass to results</li>
+                                    <li>Define burn rate data by pressure</li>
+                                    <li>Reduce computation failure for low KN motors</li>
                                 </ul>
                             </li>
                             <li>
