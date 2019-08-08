@@ -18,60 +18,21 @@ describe('Help page', function() {
 
     it('Should display help when computation failed', function() {
 
-        cy.contains('SI').click()
-        cy.get('input#name').should('have.value', '')
+        const formDatas = {
+            throatDiameter: 7,
+            outerDiameter: 28,
+            coreDiameter: 6,
+            segmentLength: 80,
+            numberOfSegment: 1,
+            endsSurface: 'Inhibited',
+            coreSurface: 'Exposed',
+            outerSurface: 'Inhibited',
+            propellantType: 'KNSB (oxidizer finely milled)',
+            chamberInnerDiameter: 28,
+            chamberLength: 80
+        }
 
-        cy.get('.v-select__selections')
-            .as('coreSurfaces').eq(0)
-            .click()
-        cy.contains('KNSB (oxidizer finely milled)').click()
-
-        cy.get('@coreSurfaces').eq(1).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('@coreSurfaces').eq(2).click()
-        cy.get('div.menuable__content__active')
-            .contains('Exposed').click()
-
-        cy.get('@coreSurfaces').eq(3).click()
-        cy.get('div.menuable__content__active')
-            .contains('Inhibited').click()
-
-        cy.get('input#throatDiameter')
-            .type(7)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#coreDiameter')
-            .type(10)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#outerDiameter')
-            .type(28)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#segmentLength')
-            .type(80)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#numberOfSegment')
-            .type(1)
-
-        cy.get('input#chamberInnerDiameter')
-            .type(28)
-            .parent()
-            .contains('mm')
-
-        cy.get('input#chamberLength')
-            .type(80)
-            .parent()
-            .contains('mm')
-
-        cy.contains('Submit').click()
+        cy.fillForm(formDatas, 'SI')
 
         cy.contains('Read documentation').click()
 

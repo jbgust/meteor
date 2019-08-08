@@ -146,6 +146,12 @@ export default {
             this.formValue = formData
             this.$refs.formJSRM.resetValidation()
         },
+        getMotorName() {
+            if (this.formValue.name) {
+                return this.formValue.name
+            }
+            return 'Meteor-silmulation'
+        },
         reset() {
             this.formValue = {}
             this.extraConfig = this.getDefaultAdvanceConfig()

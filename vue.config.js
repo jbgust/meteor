@@ -1,8 +1,12 @@
-const ObsoleteWebpackPlugin = require('obsolete-webpack-plugin');
+const ObsoleteWebpackPlugin = require('obsolete-webpack-plugin')
 
 module.exports = {
     transpileDependencies: ['vuetify'],
     configureWebpack: {
+        externals:
+        {
+            xlsx: 'xlsx'
+        },
         plugins: [
             new ObsoleteWebpackPlugin({
                 promptOnNonTargetBrowser: true,

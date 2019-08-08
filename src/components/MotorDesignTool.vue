@@ -156,6 +156,7 @@ export default {
             this.displayImportError = false
             this.displayUnitInfo = false
             this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
+            this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
             this.$refs.performanceResult.performance = data.performanceResult
             this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
