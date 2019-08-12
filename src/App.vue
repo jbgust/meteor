@@ -71,4 +71,7 @@ export default {
     .footer-app {
         margin-left: 10px;
     }
+    body {
+        background-color: #fafafa;
+    }
 </style>

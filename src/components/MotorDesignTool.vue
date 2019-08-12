@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fluid grid-list-md fill-height>
-        <v-layout row wrap>
-            <v-flex d-flex lg3 md5>
+        <v-layout row wrap fill-heith>
+            <v-flex xl3 lg4 md5>
                 <v-card>
                     <v-app-bar flat height="40px" v-if="!demo">
                         <v-tooltip bottom>
@@ -26,9 +26,10 @@
                             vertical
                         ></v-divider>
                         <v-btn-toggle
-                            v-model="unitSelected" mandatory>
+                            v-model="unitSelected"
+                            mandatory>
                             <div>
-                                Units:
+                                <span class="hidden-md-and-down mr-3">Units:</span>
                                 <v-btn value="SI" text>
                                     SI
                                 </v-btn>
@@ -75,8 +76,8 @@
 
                 </v-card>
             </v-flex>
-            <v-flex d-flex lg9 md7>
-                <v-layout column wrap v-show="asResult">
+            <v-flex xl9 lg8 md7>
+                <v-layout column wrap v-show="asResult" fill-height>
                     <v-flex d-block shrink>
                         <v-card>
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
