@@ -76,8 +76,8 @@
 
                 </v-card>
             </v-flex>
-            <v-flex xl9 lg8 md7>
-                <v-layout column wrap v-show="asResult" fill-height>
+            <v-flex d-flex xl9 lg8 md7>
+                <v-layout column wrap v-show="asResult">
                     <v-flex d-block shrink>
                         <v-card>
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
