@@ -1,0 +1,6 @@
+- hosts: open-sky.fr
+  remote_user: "{{ansible_user}}"
+  become: yes
+  name: INSTALLATION DU frontend open-sky.fr
+  roles:
+    - meteor-frontend

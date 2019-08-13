@@ -6,14 +6,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v3-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: npm install
       - save_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v3-{{ checksum "package.json" }}
           paths:
-            - .node_modules
+            - node_modules
       - run:
           name: Run Tests
           command: npm run test:unit
@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v3-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: npm install
@@ -36,18 +36,40 @@ jobs:
           command: zip -r meteor-dist.zip ./dist
       - store_artifacts:
           path: meteor-dist.zip
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: ~/meteor
+          # Must be relative path from root
+          paths:
+            - dist
+            - ansible
+  deploy:
+    working_directory: ~/meteor
+    docker:
+      - image: ansible/ansible-runner
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "5f:7e:ed:8d:47:13:0a:7e:8e:c4:72:b5:18:75:17:71"
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/meteor
+      - run: |
+          ssh-keyscan -H open-sky.fr >> ~/.ssh/known_hosts
+      - run:
+          name: Playbook time
+          command: |
+            cd ~/meteor/ansible
+            ansible-playbook -i inventory open-sky.fr.yml
 workflows:
   version: 2
   build-test-and-approval-package:
     jobs:
       - build-and-test
-      - hold:
-          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-          requires:
-            - build-and-test
-          filters:
-            tags:
-              only: /v.*/
       - package:
           requires:
-            - hold
+            - build-and-test
+      - deploy:
+          requires:
+            - package
