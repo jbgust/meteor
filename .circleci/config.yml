@@ -6,12 +6,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-cache-v4-{{ checksum "package.json" }}
+          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: npm install
       - save_cache:
-          key: npm-cache-v4-{{ checksum "package.json" }}
+          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/meteor
           paths:
             - node_modules
   jest:
@@ -20,8 +24,8 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v3-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: ~/meteor
       - run:
           name: Run Tests
           command: npm run test:unit
@@ -31,8 +35,6 @@ jobs:
       - image: cypress/base:8
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v3-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: npm install
@@ -50,8 +52,8 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v3-{{ checksum "package.json" }}
+      - attach_workspace:
+          at: ~/meteor
       - run:
           name: Build for CI
           command: npm run build -- --modern --mode ci
@@ -61,10 +63,7 @@ jobs:
       - store_artifacts:
           path: meteor-dist.zip
       - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
           root: ~/meteor
-          # Must be relative path from root
           paths:
             - dist
             - ansible
