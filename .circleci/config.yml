@@ -1,5 +1,20 @@
 jobs:
-  build-and-test:
+  install:
+    working_directory: ~/meteor
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore_cache:
+          key: npm-cache-v4-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          key: npm-cache-v4-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+  jest:
     working_directory: ~/meteor
     docker:
       - image: circleci/node:8
@@ -8,15 +23,27 @@ jobs:
       - restore_cache:
           key: npm-cache-v3-{{ checksum "package.json" }}
       - run:
-          name: Install Dependencies
-          command: npm install
-      - save_cache:
-          key: npm-cache-v3-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
           name: Run Tests
           command: npm run test:unit
+  cypress:
+    working_directory: ~/meteor
+    docker:
+      - image: cypress/base:8
+    steps:
+      - checkout
+      - restore_cache:
+          key: npm-cache-v3-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Install wait-on
+          command: npm install wait-on
+      - run:
+          name: Run server and cypress tests
+          command: |
+            npm run ci & ./node_modules/.bin/wait-on -v --timeout 240000 http://localhost:8080
+            ./node_modules/.bin/cypress run
   package:
     working_directory: ~/meteor
     docker:
@@ -26,11 +53,8 @@ jobs:
       - restore_cache:
           key: npm-cache-v3-{{ checksum "package.json" }}
       - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build for production
-          command: npm run build -- --modern
+          name: Build for CI
+          command: npm run build -- --modern --mode ci
       - run:
           name: zip dist
           command: zip -r meteor-dist.zip ./dist
@@ -66,10 +90,17 @@ workflows:
   version: 2
   build-test-and-approval-package:
     jobs:
-      - build-and-test
+      - install
+      - jest:
+          requires:
+            - install
+      - cypress:
+          requires:
+            - install
       - package:
           requires:
-            - build-and-test
+            - jest
+            - cypress
       - deploy:
           requires:
             - package
