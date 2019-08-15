@@ -96,10 +96,16 @@ workflows:
       - cypress:
           requires:
             - install
+          filters:
+            branches:
+              only: master
       - package:
           requires:
             - jest
             - cypress
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - package
