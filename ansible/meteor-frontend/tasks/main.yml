@@ -1,0 +1,2 @@
+- name: Installation frontend meteor 
+  import_tasks: meteor-frontend.yml

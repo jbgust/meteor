@@ -1,53 +1,111 @@
 jobs:
-  build-and-test:
+  install:
     working_directory: ~/meteor
     docker:
       - image: circleci/node:8
     steps:
       - checkout
       - restore_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: npm install
       - save_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v1-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-            - .node_modules
+            - node_modules
+      - persist_to_workspace:
+          root: ~/meteor
+          paths:
+            - node_modules
+  jest:
+    working_directory: ~/meteor
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/meteor
       - run:
           name: Run Tests
           command: npm run test:unit
+  cypress:
+    working_directory: ~/meteor
+    docker:
+      - image: cypress/base:8
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Install wait-on
+          command: npm install wait-on
+      - run:
+          name: Run server and cypress tests
+          command: |
+            npm run ci & ./node_modules/.bin/wait-on -v --timeout 240000 http://localhost:8080
+            ./node_modules/.bin/cypress run
   package:
     working_directory: ~/meteor
     docker:
       - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache:
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+      - attach_workspace:
+          at: ~/meteor
       - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build for production
-          command: npm run build -- --modern
+          name: Build for CI
+          command: npm run build -- --modern --mode ci
       - run:
           name: zip dist
           command: zip -r meteor-dist.zip ./dist
       - store_artifacts:
           path: meteor-dist.zip
+      - persist_to_workspace:
+          root: ~/meteor
+          paths:
+            - dist
+            - ansible
+  deploy:
+    working_directory: ~/meteor
+    docker:
+      - image: ansible/ansible-runner
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "5f:7e:ed:8d:47:13:0a:7e:8e:c4:72:b5:18:75:17:71"
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/meteor
+      - run: |
+          ssh-keyscan -H open-sky.fr >> ~/.ssh/known_hosts
+      - run:
+          name: Playbook time
+          command: |
+            cd ~/meteor/ansible
+            ansible-playbook -i inventory open-sky.fr.yml
 workflows:
   version: 2
   build-test-and-approval-package:
     jobs:
-      - build-and-test
-      - hold:
-          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
+      - install
+      - jest:
           requires:
-            - build-and-test
+            - install
+      - cypress:
+          requires:
+            - install
           filters:
-            tags:
-              only: /v.*/
+            branches:
+              only: master
       - package:
           requires:
-            - hold
+            - jest
+            - cypress
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - package
