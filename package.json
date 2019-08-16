@@ -103,7 +103,7 @@
     ],
     "testURL": "http://localhost/",
     "reporters": [
-      "defaults",
+      "default",
       "jest-junit"
     ]
   }

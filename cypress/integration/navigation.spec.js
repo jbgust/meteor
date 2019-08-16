@@ -1,4 +1,19 @@
 describe('Navigation check', function() {
+    it('Should open notification', function() {
+        cy.visit('http://localhost:8080/#/demo')
+        cy.get('i#newsMeteorBtn')
+            .click()
+        cy.get('#bottomPageNews')
+            .contains('What\'s new')
+    })
+    it('Should open forum', function() {
+        cy.visit('http://localhost:8080/')
+        cy.get('i#btnForumMeteor')
+            .parent()
+            .parent()
+            .should('have.attr', 'href')
+            .and('eq', 'http://meteor.boards.net/')
+    })
     it('Should open meteor from menu', function() {
         cy.visit('http://localhost:8080')
         cy.get('i#btnMeteor').click()

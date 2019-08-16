@@ -56,37 +56,12 @@
 
                 <div class="meteor-container block2">
                     <h1 align="center">
-                        NEW FEATURES
+                        What's new!
                     </h1>
-                    <div class="block-text">
-                        <ul>
-                            <li>
-                                <b>August 2019</b>
-                                <ul>
-                                    <li>Atmospheric pressure setting</li>
-                                    <li>Adding grain mass to results</li>
-                                    <li>Define burn rate data by pressure</li>
-                                    <li>Reduce computation failure for low KN motors</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <b>May 2019</b>
-                                <ul>
-                                    <li>Custom propellant setting (like APCP or other)</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <b>April 2019</b>
-                                <ul>
-                                    <li>Adding: KN, mass flow rate and chamber pressure in chart result</li>
-                                    <li>Documentation</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                    <news-content/>
                     <br>
                     <h1 align="center">
-                        NEXT FEATURES
+                        Next features
                     </h1>
                     <div class="block-text">
                             <ul>
@@ -121,12 +96,13 @@
                     <h3>
                         Java Solid Rocket Motor
                     </h3>
-                    <div class="block-text">
-                        <div>
-                            Meteor uses <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.
-                            It works solely for cylindrical grain configurations, such as BATES.
-                            JSRM is the Java implementation of SRM Excel file made By <a href="https://www.nakka-rocketry.net/author.html" target="_blank">Richard Nakka</a>.
-                        </div>
+                    <div class="block-text mt-6">
+                        <ul>
+                            <li>Meteor uses <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.</li>
+                            <li>It works solely for cylindrical grain configurations, such as BATES.</li>
+                            <li>It works with any solid propellant</li>
+                            <li>JSRM is the Java implementation of SRM Excel file made By <a href="https://www.nakka-rocketry.net/author.html" target="_blank">Richard Nakka</a>.</li>
+                        </ul>
                     </div>
                 </div>
             </v-flex>
@@ -134,8 +110,17 @@
 </template>
 
 <script>
+import { news } from '../modules/news'
+import NewsContent from './news/NewsContent'
+
 export default {
-    name: 'home'
+    name: 'home',
+    components: { NewsContent },
+    data() {
+        return {
+            newsToDisplay: news
+        }
+    }
 }
 </script>
 

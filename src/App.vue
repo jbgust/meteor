@@ -1,7 +1,7 @@
 <template>
     <v-app id="inspire">
         <v-app-bar color="indigo" dark fixed app>
-            <v-toolbar-items>
+            <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn text :to="'/home'">
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
@@ -9,8 +9,56 @@
                     <v-icon left id="btnMeteor" size="25">mdi-rocket</v-icon>
                     Meteor
                 </v-btn>
+                <v-btn text href="http://meteor.boards.net/">
+                    <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
+                    Forum
+                </v-btn>
             </v-toolbar-items>
+            <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
+
+            </v-app-bar-nav-icon>
+            <v-spacer></v-spacer>
+            <meteor-news/>
         </v-app-bar>
+        <v-navigation-drawer
+            v-model="drawer"
+            absolute
+            left
+            temporary>
+            <v-list
+                nav
+                dense>
+                <v-list-item-group
+                    v-model="group">
+                    <v-list-item-group color="primary">
+                        <v-list-item :to="'/home'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-home</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Home</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item :to="'/motorDesign'">
+                            <v-list-item-icon>
+                                <v-icon>mdi-rocket</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Meteor</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item href="http://meteor.boards.net/">
+                            <v-list-item-icon>
+                                <v-icon>mdi-forum-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Forum</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
         <v-content>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>
@@ -29,6 +77,7 @@ import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
 import { computeHash } from './modules/computationUtils'
+import MeteorNews from './components/news/meteor-news'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -63,10 +112,21 @@ let router = new VueRouter({
 export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
-    components: { MotorDesignTool },
+    components: { MeteorNews },
     router,
     mounted() {
         computeHash()
+    },
+    data: () => ({
+        drawer: false,
+        sheet: false,
+        group: null
+    }),
+
+    watch: {
+        group() {
+            this.drawer = false
+        }
     }
 }
 </script>
