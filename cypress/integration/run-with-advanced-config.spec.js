@@ -2,7 +2,7 @@ describe('Run computation with advanced settings', function() {
 
     it('Should set advanced config settings', function() {
 
-        cy.visit('http://localhost:8080/#/motorDesign')
+        cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
         cy.contains('SI').click()

@@ -29,33 +29,21 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test:unit
-  start-ci-env:
-    machine: true
-    steps:
-      - run:
-          command: ssh open-sky.fr "~/env-ci.sh start"
-  stop-ci-env:
-    machine: true
-    steps:
-      - run:
-          command: ssh open-sky.fr "~/env-ci.sh stop"
   cypress:
-    working_directory: ~/meteor
-    docker:
-      - image: cypress/base:8
+    machine: true
     steps:
       - checkout
       - run:
-          name: Install Dependencies
-          command: npm install
+          name: Start CI
+          command: ssh open-sky.fr "~/env-ci.sh start"
       - run:
-          name: Install wait-on
-          command: npm install wait-on
-      - run:
-          name: Run server and cypress tests
+          name: Run cypress tests
           command: |
-            npm run ci & ./node_modules/.bin/wait-on -v --timeout 240000 http://localhost:8080
-            ./node_modules/.bin/cypress run
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:3.2.0 run --config baseUrl=https://ci.meteor.open-sky.fr
+      - run:
+          name: Stop CI
+          command: ssh open-sky.fr "~/env-ci.sh start"
+          when: always
   package:
     working_directory: ~/meteor
     docker:
@@ -103,25 +91,18 @@ workflows:
       - jest:
           requires:
             - install
-      - start-ci-env:
-          requires:
-            - install
-          filters:
-            branches:
-              only: master
-      - cypress:
-          requires:
-            - start-ci-env
-      - stop-ci-env:
-          requires:
-            - cypress
       - package:
           requires:
             - jest
-            - cypress
           filters:
             branches:
               only: master
       - deploy:
           requires:
             - package
+      - cypress:
+          requires:
+            - deploy
+          filters:
+            branches:
+              only: master

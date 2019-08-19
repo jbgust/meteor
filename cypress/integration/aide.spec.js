@@ -1,8 +1,8 @@
 describe('Help page', function() {
 
     it('Go to Meteor', function() {
-        cy.visit('http://localhost:8080/#/motorDesign')
-
+        cy.visit('/')
+        cy.get('i#btnMeteor').click()
         cy.url().should('include', '/#/motorDesign')
     })
 

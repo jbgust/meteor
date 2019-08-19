@@ -1,7 +1,7 @@
 describe('Run computation in imperial units', function() {
 
     it('Should open meteor', function() {
-        cy.visit('http://localhost:8080/#/motorDesign')
+        cy.visit('/#/motorDesign')
         cy.get('input#name').should('have.value', '')
         cy.get('#throatDiameter').parent().contains('inch')
     })

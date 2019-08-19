@@ -1,6 +1,6 @@
 describe('Use custom propellant with advance burn rate in IMPERIAL', function() {
     it('Should set custom propellant in IMPERIAL', function() {
-        cy.visit('http://localhost:8080/#/motorDesign')
+        cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
         cy.contains('IMPERIAL').click()

@@ -1,7 +1,7 @@
 describe('Testing demo page', function() {
 
     it('Should display demo', function() {
-        cy.visit('http://localhost:8080')
+        cy.visit('/')
         cy.contains('View demo').click()
 
         cy.url().should('include', '/#/demo')
@@ -19,7 +19,7 @@ describe('Testing demo page', function() {
         cy.contains('IMPERIAL').click()
         cy.get('#throatDiameter').parent().contains('inch')
 
-        cy.visit('http://localhost:8080/#/demo')
+        cy.visit('/#/demo')
         cy.get('#throatDiameter').parent().contains('mm')
     })
 })

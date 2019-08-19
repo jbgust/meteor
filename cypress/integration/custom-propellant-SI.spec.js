@@ -1,7 +1,7 @@
 describe('Use custom propellant in SI', function() {
 
     it('Should set custom propellant in SI', function() {
-        cy.visit('http://localhost:8080/#/motorDesign')
+        cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
         cy.contains('SI').click()
