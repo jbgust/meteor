@@ -30,17 +30,15 @@ jobs:
           name: Run Tests
           command: npm run test:unit
   start-ci-env:
-    working_directory: ~/rocketMotorDesign
     machine: true
     steps:
       - run:
-          command: ssh open-sky.fr "sudo /usr/sbin/a2ensite meteor-ci.conf && sudo systemctl reload apache2 && sudo /usr/sbin/service meteor-ci start"
+          command: ssh open-sky.fr "~/env-ci.sh start"
   stop-ci-env:
-    working_directory: ~/rocketMotorDesign
     machine: true
     steps:
       - run:
-          command: ssh open-sky.fr "sudo /usr/sbin/a2dissite meteor-ci.conf && sudo systemctl reload apache2 && sudo /usr/sbin/service meteor-ci stop"
+          command: ssh open-sky.fr "~/env-ci.sh stop"
   cypress:
     working_directory: ~/meteor
     docker:
