@@ -30,9 +30,13 @@ jobs:
           name: Run Tests
           command: npm run test:unit
   cypress:
+    working_directory: ~/meteor
     machine: true
     steps:
       - checkout
+      - run:
+          name: remove babel config (bug with Cypress)
+          command: rm ./babel.config.js
       - run:
           name: Start CI
           command: ssh open-sky.fr "~/env-ci.sh start"
@@ -42,7 +46,7 @@ jobs:
             docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:3.2.0 run --config baseUrl=https://ci.meteor.open-sky.fr
       - run:
           name: Stop CI
-          command: ssh open-sky.fr "~/env-ci.sh start"
+          command: ssh open-sky.fr "~/env-ci.sh stop"
           when: always
   package:
     working_directory: ~/meteor
