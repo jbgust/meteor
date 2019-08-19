@@ -1,13 +1,13 @@
 - name: Suppression de l'ancienne version
   shell: |
-    rm -rf /var/www/meteor-{{subdomain}}/*
+    rm -rf /var/www/{{frontFolder}}/*
 
 - name: Copie du build
   copy:
     src: ~/meteor/dist/
-    dest: /var/www/meteor-{{subdomain}}/
+    dest: /var/www/{{frontFolder}}/
 
 - name: Marquage de la version
   copy:
     content: "Version en prod : {{ lookup('env','CIRCLE_SHA1') }}"
-    dest: /var/www/meteor-{{subdomain}}/version.txt
+    dest: /var/www/{{frontFolder}}/version.txt
