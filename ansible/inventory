@@ -1,1 +1,1 @@
-open-sky.fr ansible_user=circleci frontFolder=meteor-ci
+open-sky.fr ansible_user=circleci

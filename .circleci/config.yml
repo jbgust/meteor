@@ -1,3 +1,4 @@
+version: 2.1
 jobs:
   install:
     working_directory: ~/meteor
@@ -73,6 +74,10 @@ jobs:
     working_directory: ~/meteor
     docker:
       - image: ansible/ansible-runner
+    parameters:
+      front-folder:
+        type: string
+        default: "meteor-ci"
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -83,16 +88,22 @@ jobs:
       - run: |
           ssh-keyscan -H open-sky.fr >> ~/.ssh/known_hosts
       - run:
-          name: Playbook time
+          name: Deploy to <<parameters.front-folder>>
           command: |
             cd ~/meteor/ansible
-            ansible-playbook -i inventory open-sky.fr.yml
+            ansible-playbook -i inventory open-sky.fr.yml --extra-vars frontFolder=<<parameters.front-folder>>
 workflows:
   version: 2
   build-test-and-approval-package:
     jobs:
-      - install
+      - install:
+          filters:
+            tags:
+              only: /^v.*/
       - jest:
+          filters:
+            tags:
+              only: /^v.*/
           requires:
             - install
       - package:
@@ -101,12 +112,49 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              only: /^v.*/
       - deploy:
+          name: deploy-ci
           requires:
             - package
+          filters:
+            tags:
+              ignore: /.*/
       - cypress:
           requires:
-            - deploy
+            - deploy-ci
           filters:
             branches:
               only: master
+            tags:
+              ignore: /.*/
+      - hold-deploy-prod:
+          type: approval
+          requires:
+            - package
+          filters:
+            branches:
+              only: master
+            tags:
+              ignore: /.*/
+      - deploy:
+          name: deploy-prod-manual
+          front-folder: "meteor"
+          requires:
+            - hold-deploy-prod
+          filters:
+            branches:
+              only: master
+            tags:
+              ignore: /.*/
+      - deploy:
+          name: deploy-prod-auto-tag
+          front-folder: "meteor"
+          requires:
+            - package
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
