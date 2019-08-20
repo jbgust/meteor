@@ -9,5 +9,5 @@
 
 - name: Marquage de la version
   copy:
-    content: "Version en prod : {{ lookup('env','CIRCLE_SHA1') }}"
-    dest: /var/www/{{frontFolder}}/version.txt
+    content: "{\"version\": \"{{ lookup('env','CIRCLE_SHA1') }}\"}"
+    dest: /var/www/{{frontFolder}}/version.json

@@ -15,8 +15,8 @@
                 </v-btn>
             </v-toolbar-items>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
-
             </v-app-bar-nav-icon>
+            <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
             <v-spacer></v-spacer>
             <meteor-news/>
         </v-app-bar>
@@ -64,7 +64,7 @@
                 <router-view></router-view>
             </v-fade-transition>
         </v-content>
-        <v-footer app inset>
+        <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
     </v-app>

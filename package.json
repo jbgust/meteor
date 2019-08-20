@@ -76,7 +76,8 @@
     }
   },
   "browserslist": [
-    "> 1%",
+    "defaults",
+    "last 6 versions",
     "not ie <= 11"
   ],
   "jest": {
