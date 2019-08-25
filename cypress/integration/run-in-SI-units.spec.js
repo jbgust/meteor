@@ -23,6 +23,8 @@ describe('Run computation in SI units', function() {
             chamberLength: 80
         }
 
+        //Flag cypress test in production
+        localStorage.setItem('computationHash', 'cypress')
         cy.fillForm(formDatas, 'SI')
 
         // Check presence of computationHash
