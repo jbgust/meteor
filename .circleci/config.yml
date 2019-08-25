@@ -113,8 +113,30 @@ jobs:
           command: |
             cd ~/meteor/ansible
             ansible-playbook -i inventory open-sky.fr.yml --extra-vars frontFolder=<<parameters.front-folder>>
+  cypress-check-prod:
+    working_directory: ~/meteor
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: remove babel config (bug with Cypress)
+          command: rm ./babel.config.js
+      - run:
+          name: Run cypress tests
+          command: |
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:3.2.0 run --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/integration/run-in-SI-units.spec.js
 workflows:
   version: 2
+  check-production:
+    triggers:
+      - schedule:
+          cron: "0 13 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - cypress-check-prod
   build-test-and-approval-package:
     jobs:
       - install:
