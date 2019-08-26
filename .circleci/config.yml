@@ -157,7 +157,7 @@ workflows:
               only: master
       - package-prod:
           requires:
-            - jest
+            - hold-deploy-prod
           filters:
             branches:
               only: master
@@ -181,7 +181,7 @@ workflows:
       - hold-deploy-prod:
           type: approval
           requires:
-            - package-prod
+            - jest
           filters:
             branches:
               only: master
@@ -191,7 +191,7 @@ workflows:
           name: deploy-prod-manual
           front-folder: "meteor"
           requires:
-            - hold-deploy-prod
+            - package-prod
           filters:
             branches:
               only: master
