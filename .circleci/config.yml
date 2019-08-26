@@ -130,7 +130,7 @@ workflows:
   check-production:
     triggers:
       - schedule:
-          cron: "0 13 * * *"
+          cron: "0 4 * * 0,2,4,6"
           filters:
             branches:
               only:
