@@ -60,6 +60,15 @@
                     </v-alert>
 
                     <v-alert
+                        :value="displayDefaultUnitInfo"
+                        color="warning"
+                        outlined
+                        dismissible
+                        icon="mdi-alert-box-outline">
+                        By default you are on SI units. You can change it above.
+                    </v-alert>
+
+                    <v-alert
                         :value="displayUnitInfo"
                         type="info"
                     >
@@ -116,6 +125,7 @@ import { demoForm, demoResultData } from '../modules/dataDemo'
 import { validateJSONImport, ajvValidator } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
+import { getSelectedUnit, hasSelectedUnits, setSelectedUnits, SI_UNITS } from '../modules/computationUtils'
 
 export default {
     name: 'motor-design-tool',
@@ -134,9 +144,10 @@ export default {
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
             displayUnitInfo: false,
+            displayDefaultUnitInfo: !hasSelectedUnits(),
             nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 },
             showPerformanceInfo: true,
-            unitSelected: 'IMPERIAL',
+            unitSelected: SI_UNITS,
             importInProgress: false
         }
     },
@@ -144,8 +155,12 @@ export default {
         if (this.demo) {
             this.$refs.form.disabledControls(true)
             this.$refs.form.loadForm(this.demoForm)
-            this.unitSelected = 'SI'
+            this.unitSelected = SI_UNITS
             this.loadResult(this.demoResultData)
+        } else {
+            if (hasSelectedUnits()) {
+                this.unitSelected = getSelectedUnit()
+            }
         }
     },
     methods: {
@@ -154,6 +169,10 @@ export default {
             this.$refs.fileBrowser.click()
         },
         loadResult(data) {
+            // save defaultUnit
+            setSelectedUnits(this.unitSelected)
+            this.displayDefaultUnitInfo = false
+
             this.displayImportError = false
             this.displayUnitInfo = false
             this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
@@ -254,7 +273,6 @@ export default {
 
                 // reset the default unit to IMPERIAL when exit demo
                 this.importInProgress = true
-                this.unitSelected = 'IMPERIAL'
                 Vue.nextTick(() => {
                     this.importInProgress = false
                 }, this)
@@ -262,6 +280,8 @@ export default {
         },
         unitSelected(newValue, oldValue) {
             if (newValue !== oldValue && !this.demo) {
+                setSelectedUnits(newValue)
+                this.displayDefaultUnitInfo = false
                 this.asResult = false
                 if (!this.importInProgress) {
                     this.displayUnitInfo = true
@@ -271,7 +291,7 @@ export default {
     },
     computed: {
         units() {
-            if (this.unitSelected === 'SI') {
+            if (this.unitSelected === SI_UNITS) {
                 return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massUnit: 'Kg', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
             } else {
                 return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massUnit: 'lb', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }

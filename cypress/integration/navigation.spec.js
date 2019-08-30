@@ -21,7 +21,7 @@ describe('Navigation check', function() {
         cy.url().should('include', '/#/motorDesign')
 
         cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('inch')
+        cy.get('#throatDiameter').parent().contains('mm')
     })
 
     it('Should open meteor from demo page', function() {
@@ -31,7 +31,7 @@ describe('Navigation check', function() {
         cy.url().should('include', '/#/motorDesign')
 
         cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('inch')
+        cy.get('#throatDiameter').parent().contains('mm')
     })
 
     it('Should open meteor from home page', function() {
@@ -41,6 +41,6 @@ describe('Navigation check', function() {
         cy.url().should('include', '/#/motorDesign')
 
         cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('inch')
+        cy.get('#throatDiameter').parent().contains('mm')
     })
 })

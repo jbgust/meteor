@@ -1,4 +1,5 @@
 import { validateJSONImport, ajvValidator } from '../../src/modules/importValidator'
+import { SI_UNITS } from '../../src/modules/computationUtils'
 
 function createDefaultJsonConfig() {
     const validJsonV1 = {
@@ -174,7 +175,7 @@ describe('Import Validation', () => {
 
         expect(jsonToValidate.measureUnit).toBeUndefined()
         expect(validateJSONImport(jsonToValidate)).toBeTruthy()
-        expect(jsonToValidate.measureUnit).toBe('SI')
+        expect(jsonToValidate.measureUnit).toBe(SI_UNITS)
     })
 
     test('should coerceTypes', () => {

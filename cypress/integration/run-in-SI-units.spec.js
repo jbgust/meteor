@@ -3,7 +3,10 @@ describe('Run computation in SI units', function() {
         cy.visit('/#/motorDesign')
 
         cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('inch')
+        cy.get('#throatDiameter').parent().contains('mm')
+
+        // check message about default unit
+        cy.contains('By default you are on SI units. You can change it above.')
     })
 
     it('Should submit form', function() {
@@ -23,7 +26,7 @@ describe('Run computation in SI units', function() {
             chamberLength: 80
         }
 
-        //Flag cypress test in production
+        // Flag cypress test in production
         localStorage.setItem('computationHash', 'cypress')
         cy.fillForm(formDatas, 'SI')
 

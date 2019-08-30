@@ -3,6 +3,12 @@ const ObsoleteWebpackPlugin = require('obsolete-webpack-plugin')
 module.exports = {
     transpileDependencies: ['vuetify'],
     configureWebpack: {
+        devServer: {
+            overlay: {
+                warnings: true,
+                errors: true
+            }
+        },
         externals:
         {
             xlsx: 'xlsx'
