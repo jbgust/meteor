@@ -6,7 +6,7 @@ describe('Run computation in SI units', function() {
         cy.get('#throatDiameter').parent().contains('mm')
 
         // check message about default unit
-        cy.contains('By default you are on SI units. You can change it above.')
+        cy.contains('By default you are on metric units. You can change it above.')
     })
 
     it('Should submit form', function() {

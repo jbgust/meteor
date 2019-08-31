@@ -65,7 +65,7 @@
                         outlined
                         dismissible
                         icon="mdi-alert-box-outline">
-                        By default you are on SI units. You can change it above.
+                        By default you are on metric units. You can change it above.
                     </v-alert>
 
                     <v-alert
