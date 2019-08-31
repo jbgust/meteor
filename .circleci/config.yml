@@ -157,10 +157,10 @@ workflows:
               only: master
       - package-prod:
           requires:
-            - hold-deploy-prod
+            - jest
           filters:
             branches:
-              only: master
+              ignore: /.*/
             tags:
               only: /^v.*/
       - deploy:
@@ -173,25 +173,6 @@ workflows:
       - cypress:
           requires:
             - deploy-ci
-          filters:
-            branches:
-              only: master
-            tags:
-              ignore: /.*/
-      - hold-deploy-prod:
-          type: approval
-          requires:
-            - jest
-          filters:
-            branches:
-              only: master
-            tags:
-              ignore: /.*/
-      - deploy:
-          name: deploy-prod-manual
-          front-folder: "meteor"
-          requires:
-            - package-prod
           filters:
             branches:
               only: master
