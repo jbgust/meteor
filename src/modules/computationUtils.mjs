@@ -16,8 +16,8 @@ const optionsFingerprint2 = { excludes: {
 const computationHashItem = 'computationHash'
 
 export function computeHash() {
-    Fingerprint2.get(optionsFingerprint2, function (components) {
-        const values = components.map(function (component) {
+    Fingerprint2.get(optionsFingerprint2, function(components) {
+        const values = components.map(function(component) {
             return component.value
         })
         localStorage.setItem(computationHashItem, Fingerprint2.x64hash128(values.join(''), 31))
@@ -52,4 +52,8 @@ export function setSelectedUnits(unit) {
 
 export function getSelectedUnit() {
     return localStorage.getItem('unitSelected')
+}
+
+export function getSelectedUnitOrSI() {
+    return getSelectedUnit() || SI_UNITS
 }

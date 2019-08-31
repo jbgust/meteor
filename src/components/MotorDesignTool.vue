@@ -10,7 +10,7 @@
                                     <v-icon>mdi-cloud-download</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Save your work</span>
+                            <span>Save your project</span>
                         </v-tooltip>
 
                         <v-tooltip bottom>
@@ -30,10 +30,10 @@
                             mandatory>
                             <div>
                                 <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn value="SI" text>
-                                    SI
+                                <v-btn :value="siUnits" text>
+                                    METRIC
                                 </v-btn>
-                                <v-btn value="IMPERIAL" text>
+                                <v-btn :value="imperialUnits" text>
                                     IMPERIAL
                                 </v-btn>
                             </div>
@@ -125,7 +125,13 @@ import { demoForm, demoResultData } from '../modules/dataDemo'
 import { validateJSONImport, ajvValidator } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
-import { getSelectedUnit, hasSelectedUnits, setSelectedUnits, SI_UNITS } from '../modules/computationUtils'
+import {
+    getSelectedUnit,
+    getSelectedUnitOrSI,
+    hasSelectedUnits, IMPERIAL_UNITS,
+    setSelectedUnits,
+    SI_UNITS
+} from '../modules/computationUtils'
 
 export default {
     name: 'motor-design-tool',
@@ -147,8 +153,10 @@ export default {
             displayDefaultUnitInfo: !hasSelectedUnits(),
             nozzleDesignValue: { convergenceAngle: 60, divergenceAngle: 24 },
             showPerformanceInfo: true,
-            unitSelected: SI_UNITS,
-            importInProgress: false
+            unitSelected: getSelectedUnitOrSI(),
+            importInProgress: false,
+            siUnits: SI_UNITS,
+            imperialUnits: IMPERIAL_UNITS
         }
     },
     mounted() {
@@ -158,9 +166,7 @@ export default {
             this.unitSelected = SI_UNITS
             this.loadResult(this.demoResultData)
         } else {
-            if (hasSelectedUnits()) {
-                this.unitSelected = getSelectedUnit()
-            }
+            this.unitSelected = getSelectedUnitOrSI()
         }
     },
     methods: {
@@ -170,7 +176,10 @@ export default {
         },
         loadResult(data) {
             // save defaultUnit
-            setSelectedUnits(this.unitSelected)
+            if (!this.demo) {
+                setSelectedUnits(this.unitSelected)
+            }
+
             this.displayDefaultUnitInfo = false
 
             this.displayImportError = false
@@ -271,7 +280,13 @@ export default {
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
 
-                // reset the default unit to IMPERIAL when exit demo
+                // reset the default unit when exit demo
+                if (hasSelectedUnits()) {
+                    this.unitSelected = getSelectedUnit()
+                } else {
+                    this.displayDefaultUnitInfo = true
+                }
+
                 this.importInProgress = true
                 Vue.nextTick(() => {
                     this.importInProgress = false

@@ -3,7 +3,8 @@ import {
     generateComputeHash,
     hasSelectedUnits, IMPERIAL_UNITS,
     setSelectedUnits, SI_UNITS
-    , getComputeHash } from '../../src/modules/computationUtils'
+    , getComputeHash, getSelectedUnit, getSelectedUnitOrSI
+} from '../../src/modules/computationUtils'
 
 describe('Nozzle length calculation (divergence and convergence length)', () => {
     test('should compute nozzle length', () => {
@@ -47,5 +48,21 @@ describe('Units management', () => {
         localStorage.clear()
         setSelectedUnits('bad unit')
         expect(hasSelectedUnits()).toBe(false)
+    })
+
+    test('should get default unit', () => {
+        localStorage.clear()
+        expect(getSelectedUnit()).toBe(null)
+
+        setSelectedUnits(SI_UNITS)
+        expect(getSelectedUnit()).toBe(SI_UNITS)
+    })
+
+    test('should get default unit or return SI_UNITS', () => {
+        localStorage.clear()
+        expect(getSelectedUnitOrSI()).toBe(SI_UNITS)
+
+        setSelectedUnits(IMPERIAL_UNITS)
+        expect(getSelectedUnitOrSI()).toBe(IMPERIAL_UNITS)
     })
 })
