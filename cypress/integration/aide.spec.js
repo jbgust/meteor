@@ -32,7 +32,7 @@ describe('Help page', function() {
             chamberLength: 80
         }
 
-        cy.fillForm(formDatas, 'SI')
+        cy.fillForm(formDatas, 'METRIC')
 
         cy.contains('Read documentation').click()
 

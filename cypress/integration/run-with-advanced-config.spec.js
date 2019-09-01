@@ -5,7 +5,7 @@ describe('Run computation with advanced settings', function() {
         cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
-        cy.contains('SI').click()
+        cy.contains('METRIC').click()
         cy.get('input#name').should('have.value', '')
 
         cy.get('#btnAdvancedSettings').click()
@@ -41,7 +41,7 @@ describe('Run computation with advanced settings', function() {
             chamberLength: 80
         }
 
-        cy.fillForm(formDatas, 'SI')
+        cy.fillForm(formDatas, 'METRIC')
     })
 
     it('Should check result', () => {
@@ -56,6 +56,6 @@ describe('Run computation with advanced settings', function() {
             nozzleExitSpeed: '1.00'
         }
 
-        cy.checkPerformanceResults(expectedResults, 'SI')
+        cy.checkPerformanceResults(expectedResults, 'METRIC')
     })
 })

@@ -28,7 +28,7 @@ describe('Run computation in SI units', function() {
 
         // Flag cypress test in production
         localStorage.setItem('computationHash', 'cypress')
-        cy.fillForm(formDatas, 'SI')
+        cy.fillForm(formDatas, 'METRIC')
 
         // Check presence of computationHash
         expect(localStorage.getItem('computationHash')).not.to.be.null
@@ -47,7 +47,7 @@ describe('Run computation in SI units', function() {
             optimalExpansionRatio: '4.00'
         }
 
-        cy.checkPerformanceResults(expectedResults, 'SI')
+        cy.checkPerformanceResults(expectedResults, 'METRIC')
     })
 
     it('Should design nozzle', () => {

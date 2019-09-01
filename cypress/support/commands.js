@@ -25,23 +25,23 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 function getLengthUnit(units) {
-    return units === 'SI' ? 'mm' : 'inch'
+    return units === 'METRIC' ? 'mm' : 'inch'
 }
 
 function getResultPressureUnit(units) {
-    return units === 'SI' ? 'Bar' : 'psi'
+    return units === 'METRIC' ? 'Bar' : 'psi'
 }
 
 function getPressureUnit(units) {
-    return units === 'SI' ? 'MPa' : 'psi'
+    return units === 'METRIC' ? 'MPa' : 'psi'
 }
 
 function getDensityUnit(units) {
-    return units === 'SI' ? 'g/cm3' : 'lb/cubic inch'
+    return units === 'METRIC' ? 'g/cm3' : 'lb/cubic inch'
 }
 
 function getCstarUnit(units) {
-    return units === 'SI' ? 'm/s' : 'feet/sec'
+    return units === 'METRIC' ? 'm/s' : 'feet/sec'
 }
 
 Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {

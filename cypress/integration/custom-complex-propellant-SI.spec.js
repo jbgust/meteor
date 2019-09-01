@@ -3,12 +3,12 @@ describe('Use custom propellant with advance burn rate in SI', function() {
         cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
-        cy.contains('SI').click()
+        cy.contains('METRIC').click()
 
         cy.fixture('custom-KNDX-complexe-si.json').then(propellant => {
 
-            cy.addPropellant(propellant, 'SI', false)
-            cy.addComplexeBurnRate(propellant.burnRateDataSet, 'SI')
+            cy.addPropellant(propellant, 'METRIC', false)
+            cy.addComplexeBurnRate(propellant.burnRateDataSet, 'METRIC')
             // To check default selection of custom propellant
             cy.contains('custom KNDX')
 
@@ -26,7 +26,7 @@ describe('Use custom propellant with advance burn rate in SI', function() {
                 chamberLength: 470
             }
 
-            cy.fillForm(formDatas, 'SI')
+            cy.fillForm(formDatas, 'METRIC')
 
             // check result
             const expectedResults = {
@@ -41,7 +41,7 @@ describe('Use custom propellant with advance burn rate in SI', function() {
                 optimalExpansionRatio: '9.65'
             }
 
-            cy.checkPerformanceResults(expectedResults, 'SI')
+            cy.checkPerformanceResults(expectedResults, 'METRIC')
         })
     })
 })
