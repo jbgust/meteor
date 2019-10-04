@@ -1,6 +1,8 @@
 <template>
     <div>
-        <v-btn color="info" small @click="showNozzleDesignDialog = true">Nozzle design</v-btn>
+        <v-btn small @click="showNozzleDesignDialog = true">
+            <v-icon left>mdi-ruler-square</v-icon>
+            Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
             <v-app-bar dark color="primary">
@@ -24,7 +26,7 @@
                             The form should be valid to close the dialog
                         </v-alert>
                         <v-layout row>
-                            <v-flex class="pl-5 pr-5">
+                            <v-flex class="pl-5 pr-5 mt-5">
                                     <v-form ref="nozzleDesignForm">
                                         <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="value.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
                                         <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="value.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>

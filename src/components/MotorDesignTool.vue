@@ -92,17 +92,20 @@
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
-                                <nozzle-design v-model="nozzleDesignValue" ref="nozzleDesign" :units="units"></nozzle-design>
                                 <v-btn color="info" small class="ml-4 tooglePerf">
                                     <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
                                         {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
                                     </v-icon>
                                 </v-btn>
                             </v-app-bar>
-                            <v-card-text v-show="showPerformanceInfo">
+                            <v-card-text v-show="showPerformanceInfo" class="pb-0">
                                 <performance-info :units="units" ref="performanceResult"/>
                             </v-card-text>
-
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <export-rasp ref="rasp" :units="units"></export-rasp>
+                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
+                            </v-card-actions>
                         </v-card>
                     </v-flex>
                     <v-flex>
@@ -132,10 +135,11 @@ import {
     setSelectedUnits,
     SI_UNITS
 } from '../modules/computationUtils'
+import ExportRasp from './result/ExportRASPForm'
 
 export default {
     name: 'motor-design-tool',
-    components: { NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
+    components: { ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,
@@ -174,10 +178,14 @@ export default {
             this.$refs.fileBrowser.value = ''
             this.$refs.fileBrowser.click()
         },
-        loadResult(data) {
+        exportRASP() {
+            this.$refs.form.exportRASP()
+        },
+        loadResult(data, request) {
             // save defaultUnit
             if (!this.demo) {
                 setSelectedUnits(this.unitSelected)
+                this.$refs.rasp.setComputationRequest(request)
             }
 
             this.displayDefaultUnitInfo = false

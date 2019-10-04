@@ -92,9 +92,10 @@ export default {
             const component = this
             if (this.$refs.formJSRM.validate() && this.checkMotorDimensions()) {
                 this.loading = true
-                Axios.post('/compute', {}, { data: this.buildRequest() })
+                let request = this.buildRequest()
+                Axios.post('/compute', {}, { data: request })
                     .then(function(response) {
-                        component.$emit('computation-success', response.data)
+                        component.$emit('computation-success', response.data, request)
                         component.loading = false
                     })
                     .catch(function(error) {
