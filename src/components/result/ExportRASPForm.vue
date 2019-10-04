@@ -1,5 +1,5 @@
 <template>
-        <v-btn class="pr-4" small @click="show">
+        <v-btn id="btnShowRASPExport" class="pr-4" small @click="show">
             <v-icon left>mdi-file-export-outline</v-icon>
             RASP export
             <v-layout row justify-center>
@@ -27,7 +27,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
-                            <v-btn @click="exportRASP" color="primary">Download</v-btn>
+                            <v-btn id="btnExportRASP" @click="exportRASP" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
