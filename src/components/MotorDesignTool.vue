@@ -124,7 +124,7 @@ import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
-import { demoForm, demoResultData } from '../modules/dataDemo'
+import { demoForm, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
 import { validateJSONImport, ajvValidator } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
@@ -185,7 +185,11 @@ export default {
             // save defaultUnit
             if (!this.demo) {
                 setSelectedUnits(this.unitSelected)
-                this.$refs.rasp.setComputationRequest(request)
+                this.$refs.rasp.setComputationRequest(request, data)
+            } else {
+                const demoRequest = this.demoForm
+                demoRequest.extraConfig = defaultAdvanceConfig
+                this.$refs.rasp.setComputationRequest(demoRequest, data)
             }
 
             this.displayDefaultUnitInfo = false

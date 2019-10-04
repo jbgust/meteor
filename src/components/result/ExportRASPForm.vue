@@ -15,10 +15,10 @@
                                 <v-flex>
                                     <div style="padding: 10px;">
                                         <v-form ref="exportRaspForm" class="mr-5 ml-5">
-                                            <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="greaterThanRules" :suffix="units.lengthUnit"/>
-                                            <v-text-field id="motorLength" label="Motor length:" :rules="greaterThanRules" :suffix="units.lengthUnit" v-model="config.motorLength"/>
-                                            <v-text-field id="motorWeight" label="Motor weight:" :rules="greaterThanRules" :suffix="units.massUnit" v-model="config.motorWeight"/>
-                                            <v-text-field id="delay" label="Delay:" hint="psiLabel" :rules="delayRules" :persistent-hint="true"  v-model="config.delay"/>
+                                            <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
+                                            <v-text-field id="motorLength" label="Motor length:" :rules="motorLengthRules" :suffix="units.lengthUnit" v-model="config.motorLength"/>
+                                            <v-text-field id="motorWeight" label="Motor weight:" :rules="massRules" :suffix="units.massUnit" v-model="config.motorWeight"/>
+                                            <v-text-field id="delay" label="Delay:"  suffix="s" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
                                 </v-flex>
@@ -50,7 +50,9 @@ export default {
             config: {},
             dialog: false,
             computationRequest: null,
-            greaterThanRules: greaterThanRule(0),
+            motorDiameterRules: [],
+            motorLengthRules: [],
+            massRules: [],
             delayRules: [requiredValidator('Field is required'), regexValidator(/^([0-9]+|P)(-([0-9]+|P))*$/g, 'Invalid format. This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).')]
         }
     },
@@ -67,8 +69,11 @@ export default {
         isFormValid() {
             return this.$refs.exportRaspForm ? this.$refs.exportRaspForm.validate() : true
         },
-        setComputationRequest(request) {
+        setComputationRequest(request, computationResult) {
             this.computationRequest = Object.assign({}, request)
+            this.massRules = greaterThanRule(computationResult.performanceResult.grainMass)
+            this.motorDiameterRules = greaterThanRule(request.chamberInnerDiameter)
+            this.motorLengthRules = greaterThanRule(request.chamberLength)
         },
         exportRASP() {
             if (this.isFormValid()) {
