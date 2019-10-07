@@ -108,7 +108,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-flex>
-                    <v-flex>
+                    <v-flex d-flex>
                         <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
                     </v-flex>
                 </v-layout>
