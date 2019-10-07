@@ -1,3 +1,5 @@
+chai.use(require('chai-string'))
+
 describe('Run computation in imperial units', function() {
 
     it('Should open meteor', function() {
@@ -54,5 +56,41 @@ describe('Run computation in imperial units', function() {
         cy.get('span').contains('Convergence length:').parent().contains('1.96 inch')
         cy.get('span').contains('Divergence length:').parent().contains('3.39 inch')
         cy.get('span').contains('Nozzle exit diameter:').parent().contains('2.13 inch')
+
+        cy.get('#btnCloseNozzleDesign').click()
+    })
+
+    it('Should export to RASP in IMPERIAL', function() {
+        cy.server()
+        cy.route('POST', '/export/rasp').as('postExportRASP')
+
+        cy.get('button#btnShowRASPExport').click()
+
+        cy.get('input#motorDiameter').clear().type(3.14961)
+            .parent()
+            .contains('inch')
+        cy.get('input#motorLength').clear().type(19.685)
+            .parent()
+            .contains('inch')
+        cy.get('input#motorWeight').clear().type(9.325554)
+            .parent()
+            .contains('lb')
+        cy.get('input#delay').clear().type('0-1-P')
+            .parent()
+            .contains('s')
+
+        cy.get('button#btnExportRASP').click()
+
+        cy.wait('@postExportRASP')
+
+        // Assert on XHR
+        cy.get('@postExportRASP').then(function(xhr) {
+            console.log(xhr)
+            expect(xhr.status).to.eq(200)
+            expect(xhr.method).to.eq('POST')
+            expect(xhr.responseBody).to.startsWith(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
+    0.0 0.0
+    0.0253 917`)
+        })
     })
 })

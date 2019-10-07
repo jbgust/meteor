@@ -10,7 +10,7 @@
                     Nozzle design tool
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon dark @click="showNozzleDesignDialog = !formIsValid()">
+                <v-btn icon dark id="btnCloseNozzleDesign" @click="showNozzleDesignDialog = !formIsValid()">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-app-bar>

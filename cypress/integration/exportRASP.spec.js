@@ -1,6 +1,5 @@
 describe('RASP export', function() {
-
-    it('Should export to RASP', function() {
+    it('Should export to RASP in METRIC', function() {
         cy.visit('/')
         cy.contains('View demo').click()
 
@@ -14,23 +13,28 @@ describe('RASP export', function() {
         cy.get('button#btnShowRASPExport').click()
 
         cy.get('input#motorDiameter').clear().type(80)
+            .parent()
+            .contains('mm')
         cy.get('input#motorLength').clear().type(500)
+            .parent()
+            .contains('mm')
         cy.get('input#motorWeight').clear().type(4.23)
+            .parent()
+            .contains('Kg')
         cy.get('input#delay').clear().type('0-1-P')
+            .parent()
+            .contains('s')
 
         cy.get('button#btnExportRASP').click()
 
         cy.wait('@postExportRASP')
 
         // Assert on XHR
-        cy.get('@postExportRASP').then(function (xhr) {
+        cy.get('@postExportRASP').then(function(xhr) {
             console.log(xhr)
             expect(xhr.status).to.eq(200)
-            // expect(xhr.requestHeaders).to.have.property('Content-Type')
-            // expect(xhr.requestHeaders).to.have.property('X-Password', 'Passw0rd1')
             expect(xhr.method).to.eq('POST')
-            expect(xhr.responseBody).to.eq(`
-L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
+            expect(xhr.responseBody).to.eq(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
     0.0253 917.1436
     0.0394 1045.1818
@@ -251,7 +255,7 @@ L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
     2.1345 98.193
     2.1406 69.9073
     2.1468 48.7756
-2.1529 32.9662`)
+    2.1529 32.9662`)
         })
     })
 })
