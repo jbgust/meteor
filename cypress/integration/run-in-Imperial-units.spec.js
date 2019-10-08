@@ -1,5 +1,3 @@
-chai.use(require('chai-string'))
-
 describe('Run computation in imperial units', function() {
 
     it('Should open meteor', function() {
@@ -88,9 +86,9 @@ describe('Run computation in imperial units', function() {
             console.log(xhr)
             expect(xhr.status).to.eq(200)
             expect(xhr.method).to.eq('POST')
-            expect(xhr.responseBody).to.startsWith(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
+            expect(xhr.responseBody.startsWith(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
-    0.0253 917`)
+    0.0253 917`)).to.be(true)
         })
     })
 })
