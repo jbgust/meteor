@@ -60,9 +60,9 @@ describe('Run computation in imperial units', function() {
         cy.get('#btnCloseNozzleDesign').click()
     })
 
-    it('Should export to RASP in IMPERIAL', function() {
+    it.skip('Should export to RASP in IMPERIAL', function() {
         cy.server()
-        cy.route('POST', '/export/rasp').as('postExportRASP')
+        cy.route('POST', '/export/rasp').as('postExportRASPImperial')
 
         cy.get('button#btnShowRASPExport').click()
 
@@ -81,10 +81,10 @@ describe('Run computation in imperial units', function() {
 
         cy.get('button#btnExportRASP').click()
 
-        cy.wait('@postExportRASP')
+        cy.wait('@postExportRASPImperial')
 
         // Assert on XHR
-        cy.get('@postExportRASP').then(function(xhr) {
+        cy.get('@postExportRASPImperial').then(function(xhr) {
             console.log(xhr)
             expect(xhr.status).to.eq(200)
             expect(xhr.method).to.eq('POST')
