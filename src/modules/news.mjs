@@ -38,6 +38,11 @@ export const news = [
         html: `<ul>
                     <li><b>New forum to share experience, request feature, report bug, ... See <a href="http://meteor.boards.net/">HERE</a></b></li>
                 </ul>`
+    }, {
+        id: 5,
+        html: `<ul>
+                    <li><b>Motor export in RASP format (.eng)</a></b></li>
+                </ul>`
     }
 ]
 

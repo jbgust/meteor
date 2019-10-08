@@ -4,7 +4,7 @@ import {
     greaterThanValidator, greaterThanValidatorNotRequired, integerGreaterThanRule,
     integerValidator, numberRule,
     numberValidator,
-    numberValidatorNotRequired, rangeRule, rangeValidator, requiredRule,
+    numberValidatorNotRequired, rangeRule, rangeValidator, regexValidator, requiredRule,
     requiredValidator
 } from '../../src/modules/formValidationRules'
 
@@ -220,6 +220,24 @@ describe('Check Rules', () => {
         expect(numberRule(1)[1]('1.2')).toBeTruthy()
         expect(numberRule(1)[1](1.2)).toBeTruthy()
         expect(numberRule(1)[1](-1.2)).toBeTruthy()
-        expect(numberRule(1)[1](-.2)).toBeTruthy()
+        expect(numberRule(1)[1](-0.2)).toBeTruthy()
+    })
+
+    test('regex Validator', () => {
+        const regex = /^([0-9]+|P)(-([0-9]+|P))*$/g
+
+        let validator = regexValidator(regex)
+
+        const matchingValues = ['1-5-P', '0', '165', '500-2', '56-2-1-0', 'P', '232', '5-569-P', '1-P-2', 'P-45-2']
+        matchingValues.forEach((item) => {
+            console.log('item : ' + item)
+            expect(validator(item)).toBeTruthy()
+        })
+
+        const notMachingValues = ['0.2', '56-2-1-0-0.2', '5-569-PPPP', 'ds', 's', '-', '12-']
+        notMachingValues.forEach((item) => {
+            console.log('item : ' + item)
+            expect(validator(item)).toBeFalsy()
+        })
     })
 })

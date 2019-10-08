@@ -48,6 +48,10 @@ export function greaterThanRuleNotRequired(minValueExcluded) {
     ]
 }
 
+export function regexValidator(regex, valueIfFalse = false) {
+    return fieldValue => (fieldValue && fieldValue.match(regex) !== null) || valueIfFalse
+}
+
 export function greaterThanRule(minValueExcluded) {
     return [
         requiredValidator('Field is required'),
