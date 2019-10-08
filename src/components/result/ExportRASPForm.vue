@@ -49,6 +49,7 @@ export default {
         return {
             config: {},
             dialog: false,
+            safeKN: false,
             computationRequest: null,
             motorDiameterRules: [],
             motorLengthRules: [],
@@ -74,6 +75,7 @@ export default {
             this.massRules = greaterThanRule(computationResult.performanceResult.grainMass)
             this.motorDiameterRules = greaterThanRule(request.chamberInnerDiameter)
             this.motorLengthRules = greaterThanRule(request.chamberLength)
+            this.safeKN = computationResult.performanceResult.safeKN
         },
         exportRASP() {
             if (this.isFormValid()) {
@@ -89,7 +91,8 @@ export default {
                     motorDiameter: this.config.motorDiameter,
                     motorLength: this.config.motorLength,
                     motorWeight: this.config.motorWeight,
-                    projectName: motorName || 'default'
+                    projectName: motorName || 'default',
+                    safeKN: this.safeKN
                 }
                 Axios.post('/export/rasp', {}, { data: exportRequest })
                     .then(function(response) {
@@ -107,6 +110,10 @@ export default {
                             downloadAnchorNode.click()
                             downloadAnchorNode.remove()
                         }
+                    })
+                    .catch(function(error) {
+                        alert('Export fail due to unknown error')
+                        console.error(error)
                     })
             }
         }
