@@ -72,9 +72,9 @@ export default {
         },
         setComputationRequest(request, computationResult) {
             this.computationRequest = Object.assign({}, request)
-            this.massRules = greaterThanRule(computationResult.performanceResult.grainMass)
-            this.motorDiameterRules = greaterThanRule(request.chamberInnerDiameter)
-            this.motorLengthRules = greaterThanRule(request.chamberLength)
+            this.massRules = greaterThanRule(Number(computationResult.performanceResult.grainMass))
+            this.motorDiameterRules = greaterThanRule(Number(request.chamberInnerDiameter))
+            this.motorLengthRules = greaterThanRule(Number(request.chamberLength))
             this.safeKN = computationResult.performanceResult.safeKN
         },
         exportRASP() {
