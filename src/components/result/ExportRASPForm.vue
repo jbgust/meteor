@@ -18,7 +18,7 @@
                                             <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
                                             <v-text-field id="motorLength" label="Motor length:" :rules="motorLengthRules" :suffix="units.lengthUnit" v-model="config.motorLength"/>
                                             <v-text-field id="motorWeight" label="Motor weight:" :rules="massRules" :suffix="units.massUnit" v-model="config.motorWeight"/>
-                                            <v-text-field id="delay" label="Delay:"  suffix="s" :rules="delayRules" v-model="config.delay"/>
+                                            <v-text-field id="delay" label="Delay:"  suffix="s" persistent-hint :hint="delayHint" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
                                 </v-flex>
@@ -39,7 +39,7 @@
 
 import Axios from 'axios'
 import { greaterThanRule, regexValidator, requiredValidator } from '../../modules/formValidationRules'
-
+const delayHintMessage = 'This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).'
 export default {
     name: 'export-rasp',
     props: {
@@ -54,7 +54,8 @@ export default {
             motorDiameterRules: [],
             motorLengthRules: [],
             massRules: [],
-            delayRules: [requiredValidator('Field is required'), regexValidator(/^([0-9]+|P)(-([0-9]+|P))*$/g, 'Invalid format. This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).')]
+            delayHint: delayHintMessage,
+            delayRules: [requiredValidator('Field is required'), regexValidator(/^([0-9]+|P)(-([0-9]+|P))*$/g, `Invalid format. ${delayHintMessage}`)]
         }
     },
     methods: {
