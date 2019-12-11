@@ -125,7 +125,7 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
-import { validateJSONImport, ajvValidator } from '../modules/importValidator'
+import { validateImportVersion1, validateImportVersion2, ajvValidator } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
 import {
@@ -214,7 +214,10 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateJSONImport(loadedConfig)) {
+                        if (validateImportVersion1(loadedConfig) || validateImportVersion2(loadedConfig)) {
+                            if (loadedConfig.version === 1) {
+                                loadedConfig.configs[0].grainType = 'HOLLOW'
+                            }
                             me.importInProgress = true
                             me.displayImportError = false
                             me.asResult = false

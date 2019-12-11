@@ -90,10 +90,21 @@ export default {
         },
         runComputation() {
             const component = this
-            if (this.$refs.formJSRM.validate() && this.checkMotorDimensions()) {
+            let url = '/compute'
+            let request
+            let grainCheck = true
+            if (this.formValue.grainType === 'HOLLOW') {
+                request = this.buildRequest()
+                grainCheck = this.checkMotorDimensions()
+            } else if (this.formValue.grainType === 'FINOCYL') {
+                grainCheck = true
+                url += '/finocyl'
+                request = this.buildFinocylRequest()
+            }
+
+            if (this.$refs.formJSRM.validate() && grainCheck) {
                 this.loading = true
-                let request = this.buildRequest()
-                Axios.post('/compute', {}, { data: request })
+                Axios.post(url, {}, { data: request })
                     .then(function(response) {
                         component.$emit('computation-success', response.data, request)
                         component.loading = false
@@ -130,6 +141,24 @@ export default {
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
 
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
+
+                return request
+            } else {
+                return null
+            }
+        },
+        buildFinocylRequest() {
+            if (this.$refs.formJSRM.validate()) {
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                delete request.grainType
+                request = Object.assign(request, request.grainConfig)
+                delete request.grainConfig
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
+                console.log(request)
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }

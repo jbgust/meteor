@@ -56,13 +56,18 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
+        .contains('Hollow cylinder').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(2).click()
+    cy.get('div.menuable__content__active')
         .contains(formValues.endsSurface).click()
 
-    cy.get('@coreSurfaces').eq(2).click()
+    cy.get('@coreSurfaces').eq(3).click()
     cy.get('div.menuable__content__active')
         .contains(formValues.coreSurface).click()
 
-    cy.get('@coreSurfaces').eq(3).click()
+    cy.get('@coreSurfaces').eq(4).click()
     cy.get('div.menuable__content__active')
         .contains(formValues.outerSurface).click()
 

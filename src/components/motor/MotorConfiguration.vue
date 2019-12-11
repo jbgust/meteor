@@ -22,18 +22,45 @@
             <v-layout colum wrap>
                 <v-flex lg6 md6>
                     <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
+                    <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter" :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                </v-flex>
+                <v-flex lg6 md6>
+                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
+                </v-flex>
+                <v-flex d-flex lg12>
+                    <v-select
+                        v-model="value.grainType"
+                        :items="grainTypes"
+                        label="Grain configuration"
+                    ></v-select>
+                </v-flex>
+
+                <v-flex lg6 md6 v-if="value.grainType === 'HOLLOW'">
                     <v-text-field id="coreDiameter" label="Grain core diameter" :suffix="units.lengthUnit" v-model="value.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
+                    <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
+                    <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
                     <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                </v-flex>
+                <v-flex lg6 md6 v-if="value.grainType === 'HOLLOW'">
+                    <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
                     <v-text-field id="segmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                     <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 </v-flex>
-                <v-flex lg6 md6>
-                    <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.endsSurface" />
-                    <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.coreSurface" />
-                    <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.outerSurface"/>
-                    <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter" :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
-                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
+
+                <v-flex lg6 md6 v-if="value.grainType === 'FINOCYL'">
+                    <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="segmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
+                    <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
+                    <v-text-field id="innerDiameter" label="Inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 </v-flex>
+                <v-flex lg6 md6 v-if="value.grainType === 'FINOCYL'">
+                    <v-text-field id="finWidth" label="Fin width" :suffix="units.lengthUnit" v-model="value.grainConfig.finWidth" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="finDiameter" label="Fin diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.finDiameter" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="finCount" label="Fin count" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="numericGreater0Rules" step="0.01" />
+                    <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
+                    <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                </v-flex>
+
             </v-layout>
         </v-flex>
         <custom-propellant-dialog ref="customPropellantDialog" :units="units" @save-propellant="loadPropellant"/>
@@ -66,6 +93,8 @@ export default {
                 { value: 'KNSB_FINE', text: 'KNSB (oxidizer finely milled)', description: '65% KNO3 / 35% sorbitol', idealDensity: '1.841 g/cm³' },
                 { value: 'KNSU', text: 'KNSU', description: '65% KNO3 / 35% sucrose', idealDensity: '1.889 g/cm³' }
             ],
+            grainTypes: [{ value: 'HOLLOW', text: 'Hollow cylinder' }, { value: 'FINOCYL', text: 'Finocyl' }],
+            selectedGrain: 'HOLLOW',
             numericGreater0Rules: greaterThanRule(0),
             integerGreater0Rules: integerGreaterThanRule(0),
             requiredRules: requiredRule
