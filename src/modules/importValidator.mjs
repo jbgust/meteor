@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import {
     CUSTOM_PRPELLANT_PREFIX,
-    EXPOSED,
+    EXPOSED, FINOCYL, HOLLOW,
     INHIBITED,
     KNDX,
     KNER_COARSE,
@@ -20,11 +20,23 @@ export function validateImportVersion1(loadedConfig) {
 }
 
 export function validateImportVersion2(loadedConfig) {
-    return ajvValidator.validate(importVersion2ValidatorSchema, loadedConfig)
+    if (ajvValidator.validate(importVersion2ValidatorSchema, loadedConfig)) {
+        let config = loadedConfig.configs[0]
+        if (config.grainType === HOLLOW) {
+            return ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else
+        if (config.grainType === FINOCYL) {
+            return ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        }
+        return false
+    }
+    return false
 }
 
 const propellantPattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)|(^' + CUSTOM_PRPELLANT_PREFIX + ')'
 const grainSurfacePattern = '^((' + INHIBITED + ')|(' + EXPOSED + '))$'
+const unitsPattern = '^((SI)|(IMPERIAL))$'
+const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + '))$'
 
 export const importVersion2ValidatorSchema = {
     type: 'object',
@@ -33,7 +45,7 @@ export const importVersion2ValidatorSchema = {
         measureUnit: {
             type: 'string',
             default: 'SI',
-            pattern: '^((SI)|(IMPERIAL))$'
+            pattern: unitsPattern
         },
         configs: {
             type: 'array',
@@ -43,12 +55,12 @@ export const importVersion2ValidatorSchema = {
                 type: 'object',
                 properties: {
                     throatDiameter: { type: 'number' },
+                    chamberInnerDiameter: { type: 'number' },
+                    chamberLength: { type: 'number' },
                     propellantType: {
                         type: 'string',
                         pattern: propellantPattern
                     },
-                    chamberInnerDiameter: { type: 'number' },
-                    chamberLength: { type: 'number' },
                     extraConfig: {
                         type: 'object',
                         properties: {
@@ -84,14 +96,23 @@ export const importVersion2ValidatorSchema = {
                             'divergenceAngle',
                             'convergenceAngle'
                         ]
+                    },
+                    grainType: {
+                        type: 'string',
+                        pattern: grainTypePattern
+                    },
+                    grainConfig: {
+                        type: 'object'
                     }
                 },
                 required: [
                     'throatDiameter',
-                    'propellantType',
                     'chamberInnerDiameter',
+                    'propellantType',
                     'chamberLength',
-                    'extraConfig'
+                    'extraConfig',
+                    'grainType',
+                    'grainConfig'
                 ]
             }
         }
@@ -100,6 +121,53 @@ export const importVersion2ValidatorSchema = {
         'version', 'configs'
     ]
 }
+
+export const hollowGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        outerDiameter: { type: 'number' },
+        coreDiameter: { type: 'number' },
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        outerSurface: { type: 'string', pattern: grainSurfacePattern },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern },
+        coreSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'outerDiameter',
+        'coreDiameter',
+        'segmentLength',
+        'numberOfSegment',
+        'outerSurface',
+        'endsSurface',
+        'coreSurface'
+    ]
+}
+
+export const finocylGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        outerDiameter: { type: 'number' },
+        innerDiameter: { type: 'number' },
+        finWidth: { type: 'number' },
+        finDiameter: { type: 'number' },
+        finCount: { type: 'number' },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'segmentLength',
+        'numberOfSegment',
+        'outerDiameter',
+        'innerDiameter',
+        'finWidth',
+        'finDiameter',
+        'finCount',
+        'endsSurface'
+    ]
+}
+
 export const importVersion1ValidatorSchema = {
     type: 'object',
     properties: {
@@ -107,7 +175,7 @@ export const importVersion1ValidatorSchema = {
         measureUnit: {
             type: 'string',
             default: 'SI',
-            pattern: '^((SI)|(IMPERIAL))$'
+            pattern: unitsPattern
         },
         configs: {
             type: 'array',

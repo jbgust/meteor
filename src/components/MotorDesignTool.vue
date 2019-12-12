@@ -125,6 +125,7 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
+// eslint-disable-next-line no-unused-vars
 import { validateImportVersion1, validateImportVersion2, ajvValidator, LAST_VERSION } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
@@ -214,7 +215,7 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateImportVersion1(loadedConfig) || validateImportVersion2(loadedConfig)) {
+                        if (validateImportVersion2(loadedConfig) /* | validateImportVersion1(loadedConfig) */) {
                             if (loadedConfig.version === 1) {
                                 // Convert to V2 format
                                 loadedConfig.configs[0].grainType = 'HOLLOW'
