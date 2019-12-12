@@ -142,6 +142,7 @@ export default {
                 let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
+                delete request.measureUnit
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
