@@ -1,4 +1,5 @@
 import { validateImportVersion2, ajvValidator } from '../../src/modules/importValidator'
+import { EXPOSED, FINOCYL } from '../../src/modules/grainsConstants'
 
 function createVersion2JsonConfig() {
     const validJsonV2 = {
@@ -21,7 +22,7 @@ function createVersion2JsonConfig() {
                     optimalNozzleDesign: false
                 },
                 grain: {
-                    type: 'FINOCYL',
+                    type: FINOCYL,
                     value: {
                         segmentLength: 70,
                         numberOfSegment: 2,
@@ -30,7 +31,7 @@ function createVersion2JsonConfig() {
                         finWidth: 2.0,
                         finDiameter: 20.0,
                         finCount: 5,
-                        endsSurface: 'EXPOSED'
+                        endsSurface: EXPOSED
                     }
                 },
                 nozzleDesign: {

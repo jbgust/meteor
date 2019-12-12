@@ -1,5 +1,6 @@
 import { validateImportVersion1, ajvValidator } from '../../src/modules/importValidator'
 import { SI_UNITS } from '../../src/modules/computationUtils'
+import { EXPOSED, INHIBITED } from '../../src/modules/grainsConstants'
 
 function createDefaultJsonConfig() {
     const validJsonV1 = {
@@ -11,9 +12,9 @@ function createDefaultJsonConfig() {
                 coreDiameter: 20,
                 segmentLength: 115,
                 numberOfSegment: 4,
-                outerSurface: 'INHIBITED',
-                endsSurface: 'EXPOSED',
-                coreSurface: 'EXPOSED',
+                outerSurface: INHIBITED,
+                endsSurface: EXPOSED,
+                coreSurface: EXPOSED,
                 propellantType: 'KNDX',
                 chamberInnerDiameter: 75,
                 chamberLength: 470,
@@ -188,9 +189,9 @@ describe('Import Validation Version 1', () => {
                     coreDiameter: '20',
                     segmentLength: '115',
                     numberOfSegment: '4',
-                    outerSurface: 'INHIBITED',
-                    endsSurface: 'EXPOSED',
-                    coreSurface: 'EXPOSED',
+                    outerSurface: INHIBITED,
+                    endsSurface: EXPOSED,
+                    coreSurface: EXPOSED,
                     propellantType: 'KNDX',
                     chamberInnerDiameter: '75',
                     chamberLength: '470',
@@ -233,9 +234,9 @@ describe('Import Validation Version 1', () => {
             coreDiameter: 3,
             segmentLength: 4,
             numberOfSegment: 5,
-            outerSurface: 'INHIBITED',
-            endsSurface: 'EXPOSED',
-            coreSurface: 'EXPOSED',
+            outerSurface: INHIBITED,
+            endsSurface: EXPOSED,
+            coreSurface: EXPOSED,
             propellantType: 'KNDX',
             chamberInnerDiameter: '2',
             chamberLength: '9',

@@ -63,6 +63,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { getComputeHash } from '../modules/computationUtils'
+import { FINOCYL, HOLLOW } from '../modules/grainsConstants'
 
 export default {
     name: 'solid-rocket-motor',
@@ -93,10 +94,10 @@ export default {
             let url = '/compute'
             let request
             let grainCheck = true
-            if (this.formValue.grainType === 'HOLLOW') {
-                request = this.buildRequest()
+            if (this.formValue.grainType === HOLLOW) {
+                request = this.buildHollowCylinderRequest()
                 grainCheck = this.checkMotorDimensions()
-            } else if (this.formValue.grainType === 'FINOCYL') {
+            } else if (this.formValue.grainType === FINOCYL) {
                 grainCheck = true
                 url += '/finocyl'
                 request = this.buildFinocylRequest()
@@ -128,19 +129,35 @@ export default {
             }
         },
         checkMotorDimensions() {
-            if (this.formValue.chamberLength < this.formValue.segmentLength * this.formValue.numberOfSegment) {
+            if (this.formValue.chamberLength < this.formValue.grainConfig.segmentLength * this.formValue.grainConfig.numberOfSegment) {
                 this.errorDetail = `The 'combustion chamber length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your combustion chamber length and/or decrease : grain segment length, number of segment.`
                 this.showError = true
                 return false
             }
             return true
         },
-        buildRequest() {
+
+        buildExport() {
             if (this.$refs.formJSRM.validate()) {
-                const request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
-
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
+                return request
+            } else {
+                return null
+            }
+        },
+        buildHollowCylinderRequest() {
+            if (this.$refs.formJSRM.validate()) {
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
+                delete request.grainType
+                request = Object.assign(request, request.grainConfig)
+                delete request.grainConfig
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
@@ -158,7 +175,6 @@ export default {
                 delete request.grainConfig
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
-                console.log(request)
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
