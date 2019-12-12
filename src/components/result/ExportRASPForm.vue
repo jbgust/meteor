@@ -13,7 +13,7 @@
                         <v-card-text>
                             <v-layout column>
                                 <v-flex>
-                                    <div style="padding: 10px;">
+                                    <div style="padding: 10px;" v-if="isHollowCylinder">
                                         <v-form ref="exportRaspForm" class="mr-5 ml-5">
                                             <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
                                             <v-text-field id="motorLength" label="Motor length:" :rules="motorLengthRules" :suffix="units.lengthUnit" v-model="config.motorLength"/>
@@ -21,13 +21,16 @@
                                             <v-text-field id="delay" label="Delay:"  suffix="s" persistent-hint :hint="delayHint" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
+                                    <v-alert outlined type="info" v-else border="left" class="mt-10">
+                                        Not yet implemented for finocyl grain, coming soon...
+                                    </v-alert>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
-                            <v-btn id="btnExportRASP" @click="exportRASP" color="primary">Export</v-btn>
+                            <v-btn id="btnExportRASP" v-if="isHollowCylinder" @click="exportRASP" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -50,6 +53,7 @@ export default {
             config: {},
             dialog: false,
             safeKN: false,
+            isHollowCylinder: false,
             computationRequest: null,
             motorDiameterRules: [],
             motorLengthRules: [],
@@ -63,7 +67,9 @@ export default {
             this.dialog = true
         },
         close() {
-            this.$refs.exportRaspForm.reset()
+            if (this.isHollowCylinder) {
+                this.$refs.exportRaspForm.reset()
+            }
             this.dialog = false
         },
         download() {
@@ -77,6 +83,7 @@ export default {
             this.motorDiameterRules = greaterThanRule(Number(request.chamberInnerDiameter))
             this.motorLengthRules = greaterThanRule(Number(request.chamberLength))
             this.safeKN = computationResult.performanceResult.safeKN
+            this.isHollowCylinder = !!request.coreDiameter
         },
         exportRASP() {
             if (this.isFormValid()) {

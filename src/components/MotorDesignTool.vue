@@ -215,7 +215,7 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateImportVersion2(loadedConfig) /* | validateImportVersion1(loadedConfig) */) {
+                        if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
                             if (loadedConfig.version === 1) {
                                 // Convert to V2 format
                                 loadedConfig.configs[0].grainType = 'HOLLOW'
