@@ -139,6 +139,7 @@ export default {
 
         buildExport() {
             if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
                 let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
@@ -153,6 +154,7 @@ export default {
         },
         buildHollowCylinderRequest() {
             if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
                 let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
@@ -170,6 +172,7 @@ export default {
         },
         buildFinocylRequest() {
             if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
                 let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)

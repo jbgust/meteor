@@ -43,6 +43,16 @@ export const news = [
         html: `<ul>
                     <li><b>Motor export in RASP format (.eng)</a></b></li>
                 </ul>`
+    }, {
+        id: 6,
+        html: `<ul>
+                        <li>
+                            <b>New features, December 2019</b>
+                            <ul>
+                                <li><b>Finocyl grain configuration</b> : thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on finocyl grain calculation.</li>
+                            </ul>
+                        </li>
+                    </ul>`
     }
 ]
 
