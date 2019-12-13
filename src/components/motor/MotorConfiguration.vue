@@ -22,11 +22,11 @@
             <v-layout column>
             <v-layout colum wrap>
                 <v-flex lg6 md6>
-                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
                     <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter" :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
                 </v-flex>
                 <v-flex lg6 md6>
-                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
                 </v-flex>
             </v-layout>
             <GrainConfigurator v-model="value" :units="units"></GrainConfigurator>
