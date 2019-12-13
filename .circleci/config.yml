@@ -94,7 +94,7 @@ jobs:
   deploy:
     working_directory: ~/meteor
     docker:
-      - image: ansible/ansible-runner
+      - image: ansible/ansible-runner:1.3
     parameters:
       front-folder:
         type: string
