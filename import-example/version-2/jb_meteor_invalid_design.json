@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "configs": [
+    {
+      "throatDiameter": 7,
+      "propellantType": "KNSB_FINE",
+      "chamberInnerDiameter": 28,
+      "chamberLength": 79,
+      "extraConfig": {
+        "densityRatio": 0.95,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.95,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": null,
+        "optimalNozzleDesign": true
+      },
+      "grainType": "HOLLOW",
+      "grainConfig": {
+        "outerDiameter": 28,
+        "coreDiameter": 14,
+        "segmentLength": 80,
+        "numberOfSegment": 1,
+        "outerSurface": "INHIBITED",
+        "endsSurface": "INHIBITED",
+        "coreSurface": "EXPOSED"
+      },
+      "nozzleDesign": {
+        "divergenceAngle": 18,
+        "convergenceAngle": 38
+      }
+    }
+  ]
+}

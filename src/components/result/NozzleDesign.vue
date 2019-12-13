@@ -20,6 +20,8 @@
                     <v-flex>
                         <v-alert
                             outlined
+                            colored-border
+                            border="left"
                             :value="!formIsValid()"
                             color="error"
                             icon="mdi-alert-box-outline">

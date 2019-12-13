@@ -1,3 +1,5 @@
+import { EXPOSED, HOLLOW, INHIBITED, KNDX } from './grainsConstants'
+
 export const defaultAdvanceConfig = {
     densityRatio: 0.95,
     nozzleErosionInMillimeter: 0,
@@ -12,14 +14,17 @@ export const defaultAdvanceConfig = {
 
 export const demoForm = {
     throatDiameter: 17.39,
-    outerDiameter: 69,
-    coreDiameter: 20,
-    segmentLength: 115,
-    numberOfSegment: 4,
-    outerSurface: 'INHIBITED',
-    endsSurface: 'EXPOSED',
-    coreSurface: 'EXPOSED',
-    propellantType: 'KNDX',
+    grainType: HOLLOW,
+    grainConfig: {
+        numberOfSegment: 4,
+        outerSurface: INHIBITED,
+        endsSurface: EXPOSED,
+        coreSurface: EXPOSED,
+        outerDiameter: 69,
+        coreDiameter: 20,
+        segmentLength: 115
+    },
+    propellantType: KNDX,
     chamberInnerDiameter: 75,
     chamberLength: 470,
     extraConfig: defaultAdvanceConfig,

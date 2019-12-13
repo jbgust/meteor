@@ -54,6 +54,10 @@
 
                     <v-alert
                         :value="displayImportError"
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        colored-border
+                        border="left"
                         color="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
@@ -61,14 +65,21 @@
 
                     <v-alert
                         :value="displayDefaultUnitInfo"
-                        color="warning"
+                        color="info"
+                        class="mt-5 ml-2 mr-2"
                         outlined
+                        colored-border
+                        border="left"
                         dismissible
                         icon="mdi-alert-box-outline">
                         By default you are on metric units. You can change it above.
                     </v-alert>
 
                     <v-alert
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        colored-border
+                        border="left"
                         :value="displayUnitInfo"
                         type="info"
                     >
@@ -125,7 +136,8 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
-import { validateJSONImport, ajvValidator } from '../modules/importValidator'
+// eslint-disable-next-line no-unused-vars
+import { validateImportVersion1, validateImportVersion2, ajvValidator, LAST_VERSION } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
 import NozzleDesign from './result/NozzleDesign'
 import {
@@ -214,7 +226,27 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateJSONImport(loadedConfig)) {
+                        if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
+                            if (loadedConfig.version === 1) {
+                                // Convert to V2 format
+                                loadedConfig.configs[0].grainType = 'HOLLOW'
+                                loadedConfig.configs[0].grainConfig = {
+                                    outerDiameter: loadedConfig.configs[0].outerDiameter,
+                                    coreDiameter: loadedConfig.configs[0].coreDiameter,
+                                    segmentLength: loadedConfig.configs[0].segmentLength,
+                                    numberOfSegment: loadedConfig.configs[0].numberOfSegment,
+                                    outerSurface: loadedConfig.configs[0].outerSurface,
+                                    endsSurface: loadedConfig.configs[0].endsSurface,
+                                    coreSurface: loadedConfig.configs[0].coreSurface
+                                }
+                                delete loadedConfig.configs[0].outerDiameter
+                                delete loadedConfig.configs[0].coreDiameter
+                                delete loadedConfig.configs[0].segmentLength
+                                delete loadedConfig.configs[0].numberOfSegment
+                                delete loadedConfig.configs[0].outerSurface
+                                delete loadedConfig.configs[0].endsSurface
+                                delete loadedConfig.configs[0].coreSurface
+                            }
                             me.importInProgress = true
                             me.displayImportError = false
                             me.asResult = false
@@ -245,9 +277,9 @@ export default {
         },
         exportConfig() {
             const dataToExport = {
-                version: 1,
+                version: LAST_VERSION,
                 configs: [
-                    this.$refs.form.buildRequest()
+                    this.$refs.form.buildExport()
                 ],
                 measureUnit: this.unitSelected
             }

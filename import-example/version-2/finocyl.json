@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "configs": [
+    {
+      "name": "Finocyl",
+      "throatDiameter": 10,
+      "chamberInnerDiameter": 40,
+      "chamberLength": 150,
+      "propellantType": "KNSU",
+      "extraConfig": {
+        "densityRatio": 0.96,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.97,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": 8,
+        "optimalNozzleDesign": false
+      },
+      "grainType": "FINOCYL",
+      "grainConfig": {
+        "segmentLength": 70,
+        "numberOfSegment": 2,
+        "outerDiameter": 30,
+        "innerDiameter": 10,
+        "finWidth": 2.0,
+        "finDiameter": 20.0,
+        "finCount": 5,
+        "endsSurface": "EXPOSED"
+      },
+      "nozzleDesign": {
+        "divergenceAngle": 18,
+        "convergenceAngle": 38
+      }
+    }
+  ]
+}

@@ -1,7 +1,8 @@
-import { validateJSONImport, ajvValidator } from '../../src/modules/importValidator'
+import { validateImportVersion1, ajvValidator } from '../../src/modules/importValidator'
 import { SI_UNITS } from '../../src/modules/computationUtils'
+import { EXPOSED, INHIBITED } from '../../src/modules/grainsConstants'
 
-function createDefaultJsonConfig() {
+export function createVersion1JsonConfig() {
     const validJsonV1 = {
         version: 1,
         configs: [
@@ -11,9 +12,9 @@ function createDefaultJsonConfig() {
                 coreDiameter: 20,
                 segmentLength: 115,
                 numberOfSegment: 4,
-                outerSurface: 'INHIBITED',
-                endsSurface: 'EXPOSED',
-                coreSurface: 'EXPOSED',
+                outerSurface: INHIBITED,
+                endsSurface: EXPOSED,
+                coreSurface: EXPOSED,
                 propellantType: 'KNDX',
                 chamberInnerDiameter: 75,
                 chamberLength: 470,
@@ -49,132 +50,132 @@ function assertAjvError(dataPath, message = false, params = false) {
     }
 }
 
-describe('Import Validation', () => {
+describe('Import Validation Version 1', () => {
     test('should import valid JSON', () => {
-        expect(createDefaultJsonConfig()).toBeTruthy()
+        expect(validateImportVersion1(createVersion1JsonConfig())).toBeTruthy()
     })
 
     test('should not import invalid propellant', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs[0].propellantType = 'KNDXx'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].propellantType = 'xKNDX'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].propellantType = 'kndx'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.configs[0].propellantType')
     })
 
     test('should import custom propellant', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs[0].propellantType = 'CUSTOM_idPropellant'
-        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(validateImportVersion1(jsonToValidate)).toBeTruthy()
 
         jsonToValidate.configs[0].propellantType = 'custom_'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].propellantType = 'xCUSTOM_'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.configs[0].propellantType')
     })
 
     test('should not import invalid core surface', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs[0].coreSurface = 'INHIBITEDd'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].coreSurface = 'sINHIBITED'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].coreSurface = 'inhibited'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.configs[0].coreSurface')
     })
 
     test('should not import invalid end surface', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs[0].endsSurface = 'INHIBITEDd'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].endsSurface = 'sINHIBITED'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].endsSurface = 'inhibited'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.configs[0].endsSurface')
     })
 
     test('should not import invalid outer surface', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs[0].outerSurface = 'INHIBITEDd'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].outerSurface = 'sINHIBITED'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.configs[0].outerSurface = 'inhibited'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.configs[0].outerSurface')
     })
 
     test('should not import invalid version', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.version = 2
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.version = 0
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.version = 'fd'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         assertAjvError('.version', 'should be number')
     })
 
     test('should not import multi configs', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.configs.push({})
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
         assertAjvError('.configs')
     })
 
     test('should import configs without nozzleDesign', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         delete jsonToValidate.configs[0].nozzleDesign
-        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(validateImportVersion1(jsonToValidate)).toBeTruthy()
     })
 
     test('should import measure unit', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.measureUnit = 'IMPERIAL'
-        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(validateImportVersion1(jsonToValidate)).toBeTruthy()
         expect(jsonToValidate.measureUnit).toBe('IMPERIAL')
     })
 
     test('should replace invalid measure unit with SI', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
         jsonToValidate.measureUnit = 'xSI'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.measureUnit = 'IMPERIALx'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
 
         jsonToValidate.measureUnit = 'imperial'
-        expect(validateJSONImport(jsonToValidate)).toBeFalsy()
+        expect(validateImportVersion1(jsonToValidate)).toBeFalsy()
     })
 
     test('should use SI as default measure unit', () => {
-        let jsonToValidate = createDefaultJsonConfig()
+        let jsonToValidate = createVersion1JsonConfig()
 
         expect(jsonToValidate.measureUnit).toBeUndefined()
-        expect(validateJSONImport(jsonToValidate)).toBeTruthy()
+        expect(validateImportVersion1(jsonToValidate)).toBeTruthy()
         expect(jsonToValidate.measureUnit).toBe(SI_UNITS)
     })
 
@@ -188,9 +189,9 @@ describe('Import Validation', () => {
                     coreDiameter: '20',
                     segmentLength: '115',
                     numberOfSegment: '4',
-                    outerSurface: 'INHIBITED',
-                    endsSurface: 'EXPOSED',
-                    coreSurface: 'EXPOSED',
+                    outerSurface: INHIBITED,
+                    endsSurface: EXPOSED,
+                    coreSurface: EXPOSED,
                     propellantType: 'KNDX',
                     chamberInnerDiameter: '75',
                     chamberLength: '470',
@@ -212,16 +213,16 @@ describe('Import Validation', () => {
                 }
             ]
         }
-        expect(validateJSONImport(validJson)).toBeTruthy()
+        expect(validateImportVersion1(validJson)).toBeTruthy()
     })
 
     test('should failed when version is missing', () => {
-        expect(validateJSONImport({})).toBeFalsy()
+        expect(validateImportVersion1({})).toBeFalsy()
         assertAjvError('', 'should have required property \'version\'', { field: 'missingProperty', value: 'version' })
     })
 
     test('should failed when configs is missing', () => {
-        expect(validateJSONImport({ version: 1 })).toBeFalsy()
+        expect(validateImportVersion1({ version: 1 })).toBeFalsy()
         assertAjvError('', 'should have required property \'configs\'', { field: 'missingProperty', value: 'configs' })
     })
 
@@ -233,9 +234,9 @@ describe('Import Validation', () => {
             coreDiameter: 3,
             segmentLength: 4,
             numberOfSegment: 5,
-            outerSurface: 'INHIBITED',
-            endsSurface: 'EXPOSED',
-            coreSurface: 'EXPOSED',
+            outerSurface: INHIBITED,
+            endsSurface: EXPOSED,
+            coreSurface: EXPOSED,
             propellantType: 'KNDX',
             chamberInnerDiameter: '2',
             chamberLength: '9',
@@ -256,7 +257,7 @@ describe('Import Validation', () => {
             'extraConfig'
         ]
         requiredFields.forEach(field => {
-            expect(validateJSONImport(json)).toBeFalsy()
+            expect(validateImportVersion1(json)).toBeFalsy()
             assertAjvError('.configs[0]', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json.configs[0][field] = fieldsValues[field]
@@ -264,7 +265,7 @@ describe('Import Validation', () => {
     })
 
     test('should failed when required fields are missing in extraConfig', () => {
-        let json = createDefaultJsonConfig()
+        let json = createVersion1JsonConfig()
         json.configs[0].extraConfig = {}
 
         const requiredFields = {
@@ -280,7 +281,7 @@ describe('Import Validation', () => {
         }
 
         Object.keys(requiredFields).forEach((key, value) => {
-            expect(validateJSONImport(json)).toBeFalsy()
+            expect(validateImportVersion1(json)).toBeFalsy()
             assertAjvError('.configs[0].extraConfig', `should have required property '${key}'`, { field: 'missingProperty', value: key })
 
             json.configs[0].extraConfig[key] = value
@@ -288,7 +289,7 @@ describe('Import Validation', () => {
     })
 
     test('should failed when required fields are missing in nozzleDesign', () => {
-        let json = createDefaultJsonConfig()
+        let json = createVersion1JsonConfig()
         json.configs[0].nozzleDesign = {}
 
         const requiredFields = {
@@ -301,7 +302,7 @@ describe('Import Validation', () => {
         ]
 
         fields.forEach(field => {
-            expect(validateJSONImport(json)).toBeFalsy()
+            expect(validateImportVersion1(json)).toBeFalsy()
             assertAjvError('.configs[0].nozzleDesign', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json.configs[0].nozzleDesign[field] = requiredFields[field]
@@ -309,34 +310,34 @@ describe('Import Validation', () => {
     })
 
     test('should failed when nozzleDesign has invalid field', () => {
-        let json = createDefaultJsonConfig()
+        let json = createVersion1JsonConfig()
         json.configs[0].nozzleDesign = {
             divergenceAngle: 0.9,
             convergenceAngle: 35
         }
 
-        expect(validateJSONImport(json)).toBeFalsy()
+        expect(validateImportVersion1(json)).toBeFalsy()
         assertAjvError('.configs[0].nozzleDesign.divergenceAngle', 'should be >= 1')
 
         json.configs[0].nozzleDesign = {
             divergenceAngle: 90.1,
             convergenceAngle: 35
         }
-        expect(validateJSONImport(json)).toBeFalsy()
+        expect(validateImportVersion1(json)).toBeFalsy()
         assertAjvError('.configs[0].nozzleDesign.divergenceAngle', 'should be <= 90')
 
         json.configs[0].nozzleDesign = {
             divergenceAngle: 45,
             convergenceAngle: 0.9
         }
-        expect(validateJSONImport(json)).toBeFalsy()
+        expect(validateImportVersion1(json)).toBeFalsy()
         assertAjvError('.configs[0].nozzleDesign.convergenceAngle', 'should be >= 1')
 
         json.configs[0].nozzleDesign = {
             divergenceAngle: 45,
             convergenceAngle: 91
         }
-        expect(validateJSONImport(json)).toBeFalsy()
+        expect(validateImportVersion1(json)).toBeFalsy()
         assertAjvError('.configs[0].nozzleDesign.convergenceAngle', 'should be <= 90')
     })
 })

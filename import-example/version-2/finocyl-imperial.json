@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "measureUnit": "IMPERIAL",
+  "configs": [
+    {
+      "name": "Finocyl IMPERIAL",
+      "throatDiameter": 0.393701,
+      "chamberInnerDiameter": 1.5748,
+      "chamberLength": 5.90551,
+      "propellantType": "KNSU",
+      "extraConfig": {
+        "densityRatio": 0.96,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.97,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": 8,
+        "optimalNozzleDesign": false
+      },
+      "grainType": "FINOCYL",
+      "grainConfig": {
+        "segmentLength": 2.75591,
+        "numberOfSegment": 2,
+        "outerDiameter": 1.1811,
+        "innerDiameter": 0.393701,
+        "finWidth": 0.0787402,
+        "finDiameter": 0.787402,
+        "finCount": 5,
+        "endsSurface": "EXPOSED"
+      },
+      "nozzleDesign": {
+        "divergenceAngle": 18,
+        "convergenceAngle": 38
+      }
+    }
+  ]
+}

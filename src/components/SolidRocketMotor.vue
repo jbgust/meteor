@@ -2,7 +2,7 @@
     <v-container>
         <v-form ref="formJSRM">
 
-            <motor-configuration v-model="formValue" :units="units" ref="motorConfiguration"/>
+            <motor-configuration v-model="formValue" @resetValidation="$refs.formJSRM.resetValidation() " :units="units" ref="motorConfiguration"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <div class="text-center" v-if="!disabledButtons">
@@ -63,6 +63,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { getComputeHash } from '../modules/computationUtils'
+import { FINOCYL, HOLLOW } from '../modules/grainsConstants'
 
 export default {
     name: 'solid-rocket-motor',
@@ -90,10 +91,21 @@ export default {
         },
         runComputation() {
             const component = this
-            if (this.$refs.formJSRM.validate() && this.checkMotorDimensions()) {
+            let url = '/compute'
+            let request
+            let grainCheck = true
+            if (this.formValue.grainType === HOLLOW) {
+                request = this.buildHollowCylinderRequest()
+                grainCheck = this.checkMotorDimensions()
+            } else if (this.formValue.grainType === FINOCYL) {
+                grainCheck = true
+                url += '/finocyl'
+                request = this.buildFinocylRequest()
+            }
+
+            if (this.$refs.formJSRM.validate() && grainCheck) {
                 this.loading = true
-                let request = this.buildRequest()
-                Axios.post('/compute', {}, { data: request })
+                Axios.post(url, {}, { data: request })
                     .then(function(response) {
                         component.$emit('computation-success', response.data, request)
                         component.loading = false
@@ -117,19 +129,56 @@ export default {
             }
         },
         checkMotorDimensions() {
-            if (this.formValue.chamberLength < this.formValue.segmentLength * this.formValue.numberOfSegment) {
+            if (this.formValue.chamberLength < this.formValue.grainConfig.segmentLength * this.formValue.grainConfig.numberOfSegment) {
                 this.errorDetail = `The 'combustion chamber length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your combustion chamber length and/or decrease : grain segment length, number of segment.`
                 this.showError = true
                 return false
             }
             return true
         },
-        buildRequest() {
+
+        buildExport() {
             if (this.$refs.formJSRM.validate()) {
-                const request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                // Ecrase le computation hash si présent dan formValue
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
+                delete request.measureUnit
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
+                return request
+            } else {
+                return null
+            }
+        },
+        buildHollowCylinderRequest() {
+            if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
+                delete request.grainType
+                request = Object.assign(request, request.grainConfig)
+                delete request.grainConfig
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
 
+                return request
+            } else {
+                return null
+            }
+        },
+        buildFinocylRequest() {
+            if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                delete request.grainType
+                request = Object.assign(request, request.grainConfig)
+                delete request.grainConfig
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
