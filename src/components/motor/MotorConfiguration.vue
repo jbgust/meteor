@@ -29,7 +29,7 @@
                     <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
                 </v-flex>
             </v-layout>
-            <GrainConfigurator v-model="value" :units="units"></GrainConfigurator>
+            <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-layout>
         </v-flex>
         <custom-propellant-dialog ref="customPropellantDialog" :units="units" @save-propellant="loadPropellant"/>

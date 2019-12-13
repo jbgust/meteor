@@ -14,11 +14,11 @@
                             <v-icon id="btnHelpGrain">mdi-help</v-icon>
                         </v-btn>
                     </template>
-                    <span>Help</span>
+                    <span>How configuring grain?</span>
                 </v-tooltip>
             </v-flex>
         </v-flex>
-        <v-layout colum wrap>
+        <v-layout colum class="pl-1 pr-1" wrap>
             <v-flex lg6 md6 v-if="value.grainType === hollowCode">
                 <v-text-field id="coreDiameter" label="Grain core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
@@ -35,12 +35,12 @@
                 <v-text-field id="finocylSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="finocylNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-text-field id="finocylInnerDiameter" label="Inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylFinWidth" label="Fin width" :suffix="units.lengthUnit" v-model="value.grainConfig.finWidth" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylFinDiameter" label="Fin diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.finDiameter" :rules="numericGreater0Rules" step="0.01" />
-                <v-text-field id="finocylFinCount" label="Fin count" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="numericGreater0Rules" step="0.01" />
-                <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
+                <v-text-field id="finocylFinCount" label="Number of fin" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
             </v-flex>
         </v-layout>
@@ -78,6 +78,7 @@ export default {
     methods: {
         grainTypeChange() {
             this.value.grainConfig = {}
+            this.$emit('grainConfigChange')
         }
     }
 }

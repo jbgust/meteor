@@ -54,6 +54,10 @@
 
                     <v-alert
                         :value="displayImportError"
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        colored-border
+                        border="left"
                         color="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
@@ -61,14 +65,21 @@
 
                     <v-alert
                         :value="displayDefaultUnitInfo"
-                        color="warning"
+                        color="info"
+                        class="mt-5 ml-2 mr-2"
                         outlined
+                        colored-border
+                        border="left"
                         dismissible
                         icon="mdi-alert-box-outline">
                         By default you are on metric units. You can change it above.
                     </v-alert>
 
                     <v-alert
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        colored-border
+                        border="left"
                         :value="displayUnitInfo"
                         type="info"
                     >
