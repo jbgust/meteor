@@ -7,6 +7,16 @@
                 label="Grain configuration"
                 @change="grainTypeChange"
             ></v-select>
+            <v-flex class="grain-help-icon">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <v-btn small text icon v-on="on" @click="$refs.helpDialog.show()" class="mt-3">
+                            <v-icon id="btnHelpGrain">mdi-help</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Help</span>
+                </v-tooltip>
+            </v-flex>
         </v-flex>
         <v-layout colum wrap>
             <v-flex lg6 md6 v-if="value.grainType === hollowCode">
@@ -34,15 +44,18 @@
                 <v-text-field id="finocylOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
             </v-flex>
         </v-layout>
+        <help-dialog ref="helpDialog"></help-dialog>
     </v-layout>
 </template>
 
 <script>
 import { greaterThanRule, integerGreaterThanRule, requiredRule } from '../../modules/formValidationRules'
 import { EXPOSED, FINOCYL, HOLLOW, INHIBITED } from '../../modules/grainsConstants'
+import HelpDialog from './HelpDialog'
 
 export default {
     name: 'GrainConfigurator',
+    components: { HelpDialog },
     props: {
         value: Object,
         units: Object
@@ -71,5 +84,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .grain-help-icon {
+        max-width: 40px;
+    }
 </style>
