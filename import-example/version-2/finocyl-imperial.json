@@ -1,10 +1,12 @@
 {
   "version": 2,
+  "measureUnit": "IMPERIAL",
   "configs": [
     {
-      "throatDiameter": 10,
-      "chamberInnerDiameter": 40,
-      "chamberLength": 150,
+      "name": "Finocyl IMPERIAL",
+      "throatDiameter": 0.393701,
+      "chamberInnerDiameter": 1.5748,
+      "chamberLength": 5.90551,
       "propellantType": "KNSU",
       "extraConfig": {
         "densityRatio": 0.96,
@@ -19,12 +21,12 @@
       },
       "grainType": "FINOCYL",
       "grainConfig": {
-        "segmentLength": 70,
+        "segmentLength": 2.75591,
         "numberOfSegment": 2,
-        "outerDiameter": 30,
-        "innerDiameter": 10,
-        "finWidth": 2.0,
-        "finDiameter": 20.0,
+        "outerDiameter": 1.1811,
+        "innerDiameter": 0.393701,
+        "finWidth": 0.0787402,
+        "finDiameter": 0.787402,
         "finCount": 5,
         "endsSurface": "EXPOSED"
       },

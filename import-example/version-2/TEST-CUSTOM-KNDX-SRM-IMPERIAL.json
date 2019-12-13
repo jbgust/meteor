@@ -1,0 +1,81 @@
+{
+    "version": 2,
+    "measureUnit": "IMPERIAL",
+    "configs": [
+        {
+            "name": "TEST-CUSTOM-KNDX-SRM-IMPERIAL",
+            "propellantType": "CUSTOM_propellant",
+            "throatDiameter": "0.68464",
+            "chamberInnerDiameter": "2.95275",
+            "chamberLength": "18.503937",
+            "extraConfig": {
+                "densityRatio": 0.95,
+                "nozzleErosionInMillimeter": 0,
+                "combustionEfficiencyRatio": 0.95,
+                "ambiantPressureInMPa": 0.101,
+                "erosiveBurningAreaRatioThreshold": 6,
+                "erosiveBurningVelocityCoefficient": 0,
+                "nozzleEfficiency": 0.85,
+                "nozzleExpansionRatio": null,
+                "optimalNozzleDesign": true
+            },
+            "grainType": "HOLLOW",
+            "grainConfig": {
+                "outerDiameter": "2.7165354",
+                "coreDiameter": "0.787401",
+                "segmentLength": "4.527559",
+                "numberOfSegment": "4",
+                "endsSurface": "EXPOSED",
+                "coreSurface": "EXPOSED",
+                "outerSurface": "INHIBITED"
+            },
+            "nozzleDesign": {
+                "convergenceAngle": 60,
+                "divergenceAngle": 24
+            },
+            "customPropellant": {
+                "name": "CUSTOM KNDX IMPERIAL",
+                "burnRateCoefficient": "0.0665",
+                "pressureExponent": "0.319",
+                "cstar": null,
+                "density": "0.06788319670208849",
+                "k": "1.131",
+                "k2ph": "1.043",
+                "chamberTemperature": "1710",
+                "molarMass": "42.39",
+                "burnRateDataSet": [
+                    {
+                        "fromPressureIncluded": "14.6",
+                        "toPressureExcluded": "113",
+                        "burnRateCoefficient": "0.0160236220472441",
+                        "pressureExponent": "0.6193"
+                    },
+                    {
+                        "fromPressureIncluded": "113",
+                        "toPressureExcluded": "373",
+                        "burnRateCoefficient": "0.310511811023622",
+                        "pressureExponent": "-0.0087"
+                    },
+                    {
+                        "fromPressureIncluded": "373",
+                        "toPressureExcluded": "860",
+                        "burnRateCoefficient": "0.00492125984251969",
+                        "pressureExponent": "0.6882"
+                    },
+                    {
+                        "fromPressureIncluded": "860",
+                        "toPressureExcluded": "1233",
+                        "burnRateCoefficient": "1.41551181102362",
+                        "pressureExponent": "-0.1481"
+                    },
+                    {
+                        "fromPressureIncluded": "1233",
+                        "toPressureExcluded": "1625",
+                        "burnRateCoefficient": "0.0208661417322835",
+                        "pressureExponent": "0.4417"
+                    }
+                ]
+            }
+        }
+    ]
+}

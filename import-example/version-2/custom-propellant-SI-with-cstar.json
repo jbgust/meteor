@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "configs": [
+    {
+      "name": "CUSTOM-PROP-SI-CSTAR",
+      "propellantType": "CUSTOM_propellant",
+      "throatDiameter": 17.39,
+      "chamberInnerDiameter": 75,
+      "chamberLength": 470,
+      "extraConfig": {
+        "densityRatio": 0.95,
+        "nozzleErosionInMillimeter": 0,
+        "combustionEfficiencyRatio": 0.95,
+        "ambiantPressureInMPa": 0.101,
+        "erosiveBurningAreaRatioThreshold": 6,
+        "erosiveBurningVelocityCoefficient": 0,
+        "nozzleEfficiency": 0.85,
+        "nozzleExpansionRatio": null,
+        "optimalNozzleDesign": true
+      },
+      "grainType": "HOLLOW",
+      "grainConfig": {
+        "outerDiameter": 69,
+        "coreDiameter": 20,
+        "segmentLength": 115,
+        "numberOfSegment": 4,
+        "endsSurface": "EXPOSED",
+        "coreSurface": "EXPOSED",
+        "outerSurface": "INHIBITED"
+      },
+      "nozzleDesign": {
+        "convergenceAngle": 60,
+        "divergenceAngle": 24
+      },
+      "customPropellant": {
+        "name": "TEST",
+        "burnRateCoefficient": "3.728816657",
+        "pressureExponent": "0.4285",
+        "cstar": "1666.7988",
+        "density": "1.6607939148",
+        "k": "1.2768",
+        "molarMass": "45"
+      }
+    }
+  ],
+  "measureUnit": "SI"
+}
