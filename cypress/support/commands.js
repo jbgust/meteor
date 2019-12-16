@@ -61,11 +61,11 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(2).click()
     cy.get('div.menuable__content__active')
-        .contains(formValues.endsSurface).click()
+        .contains(formValues.coreSurface).click()
 
     cy.get('@coreSurfaces').eq(3).click()
     cy.get('div.menuable__content__active')
-        .contains(formValues.coreSurface).click()
+        .contains(formValues.endsSurface).click()
 
     cy.get('@coreSurfaces').eq(4).click()
     cy.get('div.menuable__content__active')
