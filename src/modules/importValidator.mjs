@@ -16,21 +16,29 @@ export const LAST_VERSION = 2
 export const ajvValidator = new Ajv({ useDefaults: true, coerceTypes: true })
 
 export function validateImportVersion1(loadedConfig) {
-    return ajvValidator.validate(importVersion1ValidatorSchema, loadedConfig)
+    let validate = ajvValidator.validate(importVersion1ValidatorSchema, loadedConfig)
+    if (!validate) {
+        console.error('import V1 fail', ajvValidator.errors)
+    }
+    return validate
 }
 
 export function validateImportVersion2(loadedConfig) {
+    let valide = false
     if (ajvValidator.validate(importVersion2ValidatorSchema, loadedConfig)) {
         let config = loadedConfig.configs[0]
         if (config.grainType === HOLLOW) {
-            return ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, config.grainConfig)
-        } else
-        if (config.grainType === FINOCYL) {
-            return ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, config.grainConfig)
+            valide = ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === FINOCYL) {
+            valide = ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else {
+            valide = false
         }
-        return false
     }
-    return false
+    if (!valide) {
+        console.error('import V2 fail', ajvValidator.errors)
+    }
+    return valide
 }
 
 const propellantPattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)|(^' + CUSTOM_PRPELLANT_PREFIX + ')'

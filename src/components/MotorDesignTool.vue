@@ -259,7 +259,6 @@ export default {
                                 me.importInProgress = false
                             })
                         } else {
-                            console.error('import fail', ajvValidator.errors)
                             me.errorMessage = 'The file is not valid'
                             me.displayImportError = true
                         }
