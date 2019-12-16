@@ -28,12 +28,14 @@
                             </v-layout>
                         </v-card-text>
                         <v-card-actions>
+                            <v-btn @click="$refs.helpDialog.show()">Help</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
                             <v-btn id="btnExportRASP" v-if="isHollowCylinder" @click="exportRASP" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <help-dialog ref="helpDialog"></help-dialog>
             </v-layout>
         </v-btn>
 </template>
@@ -42,9 +44,11 @@
 
 import Axios from 'axios'
 import { greaterThanRule, regexValidator, requiredValidator } from '../../modules/formValidationRules'
+import HelpDialog from '../motor/HelpDialog'
 const delayHintMessage = 'This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).'
 export default {
     name: 'export-rasp',
+    components: { HelpDialog },
     props: {
         units: Object
     },

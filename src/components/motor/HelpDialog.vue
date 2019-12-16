@@ -24,6 +24,7 @@
                                     <v-list-item-content>
                                         <v-list-item-title><a href="#finocyl">Finocyl cylinder grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#hollow">Hollow cylinder grain settings</a></v-list-item-title>
+                                        <v-list-item-title><a href="#rasp">RASP export and OpenRocket</a></v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -97,6 +98,29 @@
                                 <p>
                                     When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
                                 </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                    <v-flex>
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="rasp">
+                                    RASP export and OpenRocket
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <p>
+                                        With RASP export, you can use the motor you design in other application like <a href="http://openrocket.info/" target="_blank">OpenRocket</a>.
+                                        OpenRocket is a free, fully featured model rocket simulator that allows you to design and simulate your rockets before you build and flying them.
+                                    </p>
+                                    <p>
+                                        See here to find how import RASP file in OpenRocket : <a href="http://wiki.openrocket.info/FAQ#How_do_I_add_motors_to_the_database.3F" target="_blank">http://wiki.openrocket.info/FAQ#How_do_I_add_motors_to_the_database.3F</a>
+                                    </p>
+                                    <p>
+                                        If you want more information about RASP format : <a href="http://www.thrustcurve.org/raspformat.shtml" target="_blank">http://www.thrustcurve.org/raspformat.shtml</a>
+                                    </p>
+                                </v-col>
                             </v-card-text>
                         </v-card>
                     </v-flex>
