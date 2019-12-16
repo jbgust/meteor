@@ -76,7 +76,20 @@ export default {
     },
     methods: {
         grainTypeChange() {
-            this.value.grainConfig = {}
+            if (this.value.grainType === HOLLOW) {
+                // fix pour le bug qui ne rafraichi pas les inputs au changement de type de grain
+                this.value.grainConfig = {
+                    coreDiameter: null,
+                    outerDiameter: null,
+                    segmentLength: null,
+                    numberOfSegment: null,
+                    coreSurface: null,
+                    endsSurface: null,
+                    outerSurface: null
+                }
+            } else {
+                this.value.grainConfig = {}
+            }
             this.$emit('grainConfigChange')
         }
     }
