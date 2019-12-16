@@ -22,6 +22,9 @@
                                     Compatible with any solid propellant
                                 </li>
                                 <li>
+                                    Multiple grain configuration
+                                </li>
+                                <li>
                                     Easy to use
                                 </li>
                                 <li>
@@ -66,7 +69,7 @@
                     <div class="block-text">
                             <ul>
                                 <li>
-                                    New grain configurations
+                                    New grain configurations (rod and tube, star, ...)
                                 </li>
                                 <li>
                                     Comparison of multiple motor configurations on one same graph
