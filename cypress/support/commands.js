@@ -109,6 +109,82 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     }
 })
 
+Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('Finocyl').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces')
+        .eq(2).click()
+    cy.get('div.menuable__content__active')
+        .contains(formValues.endsSurface).click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#finocylSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#finocylNumberOfSegment')
+        .type(formValues.numberOfSegment)
+
+    cy.get('input#finocylOuterDiameter')
+        .type(formValues.outerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#finocylInnerDiameter')
+        .type(formValues.innerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+    /*
+     finWidth: 2.0,
+            finDiameter: 20.0,
+            finCount: 5,
+     */
+
+    cy.get('input#finocylFinWidth')
+        .type(formValues.finWidth)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#finocylFinDiameter')
+        .type(formValues.finDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#finocylFinCount')
+        .type(formValues.finCount)
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
 Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
     cy.get('input#motor-class')
         .should('have.value', expectedResults.motorClasss)
