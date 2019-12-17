@@ -1,0 +1,22 @@
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" width="74.71mm" height="74.71mm"
+     viewBox="0 0 211.79 211.79">
+    <defs>
+        <style>
+            .cls-1{fill:#4FC3F7;}.cls-2{fill:none;stroke:#f43d00;stroke-linecap:round;stroke-miterlimit:10;stroke-dasharray:12.13
+            12.13;}.cls-3{fill:#fff;}
+        </style>
+    </defs>
+    <title>Visuel</title>
+    <circle class="cls-1" cx="105.89" cy="105.89" r="105.89"/>
+    <circle class="cls-2" cx="105.89" cy="105.89" r="81.11"/>
+    <circle class="cls-3" cx="105.89" cy="105.89" r="39.77"/>
+    <rect class="cls-3" x="95.73" y="24.79" width="20.33" height="61"/>
+    <rect class="cls-3" x="326.6" y="374.48" width="20.33" height="61.7"
+          transform="translate(433.47 -356.06) rotate(71.78)"/>
+    <rect class="cls-3" x="231.3" y="373.97" width="20.33" height="62.49"
+          transform="translate(518.86 -12.21) rotate(108.22)"/>
+    <rect class="cls-3" x="308.71" y="429.55" width="20.33" height="62.22"
+          transform="translate(664.01 332.87) rotate(144.19)"/>
+    <rect class="cls-3" x="249.78" y="429.48" width="20.33" height="62.98"
+          transform="translate(135.88 -379.72) rotate(35.81)"/>
+</svg>

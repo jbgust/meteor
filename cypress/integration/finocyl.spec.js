@@ -43,6 +43,9 @@ describe('Run Finocyl in SI units', function() {
 
         // Check presence of computationHash
         expect(localStorage.getItem('computationHash')).not.to.be.null
+
+        // Le calcul peut mettre plus de temps que le timeout sur la CI.
+        cy.wait(5000)
     })
 
     it('Should check result', () => {

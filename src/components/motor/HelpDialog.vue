@@ -41,11 +41,12 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-row wrap >
-                                        <v-flex>
-                                            <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                        </v-flex>
-                                    </v-row>
+                                    <v-flex>
+                                        <v-img :src="require('@/assets/help/finocyl-help.svg')" max-width="450px"></v-img>
+                                    </v-flex>
+                                    <v-flex>
+                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                    </v-flex>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
