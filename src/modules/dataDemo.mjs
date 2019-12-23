@@ -35,6 +35,26 @@ export const demoForm = {
     }
 }
 
+export const demoFormRequest = {
+    throatDiameter: 17.39,
+    coreDiameter: 20,
+    numberOfSegment: 4,
+    outerSurface: INHIBITED,
+    endsSurface: EXPOSED,
+    coreSurface: EXPOSED,
+    outerDiameter: 69,
+    segmentLength: 115,
+    propellantType: KNDX,
+    chamberInnerDiameter: 75,
+    chamberLength: 470,
+    extraConfig: defaultAdvanceConfig,
+    name: 'Demo',
+    nozzleDesign: {
+        divergenceAngle: 18,
+        convergenceAngle: 38
+    }
+}
+
 export const demoResultData = {
     performanceResult: {
         motorDescription: 'L1672',

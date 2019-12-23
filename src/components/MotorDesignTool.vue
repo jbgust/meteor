@@ -135,7 +135,7 @@ import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
-import { demoForm, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
+import { demoForm, demoFormRequest, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
 // eslint-disable-next-line no-unused-vars
 import { validateImportVersion1, validateImportVersion2, ajvValidator, LAST_VERSION } from '../modules/importValidator'
 // see : https://www.npmjs.com/package/ajv#related-packages
@@ -199,7 +199,7 @@ export default {
                 setSelectedUnits(this.unitSelected)
                 this.$refs.rasp.setComputationRequest(request, data)
             } else {
-                const demoRequest = this.demoForm
+                const demoRequest = demoFormRequest
                 demoRequest.extraConfig = defaultAdvanceConfig
                 this.$refs.rasp.setComputationRequest(demoRequest, data)
             }

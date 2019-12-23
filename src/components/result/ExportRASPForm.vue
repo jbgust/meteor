@@ -98,7 +98,7 @@ export default {
                 }
 
                 const exportRequest = {
-                    computationRequest: this.computationRequest,
+                    hollowComputationRequest: this.computationRequest,
                     delay: this.config.delay,
                     motorDiameter: this.config.motorDiameter,
                     motorLength: this.config.motorLength,
