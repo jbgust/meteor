@@ -13,6 +13,7 @@
                     <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
+                <donate></donate>
             </v-toolbar-items>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
@@ -55,6 +56,11 @@
                                 <v-list-item-title>Forum</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <donate></donate>
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list-item-group>
                 </v-list-item-group>
             </v-list>
@@ -78,6 +84,7 @@ import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
 import { computeHash } from './modules/computationUtils'
 import MeteorNews from './components/news/meteor-news'
+import Donate from './components/donate'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -112,14 +119,13 @@ let router = new VueRouter({
 export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
-    components: { MeteorNews },
+    components: { Donate, MeteorNews },
     router,
     mounted() {
         computeHash()
     },
     data: () => ({
         drawer: false,
-        sheet: false,
         group: null
     }),
 

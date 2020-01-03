@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-layout d-flex wrap>
-            <v-text-field hide-details outlined class="resultElement" readonly id="motor-class" label="Class" v-model="performance.motorDescription"></v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="motor-class" :suffix="Number(100 * performance.classPercentage).toFixed(0)+'%'" label="Class" v-model="performance.motorDescription"></v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s" v-model="performance.thrustTime"></v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N" v-model="performance.maxThrust" ></v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns" v-model="performance.totalImpulse"></v-text-field>
