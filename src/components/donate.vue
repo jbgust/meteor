@@ -2,6 +2,7 @@
     <v-bottom-sheet v-model="sheet">
         <template v-slot:activator="{ on }">
             <v-btn
+                id="btnDonate"
                 color="purple"
                  dark
                  v-on="on"
@@ -15,6 +16,7 @@
                 <v-flex shrink>
                     <v-col>
                         <v-btn
+                            id="btnDonateNow"
                             class="mt-6 mb-6"
                             color="purple"
                             dark
