@@ -1,6 +1,6 @@
 import Ajv from 'ajv'
 import {
-    CUSTOM_PRPELLANT_PREFIX,
+    CUSTOM_PRPELLANT_PREFIX, END_BURNER,
     EXPOSED, FINOCYL, HOLLOW,
     INHIBITED,
     KNDX,
@@ -33,6 +33,8 @@ export function validateImportVersion2(loadedConfig) {
             valide = ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else if (config.grainType === STAR) {
             valide = ajvValidator.validate(starGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === END_BURNER) {
+            valide = ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else {
             valide = false
         }
@@ -46,7 +48,7 @@ export function validateImportVersion2(loadedConfig) {
 const propellantPattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)|(^' + CUSTOM_PRPELLANT_PREFIX + ')'
 const grainSurfacePattern = '^((' + INHIBITED + ')|(' + EXPOSED + '))$'
 const unitsPattern = '^((SI)|(IMPERIAL))$'
-const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + ')|(' + STAR + '))$'
+const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + ')|(' + STAR + ')|(' + END_BURNER + '))$'
 
 export const importVersion2ValidatorSchema = {
     type: 'object',
@@ -197,6 +199,22 @@ export const starGrainConfigVersion2ValidatorSchema = {
         'pointDiameter',
         'pointCount',
         'endsSurface'
+    ]
+}
+
+export const endBurnerGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        outerDiameter: { type: 'number' },
+        holeDiameter: { type: 'number' },
+        holeDepth: { type: 'number' }
+    },
+    required: [
+        'segmentLength',
+        'outerDiameter',
+        'holeDiameter',
+        'holeDepth'
     ]
 }
 

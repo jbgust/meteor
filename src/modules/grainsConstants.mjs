@@ -2,6 +2,7 @@
 export const HOLLOW = 'HOLLOW'
 export const FINOCYL = 'FINOCYL'
 export const STAR = 'STAR'
+export const END_BURNER = 'END_BURNER'
 
 // Grain surfaces
 export const EXPOSED = 'EXPOSED'

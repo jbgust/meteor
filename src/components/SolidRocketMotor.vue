@@ -63,7 +63,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { getComputeHash } from '../modules/computationUtils'
-import { FINOCYL, HOLLOW, STAR } from '../modules/grainsConstants'
+import { END_BURNER, FINOCYL, HOLLOW, STAR } from '../modules/grainsConstants'
 
 export default {
     name: 'solid-rocket-motor',
@@ -104,6 +104,11 @@ export default {
             } else if (this.formValue.grainType === STAR) {
                 grainCheck = true
                 url += '/star'
+                request = this.buildStarRequest()
+            } else if (this.formValue.grainType === END_BURNER) {
+                grainCheck = true
+                url += '/endburner'
+                // TODO: mutualiser les appels a buildStarRequest()
                 request = this.buildStarRequest()
             }
 

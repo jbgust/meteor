@@ -22,9 +22,10 @@
                             <v-col>
                                 <v-list-item>
                                     <v-list-item-content>
+                                        <v-list-item-title><a href="#endburner">End burner grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#hollow">Hollow cylinder grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#finocyl">Finocyl cylinder grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#star">Star cylinder grain settings</a></v-list-item-title>
+                                        <v-list-item-title><a href="#finocyl">Finocyl grain settings</a></v-list-item-title>
+                                        <v-list-item-title><a href="#star">Star grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#rasp">RASP export and OpenRocket</a></v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
@@ -54,6 +55,22 @@
                                 <p>
                                     When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
                                 </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                    <v-flex  lg6 md6>
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="endburner">
+                                    End burner grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-flex>
+                                        <v-img :src="require('@/assets/help/end-burner-help.png')" max-width="450px"></v-img>
+                                    </v-flex>
+                                </v-col>
                             </v-card-text>
                         </v-card>
                     </v-flex>

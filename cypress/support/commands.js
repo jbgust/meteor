@@ -246,6 +246,60 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
     }
 })
 
+Cypress.Commands.add('fillEndBurnerForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('End burner').click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#endBurnerSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#endBurnerOuterDiameter')
+        .type(formValues.outerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#endBurnerHoleDiameter')
+        .type(formValues.holeDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#endBurnerHoleDepth')
+        .type(formValues.holeDepth)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
 Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
     cy.get('input#motor-class')
         .should('have.value', expectedResults.motorClasss)
