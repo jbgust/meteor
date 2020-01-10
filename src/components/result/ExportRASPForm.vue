@@ -22,7 +22,7 @@
                                         </v-form>
                                     </div>
                                     <v-alert outlined type="info" v-else border="left" class="mt-10">
-                                        Not yet implemented for finocyl grain, coming soon...
+                                        Not yet implemented for this grain, coming soon...
                                     </v-alert>
                                 </v-flex>
                             </v-layout>

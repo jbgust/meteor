@@ -50,8 +50,15 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-
         </v-form>
+        <v-overlay :value="loading">
+            <v-col>
+                <div class="text-center">
+                    <v-progress-circular indeterminate size="64" width="6"></v-progress-circular>
+                </div>
+                <div class="text-center mt-30">Computation in progress ...</div>
+            </v-col>
+        </v-overlay>
     </v-container>
 </template>
 
