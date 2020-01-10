@@ -8,7 +8,7 @@ import {
     KNMN_COARSE,
     KNSB_COARSE,
     KNSB_FINE,
-    KNSU
+    KNSU, STAR
 } from './grainsConstants'
 
 export const LAST_VERSION = 2
@@ -31,6 +31,8 @@ export function validateImportVersion2(loadedConfig) {
             valide = ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else if (config.grainType === FINOCYL) {
             valide = ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === STAR) {
+            valide = ajvValidator.validate(starGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else {
             valide = false
         }
@@ -44,7 +46,7 @@ export function validateImportVersion2(loadedConfig) {
 const propellantPattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)|(^' + CUSTOM_PRPELLANT_PREFIX + ')'
 const grainSurfacePattern = '^((' + INHIBITED + ')|(' + EXPOSED + '))$'
 const unitsPattern = '^((SI)|(IMPERIAL))$'
-const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + '))$'
+const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + ')|(' + STAR + '))$'
 
 export const importVersion2ValidatorSchema = {
     type: 'object',
@@ -172,6 +174,28 @@ export const finocylGrainConfigVersion2ValidatorSchema = {
         'finWidth',
         'finDiameter',
         'finCount',
+        'endsSurface'
+    ]
+}
+
+export const starGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        outerDiameter: { type: 'number' },
+        innerDiameter: { type: 'number' },
+        pointDiameter: { type: 'number' },
+        pointCount: { type: 'number' },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'segmentLength',
+        'numberOfSegment',
+        'outerDiameter',
+        'innerDiameter',
+        'pointDiameter',
+        'pointCount',
         'endsSurface'
     ]
 }

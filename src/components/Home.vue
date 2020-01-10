@@ -102,8 +102,8 @@
                     <div class="block-text mt-6">
                         <ul>
                             <li>Meteor uses <a href="https://github.com/jbgust/jsrm" target="_blank" a>JSRM library</a> as computation model.</li>
-                            <li>It works solely for cylindrical grain configurations, such as BATES.</li>
                             <li>It works with any solid propellant</li>
+                            <li>It works with many grain configuration</li>
                             <li>JSRM is the Java implementation of SRM Excel file made By <a href="https://www.nakka-rocketry.net/author.html" target="_blank">Richard Nakka</a>.</li>
                         </ul>
                     </div>

@@ -161,11 +161,6 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
         .type(formValues.innerDiameter)
         .parent()
         .contains(getLengthUnit(units))
-    /*
-     finWidth: 2.0,
-            finDiameter: 20.0,
-            finCount: 5,
-     */
 
     cy.get('input#finocylFinWidth')
         .type(formValues.finWidth)
@@ -179,6 +174,72 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
 
     cy.get('input#finocylFinCount')
         .type(formValues.finCount)
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
+Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('Star').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces')
+        .eq(2).click()
+    cy.get('div.menuable__content__active')
+        .contains(formValues.endsSurface).click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#starSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#starNumberOfSegment')
+        .type(formValues.numberOfSegment)
+
+    cy.get('input#starOuterDiameter')
+        .type(formValues.outerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#starInnerDiameter')
+        .type(formValues.innerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#starPointDiameter')
+        .type(formValues.pointDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#starPointCount')
+        .type(formValues.pointCount)
 
     if (submit) {
         cy.contains('Submit').click()
