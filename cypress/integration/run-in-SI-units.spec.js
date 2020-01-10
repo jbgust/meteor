@@ -47,6 +47,10 @@ describe('Run computation in SI units', function() {
             optimalExpansionRatio: '4.00'
         }
 
+        cy.get('input#motor-class')
+            .parent()
+            .contains("85%")
+
         cy.checkPerformanceResults(expectedResults, 'METRIC')
     })
 

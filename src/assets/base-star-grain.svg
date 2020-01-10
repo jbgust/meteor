@@ -1,0 +1,11 @@
+<svg width="224" height="224" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>Layer 1</title>
+  <ellipse ry="110" rx="110" id="svg_1" cy="112" cx="112" stroke-width="0" stroke="#000" fill="#4fc3f7"/>
+  <ellipse ry="7" rx="29" id="svg_2" cy="162.450012" cx="450.5" stroke-width="1.5" stroke="#000" fill="#4fc3f7"/>
+  <path id="svg_5" d="m51,91.7192l46.600189,0l14.399811,-44.269981l14.399818,44.269981l46.600182,0l-37.700272,27.360039l14.400558,44.269974l-37.700287,-27.360779l-37.700279,27.360779l14.400566,-44.269974l-37.700283,-27.360039z" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#f9f9f9"/>
+  <ellipse ry="66.929578" rx="66" id="svg_9" cy="111.37959" cx="111.5" stroke-dasharray="5,5" stroke-width="2" stroke="#f43d00" fill="none"/>
+  <ellipse stroke-dasharray="5,5" ry="25" rx="25" id="svg_6" cy="113.450012" cx="110.5" stroke-width="2" stroke="#f43d00" fill="#f9f9f9"/>
+ </g>
+</svg>

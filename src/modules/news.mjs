@@ -44,8 +44,20 @@ export const news = [
                         <li>
                             <b>New features, December 2019</b>
                             <ul>
-                                <li><b>Finocyl grain configuration</b> : thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on finocyl grain calculation.</li>
-                                <li><b>Motor export in RASP format (.eng)</a></b></li>
+                                <li>Finocyl grain configuration : thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on finocyl grain calculation.</li>
+                                <li>Motor export in RASP format (.eng)</li>
+                            </ul>
+                        </li>
+                    </ul>`
+    }, {
+        id: 7,
+        html: `<ul>
+                        <li>
+                            <b>New features, January 2020</b>
+                            <ul>
+                                <li>Star grain configuration</li>
+                                <li>End burner grain configuration</li>
+                                <li>Motor class percentage</li>
                             </ul>
                         </li>
                     </ul>`

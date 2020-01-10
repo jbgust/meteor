@@ -42,6 +42,23 @@
                 <v-text-field id="finocylFinCount" label="Number of fin" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="numericGreater0Rules" step="0.01" />
                 <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
+            <v-flex lg6 md6 v-if="value.grainType === starGrain">
+                <v-text-field id="starOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="starSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
+                <v-text-field id="starNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
+                <v-text-field id="starInnerDiameter" label="Core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
+            </v-flex>
+            <v-flex lg6 md6 v-if="value.grainType === starGrain">
+                <v-text-field id="starPointDiameter" label="Star diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.pointDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="starPointCount" label="Number of branches" v-model="value.grainConfig.pointCount" :rules="numericGreater0Rules" step="0.01" />
+                <v-select id="starEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
+            </v-flex>
+            <v-flex lg12 md12 v-if="value.grainType === endBurnerGrain">
+                <v-text-field id="endBurnerOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="endBurnerSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
+                <v-text-field id="endBurnerHoleDiameter" label="Hole diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDiameter" :rules="integerGreater0Rules" step="0.01" />
+                <v-text-field id="endBurnerHoleDepth" label="Hole depth" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDepth" :rules="numericGreater0Rules" step="0.01" />
+            </v-flex>
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
     </v-layout>
@@ -49,7 +66,7 @@
 
 <script>
 import { greaterThanRule, integerGreaterThanRule, requiredRule } from '../../modules/formValidationRules'
-import { EXPOSED, FINOCYL, HOLLOW, INHIBITED } from '../../modules/grainsConstants'
+import { END_BURNER, EXPOSED, FINOCYL, HOLLOW, INHIBITED, STAR } from '../../modules/grainsConstants'
 import HelpDialog from './HelpDialog'
 
 export default {
@@ -70,7 +87,13 @@ export default {
             ],
             hollowCode: HOLLOW,
             finocylCode: FINOCYL,
-            grainTypes: [{ value: HOLLOW, text: 'Hollow cylinder' }, { value: FINOCYL, text: 'Finocyl' }],
+            starGrain: STAR,
+            endBurnerGrain: END_BURNER,
+            grainTypes: [
+                { value: END_BURNER, text: 'End burner' },
+                { value: FINOCYL, text: 'Finocyl' },
+                { value: HOLLOW, text: 'Hollow cylinder' },
+                { value: STAR, text: 'Star' }],
             selectedGrain: null
         }
     },

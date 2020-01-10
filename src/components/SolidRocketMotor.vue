@@ -50,8 +50,15 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-
         </v-form>
+        <v-overlay :value="loading">
+            <v-col>
+                <div class="text-center">
+                    <v-progress-circular indeterminate size="64" width="6"></v-progress-circular>
+                </div>
+                <div class="text-center mt-30">Computation in progress ...</div>
+            </v-col>
+        </v-overlay>
     </v-container>
 </template>
 
@@ -63,7 +70,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { getComputeHash } from '../modules/computationUtils'
-import { FINOCYL, HOLLOW } from '../modules/grainsConstants'
+import { END_BURNER, FINOCYL, HOLLOW, STAR } from '../modules/grainsConstants'
 
 export default {
     name: 'solid-rocket-motor',
@@ -101,6 +108,15 @@ export default {
                 grainCheck = true
                 url += '/finocyl'
                 request = this.buildFinocylRequest()
+            } else if (this.formValue.grainType === STAR) {
+                grainCheck = true
+                url += '/star'
+                request = this.buildStarRequest()
+            } else if (this.formValue.grainType === END_BURNER) {
+                grainCheck = true
+                url += '/endburner'
+                // TODO: mutualiser les appels a buildStarRequest()
+                request = this.buildStarRequest()
             }
 
             if (this.$refs.formJSRM.validate() && grainCheck) {
@@ -188,6 +204,24 @@ export default {
                 return null
             }
         },
+        buildStarRequest() {
+            if (this.$refs.formJSRM.validate()) {
+                // Ecrase le computation hash si présent dan formValue
+                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                delete request.grainType
+                request = Object.assign(request, request.grainConfig)
+                delete request.grainConfig
+                request.extraConfig = Object.assign({}, this.extraConfig)
+                request.measureUnit = this.units.type
+                if (isCustomPropellant(this.formValue.propellantType)) {
+                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
+                }
+
+                return request
+            } else {
+                return null
+            }
+        },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
             if (isCustomPropellant(formData.propellantType)) {
                 this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
@@ -201,7 +235,7 @@ export default {
             if (this.formValue.name) {
                 return this.formValue.name
             }
-            return 'Meteor-silmulation'
+            return 'Meteor-simulation'
         },
         reset() {
             this.formValue = {}

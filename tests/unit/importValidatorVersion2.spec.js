@@ -3,8 +3,10 @@ import {
     ajvValidator,
     finocylGrainConfigVersion2ValidatorSchema,
     hollowGrainConfigVersion2ValidatorSchema,
+    starGrainConfigVersion2ValidatorSchema,
+    endBurnerGrainConfigVersion2ValidatorSchema,
 } from '../../src/modules/importValidator'
-import { EXPOSED, FINOCYL, HOLLOW, INHIBITED, KNDX } from '../../src/modules/grainsConstants'
+import { END_BURNER, EXPOSED, FINOCYL, HOLLOW, INHIBITED, KNDX, STAR } from '../../src/modules/grainsConstants'
 import { createVersion1JsonConfig } from './importValidatorVersion1.spec'
 import { SI_UNITS } from '../../src/modules/computationUtils'
 
@@ -38,6 +40,83 @@ function createVersion2FinocylJsonConfig() {
                     finDiameter: 20.0,
                     finCount: 5,
                     endsSurface: EXPOSED
+                },
+                nozzleDesign: {
+                    divergenceAngle: 18,
+                    convergenceAngle: 38
+                }
+            }
+        ]
+    }
+    return Object.assign(validJsonV2)
+}
+
+function createVersion2StarJsonConfig() {
+    const validJsonV2 = {
+        version: 2,
+        configs: [
+            {
+                throatDiameter: 10,
+                chamberInnerDiameter: 40,
+                chamberLength: 150,
+                propellantType: 'KNSU',
+                extraConfig: {
+                    densityRatio: 0.96,
+                    nozzleErosionInMillimeter: 0,
+                    combustionEfficiencyRatio: 0.97,
+                    ambiantPressureInMPa: 0.101,
+                    erosiveBurningAreaRatioThreshold: 6,
+                    erosiveBurningVelocityCoefficient: 0,
+                    nozzleEfficiency: 0.85,
+                    nozzleExpansionRatio: 8,
+                    optimalNozzleDesign: false
+                },
+                grainType: STAR,
+                grainConfig: {
+                    outerDiameter: 30,
+                    segmentLength: 70,
+                    numberOfSegment: 2,
+                    innerDiameter: 5,
+                    pointDiameter: 15,
+                    pointCount: 5,
+                    endsSurface: EXPOSED
+                },
+                nozzleDesign: {
+                    divergenceAngle: 18,
+                    convergenceAngle: 38
+                }
+            }
+        ]
+    }
+    return Object.assign(validJsonV2)
+}
+
+function createVersion2EndBurnerJsonConfig() {
+    const validJsonV2 = {
+        version: 2,
+        configs: [
+            {
+                throatDiameter: 6,
+                chamberInnerDiameter: 40,
+                chamberLength: 75,
+                propellantType: 'KNSU',
+                extraConfig: {
+                    densityRatio: 0.96,
+                    nozzleErosionInMillimeter: 0,
+                    combustionEfficiencyRatio: 0.97,
+                    ambiantPressureInMPa: 0.101,
+                    erosiveBurningAreaRatioThreshold: 6,
+                    erosiveBurningVelocityCoefficient: 0,
+                    nozzleEfficiency: 0.85,
+                    nozzleExpansionRatio: 8,
+                    optimalNozzleDesign: false
+                },
+                grainType: END_BURNER,
+                grainConfig: {
+                    outerDiameter: 30,
+                    segmentLength: 70,
+                    holeDiameter: 10,
+                    holeDepth: 10
                 },
                 nozzleDesign: {
                     divergenceAngle: 18,
@@ -103,6 +182,18 @@ function assertAjvError(dataPath, message = false, params = false) {
 describe('Import Version 2Validation', () => {
     test('should check finocyl grain config', () => {
         expect(ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, createVersion2FinocylJsonConfig().configs[0].grainConfig)).toBeTruthy()
+    })
+
+    test('should check star grain config', () => {
+        let loadedConfig = createVersion2StarJsonConfig()
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(starGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
+    })
+
+    test('should check end burner grain config', () => {
+        let loadedConfig = createVersion2EndBurnerJsonConfig()
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
     })
 
     test('should check hollow grain config', () => {
@@ -435,6 +526,56 @@ describe('Import Version 2Validation', () => {
         ]
         requiredFields.forEach(field => {
             expect(ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+
+            json[field] = fieldsValues[field]
+        })
+    })
+
+    test('should failed when required fields are missing in star grain', () => {
+        let json = { }
+        const fieldsValues = {
+            segmentLength: 70,
+            numberOfSegment: 2,
+            outerDiameter: 30,
+            innerDiameter: 10,
+            pointDiameter: 2.0,
+            pointCount: 5,
+            endsSurface: EXPOSED
+        }
+        let requiredFields = [
+            'segmentLength',
+            'numberOfSegment',
+            'outerDiameter',
+            'innerDiameter',
+            'pointDiameter',
+            'pointCount',
+            'endsSurface'
+        ]
+        requiredFields.forEach(field => {
+            expect(ajvValidator.validate(starGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+
+            json[field] = fieldsValues[field]
+        })
+    })
+
+    test('should failed when required fields are missing in end burner grain', () => {
+        let json = { }
+        const fieldsValues = {
+            segmentLength: 70,
+            outerDiameter: 30,
+            holeDiameter: 2,
+            holeDepth: 10
+        }
+        let requiredFields = [
+            'segmentLength',
+            'outerDiameter',
+            'holeDiameter',
+            'holeDepth'
+        ]
+        requiredFields.forEach(field => {
+            expect(ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
             assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json[field] = fieldsValues[field]
