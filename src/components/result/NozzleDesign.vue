@@ -76,7 +76,8 @@ export default {
     },
     methods: {
         computeResult(sectionDiameter, angle) {
-            return computeNozzleLength(sectionDiameter, angle).toFixed(2) + ' ' + this.units.lengthUnit
+            const precision = this.units.lengthUnit === 'mm' ? 2 : 4
+            return computeNozzleLength(sectionDiameter, angle).toFixed(precision) + ' ' + this.units.lengthUnit
         },
         formIsValid() {
             return this.$refs.nozzleDesignForm ? this.$refs.nozzleDesignForm.validate() : true

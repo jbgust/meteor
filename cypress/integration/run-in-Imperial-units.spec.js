@@ -51,9 +51,9 @@ describe('Run computation in imperial units', function() {
             .clear()
             .type(24)
 
-        cy.get('span').contains('Convergence length:').parent().contains('1.96 inch')
-        cy.get('span').contains('Divergence length:').parent().contains('3.39 inch')
-        cy.get('span').contains('Nozzle exit diameter:').parent().contains('2.13 inch')
+        cy.get('span').contains('Convergence length:').parent().contains('1.9642 inch')
+        cy.get('span').contains('Divergence length:').parent().contains('3.3929 inch')
+        cy.get('span').contains('Nozzle exit diameter:').parent().contains('2.1270 inch')
 
         cy.get('#btnCloseNozzleDesign').click()
     })
