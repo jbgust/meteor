@@ -46,7 +46,7 @@
                 <v-text-field id="starOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="starSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="starNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
-                <v-text-field id="starInnerDiameter" label="Core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="starInnerDiameter" label="Inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === starGrain">
                 <v-text-field id="starPointDiameter" label="Star diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.pointDiameter" :rules="numericGreater0Rules" step="0.01" />
