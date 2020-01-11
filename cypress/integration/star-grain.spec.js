@@ -47,13 +47,13 @@ describe('Run Star in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'H197',
+            motorClasss: 'H195',
             thrustTime: '1.02',
-            maxThrust: '366.78',
-            totalImpulse: '201.53',
-            isp: '124.17',
-            maxPressure: '33.75',
-            averagePressure: '20.27',
+            maxThrust: '277.70',
+            totalImpulse: '200.26',
+            isp: '123.39',
+            maxPressure: '26.20',
+            averagePressure: '20.22',
             nozzleExitSpeed: '2.96'
         }
 

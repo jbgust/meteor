@@ -50,13 +50,13 @@ describe('Run Finocyl in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'H216',
-            thrustTime: '0.84',
-            maxThrust: '396.17',
-            totalImpulse: '182.59',
-            isp: '126.86',
-            maxPressure: '36.21',
-            averagePressure: '23.77',
+            motorClasss: 'H215',
+            thrustTime: '0.85',
+            maxThrust: '393.83',
+            totalImpulse: '181.61',
+            isp: '126.17',
+            maxPressure: '36.01',
+            averagePressure: '23.71',
             nozzleExitSpeed: '2.96'
         }
 
