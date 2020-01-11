@@ -39,7 +39,7 @@
             <v-flex lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylFinWidth" label="Fin width" :suffix="units.lengthUnit" v-model="value.grainConfig.finWidth" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylFinDiameter" label="Fin diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.finDiameter" :rules="numericGreater0Rules" step="0.01" />
-                <v-text-field id="finocylFinCount" label="Number of fin" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="finocylFinCount" label="Number of fin" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="nbFinsRules" step="0.01" />
                 <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === starGrain">
@@ -50,7 +50,7 @@
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === starGrain">
                 <v-text-field id="starPointDiameter" label="Star diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.pointDiameter" :rules="numericGreater0Rules" step="0.01" />
-                <v-text-field id="starPointCount" label="Number of branches" v-model="value.grainConfig.pointCount" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="starPointCount" label="Number of branches" v-model="value.grainConfig.pointCount" :rules="nbBranchesRules" step="0.01" />
                 <v-select id="starEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg12 md12 v-if="value.grainType === endBurnerGrain">
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { greaterThanRule, integerGreaterThanRule, requiredRule } from '../../modules/formValidationRules'
+import { greaterThanRule, integerGreaterThanRule, requiredRule, rangeRule } from '../../modules/formValidationRules'
 import { END_BURNER, EXPOSED, FINOCYL, HOLLOW, INHIBITED, STAR } from '../../modules/grainsConstants'
 import HelpDialog from './HelpDialog'
 
@@ -80,6 +80,8 @@ export default {
         return {
             numericGreater0Rules: greaterThanRule(0),
             integerGreater0Rules: integerGreaterThanRule(0),
+            nbFinsRules: rangeRule(1, 10),
+            nbBranchesRules: rangeRule(1, 9),
             requiredRules: requiredRule,
             grainSurfaces: [
                 { text: 'Exposed', value: EXPOSED },
