@@ -70,7 +70,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { getComputeHash } from '../modules/computationUtils'
-import { END_BURNER, FINOCYL, HOLLOW, STAR } from '../modules/grainsConstants'
+import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 
 export default {
     name: 'solid-rocket-motor',
@@ -102,22 +102,27 @@ export default {
             let request
             let grainCheck = true
             if (this.formValue.grainType === HOLLOW) {
-                request = this.buildHollowCylinderRequest()
                 grainCheck = this.checkMotorDimensions()
             } else if (this.formValue.grainType === FINOCYL) {
                 grainCheck = true
                 url += '/finocyl'
-                request = this.buildFinocylRequest()
             } else if (this.formValue.grainType === STAR) {
                 grainCheck = true
                 url += '/star'
-                request = this.buildStarRequest()
             } else if (this.formValue.grainType === END_BURNER) {
                 grainCheck = true
                 url += '/endburner'
-                // TODO: mutualiser les appels a buildStarRequest()
-                request = this.buildStarRequest()
+            } else if (this.formValue.grainType === MOON_BURNER) {
+                grainCheck = true
+                url += '/moonburner'
+            } else if (this.formValue.grainType === C_SLOT) {
+                grainCheck = true
+                url += '/cslot'
+            } else if (this.formValue.grainType === ROD_TUBE) {
+                grainCheck = true
+                url += '/rodtube'
             }
+            request = this.buildRequest()
 
             if (this.$refs.formJSRM.validate() && grainCheck) {
                 this.loading = true
@@ -168,7 +173,7 @@ export default {
                 return null
             }
         },
-        buildHollowCylinderRequest() {
+        buildRequest() {
             if (this.$refs.formJSRM.validate()) {
                 // Ecrase le computation hash si présent dan formValue
                 let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
@@ -177,42 +182,6 @@ export default {
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)
                 delete request.grainConfig
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
-                }
-
-                return request
-            } else {
-                return null
-            }
-        },
-        buildFinocylRequest() {
-            if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
-                delete request.grainType
-                request = Object.assign(request, request.grainConfig)
-                delete request.grainConfig
-                request.extraConfig = Object.assign({}, this.extraConfig)
-                request.measureUnit = this.units.type
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
-                }
-
-                return request
-            } else {
-                return null
-            }
-        },
-        buildStarRequest() {
-            if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
-                delete request.grainType
-                request = Object.assign(request, request.grainConfig)
-                delete request.grainConfig
-                request.extraConfig = Object.assign({}, this.extraConfig)
-                request.measureUnit = this.units.type
                 if (isCustomPropellant(this.formValue.propellantType)) {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }

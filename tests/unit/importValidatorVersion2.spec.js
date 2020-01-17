@@ -5,8 +5,21 @@ import {
     hollowGrainConfigVersion2ValidatorSchema,
     starGrainConfigVersion2ValidatorSchema,
     endBurnerGrainConfigVersion2ValidatorSchema,
+    moonBurnerGrainConfigVersion2ValidatorSchema,
+    cSlotGrainConfigVersion2ValidatorSchema,
+    rodTubeGrainConfigVersion2ValidatorSchema
 } from '../../src/modules/importValidator'
-import { END_BURNER, EXPOSED, FINOCYL, HOLLOW, INHIBITED, KNDX, STAR } from '../../src/modules/grainsConstants'
+import {
+    C_SLOT,
+    END_BURNER,
+    EXPOSED,
+    FINOCYL,
+    HOLLOW,
+    INHIBITED,
+    KNDX,
+    MOON_BURNER, ROD_TUBE,
+    STAR
+} from '../../src/modules/grainsConstants'
 import { createVersion1JsonConfig } from './importValidatorVersion1.spec'
 import { SI_UNITS } from '../../src/modules/computationUtils'
 
@@ -128,6 +141,125 @@ function createVersion2EndBurnerJsonConfig() {
     return Object.assign(validJsonV2)
 }
 
+function createVersion2MoonBurnerJsonConfig() {
+    const validJsonV2 = {
+        version: 2,
+        configs: [
+            {
+                throatDiameter: 10,
+                chamberInnerDiameter: 40,
+                chamberLength: 75,
+                propellantType: 'KNSU',
+                extraConfig: {
+                    densityRatio: 0.96,
+                    nozzleErosionInMillimeter: 0,
+                    combustionEfficiencyRatio: 0.97,
+                    ambiantPressureInMPa: 0.101,
+                    erosiveBurningAreaRatioThreshold: 6,
+                    erosiveBurningVelocityCoefficient: 0,
+                    nozzleEfficiency: 0.85,
+                    nozzleExpansionRatio: 8,
+                    optimalNozzleDesign: false
+                },
+                grainType: MOON_BURNER,
+                grainConfig: {
+                    outerDiameter: 30,
+                    segmentLength: 80,
+                    numberOfSegment: 1,
+                    coreDiameter: 70,
+                    coreOffset: 10,
+                    endsSurface: EXPOSED
+                },
+                nozzleDesign: {
+                    divergenceAngle: 18,
+                    convergenceAngle: 38
+                }
+            }
+        ]
+    }
+    return Object.assign(validJsonV2)
+}
+
+function createVersion2CSlotJsonConfig() {
+    const validJsonV2 = {
+        version: 2,
+        configs: [
+            {
+                throatDiameter: 10,
+                chamberInnerDiameter: 40,
+                chamberLength: 75,
+                propellantType: 'KNSU',
+                extraConfig: {
+                    densityRatio: 0.96,
+                    nozzleErosionInMillimeter: 0,
+                    combustionEfficiencyRatio: 0.97,
+                    ambiantPressureInMPa: 0.101,
+                    erosiveBurningAreaRatioThreshold: 6,
+                    erosiveBurningVelocityCoefficient: 0,
+                    nozzleEfficiency: 0.85,
+                    nozzleExpansionRatio: 8,
+                    optimalNozzleDesign: false
+                },
+                grainType: C_SLOT,
+                grainConfig: {
+                    outerDiameter: 30,
+                    segmentLength: 80,
+                    numberOfSegment: 1,
+                    coreDiameter: 10,
+                    slotWidth: 12,
+                    slotDepth: 5,
+                    slotOffset: 3,
+                    endsSurface: EXPOSED
+                },
+                nozzleDesign: {
+                    divergenceAngle: 18,
+                    convergenceAngle: 38
+                }
+            }
+        ]
+    }
+    return Object.assign(validJsonV2)
+}
+
+function createVersion2RodTubeJsonConfig() {
+    const validJsonV2 = {
+        version: 2,
+        configs: [
+            {
+                throatDiameter: 10,
+                chamberInnerDiameter: 40,
+                chamberLength: 75,
+                propellantType: 'KNSU',
+                extraConfig: {
+                    densityRatio: 0.96,
+                    nozzleErosionInMillimeter: 0,
+                    combustionEfficiencyRatio: 0.97,
+                    ambiantPressureInMPa: 0.101,
+                    erosiveBurningAreaRatioThreshold: 6,
+                    erosiveBurningVelocityCoefficient: 0,
+                    nozzleEfficiency: 0.85,
+                    nozzleExpansionRatio: 8,
+                    optimalNozzleDesign: false
+                },
+                grainType: ROD_TUBE,
+                grainConfig: {
+                    rodDiameter: 10,
+                    segmentLength: 80,
+                    numberOfSegment: 1,
+                    tubeOuterDiameter: 30,
+                    tubeInnerDiameter: 20,
+                    endsSurface: EXPOSED
+                },
+                nozzleDesign: {
+                    divergenceAngle: 18,
+                    convergenceAngle: 38
+                }
+            }
+        ]
+    }
+    return Object.assign(validJsonV2)
+}
+
 function createVersion2HollowJsonConfig() {
     const validJsonV2 = {
         version: 2,
@@ -194,6 +326,24 @@ describe('Import Version 2Validation', () => {
         let loadedConfig = createVersion2EndBurnerJsonConfig()
         expect(validateImportVersion2(loadedConfig)).toBeTruthy()
         expect(ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
+    })
+
+    test('should check moon burner grain config', () => {
+        let loadedConfig = createVersion2MoonBurnerJsonConfig()
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(moonBurnerGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
+    })
+
+    test('should check C slot grain config', () => {
+        let loadedConfig = createVersion2CSlotJsonConfig()
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(cSlotGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
+    })
+
+    test('should check rod tube grain config', () => {
+        let loadedConfig = createVersion2RodTubeJsonConfig()
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(rodTubeGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
     })
 
     test('should check hollow grain config', () => {
@@ -576,6 +726,88 @@ describe('Import Version 2Validation', () => {
         ]
         requiredFields.forEach(field => {
             expect(ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+
+            json[field] = fieldsValues[field]
+        })
+    })
+
+    test('should failed when required fields are missing in moon burner grain', () => {
+        let json = { }
+        const fieldsValues = {
+            segmentLength: 70,
+            numberOfSegment: 2,
+            outerDiameter: 30,
+            coreDiameter: 2,
+            coreOffset: 10,
+            endsSurface: EXPOSED
+        }
+        let requiredFields = [
+            'segmentLength',
+            'numberOfSegment',
+            'outerDiameter',
+            'coreDiameter',
+            'coreOffset',
+            'endsSurface'
+        ]
+        requiredFields.forEach(field => {
+            expect(ajvValidator.validate(moonBurnerGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+
+            json[field] = fieldsValues[field]
+        })
+    })
+
+    test('should failed when required fields are missing in C slot grain', () => {
+        let json = { }
+        const fieldsValues = {
+            segmentLength: 70,
+            numberOfSegment: 2,
+            outerDiameter: 23,
+            coreDiameter: 25,
+            slotWidth: 26,
+            slotDepth: 27,
+            slotOffset: 2,
+            endsSurface: EXPOSED
+        }
+        let requiredFields = [
+            'segmentLength',
+            'numberOfSegment',
+            'outerDiameter',
+            'coreDiameter',
+            'slotWidth',
+            'slotDepth',
+            'slotOffset',
+            'endsSurface'
+        ]
+        requiredFields.forEach(field => {
+            expect(ajvValidator.validate(cSlotGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
+            assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
+
+            json[field] = fieldsValues[field]
+        })
+    })
+
+    test('should failed when required fields are missing in rod and tube grain', () => {
+        let json = { }
+        const fieldsValues = {
+            segmentLength: 70,
+            numberOfSegment: 2,
+            rodDiameter: 10,
+            tubeOuterDiameter: 30,
+            tubeInnerDiameter: 10,
+            endsSurface: EXPOSED
+        }
+        let requiredFields = [
+            'segmentLength',
+            'numberOfSegment',
+            'rodDiameter',
+            'tubeOuterDiameter',
+            'tubeInnerDiameter',
+            'endsSurface'
+        ]
+        requiredFields.forEach(field => {
+            expect(ajvValidator.validate(rodTubeGrainConfigVersion2ValidatorSchema, json)).toBeFalsy()
             assertAjvError('', `should have required property '${field}'`, { field: 'missingProperty', value: field })
 
             json[field] = fieldsValues[field]
