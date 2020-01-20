@@ -82,7 +82,7 @@
                 <v-select id="cSlotEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === rodTube">
-                <v-text-field id="rodTubeRodDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.rodDiameter" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="rodTubeRodDiameter" label="Rod diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.rodDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="rodTubeTubeOuterDiameter" label="Tube outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.tubeOuterDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="rodTubeTubeInnerDiameter" label="Tube inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.tubeInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
             </v-flex>
