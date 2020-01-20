@@ -1,4 +1,5 @@
-describe('Run Finocyl in SI units', function() {
+describe('Run rod and tube in SI units', function() {
+
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
 
@@ -11,17 +12,15 @@ describe('Run Finocyl in SI units', function() {
             propellantType: 'KNSU',
             segmentLength: 70,
             numberOfSegment: 2,
-            outerDiameter: 30,
-            innerDiameter: 10,
-            finWidth: 2.0,
-            finDiameter: 20.0,
-            finCount: 5,
-            endsSurface: 'Exposed'
+            rodDiameter: 10,
+            tubeOuterDiameter: 30,
+            tubeInnerDiameter: 20,
+            endsSurface: 'Inhibited'
         }
 
         // Flag cypress test in production
         localStorage.setItem('computationHash', 'cypress')
-        cy.fillFinocylForm(formDatas, 'METRIC')
+        cy.fillRodTubeForm(formDatas, 'METRIC')
 
         // Check presence of computationHash
         expect(localStorage.getItem('computationHash')).not.to.be.null
@@ -32,13 +31,13 @@ describe('Run Finocyl in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'H215',
-            thrustTime: '0.85',
-            maxThrust: '393.83',
-            totalImpulse: '181.61',
-            isp: '126.17',
-            maxPressure: '36.01',
-            averagePressure: '23.71',
+            motorClasss: 'G348',
+            thrustTime: '0.43',
+            maxThrust: '366.50',
+            totalImpulse: '149.35',
+            isp: '127.30',
+            maxPressure: '33.73',
+            averagePressure: '32.01',
             nozzleExitSpeed: '2.96'
         }
 

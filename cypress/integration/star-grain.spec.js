@@ -1,24 +1,8 @@
 describe('Run Star in SI units', function() {
-    it('Should set star advanced config settings', function() {
+    it('Should submit form', function() {
         cy.visit('/#/motorDesign')
 
-        cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('mm')
-
-        cy.get('input#name').should('have.value', '')
-        cy.get('#btnAdvancedSettings').click()
-
-        cy.get('label').contains('Optimal nozzle design').click()
-        cy.get('input#nozzleExpansionRatio').type(8)
-
-        cy.get('input#densityRatio').clear().type(0.96)
-        cy.get('input#combustionEfficiencyRatio').clear().type(0.97)
-
-        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
-    })
-
-    it('Should submit form', function() {
-        cy.url().should('include', '/#/motorDesign')
+        cy.setMotorSimAdvancedConfig()
 
         const formDatas = {
             throatDiameter: 10,

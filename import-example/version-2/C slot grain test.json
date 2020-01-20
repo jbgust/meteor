@@ -1,0 +1,40 @@
+{
+    "version": 2,
+    "configs": [
+        {
+            "computationHash": "e62b4d1c966063c76a19d271003bba74",
+            "grainType": "C_SLOT",
+            "grainConfig": {
+                "numberOfSegment": 2,
+                "endsSurface": "EXPOSED",
+                "outerDiameter": "30",
+                "segmentLength": "70",
+                "coreDiameter": "10",
+                "slotWidth": "5",
+                "slotDepth": "15",
+                "slotOffset": "7"
+            },
+            "name": "C slot grain test",
+            "propellantType": "KNSU",
+            "chamberInnerDiameter": 40,
+            "chamberLength": 150,
+            "throatDiameter": 10,
+            "extraConfig": {
+                "densityRatio": "0.96",
+                "nozzleErosionInMillimeter": 0,
+                "combustionEfficiencyRatio": "0.97",
+                "ambiantPressureInMPa": 0.101,
+                "erosiveBurningAreaRatioThreshold": 6,
+                "erosiveBurningVelocityCoefficient": 0,
+                "nozzleEfficiency": 0.85,
+                "nozzleExpansionRatio": "8",
+                "optimalNozzleDesign": false
+            },
+            "nozzleDesign": {
+                "convergenceAngle": 60,
+                "divergenceAngle": 24
+            }
+        }
+    ],
+    "measureUnit": "SI"
+}

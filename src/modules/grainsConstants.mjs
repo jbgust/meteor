@@ -1,8 +1,11 @@
 // Grain types
-export const HOLLOW = 'HOLLOW'
-export const FINOCYL = 'FINOCYL'
-export const STAR = 'STAR'
 export const END_BURNER = 'END_BURNER'
+export const FINOCYL = 'FINOCYL'
+export const HOLLOW = 'HOLLOW'
+export const STAR = 'STAR'
+export const MOON_BURNER = 'MOON_BURNER'
+export const C_SLOT = 'C_SLOT'
+export const ROD_TUBE = 'ROD_TUBE'
 
 // Grain surfaces
 export const EXPOSED = 'EXPOSED'

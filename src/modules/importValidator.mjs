@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import {
+    C_SLOT,
     CUSTOM_PRPELLANT_PREFIX, END_BURNER,
     EXPOSED, FINOCYL, HOLLOW,
     INHIBITED,
@@ -8,7 +9,7 @@ import {
     KNMN_COARSE,
     KNSB_COARSE,
     KNSB_FINE,
-    KNSU, STAR
+    KNSU, MOON_BURNER, ROD_TUBE, STAR
 } from './grainsConstants'
 
 export const LAST_VERSION = 2
@@ -35,6 +36,12 @@ export function validateImportVersion2(loadedConfig) {
             valide = ajvValidator.validate(starGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else if (config.grainType === END_BURNER) {
             valide = ajvValidator.validate(endBurnerGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === MOON_BURNER) {
+            valide = ajvValidator.validate(moonBurnerGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === C_SLOT) {
+            valide = ajvValidator.validate(cSlotGrainConfigVersion2ValidatorSchema, config.grainConfig)
+        } else if (config.grainType === ROD_TUBE) {
+            valide = ajvValidator.validate(rodTubeGrainConfigVersion2ValidatorSchema, config.grainConfig)
         } else {
             valide = false
         }
@@ -48,7 +55,7 @@ export function validateImportVersion2(loadedConfig) {
 const propellantPattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)|(^' + CUSTOM_PRPELLANT_PREFIX + ')'
 const grainSurfacePattern = '^((' + INHIBITED + ')|(' + EXPOSED + '))$'
 const unitsPattern = '^((SI)|(IMPERIAL))$'
-const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + ')|(' + STAR + ')|(' + END_BURNER + '))$'
+const grainTypePattern = '^((' + HOLLOW + ')|(' + FINOCYL + ')|(' + STAR + ')|(' + END_BURNER + ')|(' + MOON_BURNER + ')|(' + C_SLOT + ')|(' + ROD_TUBE + '))$'
 
 export const importVersion2ValidatorSchema = {
     type: 'object',
@@ -215,6 +222,70 @@ export const endBurnerGrainConfigVersion2ValidatorSchema = {
         'outerDiameter',
         'holeDiameter',
         'holeDepth'
+    ]
+}
+
+export const moonBurnerGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        outerDiameter: { type: 'number' },
+        coreDiameter: { type: 'number' },
+        coreOffset: { type: 'number' },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'segmentLength',
+        'numberOfSegment',
+        'outerDiameter',
+        'coreDiameter',
+        'coreOffset',
+        'endsSurface'
+    ]
+}
+
+export const cSlotGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        outerDiameter: { type: 'number' },
+        coreDiameter: { type: 'number' },
+        slotWidth: { type: 'number' },
+        slotDepth: { type: 'number' },
+        slotOffset: { type: 'number' },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'segmentLength',
+        'numberOfSegment',
+        'outerDiameter',
+        'coreDiameter',
+        'slotWidth',
+        'slotDepth',
+        'slotOffset',
+        'endsSurface'
+    ]
+}
+
+export const rodTubeGrainConfigVersion2ValidatorSchema = {
+    type: 'object',
+    properties: {
+        segmentLength: { type: 'number' },
+        numberOfSegment: { type: 'number' },
+        rodDiameter: { type: 'number' },
+        tubeOuterDiameter: { type: 'number' },
+        tubeInnerDiameter: { type: 'number' },
+        endsSurface: { type: 'string', pattern: grainSurfacePattern }
+    },
+    required: [
+        'segmentLength',
+        'numberOfSegment',
+        'rodDiameter',
+        'tubeOuterDiameter',
+        'tubeInnerDiameter',
+        'endsSurface'
     ]
 }
 

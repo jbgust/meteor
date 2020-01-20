@@ -1,4 +1,5 @@
-describe('Run Finocyl in SI units', function() {
+describe('Run moon burner in SI units', function() {
+
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
 
@@ -12,16 +13,14 @@ describe('Run Finocyl in SI units', function() {
             segmentLength: 70,
             numberOfSegment: 2,
             outerDiameter: 30,
-            innerDiameter: 10,
-            finWidth: 2.0,
-            finDiameter: 20.0,
-            finCount: 5,
-            endsSurface: 'Exposed'
+            coreDiameter: 10,
+            coreOffset: 5,
+            endsSurface: 'Inhibited'
         }
 
         // Flag cypress test in production
         localStorage.setItem('computationHash', 'cypress')
-        cy.fillFinocylForm(formDatas, 'METRIC')
+        cy.fillMoonBurnerForm(formDatas, 'METRIC')
 
         // Check presence of computationHash
         expect(localStorage.getItem('computationHash')).not.to.be.null
@@ -32,13 +31,13 @@ describe('Run Finocyl in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'H215',
-            thrustTime: '0.85',
-            maxThrust: '393.83',
-            totalImpulse: '181.61',
-            isp: '126.17',
-            maxPressure: '36.01',
-            averagePressure: '23.71',
+            motorClasss: 'H102',
+            thrustTime: '1.77',
+            maxThrust: '191.79',
+            totalImpulse: '180.10',
+            isp: '115.10',
+            maxPressure: '18.71',
+            averagePressure: '10.36',
             nozzleExitSpeed: '2.96'
         }
 
