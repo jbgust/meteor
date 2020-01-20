@@ -22,7 +22,7 @@
                                     Compatible with any solid propellant
                                 </li>
                                 <li>
-                                    Multiple grain configuration
+                                    Multiple grain configuration (C slot, end burner, finocyl, hollow cylinder, moon burner, rod and tube, star)
                                 </li>
                                 <li>
                                     Easy to use
@@ -69,7 +69,7 @@
                     <div class="block-text">
                             <ul>
                                 <li>
-                                    New grain configurations (rod and tube, star, ...)
+                                    Erosive burning design helper
                                 </li>
                                 <li>
                                     Comparison of multiple motor configurations on one same graph
