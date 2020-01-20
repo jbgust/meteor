@@ -1,4 +1,5 @@
-describe('Run Finocyl in SI units', function() {
+describe('Run C slot in SI units', function() {
+
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
 
@@ -12,16 +13,16 @@ describe('Run Finocyl in SI units', function() {
             segmentLength: 70,
             numberOfSegment: 2,
             outerDiameter: 30,
-            innerDiameter: 10,
-            finWidth: 2.0,
-            finDiameter: 20.0,
-            finCount: 5,
-            endsSurface: 'Exposed'
+            coreDiameter: 10,
+            slotWidth: 5,
+            slotDepth: 15,
+            slotOffset: 7,
+            endsSurface: 'Inhibited'
         }
 
         // Flag cypress test in production
         localStorage.setItem('computationHash', 'cypress')
-        cy.fillFinocylForm(formDatas, 'METRIC')
+        cy.fillCSlotForm(formDatas, 'METRIC')
 
         // Check presence of computationHash
         expect(localStorage.getItem('computationHash')).not.to.be.null
@@ -32,13 +33,13 @@ describe('Run Finocyl in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'H215',
-            thrustTime: '0.85',
-            maxThrust: '393.83',
-            totalImpulse: '181.61',
-            isp: '126.17',
-            maxPressure: '36.01',
-            averagePressure: '23.71',
+            motorClasss: 'H76',
+            thrustTime: '2.16',
+            maxThrust: '134.02',
+            totalImpulse: '164.00',
+            isp: '112.31',
+            maxPressure: '13.50',
+            averagePressure: '7.85',
             nozzleExitSpeed: '2.96'
         }
 

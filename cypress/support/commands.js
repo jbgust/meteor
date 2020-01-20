@@ -246,6 +246,221 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
     }
 })
 
+Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('Moon burner').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces')
+        .eq(2).click()
+    cy.get('div.menuable__content__active')
+        .contains(formValues.endsSurface).click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#moonBurnerSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#moonBurnerNumberOfSegment')
+        .type(formValues.numberOfSegment)
+
+    cy.get('input#moonBurnerOuterDiameter')
+        .type(formValues.outerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#moonBurnerCoreDiameter')
+        .type(formValues.coreDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#moonBurnerCoreOffset')
+        .type(formValues.coreOffset)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
+Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('C slot').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces')
+        .eq(2).click()
+    cy.get('div.menuable__content__active')
+        .contains(formValues.endsSurface).click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotNumberOfSegment')
+        .type(formValues.numberOfSegment)
+
+    cy.get('input#cSlotOuterDiameter')
+        .type(formValues.outerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotCoreDiameter')
+        .type(formValues.coreDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotSlotWidth')
+        .type(formValues.slotWidth)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotSlotDepth')
+        .type(formValues.slotDepth)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#cSlotSlotOffset')
+        .type(formValues.slotOffset)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
+Cypress.Commands.add('fillRodTubeForm', (formValues, units, submit = true) => {
+    cy.contains(units).click()
+    cy.get('input#name').should('have.value', '')
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces').eq(0)
+        .click()
+
+    cy.contains(formValues.propellantType).click()
+
+    cy.get('@coreSurfaces').eq(1).click()
+    cy.get('div.menuable__content__active')
+        .contains('Rod and tube').click()
+
+    cy.get('.v-select__selections')
+        .as('coreSurfaces')
+        .eq(2).click()
+    cy.get('div.menuable__content__active')
+        .contains(formValues.endsSurface).click()
+
+    cy.get('input#throatDiameter')
+        .type(formValues.throatDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberInnerDiameter')
+        .type(formValues.chamberInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#chamberLength')
+        .type(formValues.chamberLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#rodTubeSegmentLength')
+        .type(formValues.segmentLength)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#rodTubeNumberOfSegment')
+        .type(formValues.numberOfSegment)
+
+    cy.get('input#rodTubeRodDiameter')
+        .type(formValues.rodDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#rodTubeTubeOuterDiameter')
+        .type(formValues.tubeOuterDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    cy.get('input#rodTubeTubeInnerDiameter')
+        .type(formValues.tubeInnerDiameter)
+        .parent()
+        .contains(getLengthUnit(units))
+
+    if (submit) {
+        cy.contains('Submit').click()
+    }
+})
+
+Cypress.Commands.add('setMotorSimAdvancedConfig', () => {
+    cy.get('input#name').should('have.value', '')
+    cy.get('#throatDiameter').parent().contains('mm')
+
+    cy.get('input#name').should('have.value', '')
+    cy.get('#btnAdvancedSettings').click()
+
+    cy.get('label').contains('Optimal nozzle design').click()
+    cy.get('input#nozzleExpansionRatio').type(8)
+
+    cy.get('input#densityRatio').clear().type(0.96)
+    cy.get('input#combustionEfficiencyRatio').clear().type(0.97)
+
+    cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+})
+
 Cypress.Commands.add('fillEndBurnerForm', (formValues, units, submit = true) => {
     cy.contains(units).click()
     cy.get('input#name').should('have.value', '')
