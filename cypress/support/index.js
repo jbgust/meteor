@@ -18,3 +18,10 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+beforeEach(function() {
+    // Flag cypress test in production
+    localStorage.setItem('computationHash', 'cypress')
+
+    localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
+})

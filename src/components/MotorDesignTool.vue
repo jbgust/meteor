@@ -126,6 +126,7 @@
             </v-flex>
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
+        <donate :check-mode="true"></donate>
     </v-container>
 </template>
 
@@ -148,10 +149,11 @@ import {
     SI_UNITS
 } from '../modules/computationUtils'
 import ExportRasp from './result/ExportRASPForm'
+import Donate from './donate'
 
 export default {
     name: 'motor-design-tool',
-    components: { ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
+    components: { Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,

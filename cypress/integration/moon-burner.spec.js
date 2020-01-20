@@ -18,15 +18,7 @@ describe('Run moon burner in SI units', function() {
             endsSurface: 'Inhibited'
         }
 
-        // Flag cypress test in production
-        localStorage.setItem('computationHash', 'cypress')
         cy.fillMoonBurnerForm(formDatas, 'METRIC')
-
-        // Check presence of computationHash
-        expect(localStorage.getItem('computationHash')).not.to.be.null
-
-        // Le calcul peut mettre plus de temps que le timeout sur la CI.
-        cy.wait(5000)
     })
 
     it('Should check result', () => {
