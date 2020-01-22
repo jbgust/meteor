@@ -34,6 +34,7 @@
                                 <span><b>Your support will be use:</b></span>
                                 <ul>
                                     <li>to cover server costs</li>
+                                    <li>to rent a powerfullest server, for faster and more accurate computations</li>
                                     <li>to participate in the hundreds of hours of work it took to create METEOR</li>
                                     <li>as contribution to the next developments.</li>
                                 </ul>
@@ -103,7 +104,7 @@ export default {
     methods: {
         setNextShowDate() {
             const now = new Date()
-            localStorage.setItem('nextShowDonationPage', now.setMonth(now.getMonth() + 1))
+            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 7))
         }
     }
 }
