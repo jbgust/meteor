@@ -24,7 +24,19 @@
                 <v-row justify="center" align="center">
                     <v-flex shrink>
                         <v-col>
-                            <div class="mb-6">
+                            <v-progress-linear
+                                color="purple"
+                                height="25"
+                                :value="donationProgress"
+                                striped
+                                class="mt-5"
+                            >
+                                <strong>{{ Math.floor(donationProgress) }}%</strong>
+                            </v-progress-linear>
+                            <div style="text-align: center">
+                                <b>2020 donation progress (goal 300$)</b>
+                            </div>
+                            <div class="mb-6 mt-5">
                                 <h2>Meteor is totally free, without ads and registration.</h2>
                                 <p class="mt-5">
                                     This application is <b>maintained and financed by only one person</b>.
@@ -72,6 +84,8 @@
 </template>
 
 <script>
+import Axios from 'axios'
+
 export default {
     name: 'donate',
     props: {
@@ -83,8 +97,19 @@ export default {
     data() {
         return {
             sheet: false,
-            on: null
+            on: null,
+            donationProgress: 0
         }
+    },
+    created() {
+        let me = this
+        Axios.get('https://api.donately.com/v2/campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
+            .then(function(response) {
+                me.donationProgress = response.data.data.percent_funded * 100
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
     },
     mounted() {
         if (this.checkMode) {
