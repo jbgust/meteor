@@ -8,7 +8,7 @@
             <div class="text-center" v-if="!disabledButtons">
                 <v-btn class="mr-4" @click="reset">Reset</v-btn>
                 <v-btn class="mr-4" @click="$refs.advanceSettings.show()">
-                    <v-icon dark id="btnAdvancedSettings">mdi-settings</v-icon>
+                    <v-icon dark id="btnAdvancedSettings">mdi-cog</v-icon>
                 </v-btn>
                 <v-btn class="mr-4" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
             </div>
