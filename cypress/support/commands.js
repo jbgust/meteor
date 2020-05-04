@@ -52,7 +52,7 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.get('div.v-list-item__title').contains(formValues.propellantType).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
