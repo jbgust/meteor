@@ -153,8 +153,8 @@ workflows:
           requires:
             - jest
           filters:
-            branches:
-              only: master
+            tags:
+              ignore: /.*/
       - package-prod:
           requires:
             - jest
@@ -174,8 +174,6 @@ workflows:
           requires:
             - deploy-ci
           filters:
-            branches:
-              only: master
             tags:
               ignore: /.*/
       - deploy:
