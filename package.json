@@ -17,7 +17,7 @@
     "fingerprintjs2": "^2.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.0.7",
-    "vuetify": "^2.1.14"
+    "vuetify": "2.2.26"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
@@ -30,7 +30,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
-    "cypress": "^3.4.1",
+    "cypress": "4.5.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "jest": "^24.7.1",
@@ -38,7 +38,7 @@
     "obsolete-webpack-plugin": "^0.5.6",
     "sass": "^1.17.4",
     "sass-loader": "^7.1.0",
-    "vue-cli-plugin-vuetify": "^0.6.1",
+    "vue-cli-plugin-vuetify": "0.6.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.2.2",
     "webpack-cli": "^3.3.6"

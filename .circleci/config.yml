@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:3.2.0 run --config baseUrl=https://ci.meteor.open-sky.fr
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:4.5.0 run --config baseUrl=https://ci.meteor.open-sky.fr
       - run:
           name: Stop CI
           command: ssh open-sky.fr "~/env-ci.sh stop"
@@ -124,7 +124,7 @@ jobs:
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:3.2.0 run --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/integration/run-in-SI-units.spec.js
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:4.5.0 run --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/integration/run-in-SI-units.spec.js
 workflows:
   version: 2
   check-production:
@@ -153,8 +153,8 @@ workflows:
           requires:
             - jest
           filters:
-            branches:
-              only: master
+            tags:
+              ignore: /.*/
       - package-prod:
           requires:
             - jest
@@ -174,8 +174,6 @@ workflows:
           requires:
             - deploy-ci
           filters:
-            branches:
-              only: master
             tags:
               ignore: /.*/
       - deploy:

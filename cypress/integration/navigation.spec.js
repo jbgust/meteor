@@ -1,7 +1,7 @@
 describe('Navigation check', function() {
     it('Should open notification', function() {
         cy.visit('/#/demo')
-        cy.get('i#newsMeteorBtn')
+        cy.get('#newsMeteorBtn')
             .click()
         cy.get('#bottomPageNews')
             .contains('What\'s new')

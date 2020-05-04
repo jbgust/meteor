@@ -3,7 +3,7 @@
         <v-layout row wrap fill-heith>
             <v-flex xl3 lg4 md5>
                 <v-card>
-                    <v-app-bar flat height="40px" v-if="!demo">
+                    <v-card-actions v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-btn icon v-on="on" @click="exportConfig" text>
@@ -50,7 +50,7 @@
                             <span>Documentation</span>
                         </v-tooltip>
 
-                    </v-app-bar>
+                    </v-card-actions>
 
                     <v-alert
                         :value="displayImportError"
