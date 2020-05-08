@@ -68,6 +68,9 @@
                     </h1>
                     <div class="block-text">
                             <ul>
+                                <li style="color: red">
+                                    New way to compute star grain, (contribution needed, feel free to contact us)
+                                </li>
                                 <li>
                                     Erosive burning design helper
                                 </li>

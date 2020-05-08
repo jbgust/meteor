@@ -75,6 +75,17 @@ export const news = [
                             </ul>
                         </li>
                     </ul>`
+    }, {
+        id: 9,
+        html: `<ul>
+                        <li>
+                            <b>May 2020</b>
+                            <ul>
+                                <li>RASP export now available for all grain type</li>
+                                <li>Due to performance problem star grain are temporarily not available. Any help to improve the regression computation of star grain are welcome.</li>
+                            </ul>
+                        </li>
+                    </ul>`
     }
 ]
 

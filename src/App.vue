@@ -13,6 +13,10 @@
                     <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
+                <v-btn text href="mailto:postmaster@pixelife.net?subject=METEOR">
+                    <v-icon left id="contactMain" size="25">mdi-email-edit-outline</v-icon>
+                    Contact
+                </v-btn>
                 <donate></donate>
             </v-toolbar-items>
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
@@ -54,6 +58,14 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>Forum</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item href="mailto:postmaster@pixelife.net?subject=METEOR">
+                            <v-list-item-icon>
+                                <v-icon>mdi-email-edit-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Contact</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                         <v-list-item>
