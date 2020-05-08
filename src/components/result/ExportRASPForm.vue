@@ -45,6 +45,7 @@
 import Axios from 'axios'
 import { greaterThanRule, regexValidator, requiredValidator } from '../../modules/formValidationRules'
 import HelpDialog from '../motor/HelpDialog'
+import { HOLLOW } from '../../modules/grainsConstants'
 const delayHintMessage = 'This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).'
 export default {
     name: 'export-rasp',
@@ -81,13 +82,13 @@ export default {
         isFormValid() {
             return this.$refs.exportRaspForm ? this.$refs.exportRaspForm.validate() : true
         },
-        setComputationRequest(request, computationResult) {
+        setComputationRequest(grainType, request, computationResult) {
             this.computationRequest = Object.assign({}, request)
             this.massRules = greaterThanRule(Number(computationResult.performanceResult.grainMass))
             this.motorDiameterRules = greaterThanRule(Number(request.chamberInnerDiameter))
             this.motorLengthRules = greaterThanRule(Number(request.chamberLength))
             this.safeKN = computationResult.performanceResult.safeKN
-            this.isHollowCylinder = !!request.coreDiameter
+            this.isHollowCylinder = grainType === HOLLOW
         },
         exportRASP() {
             if (this.isFormValid()) {

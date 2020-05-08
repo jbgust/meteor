@@ -199,11 +199,11 @@ export default {
             // save defaultUnit
             if (!this.demo) {
                 setSelectedUnits(this.unitSelected)
-                this.$refs.rasp.setComputationRequest(request, data)
+                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), request, data)
             } else {
                 const demoRequest = demoFormRequest
                 demoRequest.extraConfig = defaultAdvanceConfig
-                this.$refs.rasp.setComputationRequest(demoRequest, data)
+                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), demoRequest, data)
             }
 
             this.displayDefaultUnitInfo = false

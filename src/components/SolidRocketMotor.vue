@@ -96,29 +96,32 @@ export default {
         getDefaultAdvanceConfig() {
             return Object.assign({}, defaultAdvanceConfig)
         },
+        getGrainType() {
+            return this.formValue.grainType
+        },
         runComputation() {
             const component = this
             let url = '/compute'
             let request
             let grainCheck = true
-            if (this.formValue.grainType === HOLLOW) {
+            if (this.getGrainType() === HOLLOW) {
                 grainCheck = this.checkMotorDimensions()
-            } else if (this.formValue.grainType === FINOCYL) {
+            } else if (this.getGrainType() === FINOCYL) {
                 grainCheck = true
                 url += '/finocyl'
-            } else if (this.formValue.grainType === STAR) {
+            } else if (this.getGrainType() === STAR) {
                 grainCheck = true
                 url += '/star'
-            } else if (this.formValue.grainType === END_BURNER) {
+            } else if (this.getGrainType() === END_BURNER) {
                 grainCheck = true
                 url += '/endburner'
-            } else if (this.formValue.grainType === MOON_BURNER) {
+            } else if (this.getGrainType() === MOON_BURNER) {
                 grainCheck = true
                 url += '/moonburner'
-            } else if (this.formValue.grainType === C_SLOT) {
+            } else if (this.getGrainType() === C_SLOT) {
                 grainCheck = true
                 url += '/cslot'
-            } else if (this.formValue.grainType === ROD_TUBE) {
+            } else if (this.getGrainType() === ROD_TUBE) {
                 grainCheck = true
                 url += '/rodtube'
             }
