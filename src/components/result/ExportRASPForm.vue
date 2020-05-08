@@ -13,7 +13,7 @@
                         <v-card-text>
                             <v-layout column>
                                 <v-flex>
-                                    <div style="padding: 10px;" v-if="isHollowCylinder">
+                                    <div style="padding: 10px;">
                                         <v-form ref="exportRaspForm" class="mr-5 ml-5">
                                             <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
                                             <v-text-field id="motorLength" label="Motor length:" :rules="motorLengthRules" :suffix="units.lengthUnit" v-model="config.motorLength"/>
@@ -21,9 +21,6 @@
                                             <v-text-field id="delay" label="Delay:"  suffix="s" persistent-hint :hint="delayHint" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
-                                    <v-alert outlined type="info" v-else border="left" class="mt-10">
-                                        Not yet implemented for this grain, coming soon...
-                                    </v-alert>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
@@ -31,7 +28,7 @@
                             <v-btn @click="$refs.helpDialog.show()">Help</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
-                            <v-btn id="btnExportRASP" v-if="isHollowCylinder" @click="exportRASP" color="primary">Export</v-btn>
+                            <v-btn id="btnExportRASP" @click="exportRASP" :loading="computationInProgress" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -45,7 +42,6 @@
 import Axios from 'axios'
 import { greaterThanRule, regexValidator, requiredValidator } from '../../modules/formValidationRules'
 import HelpDialog from '../motor/HelpDialog'
-import { HOLLOW } from '../../modules/grainsConstants'
 const delayHintMessage = 'This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).'
 export default {
     name: 'export-rasp',
@@ -58,12 +54,12 @@ export default {
             config: {},
             dialog: false,
             safeKN: false,
-            isHollowCylinder: false,
             computationRequest: null,
             motorDiameterRules: [],
             motorLengthRules: [],
             massRules: [],
             delayHint: delayHintMessage,
+            computationInProgress: false,
             delayRules: [requiredValidator('Field is required'), regexValidator(/^([0-9]+|P)(-([0-9]+|P))*$/g, `Invalid format. ${delayHintMessage}`)]
         }
     },
@@ -72,9 +68,7 @@ export default {
             this.dialog = true
         },
         close() {
-            if (this.isHollowCylinder) {
-                this.$refs.exportRaspForm.reset()
-            }
+            this.$refs.exportRaspForm.reset()
             this.dialog = false
         },
         download() {
@@ -88,7 +82,6 @@ export default {
             this.motorDiameterRules = greaterThanRule(Number(request.chamberInnerDiameter))
             this.motorLengthRules = greaterThanRule(Number(request.chamberLength))
             this.safeKN = computationResult.performanceResult.safeKN
-            this.isHollowCylinder = grainType === HOLLOW
         },
         exportRASP() {
             if (this.isFormValid()) {
@@ -99,7 +92,7 @@ export default {
                 }
 
                 const exportRequest = {
-                    hollowComputationRequest: this.computationRequest,
+                    computationRequest: this.computationRequest,
                     delay: this.config.delay,
                     motorDiameter: this.config.motorDiameter,
                     motorLength: this.config.motorLength,
@@ -107,8 +100,11 @@ export default {
                     projectName: motorName || 'default',
                     safeKN: this.safeKN
                 }
+                this.computationInProgress = true
+                const me = this
                 Axios.post('/export/rasp', {}, { data: exportRequest })
                     .then(function(response) {
+                        me.computationInProgress = false
                         const fileContent = response.data
 
                         if (window.navigator.msSaveOrOpenBlob) {
@@ -125,6 +121,7 @@ export default {
                         }
                     })
                     .catch(function(error) {
+                        me.computationInProgress = false
                         alert('Export fail due to unknown error')
                         console.error(error)
                     })

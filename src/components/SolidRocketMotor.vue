@@ -189,6 +189,8 @@ export default {
                     request.customPropellant = getCustomPropellant('CUSTOM_propellant')
                 }
 
+                request.grainType = this.getGrainType()
+
                 return request
             } else {
                 return null
