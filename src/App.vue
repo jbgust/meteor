@@ -22,6 +22,9 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
+            <div class="ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;">
+                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:postmaster@pixelife.net?subject=METEOR star grain">contact us</a>.
+            </div>
             <v-spacer></v-spacer>
             <meteor-news/>
         </v-app-bar>
