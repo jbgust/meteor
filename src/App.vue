@@ -13,7 +13,7 @@
                     <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
-                <v-btn text href="mailto:postmaster@pixelife.net?subject=METEOR">
+                <v-btn text href="mailto:meteor@open-sky.fr?subject=METEOR">
                     <v-icon left id="contactMain" size="25">mdi-email-edit-outline</v-icon>
                     Contact
                 </v-btn>
@@ -23,7 +23,7 @@
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
             <div class="ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;">
-                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:postmaster@pixelife.net?subject=METEOR star grain">contact us</a>.
+                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
             <meteor-news/>
@@ -63,7 +63,7 @@
                                 <v-list-item-title>Forum</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                        <v-list-item href="mailto:postmaster@pixelife.net?subject=METEOR">
+                        <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR">
                             <v-list-item-icon>
                                 <v-icon>mdi-email-edit-outline</v-icon>
                             </v-list-item-icon>

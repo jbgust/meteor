@@ -49,7 +49,7 @@
                                 <v-icon right>mdi-play</v-icon>
                             </v-btn>
                             <v-btn :to="'/motorDesign'" outlined id="btnTryIt">Try it!</v-btn>
-                            <v-btn outlined href="mailto:postmaster@pixelife.net?subject=METEOR">
+                            <v-btn outlined href="mailto:meteor@open-sky.fr?subject=METEOR">
                                 Contact
                                 <v-icon right>mdi-email-edit-outline</v-icon>
                             </v-btn>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="block-text">
                         <div class="block-button">
-                            <v-btn outlined href="mailto:postmaster@pixelife.net?subject=New Feature METEOR">
+                            <v-btn outlined href="mailto:meteor@open-sky.fr?subject=New Feature METEOR">
                                 Request new feature
                                 <v-icon right>mdi-email-edit-outline</v-icon>
                             </v-btn>
