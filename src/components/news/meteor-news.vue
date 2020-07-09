@@ -3,11 +3,10 @@
         <template v-slot:activator="{ on }">
             <v-badge
                 color="red"
-                class="mr-5 align-self-center"
+                class="mr-5 ml-5 align-self-center"
+                :content="newNews.length"
+                v-show="newNews.length > 0"
             >
-                <template v-slot:badge v-if="newNews.length > 0">
-                    <span>{{newNews.length}}</span>
-                </template>
                 <v-icon
                     id="newsMeteorBtn"
                     large
@@ -16,6 +15,15 @@
                     mdi-bell-ring-outline
                 </v-icon>
             </v-badge>
+            <v-icon
+                v-show="newNews.length==0"
+                id="newsMeteorBtn2"
+                class="mr-5 ml-5 align-self-center"
+                large
+                @click="sheet = true"
+            >
+                mdi-bell-ring-outline
+            </v-icon>
         </template>
 
         <v-sheet class="pb-5">
