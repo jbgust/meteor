@@ -26,6 +26,10 @@
                 Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
+            <v-btn text :to="'/signin'">
+                <v-icon left id="btnSignIn" size="25">mdi-login</v-icon>
+                Sign in
+            </v-btn>
             <meteor-news/>
         </v-app-bar>
         <v-navigation-drawer
@@ -88,6 +92,31 @@
         <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
+
+        <v-dialog
+            v-model="lostConnectDialog"
+            max-width="290">
+            <v-card>
+                <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title>
+                    Token expired</v-card-title>
+                <v-card-text>
+                    <div class="mt-5 text--primary" style="font-size: large">
+                        To continue using METEOR, please sign in.
+                    </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="green"
+                        @click="closeLostConnectionPopUp"
+                    >
+                        Sign in
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -100,6 +129,10 @@ import Home from './components/Home'
 import { computeHash } from './modules/computationUtils'
 import MeteorNews from './components/news/meteor-news'
 import Donate from './components/donate'
+import Signin from './components/authentication/Signin'
+import Signup from './components/authentication/Signup'
+import { isAuthenticated, loadToken, clearToken } from './modules/authentication'
+import Axios from 'axios'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -107,9 +140,28 @@ Vue.use(VueRouter)
 let router = new VueRouter({
     routes: [
         {
+            path: '/signin',
+            name: 'Signin',
+            component: Signin,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/signup',
+            name: 'Signup',
+            component: Signup,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
             path: '/home',
             name: 'Home',
-            component: Home
+            component: Home,
+            meta: {
+                publicAccess: true
+            }
         },
         {
             path: '/demo',
@@ -117,6 +169,9 @@ let router = new VueRouter({
             component: MotorDesignTool,
             props: {
                 demo: true
+            },
+            meta: {
+                publicAccess: true
             }
         },
         {
@@ -131,19 +186,43 @@ let router = new VueRouter({
     ]
 })
 
+router.beforeEach((to, from, next) => {
+    if (!to.meta.publicAccess && !isAuthenticated()) next({ name: 'Signin' })
+    else next()
+})
+
 export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
     components: { Donate, MeteorNews },
     router,
     mounted() {
+        loadToken()
         computeHash()
+        let me = this
+        Axios.interceptors.response.use(function(response) {
+            // Any status code that lie within the range of 2xx cause this function to trigger
+            // Do something with response data
+            return response
+        }, function(error) {
+            if (error.response.status === 401) {
+                me.lostConnectDialog = true
+                clearToken()
+            }
+            return Promise.reject(error)
+        })
     },
     data: () => ({
         drawer: false,
-        group: null
+        group: null,
+        lostConnectDialog: false
     }),
-
+    methods: {
+        closeLostConnectionPopUp() {
+            this.lostConnectDialog = false
+            router.push({ name: 'Signin' })
+        }
+    },
     watch: {
         group() {
             this.drawer = false

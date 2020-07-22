@@ -137,18 +137,20 @@ export default {
                     .catch(function(error) {
                         component.loading = false
 
-                        if (error.response && error.response.data) {
-                            component.errorMessage = error.response.data.message
-                        } else {
-                            component.errorMessage = 'Computation failed due to unknown error'
-                        }
+                        if (!(error.response && error.response.status === 401)) {
+                            if (error.response && error.response.data) {
+                                component.errorMessage = error.response.data.message
+                            } else {
+                                component.errorMessage = 'Computation failed due to unknown error'
+                            }
 
-                        component.errorDetail = null
-                        if (error.response && error.response.data && error.response.data.detail != null) {
-                            component.errorDetail = error.response.data.detail
-                            console.error(error.response.data.detail)
+                            component.errorDetail = null
+                            if (error.response && error.response.data && error.response.data.detail != null) {
+                                component.errorDetail = error.response.data.detail
+                                console.error(error.response.data.detail)
+                            }
+                            component.showError = true
                         }
-                        component.showError = true
                     })
             }
         },

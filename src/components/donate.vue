@@ -103,12 +103,17 @@ export default {
             on: null,
             donationProgress: 0,
             donors: '',
-            donation: 0
+            donation: 0,
+            axiosDonately: Axios.create({
+                baseURL: 'https://api.donately.com/v2/',
+                timeout: 10000
+            })
         }
     },
     created() {
         let me = this
-        Axios.get('https://api.donately.com/v2/campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
+        this.axiosDonately.defaults.headers.common['Authorization'] = null
+        this.axiosDonately.get('campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
             .then(function(response) {
                 me.donationProgress = response.data.data.percent_funded * 100
                 me.donors = response.data.data.donors_count
