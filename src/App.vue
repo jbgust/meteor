@@ -133,6 +133,8 @@ import Signin from './components/authentication/Signin'
 import Signup from './components/authentication/Signup'
 import { isAuthenticated, loadToken, clearToken } from './modules/authentication'
 import Axios from 'axios'
+import LostPassword from './components/authentication/LostPassword'
+import TokenValidator from './components/authentication/TokenValidator'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -151,6 +153,22 @@ let router = new VueRouter({
             path: '/signup',
             name: 'Signup',
             component: Signup,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/lost-password',
+            name: 'LostPassword',
+            component: LostPassword,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/validate',
+            name: 'TokenValidator',
+            component: TokenValidator,
             meta: {
                 publicAccess: true
             }

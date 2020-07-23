@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <v-layout column align-center>
-            <v-flex xs10 sm6 >
+            <v-flex xs10 sm6 class="pb-10">
                 <h1>
-                    Create an account
+                    Reset your password
                 </h1>
             </v-flex>
             <v-flex grow>
@@ -28,29 +28,13 @@
                                 label="E-mail"
                                 required
                             ></v-text-field>
-                            <v-text-field
-                                v-model="password"
-                                label="Password"
-                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="showPassword ? 'text' : 'password'"
-                                @click:append="showPassword = !showPassword"
-                                required
-                            ></v-text-field>
-                            <v-text-field
-                                v-model="passwordConfirm"
-                                label="Confirm password"
-                                :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="showPassword2 ? 'text' : 'password'"
-                                @click:append="showPassword2 = !showPassword2"
-                                required
-                            ></v-text-field>
                             <v-btn
                                 width="100%"
                                 :disabled="!valid"
                                 color="success"
-                                @click="signup"
+                                @click="resetPassword"
                             >
-                                Create account
+                                Reset
                             </v-btn>
                         </v-form>
                     </v-card-text>
@@ -65,33 +49,28 @@
 import Axios from 'axios'
 
 export default {
-    name: 'Signup',
+    name: 'LostPassword',
     data: () => ({
         valid: true,
-        email: 'signup@meteor.fr',
-        password: 'Tototiti!4',
-        passwordConfirm: 'Tototiti!4',
-        showPassword: false,
-        showPassword2: false,
+        email: null,
         messageType: 'info',
         message: '',
         showMessage: false
     }),
     methods: {
-        signup() {
+        resetPassword() {
             if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
                 const me = this
-                Axios.post('/auth/signup', {}, { data: {
-                    email: this.email,
-                    password: this.password
+                Axios.post('/auth/reset-password', {}, { data: {
+                    email: this.email
                 } })
-                    .then(function(response) {
-                        me.message = 'An activation link has been sent to your address.'
+                    .then(() => {
+                        me.message = 'A reset link has been sent to your address.'
                         me.messageType = 'info'
                         me.showMessage = true
                     })
-                    .catch(function(error) {
-                        me.message = `Error : ${error.response.message}`
+                    .catch((error) => {
+                        me.message = 'Failed to send reset link, please double check your email. If the problem persist please contact us.'
                         me.messageType = 'error'
                         me.showMessage = true
                         console.error(error)
