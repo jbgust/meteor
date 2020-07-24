@@ -29,13 +29,16 @@
                             <v-text-field
                                 v-model="email"
                                 label="E-mail"
+                                :rules="emailRules"
                                 required
                             ></v-text-field>
                             <v-text-field
+                                sty
                                 v-model="password"
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword ? 'text' : 'password'"
+                                :rules="passwortdRules"
                                 @click:append="showPassword = !showPassword"
                                 required
                             ></v-text-field>
@@ -68,6 +71,7 @@
 <script>
 import Axios from 'axios'
 import { saveToken } from '../../modules/authentication'
+import { emailRule, passwordRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'Signin',
@@ -76,7 +80,9 @@ export default {
         email: 'dev@meteor.fr',
         password: 'Tototiti!4',
         showPassword: false,
-        showError: false
+        showError: false,
+        emailRules: emailRule(),
+        passwortdRules: passwordRule()
     }),
     methods: {
         signin() {
