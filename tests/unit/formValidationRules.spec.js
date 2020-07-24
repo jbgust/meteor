@@ -1,4 +1,5 @@
 import {
+    emailValidator,
     greaterOrEqualsThanRule,
     greaterOrEqualsThanValidator,
     greaterThanRule,
@@ -30,6 +31,16 @@ describe('Check Validators', () => {
         expect(requiredValidator()(2)).toBeTruthy()
         expect(requiredValidator()(2.2)).toBeTruthy()
         expect(requiredValidator()('dfg')).toBeTruthy()
+    })
+
+    test('emailValidator', () => {
+        expect(emailValidator()('dev@meteor.fr')).toBeTruthy()
+
+        expect(emailValidator()('@meteor.fr')).toBeFalsy()
+        expect(emailValidator()('dev@meteor')).toBeFalsy()
+        expect(emailValidator()('dev@.fr')).toBeFalsy()
+        expect(emailValidator()('sdgsf')).toBeFalsy()
+
     })
 
     test('passwordValidator', () => {
