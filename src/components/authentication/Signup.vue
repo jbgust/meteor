@@ -1,6 +1,9 @@
 <template>
     <v-container>
         <v-layout column align-center>
+            <v-flex xs10 sm6>
+                <v-icon size="80">mdi-rocket</v-icon>
+            </v-flex>
             <v-flex xs10 sm6 >
                 <h1>
                     Create an account
@@ -17,7 +20,7 @@
                 >
                     {{ message }}
                 </v-alert>
-                <v-card>
+                <v-card v-if="!emailSent">
                     <v-card-text class="mt-5">
                         <v-form
                             ref="form"
@@ -26,6 +29,7 @@
                             <v-text-field
                                 v-model="email"
                                 label="E-mail"
+                                :rules="emailRules"
                                 required
                             ></v-text-field>
                             <v-text-field
@@ -33,6 +37,7 @@
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword ? 'text' : 'password'"
+                                :rules="passwordRules"
                                 @click:append="showPassword = !showPassword"
                                 required
                             ></v-text-field>
@@ -41,6 +46,7 @@
                                 label="Confirm password"
                                 :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword2 ? 'text' : 'password'"
+                                :rules="confirmPasswordRule"
                                 @click:append="showPassword2 = !showPassword2"
                                 required
                             ></v-text-field>
@@ -63,6 +69,7 @@
 
 <script>
 import Axios from 'axios'
+import { emailRule, passwordRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'Signup',
@@ -75,9 +82,16 @@ export default {
         showPassword2: false,
         messageType: 'info',
         message: '',
-        showMessage: false
+        showMessage: false,
+        emailRules: emailRule(),
+        passwordRules: passwordRule(),
+        confirmPasswordRule: [ ],
+        emailSent: false
     }),
     methods: {
+        confirmPasswordFunction(password) {
+            return value => value === password || 'Password don\'t match'
+        },
         signup() {
             if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
                 const me = this
@@ -85,18 +99,24 @@ export default {
                     email: this.email,
                     password: this.password
                 } })
-                    .then(function(response) {
+                    .then(function() {
                         me.message = 'An activation link has been sent to your address.'
                         me.messageType = 'info'
                         me.showMessage = true
+                        me.emailSent = true
                     })
                     .catch(function(error) {
-                        me.message = `Error : ${error.response.message}`
+                        me.message = error.response.data.message
                         me.messageType = 'error'
                         me.showMessage = true
                         console.error(error)
                     })
             }
+        }
+    },
+    watch: {
+        password(newValue) {
+            this.confirmPasswordRule = [ this.confirmPasswordFunction(newValue) ]
         }
     }
 }

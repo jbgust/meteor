@@ -38,7 +38,7 @@
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword ? 'text' : 'password'"
-                                :rules="passwortdRules"
+                                :rules="passwordRules"
                                 @click:append="showPassword = !showPassword"
                                 required
                             ></v-text-field>
@@ -82,7 +82,7 @@ export default {
         showPassword: false,
         showError: false,
         emailRules: emailRule(),
-        passwortdRules: passwordRule()
+        passwordRules: passwordRule()
     }),
     methods: {
         signin() {
