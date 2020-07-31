@@ -101,7 +101,7 @@ export default {
                 } })
                     .then(function() {
                         me.message = 'An activation link has been sent to your address.'
-                        me.messageType = 'info'
+                        me.messageType = 'success'
                         me.showMessage = true
                         me.emailSent = true
                     })
