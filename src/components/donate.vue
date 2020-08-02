@@ -112,7 +112,6 @@ export default {
     },
     created() {
         let me = this
-        this.axiosDonately.defaults.headers.common['Authorization'] = null
         this.axiosDonately.get('campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
             .then(function(response) {
                 me.donationProgress = response.data.data.percent_funded * 100

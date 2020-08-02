@@ -69,7 +69,7 @@
 
 <script>
 import Axios from 'axios'
-import { emailRule, passwordRule } from '../../modules/formValidationRules'
+import { emailRule, passwordRule, requiredRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'Signup',
@@ -116,7 +116,7 @@ export default {
     },
     watch: {
         password(newValue) {
-            this.confirmPasswordRule = [ this.confirmPasswordFunction(newValue) ]
+            this.confirmPasswordRule = [ requiredRule[0], this.confirmPasswordFunction(newValue) ]
         }
     }
 }

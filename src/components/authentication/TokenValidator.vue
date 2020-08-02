@@ -12,7 +12,7 @@
                 >
                     <p>{{ message }}</p>
                     <v-btn
-                        v-if="messageType === 'info'"
+                        v-if="messageType === 'success'"
                         color="green"
                         @click="$router.push({ name: 'Signin' })"
                     >
@@ -27,6 +27,45 @@
             >
                 Click here to get a new link
             </v-btn>
+
+            <v-flex grow v-if="isResetPassword">
+                <v-card v-if="!successChange">
+                    <v-card-text>
+                        <v-form
+                            ref="form"
+                            v-model="valid"
+                        >
+                            <v-text-field
+                                v-model="password"
+                                label="Password"
+                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="showPassword ? 'text' : 'password'"
+                                :rules="passwordRules"
+                                @click:append="showPassword = !showPassword"
+                                required
+                            ></v-text-field>
+                            <v-text-field
+                                v-model="passwordConfirm"
+                                label="Confirm password"
+                                :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="showPassword2 ? 'text' : 'password'"
+                                :rules="confirmPasswordRule"
+                                @click:append="showPassword2 = !showPassword2"
+                                required
+                            ></v-text-field>
+                            <v-btn
+                                width="100%"
+                                :disabled="!valid"
+                                color="success"
+                                @click="resetPassword"
+                            >
+                                Change
+                            </v-btn>
+                        </v-form>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+
         </v-layout>
     </v-container>
 
@@ -34,6 +73,7 @@
 
 <script>
 import Axios from 'axios'
+import { passwordRule, requiredRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'TokenValidator',
@@ -43,13 +83,29 @@ export default {
             messageType: null,
             showMessage: false,
             resentToken: false,
-            messageResentActivationLink: 'dfgfsdgd'
+            messageResentActivationLink: 'dfgfsdgd',
+            valid: false,
+            password: null,
+            passwordConfirm: null,
+            showPassword: false,
+            showPassword2: false,
+            passwordRules: passwordRule(),
+            confirmPasswordRule: [ ],
+            successChange: false
         }
     },
     mounted() {
-        this.validate()
+        if (this.isActivationCompte()) {
+            this.validate()
+        }
     },
     methods: {
+        isActivationCompte() {
+            return this.$route.query.tokenType === 'CREATION_COMPTE'
+        },
+        isResetPassword() {
+            return this.$route.query.tokenType === 'RESET_PASSWORD' || true
+        },
         validate() {
             const me = this
             Axios.post(`/auth/validate/${this.$route.query.token}`, {}, { data: {
@@ -74,8 +130,29 @@ export default {
                     }
                 })
         },
+        resetPassword() {
+            const me = this
+            Axios.post(`/auth/reset-password/${this.$route.query.token}`, {
+                password: me.password
+            })
+                .then(() => {
+                    me.message = 'Your password has been changed'
+                    me.messageType = 'success'
+                    me.showMessage = true
+                    me.successChange = true
+                })
+                .catch((error) => {
+                    if (error.response.status === 404) {
+                        me.message = 'Token not found'
+                    } else {
+                        me.message = error.response.data.message
+                    }
+                    me.messageType = 'error'
+                    me.showMessage = true
+                })
+        },
         activationLinkExpires(error) {
-            return this.$route.query.tokenType === 'CREATION_COMPTE' &&
+            return this.isActivationCompte() &&
                 error.response.data.message === 'Token has expired.'
         },
         resentActivationLink() {
@@ -92,6 +169,14 @@ export default {
                     me.messageType = 'error'
                     me.showMessage = true
                 })
+        },
+        confirmPasswordFunction(password) {
+            return value => value === password || 'Password don\'t match'
+        }
+    },
+    watch: {
+        password(newValue) {
+            this.confirmPasswordRule = [ requiredRule[0], this.confirmPasswordFunction(newValue) ]
         }
     }
 }

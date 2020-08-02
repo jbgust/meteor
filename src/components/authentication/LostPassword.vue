@@ -1,6 +1,9 @@
 <template>
     <v-container>
         <v-layout column align-center>
+            <v-flex xs10 sm6>
+                <v-icon size="80">mdi-rocket</v-icon>
+            </v-flex>
             <v-flex xs10 sm6 class="pb-10">
                 <h1>
                     Reset your password
@@ -18,7 +21,7 @@
                     {{ message }}
                 </v-alert>
                 <v-card>
-                    <v-card-text class="mt-5">
+                    <v-card-text>
                         <v-form
                             ref="form"
                             v-model="valid"
@@ -26,6 +29,7 @@
                             <v-text-field
                                 v-model="email"
                                 label="E-mail"
+                                :rules="emailRules"
                                 required
                             ></v-text-field>
                             <v-btn
@@ -47,6 +51,7 @@
 
 <script>
 import Axios from 'axios'
+import { emailRule } from '../../modules/formValidationRules'
 
 export default {
     name: 'LostPassword',
@@ -55,15 +60,16 @@ export default {
         email: null,
         messageType: 'info',
         message: '',
-        showMessage: false
+        showMessage: false,
+        emailRules: emailRule()
     }),
     methods: {
         resetPassword() {
             if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
                 const me = this
-                Axios.post('/auth/reset-password', {}, { data: {
+                Axios.post('/auth/reset-password', {
                     email: this.email
-                } })
+                })
                     .then(() => {
                         me.message = 'A reset link has been sent to your address.'
                         me.messageType = 'info'
