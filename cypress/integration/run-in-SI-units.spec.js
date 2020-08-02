@@ -1,4 +1,25 @@
+import Axios from "axios";
+
 describe('Run computation in SI units', function() {
+    // it('Login', () => {
+    //
+    //     cy.visit('/#/signin')
+    //
+    //     cy.get('input').as('inputsSignin')
+    //     cy.get('@inputsSignin').eq(0).clear().type(Cypress.config('user'))
+    //     cy.get('@inputsSignin').eq(1).clear().type(Cypress.config('password'))
+    //     cy.get('form').contains('Sign in').click()
+    //     cy.wait(2000)
+    //
+    //     // cy.request('POST', 'http://localhost:8090/auth/signin', { username: Cypress.config('user'), password: Cypress.config('password') })
+    //     //     .then((response) => {
+    //     //         // response.body is automatically serialized into JSON
+    //     //         //expect(response.data).to.have.property('name', 'Jane') // true
+    //     //         localStorage.setItem('token', JSON.stringify(response.data))
+    //     //         console.error('TITI', response)
+    //     //     })
+    // })
+
     it('Should open meteor from menu', function() {
         cy.visit('/#/motorDesign')
 

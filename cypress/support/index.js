@@ -19,9 +19,25 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+let jwtToken = null
+
 beforeEach(function() {
     // Flag cypress test in production
     localStorage.setItem('computationHash', 'cypress')
 
     localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
+
+    localStorage.setItem('token', Cypress.env('jwtToken'))
+})
+
+before(() => {
+    cy.request('POST', 'http://localhost:8090/auth/signin',
+        {
+            username: Cypress.config('user'),
+            password: Cypress.config('password')
+        })
+        .then((response) => {
+            Cypress.env('jwtToken', JSON.stringify(response.body))
+            Cypress.env('hasJjwtToken', true)
+        })
 })
