@@ -31,10 +31,10 @@ beforeEach(function() {
 })
 
 before(() => {
-    cy.request('POST', 'http://localhost:8090/auth/signin',
+    cy.request('POST', Cypress.env('urlAuth'),
         {
-            username: Cypress.config('user'),
-            password: Cypress.config('password')
+            username: Cypress.env('user'),
+            password: Cypress.env('password')
         })
         .then((response) => {
             Cypress.env('jwtToken', JSON.stringify(response.body))
