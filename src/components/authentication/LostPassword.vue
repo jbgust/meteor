@@ -27,6 +27,7 @@
                             v-model="valid"
                         >
                             <v-text-field
+                                id="emailResetPassword"
                                 v-model="email"
                                 label="E-mail"
                                 :rules="emailRules"

@@ -36,6 +36,7 @@
                             v-model="valid"
                         >
                             <v-text-field
+                                id="newPassword"
                                 v-model="password"
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -45,6 +46,7 @@
                                 required
                             ></v-text-field>
                             <v-text-field
+                                id="newPasswordConfirm"
                                 v-model="passwordConfirm"
                                 label="Confirm password"
                                 :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -60,7 +62,7 @@
                                 @click="resetPassword"
                                 :loading="loading"
                             >
-                                Change
+                                Change password
                             </v-btn>
                         </v-form>
                     </v-card-text>

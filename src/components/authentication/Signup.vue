@@ -27,12 +27,14 @@
                             v-model="valid"
                         >
                             <v-text-field
+                                id="signupEmail"
                                 v-model="email"
                                 label="E-mail"
                                 :rules="emailRules"
                                 required
                             ></v-text-field>
                             <v-text-field
+                                id="signupPassword"
                                 v-model="password"
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -42,6 +44,7 @@
                                 required
                             ></v-text-field>
                             <v-text-field
+                                id="signupPasswordConfirm"
                                 v-model="passwordConfirm"
                                 label="Confirm password"
                                 :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"

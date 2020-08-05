@@ -27,6 +27,7 @@
                             v-model="valid"
                         >
                             <v-text-field
+                                id="signinEmail"
                                 v-model="email"
                                 label="E-mail"
                                 :rules="emailRules"
@@ -34,6 +35,7 @@
                             ></v-text-field>
                             <v-text-field
                                 sty
+                                id="signinPassword"
                                 v-model="password"
                                 label="Password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -61,7 +63,7 @@
                 </v-card>
                 <v-card>
                     <v-card-text class="text--primary">
-                        New to METEOR? <v-btn color="blue" :to="'/signup'" text>Create an acount.</v-btn>
+                        New to METEOR? <v-btn color="blue" :to="'/signup'" text>Create an account.</v-btn>
                     </v-card-text>
                 </v-card>
             </v-flex>
