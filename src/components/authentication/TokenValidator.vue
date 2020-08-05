@@ -28,7 +28,7 @@
                 Click here to get a new link
             </v-btn>
 
-            <v-flex grow v-if="isResetPassword">
+            <v-flex grow v-if="isResetPassword && !isActivationCompte()">
                 <v-card v-if="!successChange">
                     <v-card-text>
                         <v-form
@@ -58,6 +58,7 @@
                                 :disabled="!valid"
                                 color="success"
                                 @click="resetPassword"
+                                :loading="loading"
                             >
                                 Change
                             </v-btn>
@@ -91,7 +92,8 @@ export default {
             showPassword2: false,
             passwordRules: passwordRule(),
             confirmPasswordRule: [ ],
-            successChange: false
+            successChange: false,
+            loading: false
         }
     },
     mounted() {
@@ -132,6 +134,7 @@ export default {
         },
         resetPassword() {
             const me = this
+            me.loading = true
             Axios.post(`/auth/reset-password/${this.$route.query.token}`, {
                 password: me.password
             })
@@ -140,8 +143,10 @@ export default {
                     me.messageType = 'success'
                     me.showMessage = true
                     me.successChange = true
+                    me.loading = false
                 })
                 .catch((error) => {
+                    me.loading = false
                     if (error.response.status === 404) {
                         me.message = 'Token not found'
                     } else {

@@ -48,6 +48,7 @@
                                 :disabled="!valid"
                                 color="success"
                                 @click="signin"
+                               :loading="loading"
                             >
                                 Sign in
                             </v-btn>
@@ -82,13 +83,15 @@ export default {
         showPassword: false,
         showError: false,
         emailRules: emailRule(),
-        passwordRules: passwordRule()
+        passwordRules: passwordRule(),
+        loading: false
     }),
     methods: {
         signin() {
             if (this.$refs.form.validate()) {
                 const me = this
                 me.showError = false
+                me.loading = true
                 Axios.post('/auth/signin', {}, { data: {
                     username: this.email,
                     password: this.password
@@ -96,11 +99,13 @@ export default {
                     .then(function(response) {
                         saveToken(response.data)
                         me.$router.push({ path: '/motorDesign' })
+                        me.loading = false
                     })
                     .catch(() => {
                         me.email = ''
                         me.password = ''
                         me.showError = true
+                        me.loading = false
                     })
             }
         }

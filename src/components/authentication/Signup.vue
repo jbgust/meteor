@@ -55,6 +55,7 @@
                                 :disabled="!valid"
                                 color="success"
                                 @click="signup"
+                                :loading="loading"
                             >
                                 Create account
                             </v-btn>
@@ -86,7 +87,8 @@ export default {
         emailRules: emailRule(),
         passwordRules: passwordRule(),
         confirmPasswordRule: [ ],
-        emailSent: false
+        emailSent: false,
+        loading: false
     }),
     methods: {
         confirmPasswordFunction(password) {
@@ -95,6 +97,7 @@ export default {
         signup() {
             if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
                 const me = this
+                me.loading = true
                 Axios.post('/auth/signup', {}, { data: {
                     email: this.email,
                     password: this.password
@@ -104,11 +107,13 @@ export default {
                         me.messageType = 'success'
                         me.showMessage = true
                         me.emailSent = true
+                        me.loading = false
                     })
                     .catch(function(error) {
                         me.message = error.response.data.message
                         me.messageType = 'error'
                         me.showMessage = true
+                        me.loading = false
                         console.error(error)
                     })
             }
