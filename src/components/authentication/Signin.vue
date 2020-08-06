@@ -73,8 +73,8 @@
 
 <script>
 import Axios from 'axios'
-import { saveToken } from '../../modules/authentication'
 import { emailRule, passwordRule } from '../../modules/formValidationRules'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Signin',
@@ -99,18 +99,20 @@ export default {
                     password: this.password
                 } })
                     .then(function(response) {
-                        saveToken(response.data)
+                        me.saveToken(response.data)
                         me.$router.push({ path: '/motorDesign' })
                         me.loading = false
                     })
-                    .catch(() => {
+                    .catch((error) => {
                         me.email = ''
                         me.password = ''
                         me.showError = true
                         me.loading = false
+                        console.error(error)
                     })
             }
-        }
+        },
+        ...mapActions('authentication', ['saveToken'])
     }
 }
 </script>

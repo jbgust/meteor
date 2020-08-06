@@ -1,8 +1,9 @@
 describe('Authentication', function() {
 
     it('Should sign in', () => {
-        //suppression de l'authentification
-        localStorage.removeItem('token')
+
+        cy.visit('/')
+        cy.contains('Sign out').click()
 
         //Check redirect to login page
         cy.visit('/#/motorDesign')
