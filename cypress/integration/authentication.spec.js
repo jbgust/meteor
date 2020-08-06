@@ -119,4 +119,16 @@ describe('Authentication', function() {
 
     })
 
+    it('Should ask for new validation link', () => {
+        //suppression de l'authentification
+        localStorage.removeItem('token')
+
+        cy.visit('/#/validate?token=expired-token&tokenType=CREATION_COMPTE')
+
+        cy.contains('Click here to get a new link').click()
+
+        cy.contains('A new activation link has been sent to your address.')
+
+    })
+
 })
