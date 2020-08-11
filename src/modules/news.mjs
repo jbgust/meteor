@@ -86,6 +86,14 @@ export const news = [
                             </ul>
                         </li>
                     </ul>`
+    }, {
+        id: 10,
+        html: `<ul>
+                        <li>
+                            <b>August 2020</b>
+                            <p>Now you should register to use METEOR. This is to prepare new feature like online saving of your motors (no more json files)</p>
+                        </li>
+                    </ul>`
     }
 ]
 

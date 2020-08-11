@@ -79,9 +79,9 @@ export default {
     name: 'Signup',
     data: () => ({
         valid: true,
-        email: 'signup@meteor.fr',
-        password: 'Tototiti!4',
-        passwordConfirm: 'Tototiti!4',
+        email: null,
+        password: null,
+        passwordConfirm: null,
         showPassword: false,
         showPassword2: false,
         messageType: 'info',
@@ -106,7 +106,7 @@ export default {
                     password: this.password
                 } })
                     .then(function() {
-                        me.message = 'An activation link has been sent to your address.'
+                        me.message = 'An activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
                         me.messageType = 'success'
                         me.showMessage = true
                         me.emailSent = true

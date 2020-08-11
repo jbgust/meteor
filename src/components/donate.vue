@@ -41,7 +41,7 @@
                             </div>
                             <div class="mb-6 mt-5">
                                 <h2 class="mb-5" style="color:purple">Meteor averages 2,500 calculations a month.</h2>
-                                <h2>Meteor is totally free, without ads and registration.</h2>
+                                <h2>Meteor is totally free and without ads.</h2>
                                 <p class="mt-5">
                                     This application is <b>maintained and financed by only one person</b>.
                                     I spent <b>over 500 hours</b> to make METEOR. That's 3 months of full-time work.

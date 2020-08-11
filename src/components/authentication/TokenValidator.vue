@@ -167,7 +167,7 @@ export default {
             me.resentToken = false
             Axios.post(`/auth/resent-activation/${this.$route.query.token}`)
                 .then(() => {
-                    me.message = 'A new activation link has been sent to your address.'
+                    me.message = 'A new activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
                     me.messageType = 'success'
                     me.showMessage = true
                 })

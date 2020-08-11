@@ -80,8 +80,8 @@ export default {
     name: 'Signin',
     data: () => ({
         valid: true,
-        email: 'dev@meteor.fr',
-        password: 'Tototiti!4',
+        email: null,
+        password: null,
         showPassword: false,
         showError: false,
         emailRules: emailRule(),

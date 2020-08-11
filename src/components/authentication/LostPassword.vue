@@ -75,7 +75,7 @@ export default {
                     email: this.email
                 })
                     .then(() => {
-                        me.message = 'A reset link has been sent to your address.'
+                        me.message = 'A reset link has been sent to your address. Also please check the Spam folder in your mailbox.'
                         me.messageType = 'info'
                         me.showMessage = true
                         me.loading = false

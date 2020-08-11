@@ -121,6 +121,7 @@
                 <router-view></router-view>
             </v-fade-transition>
         </v-content>
+        <authentication-info></authentication-info>
         <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
@@ -167,6 +168,7 @@ import Axios from 'axios'
 import LostPassword from './components/authentication/LostPassword'
 import TokenValidator from './components/authentication/TokenValidator'
 import { mapActions, mapGetters } from 'vuex'
+import AuthenticationInfo from './components/authenticationInfo'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -236,18 +238,17 @@ let router = new VueRouter({
     ]
 })
 
+router.beforeEach((to, from, next) => {
+    const isLogged = !!localStorage.getItem('token')
+    if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
+    else next()
+})
+
 export default {
     name: 'app',
     // eslint-disable-next-line vue/no-unused-components
-    components: { Donate, MeteorNews },
+    components: { AuthenticationInfo, Donate, MeteorNews },
     router,
-    created() {
-        const me = this
-        router.beforeEach((to, from, next) => {
-            if (!to.meta.publicAccess && !me.isLogged) next({ name: 'Signin' })
-            else next()
-        })
-    },
     mounted() {
         this.loadToken()
         computeHash()

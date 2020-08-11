@@ -24,10 +24,12 @@ let jwtToken = null
 beforeEach(function() {
     // Flag cypress test in production
     localStorage.setItem('computationHash', 'cypress')
-
     localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
 
     localStorage.setItem('token', Cypress.env('jwtToken'))
+
+    // Do not show registration info
+    localStorage.setItem('authenticationInfoRead', '1')
 })
 
 before(() => {
