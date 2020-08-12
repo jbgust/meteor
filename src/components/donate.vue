@@ -123,7 +123,7 @@ export default {
             })
     },
     mounted() {
-        if (this.checkMode) {
+        if (this.checkMode && !this.isDonator()) {
             const now = new Date()
             const nextShowDonationPage = Number(localStorage.getItem('nextShowDonationPage'))
             if (nextShowDonationPage) {
@@ -140,7 +140,15 @@ export default {
     methods: {
         setNextShowDate() {
             const now = new Date()
-            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 7))
+            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
+        },
+        isDonator() {
+            const token = localStorage.getItem('token')
+            if (token) {
+                return JSON.parse(token).donator
+            } else {
+                return false
+            }
         }
     }
 }
