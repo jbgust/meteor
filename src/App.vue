@@ -159,7 +159,6 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
-import { computeHash } from './modules/computationUtils'
 import MeteorNews from './components/news/meteor-news'
 import Donate from './components/donate'
 import Signin from './components/authentication/Signin'
@@ -251,7 +250,6 @@ export default {
     router,
     mounted() {
         this.loadToken()
-        computeHash()
         let me = this
         Axios.interceptors.response.use(function(response) {
             // Any status code that lie within the range of 2xx cause this function to trigger

@@ -2,7 +2,6 @@
     "version": 2,
     "configs": [
         {
-            "computationHash": "e62b4d1c966063c76a19d271003bba74",
             "grainType": "STAR",
             "grainConfig": {
                 "outerDiameter": 30,

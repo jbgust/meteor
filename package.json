@@ -14,7 +14,6 @@
     "ajv": "^6.10.0",
     "axios": "^0.19.0",
     "core-js": "^2.6.11",
-    "fingerprintjs2": "^2.1.0",
     "vue": "^2.6.11",
     "vue-router": "^3.0.7",
     "vuetify": "2.2.26",

@@ -28,9 +28,6 @@ describe('Run computation in SI units', function() {
 
         // Flag cypress test in production
         cy.fillForm(formDatas, 'METRIC')
-
-        // Check presence of computationHash
-        expect(localStorage.getItem('computationHash')).not.to.be.null
     })
 
     it('Should check result', () => {

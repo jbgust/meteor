@@ -69,7 +69,6 @@ import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
-import { getComputeHash } from '../modules/computationUtils'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 
 export default {
@@ -165,8 +164,7 @@ export default {
 
         buildExport() {
             if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                let request = Object.assign({ }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.measureUnit
@@ -180,8 +178,7 @@ export default {
         },
         buildRequest() {
             if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                let request = Object.assign({ }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.grainType
