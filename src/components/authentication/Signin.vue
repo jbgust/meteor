@@ -94,10 +94,10 @@ export default {
                 const me = this
                 me.showError = false
                 me.loading = true
-                Axios.post('/auth/signin', {}, { data: {
+                Axios.post('/auth/signin', {
                     username: this.email,
                     password: this.password
-                } })
+                })
                     .then(function(response) {
                         me.saveToken(response.data)
                         me.$router.push({ path: '/motorDesign' })

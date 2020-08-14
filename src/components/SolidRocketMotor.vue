@@ -128,7 +128,7 @@ export default {
 
             if (this.$refs.formJSRM.validate() && grainCheck) {
                 this.loading = true
-                Axios.post(url, {}, { data: request })
+                Axios.post(url, request)
                     .then(function(response) {
                         component.$emit('computation-success', response.data, request)
                         component.loading = false

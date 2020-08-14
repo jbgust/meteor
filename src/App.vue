@@ -245,7 +245,6 @@ router.beforeEach((to, from, next) => {
 
 export default {
     name: 'app',
-    // eslint-disable-next-line vue/no-unused-components
     components: { AuthenticationInfo, Donate, MeteorNews },
     router,
     mounted() {
@@ -256,7 +255,8 @@ export default {
             // Do something with response data
             return response
         }, function(error) {
-            if (error.response.status === 401) {
+            if (error.response && error.response.status === 401 &&
+                !(error.response.data && error.response.data.path && error.response.data.path.match(/\/auth\/signin/))) {
                 me.lostConnectDialog = true
                 me.clearToken()
             }
