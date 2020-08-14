@@ -26,7 +26,6 @@ describe('Run computation in SI units', function() {
             chamberLength: 80
         }
 
-        // Flag cypress test in production
         cy.fillForm(formDatas, 'METRIC')
     })
 
@@ -64,5 +63,33 @@ describe('Run computation in SI units', function() {
         cy.get('span').contains('Convergence length:').parent().contains('30.49 mm')
         cy.get('span').contains('Divergence length:').parent().contains('22.09 mm')
         cy.get('span').contains('Nozzle exit diameter:').parent().contains('14.00 mm')
+    })
+})
+
+describe('Should dislay error from backend', function() {
+    it('Should dislay error from backend', function() {
+        cy.visit('/#/motorDesign')
+
+        const formDatas = {
+            throatDiameter: 7,
+            outerDiameter: 28,
+            coreDiameter: 14,
+            segmentLength: 80,
+            numberOfSegment: 1,
+            endsSurface: 'Inhibited',
+            coreSurface: 'Inhibited',
+            outerSurface: 'Inhibited',
+            propellantType: 'KNSB (oxidizer finely milled)',
+            chamberInnerDiameter: 28,
+            chamberLength: 80
+        }
+
+        cy.fillForm(formDatas, 'METRIC')
+
+        cy.get('.v-dialog > .v-card')
+            .contains('Computation failed')
+
+        cy.get('.v-dialog > .v-card')
+            .contains('The motor should have at least core surface or outer surface exposed.')
     })
 })
