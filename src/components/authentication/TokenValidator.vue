@@ -77,6 +77,7 @@
 <script>
 import Axios from 'axios'
 import { passwordRule, requiredRule } from '../../modules/formValidationRules'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'TokenValidator',
@@ -99,6 +100,7 @@ export default {
         }
     },
     mounted() {
+        this.clearToken()
         if (this.isActivationCompte()) {
             this.validate()
         }
@@ -179,7 +181,8 @@ export default {
         },
         confirmPasswordFunction(password) {
             return value => value === password || 'Password don\'t match'
-        }
+        },
+        ...mapActions('authentication', ['clearToken'])
     },
     watch: {
         password(newValue) {

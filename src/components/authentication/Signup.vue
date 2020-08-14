@@ -74,6 +74,7 @@
 <script>
 import Axios from 'axios'
 import { emailRule, passwordRule, requiredRule } from '../../modules/formValidationRules'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Signup',
@@ -101,6 +102,7 @@ export default {
             if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
                 const me = this
                 me.loading = true
+                me.clearToken()
                 Axios.post('/auth/signup', {}, { data: {
                     email: this.email,
                     password: this.password
@@ -120,7 +122,8 @@ export default {
                         console.error(error)
                     })
             }
-        }
+        },
+        ...mapActions('authentication', ['clearToken'])
     },
     watch: {
         password(newValue) {

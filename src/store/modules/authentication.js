@@ -30,6 +30,7 @@ const actions = {
     clearToken({ commit }) {
         commit('setToken', null)
         localStorage.removeItem(TOKEN_STORAGE_KEY)
+        delete Axios.defaults.headers.common.Authorization
     }
 }
 

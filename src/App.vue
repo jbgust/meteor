@@ -255,8 +255,9 @@ export default {
             // Do something with response data
             return response
         }, function(error) {
+            // Don't show lost connection dialog when calling auth endpoint
             if (error.response && error.response.status === 401 &&
-                !(error.response.data && error.response.data.path && error.response.data.path.match(/\/auth\/signin/))) {
+                !(error.response.data && error.response.data.path && error.response.data.path.match(/\/auth\//))) {
                 me.lostConnectDialog = true
                 me.clearToken()
             }

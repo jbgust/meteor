@@ -62,6 +62,7 @@ describe('Test authentication store', () => {
         store.dispatch('clearToken')
         expect(store.state.token).toBeNull()
         expect(localStorage.getItem('token')).toBeNull()
+        expect(Axios.defaults.headers.common['Authorization']).toBeUndefined()
     })
 
     function createStore() {
