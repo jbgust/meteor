@@ -88,7 +88,15 @@ export default {
         passwordRules: passwordRule(),
         loading: false
     }),
+    mounted() {
+        window.addEventListener('keyup', this.keyEventCatcher)
+    },
     methods: {
+        keyEventCatcher(event) {
+            if (event && event.keyCode === 13 && this.valid) {
+                this.signin()
+            }
+        },
         signin() {
             if (this.$refs.form.validate()) {
                 const me = this
