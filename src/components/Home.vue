@@ -55,6 +55,12 @@
                             </v-btn>
                         </div>
                     </div>
+                    <div class="block-text">
+                        <v-btn :to="'/signup'" color="green">
+                            Sign up for METEOR
+                            <v-icon right>mdi-rocket</v-icon>
+                        </v-btn>
+                    </div>
                 </div>
 
                 <div class="meteor-container block2">

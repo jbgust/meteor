@@ -26,6 +26,18 @@
                 Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
+            <v-btn text :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
+                <v-icon left id="btnSignIn" size="25">mdi-login</v-icon>
+                Sign in
+            </v-btn>
+            <v-btn text :to="'/signup'" v-if="!isLogged" class="hidden-sm-and-down">
+                <v-icon left id="btnSignUp" size="25">mdi-account-plus</v-icon>
+                Sign up
+            </v-btn>
+            <v-btn text v-if="isLogged" @click="signOut" class="hidden-sm-and-down">
+                <v-icon left id="btnSignOut" size="25">mdi-logout</v-icon>
+                Sign out
+            </v-btn>
             <meteor-news/>
         </v-app-bar>
         <v-navigation-drawer
@@ -71,6 +83,30 @@
                                 <v-list-item-title>Contact</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
+                        <v-list-item :to="'/signin'" v-if="!isLogged">
+                            <v-list-item-icon>
+                                <v-icon>mdi-login</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Sign in</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item :to="'/signup'" v-if="!isLogged">
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-plus</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Sign up</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item v-if="isLogged" @click="signOut">
+                            <v-list-item-icon>
+                                <v-icon>mdi-logout</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Sign out</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                         <v-list-item>
                             <v-list-item-content>
                                 <donate></donate>
@@ -85,9 +121,35 @@
                 <router-view></router-view>
             </v-fade-transition>
         </v-content>
+        <authentication-info></authentication-info>
         <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
+
+        <v-dialog
+            v-model="lostConnectDialog"
+            max-width="290">
+            <v-card>
+                <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title>
+                    Token expired</v-card-title>
+                <v-card-text>
+                    <div class="mt-5 text--primary" style="font-size: large">
+                        To continue using METEOR, please sign in.
+                    </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="green"
+                        @click="closeLostConnectionPopUp"
+                    >
+                        Sign in
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -97,9 +159,15 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify/lib'
 import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
-import { computeHash } from './modules/computationUtils'
 import MeteorNews from './components/news/meteor-news'
 import Donate from './components/donate'
+import Signin from './components/authentication/Signin'
+import Signup from './components/authentication/Signup'
+import Axios from 'axios'
+import LostPassword from './components/authentication/LostPassword'
+import TokenValidator from './components/authentication/TokenValidator'
+import { mapActions, mapGetters } from 'vuex'
+import AuthenticationInfo from './components/authenticationInfo'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -107,9 +175,44 @@ Vue.use(VueRouter)
 let router = new VueRouter({
     routes: [
         {
+            path: '/signin',
+            name: 'Signin',
+            component: Signin,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/signup',
+            name: 'Signup',
+            component: Signup,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/lost-password',
+            name: 'LostPassword',
+            component: LostPassword,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
+            path: '/validate',
+            name: 'TokenValidator',
+            component: TokenValidator,
+            meta: {
+                publicAccess: true
+            }
+        },
+        {
             path: '/home',
             name: 'Home',
-            component: Home
+            component: Home,
+            meta: {
+                publicAccess: true
+            }
         },
         {
             path: '/demo',
@@ -117,6 +220,9 @@ let router = new VueRouter({
             component: MotorDesignTool,
             props: {
                 demo: true
+            },
+            meta: {
+                publicAccess: true
             }
         },
         {
@@ -131,19 +237,52 @@ let router = new VueRouter({
     ]
 })
 
+router.beforeEach((to, from, next) => {
+    const isLogged = !!localStorage.getItem('token')
+    if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
+    else next()
+})
+
 export default {
     name: 'app',
-    // eslint-disable-next-line vue/no-unused-components
-    components: { Donate, MeteorNews },
+    components: { AuthenticationInfo, Donate, MeteorNews },
     router,
     mounted() {
-        computeHash()
+        this.loadToken()
+        let me = this
+        Axios.interceptors.response.use(function(response) {
+            // Any status code that lie within the range of 2xx cause this function to trigger
+            // Do something with response data
+            return response
+        }, function(error) {
+            // Don't show lost connection dialog when calling auth endpoint
+            if (error.response && error.response.status === 401 &&
+                !(error.response.data && error.response.data.path && error.response.data.path.match(/\/auth\//))) {
+                me.lostConnectDialog = true
+                me.clearToken()
+            }
+            return Promise.reject(error)
+        })
     },
     data: () => ({
         drawer: false,
-        group: null
+        group: null,
+        lostConnectDialog: false
     }),
-
+    methods: {
+        closeLostConnectionPopUp() {
+            this.lostConnectDialog = false
+            router.push({ name: 'Signin' })
+        },
+        signOut() {
+            this.clearToken()
+            this.$router.push({ path: '/' })
+        },
+        ...mapActions('authentication', ['loadToken', 'clearToken'])
+    },
+    computed: {
+        ...mapGetters('authentication', ['isLogged'])
+    },
     watch: {
         group() {
             this.drawer = false

@@ -69,7 +69,6 @@ import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
-import { getComputeHash } from '../modules/computationUtils'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 
 export default {
@@ -129,7 +128,7 @@ export default {
 
             if (this.$refs.formJSRM.validate() && grainCheck) {
                 this.loading = true
-                Axios.post(url, {}, { data: request })
+                Axios.post(url, request)
                     .then(function(response) {
                         component.$emit('computation-success', response.data, request)
                         component.loading = false
@@ -137,18 +136,20 @@ export default {
                     .catch(function(error) {
                         component.loading = false
 
-                        if (error.response && error.response.data) {
-                            component.errorMessage = error.response.data.message
-                        } else {
-                            component.errorMessage = 'Computation failed due to unknown error'
-                        }
+                        if (!(error.response && error.response.status === 401)) {
+                            if (error.response && error.response.data) {
+                                component.errorMessage = error.response.data.message
+                            } else {
+                                component.errorMessage = 'Computation failed due to unknown error'
+                            }
 
-                        component.errorDetail = null
-                        if (error.response && error.response.data && error.response.data.detail != null) {
-                            component.errorDetail = error.response.data.detail
-                            console.error(error.response.data.detail)
+                            component.errorDetail = null
+                            if (error.response && error.response.data && error.response.data.detail != null) {
+                                component.errorDetail = error.response.data.detail
+                                console.error(error.response.data.detail)
+                            }
+                            component.showError = true
                         }
-                        component.showError = true
                     })
             }
         },
@@ -163,8 +164,7 @@ export default {
 
         buildExport() {
             if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                let request = Object.assign({ }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.measureUnit
@@ -178,8 +178,7 @@ export default {
         },
         buildRequest() {
             if (this.$refs.formJSRM.validate()) {
-                // Ecrase le computation hash si présent dan formValue
-                let request = Object.assign({ computationHash: getComputeHash() }, this.formValue)
+                let request = Object.assign({ }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.grainType

@@ -1,10 +1,22 @@
 import {
+    emailValidator,
     greaterOrEqualsThanRule,
-    greaterOrEqualsThanValidator, greaterThanRule, greaterThanRuleNotRequired,
-    greaterThanValidator, greaterThanValidatorNotRequired, integerGreaterThanRule,
-    integerValidator, numberRule,
+    greaterOrEqualsThanValidator,
+    greaterThanRule,
+    greaterThanRuleNotRequired,
+    greaterThanValidator,
+    greaterThanValidatorNotRequired,
+    integerGreaterThanRule,
+    integerValidator,
+    numberRule,
     numberValidator,
-    numberValidatorNotRequired, rangeRule, rangeValidator, regexValidator, requiredRule,
+    numberValidatorNotRequired,
+    passwordRule,
+    passwordValidator,
+    rangeRule,
+    rangeValidator,
+    regexValidator,
+    requiredRule,
     requiredValidator
 } from '../../src/modules/formValidationRules'
 
@@ -20,6 +32,49 @@ describe('Check Validators', () => {
         expect(requiredValidator()(2.2)).toBeTruthy()
         expect(requiredValidator()('dfg')).toBeTruthy()
     })
+
+    test('emailValidator', () => {
+        expect(emailValidator()('dev@meteor.fr')).toBeTruthy()
+
+        expect(emailValidator()('@meteor.fr')).toBeFalsy()
+        expect(emailValidator()('dev@meteor')).toBeFalsy()
+        expect(emailValidator()('dev@.fr')).toBeFalsy()
+        expect(emailValidator()('sdgsf')).toBeFalsy()
+
+    })
+
+    test('passwordValidator', () => {
+
+        checkPassword('1Dfu9fj$')
+
+        checkPassword(null, 'Field is required')
+        checkPassword('1dfu9fj$', 'At least one uppercase letter');
+        checkPassword('1DFU9FJ$', 'At least one lowercase letter');
+        checkPassword('aDfujfj$', 'At least one number')
+        checkPassword('1Dfu9fjh', 'At least one special character')
+        checkPassword('1Dfu 9fj$', 'No whitespace')
+        checkPassword('1Df9fj$', 'Password should have between 8 and 30 characters')
+        checkPassword('1Dfu9fj$1Dfu9fj$1Dfu9fj$1Dfu9f1', 'Password should have between 8 and 30 characters')
+
+    })
+
+    function checkPassword(password, expectedResult) {
+        let passwordRule1 = passwordRule();
+        let finish = false
+        let currentValidator = 0
+        while (!finish) {
+            let result = passwordRule1[currentValidator++](password);
+            if (result === true) {
+                if (currentValidator === passwordRule1.length) {
+                    finish = true
+                    expect(true).toBeTruthy()
+                }
+            } else {
+                expect(result).toBe(expectedResult)
+                finish = true;
+            }
+        }
+    }
 
     test('numberValidator', () => {
         expect(numberValidator()('ddfsd')).toBeFalsy()

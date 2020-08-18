@@ -7,6 +7,14 @@ export function numberValidator(valueIfFalse = false) {
     return fieldValue => !isNaN(fieldValue) || valueIfFalse
 }
 
+export function emailValidator(valueIfFalse = false) {
+    return fieldValue => /.+@.+\..+/.test(fieldValue) || valueIfFalse
+}
+
+export function passwordValidator(valueIfFalse = false) {
+    return fieldValue => /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\*\.\!\@\$\%\^\&\(\)\{\}\[\]\:\;\<\>\,\.\?\/\~\_\+\-\=\|])(?!.*[\s]).{8,30}$/.test(fieldValue) || valueIfFalse
+}
+
 function isFieldEmpty(fieldValue) {
     return fieldValue == null || fieldValue === ''
 }
@@ -65,6 +73,25 @@ export function integerGreaterThanRule(minValueExcluded) {
         requiredValidator('Field is required'),
         integerValidator('Value is not a integer'),
         greaterThanValidator(minValueExcluded, `Value must be > ${minValueExcluded}`)
+    ]
+}
+
+export function emailRule() {
+    return [
+        requiredValidator('E-mail is required'),
+        emailValidator('E-mail must be valid')
+    ]
+}
+
+export function passwordRule() {
+    return [
+        requiredValidator('Field is required'),
+        fieldValue => /^.{8,30}$/.test(fieldValue) || 'Password should have between 8 and 30 characters',
+        fieldValue => /^(?=.*[0-9])/.test(fieldValue) || 'At least one number',
+        fieldValue => /^(?=.*[a-z])/.test(fieldValue) || 'At least one lowercase letter',
+        fieldValue => /^(?=.*[A-Z])/.test(fieldValue) || 'At least one uppercase letter',
+        fieldValue => /^(?=.*[\*\.\!\@\$\%\^\&\(\)\{\}\[\]\:\;\<\>\,\.\?\/\~\_\+\-\=\|])/.test(fieldValue) || 'At least one special character',
+        fieldValue => /^(?!.*[\s])/.test(fieldValue) || 'No whitespace'
     ]
 }
 

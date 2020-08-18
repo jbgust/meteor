@@ -41,7 +41,7 @@
                             </div>
                             <div class="mb-6 mt-5">
                                 <h2 class="mb-5" style="color:purple">Meteor averages 2,500 calculations a month.</h2>
-                                <h2>Meteor is totally free, without ads and registration.</h2>
+                                <h2>Meteor is totally free and without ads.</h2>
                                 <p class="mt-5">
                                     This application is <b>maintained and financed by only one person</b>.
                                     I spent <b>over 500 hours</b> to make METEOR. That's 3 months of full-time work.
@@ -103,12 +103,16 @@ export default {
             on: null,
             donationProgress: 0,
             donors: '',
-            donation: 0
+            donation: 0,
+            axiosDonately: Axios.create({
+                baseURL: 'https://api.donately.com/v2/',
+                timeout: 10000
+            })
         }
     },
     created() {
         let me = this
-        Axios.get('https://api.donately.com/v2/campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
+        this.axiosDonately.get('campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
             .then(function(response) {
                 me.donationProgress = response.data.data.percent_funded * 100
                 me.donors = response.data.data.donors_count
@@ -119,7 +123,7 @@ export default {
             })
     },
     mounted() {
-        if (this.checkMode) {
+        if (this.checkMode && !this.isDonator()) {
             const now = new Date()
             const nextShowDonationPage = Number(localStorage.getItem('nextShowDonationPage'))
             if (nextShowDonationPage) {
@@ -136,7 +140,15 @@ export default {
     methods: {
         setNextShowDate() {
             const now = new Date()
-            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 7))
+            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
+        },
+        isDonator() {
+            const token = localStorage.getItem('token')
+            if (token) {
+                return JSON.parse(token).donator
+            } else {
+                return false
+            }
         }
     }
 }

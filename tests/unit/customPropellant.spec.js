@@ -39,7 +39,6 @@ describe('Load/save custom propellant', () => {
 })
 
 describe('Custom propellant validation', () => {
-
     test('should validate propellant', () => {
         expect(validatePropellant(createCustomPropellant())).toBeTruthy()
     })
@@ -194,7 +193,6 @@ describe('Custom propellant validation', () => {
         propellant.chamberTemperature = null
         propellant.cstar = null
         expect(validatePropellant(propellant)).toBeFalsy()
-
     })
 })
 

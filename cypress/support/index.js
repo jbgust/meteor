@@ -20,8 +20,22 @@ import './commands'
 // require('./commands')
 
 beforeEach(function() {
-    // Flag cypress test in production
-    localStorage.setItem('computationHash', 'cypress')
-
     localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
+
+    localStorage.setItem('token', Cypress.env('jwtToken'))
+
+    // Do not show registration info
+    localStorage.setItem('authenticationInfoRead', '1')
+})
+
+before(() => {
+    cy.request('POST', Cypress.env('urlAuth'),
+        {
+            username: Cypress.env('user'),
+            password: Cypress.env('password')
+        })
+        .then((response) => {
+            Cypress.env('jwtToken', JSON.stringify(response.body))
+            Cypress.env('hasJjwtToken', true)
+        })
 })
