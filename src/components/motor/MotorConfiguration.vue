@@ -6,7 +6,7 @@
         <v-flex d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellantType" :rules="requiredRules" v-model="value.propellantType" />
+                      :items="propellants" :rules="requiredRules" v-model="value.propellantType" />
             <v-flex class="add-propellant-icon">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -32,16 +32,16 @@
             <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-layout>
         </v-flex>
-        <custom-propellant-dialog ref="customPropellantDialog" :units="units" @save-propellant="loadPropellant"/>
+        <custom-propellant-dialog ref="customPropellantDialog" :units="units" @new-propellant="loadCustomPropellants"/>
     </v-layout>
 </template>
 
 <script>
-import { requiredRule, greaterThanRule, integerGreaterThanRule } from '../../modules/formValidationRules'
-import { getCustomPropellant, setCustomPropellant } from '../../modules/customPropellant'
+import { requiredRule, greaterThanRule, integerGreaterThanRule } from '@/modules/formValidationRules'
 import CustomPropellantDialog from '../propellant/CustomPropellantDialog'
 import GrainConfigurator from './GrainConfigurator'
-import { NATIVE_PROPELLANTS } from '../../modules/grainsConstants'
+import { NATIVE_PROPELLANTS } from '@/modules/grainsConstants'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'motor-configuration',
@@ -58,7 +58,27 @@ export default {
             requiredRules: requiredRule
         }
     },
+    mounted() {
+        if (this.isLogged) {
+            this.loadCustomPropellants()
+        }
+    },
     computed: {
+        ...mapGetters('authentication', ['isLogged']),
+        ...mapGetters('customPropellants', ['customPropellants']),
+        propellants() {
+            let propellants = []
+            if (!(this.customPropellants == null || this.customPropellants === undefined)) {
+                this.customPropellants.forEach(customPropellant => propellants.push(
+                    {
+                        value: customPropellant.id,
+                        text: customPropellant.name,
+                        deription: customPropellant.description
+                    }))
+            }
+            NATIVE_PROPELLANTS.forEach(nativePropellant => propellants.push(nativePropellant))
+            return propellants
+        },
         propellantHint() {
             const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantType)
             if (matchingPropellants.length === 1 && !!matchingPropellants[0].description && !!matchingPropellants[0].idealDensity) {
@@ -68,16 +88,18 @@ export default {
             }
         }
     },
+    watch: {
+        isLogged(newValue) {
+            if (newValue === true) {
+                this.loadCustomPropellants()
+            }
+        }
+    },
     methods: {
         addCustomPropellant() {
-            this.$refs.customPropellantDialog.show(getCustomPropellant('CUSTOM_propellant'))
+            this.$refs.customPropellantDialog.show()
         },
-        loadPropellant(propellant) {
-            let propellantId = setCustomPropellant('propellant', propellant)
-            let customPropellant = { value: propellantId, text: propellant.name }
-            this.propellantType.unshift(customPropellant)
-            this.value.propellantType = customPropellant.value
-        }
+        ...mapActions('customPropellants', ['loadCustomPropellants'])
     }
 }
 </script>

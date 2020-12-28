@@ -1,15 +1,8 @@
 import { greaterThanValidator, greaterThanValidatorNotRequired } from '../modules/formValidationRules'
+import { NATIVE_PROPELLANTS } from '@/modules/grainsConstants'
 
-function getPropellantID(propellantName) {
-    return 'CUSTOM_' + propellantName
-}
-
-export function isCustomPropellant(propellantType) {
-    return propellantType && propellantType.startsWith('CUSTOM_')
-}
-
-export function getCustomPropellant(propellantId) {
-    return JSON.parse(localStorage.getItem(propellantId))
+export function isCustomPropellant(propellantId) {
+    return propellantId && !NATIVE_PROPELLANTS.map(propellant => propellant.value).includes(propellantId)
 }
 
 export function validatePropellant(propellant) {
@@ -27,10 +20,4 @@ export function validatePropellant(propellant) {
 
 export function validateComplexBurnRateData(burnRateDataSet) {
     return burnRateDataSet && burnRateDataSet.length > 0
-}
-
-export function setCustomPropellant(propellantName, propellant) {
-    let propellantID = getPropellantID(propellantName)
-    localStorage.setItem(propellantID, JSON.stringify(propellant))
-    return propellantID
 }

@@ -117,6 +117,7 @@ import { validatePropellant } from '../../modules/customPropellant'
 import { greaterThanRule } from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
+import Axios from 'axios'
 
 export default {
     name: 'CustomPropellantDialog',
@@ -157,8 +158,20 @@ export default {
             this.propellant.name = hasName ? 'My propellant' : this.propellant.name
 
             if (validatePropellant(this.propellant)) {
-                this.$emit('save-propellant', this.propellant)
-                this.dialog = false
+                const name = this.propellant.name
+                const me = this
+                delete this.propellant.name
+                Axios.post('/propellants', { name: name, description: 'description', json: JSON.stringify(this.propellant) })
+                    .then(function(response) {
+                        // TODO : ajout champ description + validation taille varchar(xxx)
+                        // TODO :validation taille varchar(xxx) du champ name
+                        me.$emit('new-propellant')
+                        me.dialog = false
+                    })
+                    .catch(function(error) {
+                        // TODO : gestion erreur de la sauvegarde
+                        console.error('ERREUR', error)
+                    })
             } else {
                 this.$refs.formCustomPropellant.validate()
                 if (this.useComplexBurnRate) {
