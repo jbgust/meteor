@@ -21,6 +21,15 @@
                             </template>
                             <span>Load your project</span>
                         </v-tooltip>
+
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="loadFromDB" text>
+                                    <v-icon>mdi-biohazard</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Load your project</span>
+                        </v-tooltip>
                         <v-divider
                             class="mx-2"
                             vertical
@@ -150,6 +159,7 @@ import {
 } from '../modules/computationUtils'
 import ExportRasp from './result/ExportRASPForm'
 import Donate from './donate'
+import Axios from 'axios'
 
 export default {
     name: 'motor-design-tool',
@@ -188,6 +198,16 @@ export default {
         }
     },
     methods: {
+        loadFromDB() {
+            const me = this
+            Axios.get('/motors/46a113f5-c1ee-410a-976b-319554a25df7')
+                .then(function(response) {
+                    me.loadFromJSON(JSON.parse(response.data.json), me)
+                })
+                .catch(function(error) {
+                    console.error(error)
+                })
+        },
         browseFile() {
             this.$refs.fileBrowser.value = ''
             this.$refs.fileBrowser.click()
@@ -228,42 +248,7 @@ export default {
                 reader.onload = function(evt) {
                     try {
                         let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
-                            if (loadedConfig.version === 1) {
-                                // Convert to V2 format
-                                loadedConfig.configs[0].grainType = 'HOLLOW'
-                                loadedConfig.configs[0].grainConfig = {
-                                    outerDiameter: loadedConfig.configs[0].outerDiameter,
-                                    coreDiameter: loadedConfig.configs[0].coreDiameter,
-                                    segmentLength: loadedConfig.configs[0].segmentLength,
-                                    numberOfSegment: loadedConfig.configs[0].numberOfSegment,
-                                    outerSurface: loadedConfig.configs[0].outerSurface,
-                                    endsSurface: loadedConfig.configs[0].endsSurface,
-                                    coreSurface: loadedConfig.configs[0].coreSurface
-                                }
-                                delete loadedConfig.configs[0].outerDiameter
-                                delete loadedConfig.configs[0].coreDiameter
-                                delete loadedConfig.configs[0].segmentLength
-                                delete loadedConfig.configs[0].numberOfSegment
-                                delete loadedConfig.configs[0].outerSurface
-                                delete loadedConfig.configs[0].endsSurface
-                                delete loadedConfig.configs[0].coreSurface
-                            }
-                            me.importInProgress = true
-                            me.displayImportError = false
-                            me.asResult = false
-                            me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-                            me.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
-                            me.unitSelected = loadedConfig.measureUnit
-                            // If nextTick is not here, the form will not be valid when call runComputation()
-                            Vue.nextTick(() => {
-                                me.$refs.form.runComputation()
-                                me.importInProgress = false
-                            })
-                        } else {
-                            me.errorMessage = 'The file is not valid'
-                            me.displayImportError = true
-                        }
+                        me.loadFromJSON(loadedConfig, me)
                     } catch (e) {
                         console.error('import fail', ajvValidator.errors)
                         me.errorMessage = 'The file is not valid'
@@ -274,6 +259,44 @@ export default {
                     me.errorMessage = 'Can\'t read file'
                     me.displayImportError = true
                 }
+            }
+        },
+        loadFromJSON(loadedConfig, scope) {
+            if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
+                if (loadedConfig.version === 1) {
+                    // Convert to V2 format
+                    loadedConfig.configs[0].grainType = 'HOLLOW'
+                    loadedConfig.configs[0].grainConfig = {
+                        outerDiameter: loadedConfig.configs[0].outerDiameter,
+                        coreDiameter: loadedConfig.configs[0].coreDiameter,
+                        segmentLength: loadedConfig.configs[0].segmentLength,
+                        numberOfSegment: loadedConfig.configs[0].numberOfSegment,
+                        outerSurface: loadedConfig.configs[0].outerSurface,
+                        endsSurface: loadedConfig.configs[0].endsSurface,
+                        coreSurface: loadedConfig.configs[0].coreSurface
+                    }
+                    delete loadedConfig.configs[0].outerDiameter
+                    delete loadedConfig.configs[0].coreDiameter
+                    delete loadedConfig.configs[0].segmentLength
+                    delete loadedConfig.configs[0].numberOfSegment
+                    delete loadedConfig.configs[0].outerSurface
+                    delete loadedConfig.configs[0].endsSurface
+                    delete loadedConfig.configs[0].coreSurface
+                }
+                scope.importInProgress = true
+                scope.displayImportError = false
+                scope.asResult = false
+                scope.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
+                scope.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
+                scope.unitSelected = loadedConfig.measureUnit
+                // If nextTick is not here, the form will not be valid when call runComputation()
+                Vue.nextTick(() => {
+                    scope.$refs.form.runComputation()
+                    scope.importInProgress = false
+                })
+            } else {
+                scope.errorMessage = 'The file is not valid'
+                scope.displayImportError = true
             }
         },
         exportConfig() {
