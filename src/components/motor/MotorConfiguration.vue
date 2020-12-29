@@ -59,12 +59,9 @@ export default {
         }
     },
     mounted() {
-        if (this.isLogged) {
-            this.loadCustomPropellants()
-        }
+        this.loadCustomPropellants()
     },
     computed: {
-        ...mapGetters('authentication', ['isLogged']),
         ...mapGetters('customPropellants', ['customPropellants']),
         propellants() {
             let propellants = []
@@ -85,13 +82,6 @@ export default {
                 return `${matchingPropellants[0].description} (${matchingPropellants[0].idealDensity})`
             } else {
                 return ''
-            }
-        }
-    },
-    watch: {
-        isLogged(newValue) {
-            if (newValue === true) {
-                this.loadCustomPropellants()
             }
         }
     },

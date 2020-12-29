@@ -19,13 +19,11 @@ const actions = {
         const token = localStorage.getItem(TOKEN_STORAGE_KEY)
         if (token) {
             commit('setToken', JSON.parse(token))
-            console.warn('loadToken')
             Axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(token).accessToken}`
         }
     },
     saveToken({ commit, state }, token) {
         commit('setToken', token)
-        console.warn('saveToken')
         localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(token))
         Axios.defaults.headers.common['Authorization'] = `Bearer ${state.token.accessToken}`
     },

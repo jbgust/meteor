@@ -15,7 +15,6 @@ const getters = {
 // actions
 const actions = {
     loadCustomPropellants({ commit }) {
-        console.warn('loadCustomPropellants')
         Axios.get('/propellants')
             .then(function(response) {
                 commit('setCustomPropellants', response.data._embedded.meteorPropellants)
