@@ -2,23 +2,22 @@
 import Axios from 'axios'
 
 const state = () => ({
-    customPropellants: null
+    motors: []
 })
 
 // getters
 const getters = {
-    customPropellants: (state) => {
-        return state.customPropellants
+    motors: (state) => {
+        return state.motors
     }
 }
 
 // actions
 const actions = {
-    loadCustomPropellants({ commit }) {
-        console.warn('loadCustomPropellants')
-        Axios.get('/propellants')
+    loadMotors({ commit }) {
+        Axios.get('/motors')
             .then(function(response) {
-                commit('setCustomPropellants', response.data._embedded.meteorPropellants)
+                commit('setMotors', response.data._embedded.motors)
             })
             .catch(function(error) {
                 console.error(error)
@@ -28,8 +27,8 @@ const actions = {
 
 // mutations
 const mutations = {
-    setCustomPropellants(state, customPropellants) {
-        state.customPropellants = customPropellants
+    setMotors(state, motors) {
+        state.motors = motors
     }
 }
 

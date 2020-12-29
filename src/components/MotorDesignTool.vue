@@ -30,6 +30,8 @@
                             </template>
                             <span>Load your project</span>
                         </v-tooltip>
+                        <motor-select @loadMotor="loadFromJSON">
+                        </motor-select>
                         <v-divider
                             class="mx-2"
                             vertical
@@ -160,10 +162,11 @@ import {
 import ExportRasp from './result/ExportRASPForm'
 import Donate from './donate'
 import Axios from 'axios'
+import MotorSelect from '@/components/motor/MotorSelect'
 
 export default {
     name: 'motor-design-tool',
-    components: { Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
+    components: { MotorSelect, Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,
@@ -261,7 +264,7 @@ export default {
                 }
             }
         },
-        loadFromJSON(loadedConfig, scope) {
+        loadFromJSON(loadedConfig, scope = this) {
             if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
                 if (loadedConfig.version === 1) {
                     // Convert to V2 format
