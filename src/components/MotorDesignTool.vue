@@ -21,14 +21,21 @@
                             </template>
                             <span>Load your project</span>
                         </v-tooltip>
-
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="loadFromDB" text>
-                                    <v-icon>mdi-biohazard</v-icon>
+                                <v-btn icon v-on="on" @click="saveNewMotor" text>
+                                    <v-icon>mdi-playlist-plus</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Load your project</span>
+                            <span>Save as new motor</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="saveMotor" text>
+                                    <v-icon>mdi-content-save</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Save</span>
                         </v-tooltip>
                         <motor-select @loadMotor="loadFromJSON">
                         </motor-select>
@@ -161,8 +168,8 @@ import {
 } from '../modules/computationUtils'
 import ExportRasp from './result/ExportRASPForm'
 import Donate from './donate'
-import Axios from 'axios'
 import MotorSelect from '@/components/motor/MotorSelect'
+import Axios from 'axios'
 
 export default {
     name: 'motor-design-tool',
@@ -187,7 +194,8 @@ export default {
             unitSelected: getSelectedUnitOrSI(),
             importInProgress: false,
             siUnits: SI_UNITS,
-            imperialUnits: IMPERIAL_UNITS
+            imperialUnits: IMPERIAL_UNITS,
+            motorId: null
         }
     },
     mounted() {
@@ -201,16 +209,6 @@ export default {
         }
     },
     methods: {
-        loadFromDB() {
-            const me = this
-            Axios.get('/motors/46a113f5-c1ee-410a-976b-319554a25df7')
-                .then(function(response) {
-                    me.loadFromJSON(JSON.parse(response.data.json), me)
-                })
-                .catch(function(error) {
-                    console.error(error)
-                })
-        },
         browseFile() {
             this.$refs.fileBrowser.value = ''
             this.$refs.fileBrowser.click()
@@ -266,6 +264,9 @@ export default {
         },
         loadFromJSON(loadedConfig, scope = this) {
             if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
+                this.motorId = loadedConfig.id
+                loadedConfig.configs[0].name = loadedConfig.name
+                loadedConfig.configs[0].description = loadedConfig.description
                 if (loadedConfig.version === 1) {
                     // Convert to V2 format
                     loadedConfig.configs[0].grainType = 'HOLLOW'
@@ -302,6 +303,52 @@ export default {
                 scope.displayImportError = true
             }
         },
+        saveNewMotor() {
+            this.motorId = null
+            this.saveMotor()
+        },
+        saveMotor() {
+            const dataToExport = {
+                version: LAST_VERSION,
+                configs: [
+                    this.$refs.form.buildExport()
+                ],
+                measureUnit: this.unitSelected
+            }
+
+            if (dataToExport.configs[0] != null) {
+                dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
+
+                let request = {
+                    name: dataToExport.configs[0].name,
+                    description: dataToExport.configs[0].description
+                }
+                delete dataToExport.configs[0].name
+                delete dataToExport.configs[0].description
+                request.json = JSON.stringify(dataToExport)
+
+                if (this.motorId) {
+                    Axios.put(`/motors/${this.motorId}`, request)
+                        .then(function(response) {
+                            console.log('save OK')
+                        })
+                        .catch(function(error) {
+                            console.error(error)
+                        })
+                } else {
+                    Axios.post(`/motors/`, request)
+                        .then(function(response) {
+                            console.log('save OK')
+                        })
+                        .catch(function(error) {
+                            console.error(error)
+                        })
+                }
+            } else {
+                this.errorMessage = 'The form should be valid to be exported'
+                this.displayImportError = true
+            }
+        },
         exportConfig() {
             const dataToExport = {
                 version: LAST_VERSION,
@@ -316,10 +363,6 @@ export default {
 
                 const fileContent = JSON.stringify(dataToExport)
                 let fileName = 'meteor-export' + '.json'
-                let motorName = dataToExport.configs[0].name
-                if (motorName != null) {
-                    fileName = motorName + '.json'
-                }
 
                 if (window.navigator.msSaveOrOpenBlob) {
                     const blob = new Blob([fileContent], { type: 'application/json' })
