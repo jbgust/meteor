@@ -37,8 +37,7 @@
                             </template>
                             <span>Save</span>
                         </v-tooltip>
-                        <motor-select @loadMotor="loadFromJSON">
-                        </motor-select>
+                        <motor-select @loadMotor="loadFromJSON" />
                         <v-divider
                             class="mx-2"
                             vertical
@@ -342,6 +341,9 @@ export default {
                         })
                         .catch(function(error) {
                             console.error(error)
+                            if (error.response.status === 409) {
+                                console.warn('name duplication')
+                            }
                         })
                 }
             } else {

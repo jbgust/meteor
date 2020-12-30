@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="500">
         <template v-slot:activator="{ on }">
             <v-btn
                 icon
@@ -15,12 +15,15 @@
                 primary-title
                 style="color: white"
             >
-                Support Meteor with donation
+                Rocket motors
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
                     <v-flex shrink>
                         <v-col>
+                            <v-alert type="error" v-model="showError" dismissible outlined>
+                                {{ errorMessage }}
+                            </v-alert>
                             <v-data-table
                                 :headers="headers"
                                 :items="motors"
@@ -28,13 +31,22 @@
                                 class="elevation-1"
                             >
                                 <template v-slot:item.actions="{ item }">
-                                    <v-icon
-                                        small
-                                        class="mr-2"
-                                        @click="loadMotor(item)"
-                                    >
-                                        mdi-play
-                                    </v-icon>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on }">
+                                            <v-btn icon v-on="on" @click="loadMotor(item)" text>
+                                                <v-icon color="green">mdi-play</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Run computation</span>
+                                    </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on }">
+                                            <v-btn icon v-on="on" @click="confirmDelete(item)" text>
+                                                <v-icon color="red">mdi-delete</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Delete</span>
+                                    </v-tooltip>
                                 </template>
                             </v-data-table>
                         </v-col>
@@ -45,13 +57,40 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                    outlined
                     @click="sheet = false"
                 >
-                    Later
+                    Close
                 </v-btn>
             </v-card-actions>
         </v-card>
+        <v-dialog
+            v-model="confirmDialog"
+            persistent
+            max-width="400"
+        >
+            <v-card>
+                <v-card-title class="headline">
+                    Delete "{{ motorToDelete ? motorToDelete.name : ''}}"
+                </v-card-title>
+                <v-card-text>Are you sure ?</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        outlined
+                        @click="cancelDelete"
+                    >
+                        No
+                    </v-btn>
+                    <v-btn
+                        color="red darken-1"
+                        outlined
+                        @click="deleteItem"
+                    >
+                        Yes
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-dialog>
 </template>
 
@@ -68,6 +107,10 @@ export default {
                 { text: 'Description', value: 'description' },
                 { text: 'Actions', value: 'actions', sortable: false }
             ],
+            confirmDialog: false,
+            motorToDelete: null,
+            errorMessage: null,
+            showError: false,
             sheet: false,
             on: null
         }
@@ -75,12 +118,29 @@ export default {
     watch: {
         sheet(newValue, oldValue) {
             if (newValue && !oldValue) {
-                this.loadMotors()
+                this.loadMotors(this.displayError)
             }
         }
     },
     methods: {
-        ...mapActions('motors', ['loadMotors']),
+        ...mapActions('motors', ['loadMotors', 'deleteMotor']),
+        confirmDelete(item) {
+            this.motorToDelete = null
+            this.motorToDelete = item
+            this.confirmDialog = true
+        },
+        displayError(message) {
+            console.warn('sdfdqsdsf')
+            this.errorMessage = message
+            this.showError = true
+        },
+        deleteItem() {
+            this.deleteMotor({ motor: this.motorToDelete, showError: this.displayError })
+            this.confirmDialog = false
+        },
+        cancelDelete() {
+            this.confirmDialog = false
+        },
         loadMotor(motor) {
             let motorJson = JSON.parse(motor.json)
             motorJson.id = motor.id

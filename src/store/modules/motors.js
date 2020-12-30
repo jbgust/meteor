@@ -14,14 +14,23 @@ const getters = {
 
 // actions
 const actions = {
-    loadMotors({ commit }) {
+    loadMotors({ commit }, showError = (message) => console.error(message)) {
         Axios.get('/motors')
             .then(function(response) {
                 commit('setMotors', response.data._embedded.motors)
             })
             .catch(function(error) {
                 console.error(error)
+                showError('Failed to retrieve motor list')
             })
+    },
+    deleteMotor({ dispatch, commit }, { motor, showError = (message) => console.error(message) }) {
+        Axios.delete(`/motors/${motor.id}`)
+            .catch(function(error) {
+                console.error(error)
+                showError('Delete action failed')
+            })
+            .finally(() => dispatch('loadMotors'))
     }
 }
 
