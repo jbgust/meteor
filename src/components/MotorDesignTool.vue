@@ -72,10 +72,10 @@
                     <v-alert
                         :value="displayImportError"
                         class="mt-5 ml-2 mr-2"
-                        outlined
                         colored-border
                         border="left"
-                        color="warning"
+                        elevation="2"
+                        type="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
                     </v-alert>
@@ -298,7 +298,7 @@ export default {
                     scope.importInProgress = false
                 })
             } else {
-                scope.errorMessage = 'The file is not valid'
+                scope.errorMessage = `Your motor "${loadedConfig.name}" is invalid`
                 scope.displayImportError = true
             }
         },

@@ -105,7 +105,7 @@ export default {
             headers: [
                 { text: 'Name', value: 'name' },
                 { text: 'Description', value: 'description' },
-                { text: 'Actions', value: 'actions', sortable: false }
+                { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
             confirmDialog: false,
             motorToDelete: null,
@@ -130,7 +130,6 @@ export default {
             this.confirmDialog = true
         },
         displayError(message) {
-            console.warn('sdfdqsdsf')
             this.errorMessage = message
             this.showError = true
         },
