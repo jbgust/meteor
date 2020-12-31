@@ -1,21 +1,12 @@
 <template>
     <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="500">
-        <template v-slot:activator="{ on }">
-            <v-btn
-                icon
-                text
-                v-on="on"
-            >
-                <v-icon left size="25">mdi-database-arrow-down</v-icon>
-            </v-btn>
-        </template>
         <v-card>
             <v-card-title
                 class="headline purple"
                 primary-title
                 style="color: white"
             >
-                Rocket motors
+                Propellants
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
@@ -26,18 +17,30 @@
                             </v-alert>
                             <v-data-table
                                 :headers="headers"
-                                :items="motors"
+                                :items="customPropellants"
                                 :items-per-page="10"
                                 class="elevation-1"
                             >
+                                <template v-slot:top>
+                                    <v-toolbar
+                                        flat
+                                    >
+                                        <v-btn id="btnAddPropellant" @click="addPropellant">
+                                            <v-icon left>
+                                                mdi-plus
+                                            </v-icon>
+                                            New propellant
+                                        </v-btn>
+                                    </v-toolbar>
+                                </template>
                                 <template v-slot:item.actions="{ item }">
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on" @click="loadMotor(item)" text>
-                                                <v-icon color="green">mdi-play</v-icon>
+                                            <v-btn icon v-on="on" @click="editPropellant(item)" text>
+                                                <v-icon color="green">mdi-pencil</v-icon>
                                             </v-btn>
                                         </template>
-                                        <span>Run computation</span>
+                                        <span>Edit</span>
                                     </v-tooltip>
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on }">
@@ -70,7 +73,7 @@
         >
             <v-card>
                 <v-card-title class="headline">
-                    Delete "{{ motorToDelete ? motorToDelete.name : ''}}"
+                    Delete "{{ propellantToDelete ? propellantToDelete.name : ''}}"
                 </v-card-title>
                 <v-card-text>Are you sure ?</v-card-text>
                 <v-card-actions>
@@ -91,15 +94,21 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <propellant-editor ref="propellantEditor" :units="units" @propellantCommit="loadCustomPropellants"/>
     </v-dialog>
 </template>
 
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
+import PropellantEditor from '@/components/propellant/PropellantEditor'
 
 export default {
-    name: 'MotorSelect',
+    name: 'PropellantSelect',
+    components: { PropellantEditor },
+    props: {
+        units: Object
+    },
     data() {
         return {
             headers: [
@@ -108,7 +117,7 @@ export default {
                 { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
             confirmDialog: false,
-            motorToDelete: null,
+            propellantToDelete: null,
             errorMessage: null,
             showError: false,
             sheet: false,
@@ -118,17 +127,20 @@ export default {
     watch: {
         sheet(newValue, oldValue) {
             if (newValue && !oldValue) {
-                this.errorMessage = null
-                this.showError = false
-                this.loadMotors(this.displayError)
+                this.loadCustomPropellants(this.displayError)
             }
         }
     },
     methods: {
-        ...mapActions('motors', ['loadMotors', 'deleteMotor']),
+        ...mapActions('customPropellants', ['loadCustomPropellants', 'deletePropellant']),
+        show() {
+            this.sheet = true
+            this.errorMessage = null
+            this.showError = false
+        },
         confirmDelete(item) {
-            this.motorToDelete = null
-            this.motorToDelete = item
+            this.propellantToDelete = null
+            this.propellantToDelete = item
             this.confirmDialog = true
         },
         displayError(message) {
@@ -136,23 +148,25 @@ export default {
             this.showError = true
         },
         deleteItem() {
-            this.deleteMotor({ motor: this.motorToDelete, showError: this.displayError })
+            this.deletePropellant({ propellant: this.propellantToDelete, showError: this.displayError })
             this.confirmDialog = false
         },
         cancelDelete() {
             this.confirmDialog = false
         },
-        loadMotor(motor) {
-            let motorJson = JSON.parse(motor.json)
-            motorJson.id = motor.id
-            motorJson.name = motor.name
-            motorJson.description = motor.description
-            this.$emit('loadMotor', motorJson)
-            this.sheet = false
+        editPropellant(propellant) {
+            let customPropellant = JSON.parse(propellant.json)
+            customPropellant.id = propellant.id
+            customPropellant.name = propellant.name
+            customPropellant.description = propellant.description
+            this.$refs.propellantEditor.show(customPropellant)
+        },
+        addPropellant() {
+            this.$refs.propellantEditor.show()
         }
     },
     computed: {
-        ...mapGetters('motors', ['motors'])
+        ...mapGetters('customPropellants', ['customPropellants'])
     }
 }
 </script>

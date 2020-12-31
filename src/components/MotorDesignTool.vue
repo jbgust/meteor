@@ -326,6 +326,7 @@ export default {
                 delete dataToExport.configs[0].description
                 request.json = JSON.stringify(dataToExport)
 
+                // TODO : validation taille varchar(xxx) du name
                 if (this.motorId) {
                     Axios.put(`/motors/${this.motorId}`, request)
                         .then(function(response) {

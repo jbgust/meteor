@@ -10,11 +10,11 @@
             <v-flex class="add-propellant-icon">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <v-btn text icon @click="addCustomPropellant" v-on="on" id="custom-propellant-add">
-                            <v-icon>mdi-playlist-plus</v-icon>
+                        <v-btn class="mt-3" text icon @click="managePropellant" v-on="on" id="custom-propellant-add">
+                            <v-icon>mdi-progress-wrench</v-icon>
                         </v-btn>
                     </template>
-                    <span>Add custom propellant</span>
+                    <span>Manage propellant</span>
                 </v-tooltip>
             </v-flex>
         </v-flex>
@@ -32,20 +32,20 @@
             <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-layout>
         </v-flex>
-        <custom-propellant-dialog ref="customPropellantDialog" :units="units" @new-propellant="loadCustomPropellants"/>
+        <propellant-select :units= "units" ref="dialogPropellant"></propellant-select>
     </v-layout>
 </template>
 
 <script>
 import { requiredRule, greaterThanRule, integerGreaterThanRule } from '@/modules/formValidationRules'
-import CustomPropellantDialog from '../propellant/CustomPropellantDialog'
 import GrainConfigurator from './GrainConfigurator'
 import { NATIVE_PROPELLANTS } from '@/modules/grainsConstants'
 import { mapActions, mapGetters } from 'vuex'
+import PropellantSelect from '@/components/propellant/PropellantSelect'
 
 export default {
     name: 'motor-configuration',
-    components: { GrainConfigurator, CustomPropellantDialog },
+    components: { PropellantSelect, GrainConfigurator },
     props: {
         value: Object,
         units: Object
@@ -86,8 +86,8 @@ export default {
         }
     },
     methods: {
-        addCustomPropellant() {
-            this.$refs.customPropellantDialog.show()
+        managePropellant() {
+            this.$refs.dialogPropellant.show()
         },
         ...mapActions('customPropellants', ['loadCustomPropellants'])
     }

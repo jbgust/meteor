@@ -15,6 +15,13 @@
                                         <v-text-field filled hide-details id="propellantName" label="Propellant name"
                                                       v-model="propellant.name"/>
                                     </v-flex>
+                                    <v-flex d-flex lg12>
+                                        <v-textarea
+                                            filled
+                                            id="propellantDescription"
+                                            label="Description"
+                                            v-model="propellant.description"/>
+                                    </v-flex>
                                     <v-layout d-flex wrap>
                                         <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio"
                                                       v-model="propellant.k" :rules="numericGreater0Rules" step="0.01"/>
@@ -120,7 +127,7 @@ import Vue from 'vue'
 import Axios from 'axios'
 
 export default {
-    name: 'CustomPropellantDialog',
+    name: 'PropellantEditor',
     components: { ComplexBurnRateDatas },
     props: {
         units: Object
@@ -159,19 +166,37 @@ export default {
 
             if (validatePropellant(this.propellant)) {
                 const name = this.propellant.name
+                const description = this.propellant.description
                 const me = this
                 delete this.propellant.name
-                Axios.post('/propellants', { name: name, description: 'description', json: JSON.stringify(this.propellant) })
-                    .then(function(response) {
-                        // TODO : ajout champ description + validation taille varchar(xxx)
-                        // TODO :validation taille varchar(xxx) du champ name
-                        me.$emit('new-propellant')
-                        me.dialog = false
-                    })
-                    .catch(function(error) {
-                        // TODO : gestion erreur de la sauvegarde
-                        console.error('ERREUR', error)
-                    })
+                delete this.propellant.description
+                const request = { name: name, description: description, json: JSON.stringify(this.propellant) }
+                if (this.propellant.id) {
+                    Axios.put(`/propellants/${this.propellant.id}`, request)
+                        .then(function(response) {
+                            // TODO : validation taille varchar(xxx)
+                            // TODO :validation taille varchar(xxx) du champ name
+                            me.$emit('propellantCommit')
+                            me.dialog = false
+                        })
+                        .catch(function(error) {
+                            console.error(error)
+                        })
+                } else {
+                    Axios.post(`/propellants/`, request)
+                        .then(function(response) {
+                            // TODO : validation taille varchar(xxx)
+                            // TODO : validation taille varchar(xxx) du champ name
+                            me.$emit('propellantCommit')
+                            me.dialog = false
+                        })
+                        .catch(function(error) {
+                            console.error(error)
+                            if (error.response.status === 409) {
+                                console.warn('name duplication')
+                            }
+                        })
+                }
             } else {
                 this.$refs.formCustomPropellant.validate()
                 if (this.useComplexBurnRate) {
