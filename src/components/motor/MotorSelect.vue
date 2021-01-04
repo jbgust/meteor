@@ -55,6 +55,7 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
+                <import-json-motor></import-json-motor>
                 <v-spacer></v-spacer>
                 <v-btn
                     @click="sheet = false"
@@ -97,9 +98,11 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
+import ImportJsonMotor from '@/components/motor/ImportJsonMotor'
 
 export default {
     name: 'MotorSelect',
+    components: { ImportJsonMotor },
     data() {
         return {
             headers: [
