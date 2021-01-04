@@ -1,8 +1,15 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-layout column>
-        <v-flex d-flex lg12>
-            <v-text-field filled hide-details id="name" label="Motor name" v-model="value.name" />
-        </v-flex>
+            <v-col>
+                <v-text-field filled id="name" :rules="nameRule" label="Motor name" v-model="value.name" />
+                <v-textarea
+                    :rules="descriptionRule"
+                    rows="2"
+                    id="propellantDescription"
+                    label="Description"
+                    v-model="value.description"/>
+            </v-col>
+
         <v-flex d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
@@ -37,7 +44,12 @@
 </template>
 
 <script>
-import { requiredRule, greaterThanRule, integerGreaterThanRule } from '@/modules/formValidationRules'
+import {
+    requiredRule,
+    greaterThanRule,
+    integerGreaterThanRule,
+    stringRequiredMaxLengthRule, stringMaxLengthRule
+} from '@/modules/formValidationRules'
 import GrainConfigurator from './GrainConfigurator'
 import { NATIVE_PROPELLANTS } from '@/modules/grainsConstants'
 import { mapActions, mapGetters } from 'vuex'
@@ -55,7 +67,9 @@ export default {
             propellantType: NATIVE_PROPELLANTS,
             numericGreater0Rules: greaterThanRule(0),
             integerGreater0Rules: integerGreaterThanRule(0),
-            requiredRules: requiredRule
+            requiredRules: requiredRule,
+            nameRule: stringRequiredMaxLengthRule(256),
+            descriptionRule: stringMaxLengthRule(1000)
         }
     },
     mounted() {
