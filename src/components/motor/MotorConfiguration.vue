@@ -6,7 +6,7 @@
         <v-flex d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellants" :rules="requiredRules" v-model="value.propellantType" />
+                      :items="propellants" :rules="requiredRules" v-model="value.propellantId" />
             <v-flex class="add-propellant-icon">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -77,7 +77,7 @@ export default {
             return propellants
         },
         propellantHint() {
-            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantType)
+            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantId)
             if (matchingPropellants.length === 1 && !!matchingPropellants[0].description && !!matchingPropellants[0].idealDensity) {
                 return `${matchingPropellants[0].description} (${matchingPropellants[0].idealDensity})`
             } else {

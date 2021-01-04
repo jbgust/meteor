@@ -32,7 +32,7 @@ import {
     validateImportVersion2
 } from '@/modules/importValidator'
 import Axios from 'axios'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'ImportJsonMotor',
@@ -42,6 +42,9 @@ export default {
             displayImportError: false,
             importInProgress: false
         }
+    },
+    computed: {
+        ...mapGetters('customPropellants', ['customPropellants'])
     },
     methods: {
         browseFile() {
@@ -88,18 +91,23 @@ export default {
             }
         },
         savePropellantAndMotor(motorVersion3) {
-            Axios.post(`/propellants/`, motorVersion3.customPropellant)
+            Axios.post(`/propellants/`, {
+                name: motorVersion3.customPropellant.name ? motorVersion3.customPropellant.name : `Propellant - ${this.getDateTimeAsString()}`,
+                json: JSON.stringify(motorVersion3.customPropellant)
+            })
                 .then((response) => {
-                    const self = response.data._links.self
-                    const newPropellantId = self.substring(self.lastIndexOf('/'), self.length)
-                    motorVersion3.customPropellant = newPropellantId
+                    const self = response.data._links.self.href
+                    const newPropellantId = self.substring(self.lastIndexOf('/') + 1, self.length)
+                    motorVersion3.motor.propellantId = newPropellantId
+                    this.loadCustomPropellants()
                     this.saveMotor(motorVersion3)
                 })
-                .catch(function(error) {
-                    console.error(error)
-                    if (error.response.status === 409) {
-                        console.warn('name duplication')
-                        this.importInProgress = false
+                .catch((error) => {
+                    if (error.response && error.response.status === 409) {
+                        motorVersion3.customPropellant.name = `${motorVersion3.customPropellant.name} - ${this.getDateTimeAsString()}`
+                        this.savePropellantAndMotor(motorVersion3)
+                    } else {
+                        console.error(error)
                     }
                 })
         },
@@ -123,7 +131,8 @@ export default {
         getDateTimeAsString() {
             return new Date().toLocaleString()
         },
-        ...mapActions('motors', ['loadMotors'])
+        ...mapActions('motors', ['loadMotors']),
+        ...mapActions('customPropellants', ['loadCustomPropellants'])
     }
 }
 </script>

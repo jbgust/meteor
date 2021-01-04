@@ -24,7 +24,7 @@ export const demoForm = {
         coreDiameter: 20,
         segmentLength: 115
     },
-    propellantType: KNDX,
+    propellantId: KNDX,
     chamberInnerDiameter: 75,
     chamberLength: 470,
     extraConfig: defaultAdvanceConfig,
@@ -44,7 +44,7 @@ export const demoFormRequest = {
     coreSurface: EXPOSED,
     outerDiameter: 69,
     segmentLength: 115,
-    propellantType: KNDX,
+    propellantId: KNDX,
     chamberInnerDiameter: 75,
     chamberLength: 470,
     extraConfig: defaultAdvanceConfig,

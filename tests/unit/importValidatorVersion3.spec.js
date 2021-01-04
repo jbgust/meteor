@@ -115,7 +115,7 @@ function createVersion3FinocylJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 150,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -152,7 +152,7 @@ function createVersion3StarJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 150,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -188,7 +188,7 @@ function createVersion3EndBurnerJsonConfig() {
         throatDiameter: 6,
         chamberInnerDiameter: 40,
         chamberLength: 75,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -221,7 +221,7 @@ function createVersion3MoonBurnerJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 75,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -256,7 +256,7 @@ function createVersion3CSlotJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 75,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -293,7 +293,7 @@ function createVersion3RodTubeJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 75,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -328,7 +328,7 @@ function createVersion3HollowJsonConfig() {
         throatDiameter: 10,
         chamberInnerDiameter: 40,
         chamberLength: 150,
-        propellantType: 'KNSU',
+        propellantId: 'KNSU',
         extraConfig: {
             densityRatio: 0.96,
             nozzleErosionInMillimeter: 0,
@@ -473,20 +473,6 @@ describe('Import Version 3 Validation', () => {
         assertAjvError('.version')
     })
 
-    test('should not import invalid propellant', () => {
-        let jsonToValidate = createVersion3HollowJsonConfig()
-        jsonToValidate.propellantType = 'KNDXx'
-        expect(validateImportVersion3(jsonToValidate)).toBeFalsy()
-
-        jsonToValidate.propellantType = 'xKNDX'
-        expect(validateImportVersion3(jsonToValidate)).toBeFalsy()
-
-        jsonToValidate.propellantType = 'kndx'
-        expect(validateImportVersion3(jsonToValidate)).toBeFalsy()
-
-        assertAjvError('.propellantType')
-    })
-
     test('should import custom propellant', () => {
         let jsonToValidate = createVersion3HollowJsonConfig()
         delete jsonToValidate.propellantType
@@ -495,17 +481,9 @@ describe('Import Version 3 Validation', () => {
         expect(validateImportVersion3(jsonToValidate)).toBeTruthy()
     })
 
-    test('should not import when no propellant or custom propellant', () => {
+    test('should not import when no propellant', () => {
         let jsonToValidate = createVersion3HollowJsonConfig()
-        delete jsonToValidate.propellantType
-        delete jsonToValidate.customPropellant
-        expect(validateImportVersion3(jsonToValidate)).toBeFalsy()
-    })
-
-    test('should not import when propellant and custom propellant are present', () => {
-        let jsonToValidate = createVersion3HollowJsonConfig()
-        jsonToValidate.propellantType = 'KNSU'
-        jsonToValidate.customPropellant = 'UUID'
+        delete jsonToValidate.propellantId
         expect(validateImportVersion3(jsonToValidate)).toBeFalsy()
     })
 
@@ -616,7 +594,7 @@ describe('Import Version 3 Validation', () => {
         const validJson = {
             version: 3,
             throatDiameter: '17.39',
-            propellantType: 'KNDX',
+            propellantId: 'KNDX',
             chamberInnerDiameter: '75',
             chamberLength: '470',
             extraConfig: {
@@ -659,6 +637,7 @@ describe('Import Version 3 Validation', () => {
             throatDiameter: 1,
             chamberInnerDiameter: '2',
             chamberLength: '9',
+            propellantId: 'ID-PROPELLANT',
             extraConfig: {
                 densityRatio: 0.96,
                 nozzleErosionInMillimeter: 0,
@@ -677,6 +656,7 @@ describe('Import Version 3 Validation', () => {
             'throatDiameter',
             'chamberInnerDiameter',
             'chamberLength',
+            'propellantId',
             'extraConfig',
             'grainType',
             'grainConfig'

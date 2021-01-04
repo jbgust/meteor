@@ -168,9 +168,12 @@ export default {
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.measureUnit
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = this.formValue.propellantType
-                    delete request.propellantType
+                if (isCustomPropellant(this.formValue.propellantId)) {
+                    request.customPropellant = this.formValue.propellantId
+                    delete request.propellantId
+                } else {
+                    request.propellantType = this.formValue.propellantId
+                    delete request.propellantId
                 }
                 return request
             } else {
@@ -185,9 +188,12 @@ export default {
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)
                 delete request.grainConfig
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = this.formValue.propellantType
-                    delete request.propellantType
+                if (isCustomPropellant(this.formValue.propellantId)) {
+                    request.customPropellant = this.formValue.propellantId
+                    delete request.propellantId
+                } else {
+                    request.propellantType = this.formValue.propellantId
+                    delete request.propellantId
                 }
 
                 request.grainType = this.getGrainType()
@@ -198,10 +204,6 @@ export default {
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
-            if (isCustomPropellant(formData.propellantType)) {
-                this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
-            }
-
             this.extraConfig = extraConfig
             this.formValue = formData
             this.$refs.formJSRM.resetValidation()

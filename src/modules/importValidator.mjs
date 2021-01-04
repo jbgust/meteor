@@ -61,7 +61,7 @@ function validateGrainConfig(loadedConfig) {
 export function validateImportVersion3(loadedConfig) {
     let valide = false
     if (ajvValidator.validate(importVersion3ValidatorSchema, loadedConfig)) {
-        valide = validateGrainConfig(loadedConfig) && validatePropellant(loadedConfig)
+        valide = validateGrainConfig(loadedConfig)
     } else {
         console.warn('V3 validation failed')
     }
@@ -69,14 +69,6 @@ export function validateImportVersion3(loadedConfig) {
         console.error('import V3 fail', ajvValidator.errors)
     }
     return valide
-}
-
-function validatePropellant(loadedConfig) {
-    let valid = !!loadedConfig.propellantType ^ !!loadedConfig.customPropellant
-    if (!valid) {
-        console.warn('V3 validation failed because propellantType and customPropellant are set or both are absent')
-    }
-    return valid
 }
 
 export function convertFromVersion2ToVersion3(loadedConfig) {
@@ -87,8 +79,10 @@ export function convertFromVersion2ToVersion3(loadedConfig) {
             ...loadedConfig.configs[0]
         }
 
-        if (loadedConfig.configs[0].customPropellant) {
-            delete configV3.propellantType
+        if (!loadedConfig.configs[0].customPropellant) {
+            configV3.propellantId = loadedConfig.configs[0].propellantType
+        } else {
+            configV3.propellantId = 'TO BE DEFINED DURING IMPORT PROCESS'
         }
 
         delete configV3.customPropellant
@@ -211,7 +205,6 @@ export const importVersion2ValidatorSchema = {
     ]
 }
 
-const propellantV3Pattern = '(^((' + KNDX + ')|(' + KNER_COARSE + ')|(' + KNMN_COARSE + ')|(' + KNSB_COARSE + ')|(' + KNSB_FINE + ')|(' + KNSU + '))$)'
 export const importVersion3ValidatorSchema = {
     type: 'object',
     properties: {
@@ -224,10 +217,7 @@ export const importVersion3ValidatorSchema = {
         throatDiameter: { type: 'number' },
         chamberInnerDiameter: { type: 'number' },
         chamberLength: { type: 'number' },
-        propellantType: {
-            type: 'string',
-            pattern: propellantV3Pattern
-        },
+        propellantId: { type: 'string' },
         customPropellant: { type: 'string' },
         extraConfig: {
             type: 'object',
@@ -278,6 +268,7 @@ export const importVersion3ValidatorSchema = {
         'throatDiameter',
         'chamberInnerDiameter',
         'chamberLength',
+        'propellantId',
         'extraConfig',
         'grainType',
         'grainConfig'
