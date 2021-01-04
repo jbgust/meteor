@@ -383,6 +383,7 @@ describe('Import Version 3 Validation', () => {
         expect(validateImportVersion3(motorVersion3.motor)).toBeTruthy()
         expect(motorVersion3.name).toEqual('TEST-CUSTOM-KNDX-SRM')
         expect(motorVersion3.motor.name).toBeUndefined()
+        expect(motorVersion3.motor.propellantType).toBeUndefined()
         expect(ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, motorVersion3.motor.grainConfig)).toBeTruthy()
         expect(validatePropellant(motorVersion3.customPropellant)).toBeTruthy()
     })

@@ -68,7 +68,6 @@ import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
-import { isCustomPropellant } from '../modules/customPropellant'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 
 export default {
@@ -168,13 +167,6 @@ export default {
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.measureUnit
-                if (isCustomPropellant(this.formValue.propellantId)) {
-                    request.customPropellant = this.formValue.propellantId
-                    delete request.propellantId
-                } else {
-                    request.propellantType = this.formValue.propellantId
-                    delete request.propellantId
-                }
                 return request
             } else {
                 return null
@@ -188,13 +180,6 @@ export default {
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)
                 delete request.grainConfig
-                if (isCustomPropellant(this.formValue.propellantId)) {
-                    request.customPropellant = this.formValue.propellantId
-                    delete request.propellantId
-                } else {
-                    request.propellantType = this.formValue.propellantId
-                    delete request.propellantId
-                }
 
                 request.grainType = this.getGrainType()
 

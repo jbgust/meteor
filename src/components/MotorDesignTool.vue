@@ -246,41 +246,36 @@ export default {
                 ...this.$refs.form.buildExport()
             }
 
-            if (dataToExport.configs[0] != null) {
-                dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
+            dataToExport.nozzleDesign = this.nozzleDesignValue
 
-                let request = {
-                    name: dataToExport.configs[0].name,
-                    description: dataToExport.configs[0].description
-                }
-                delete dataToExport.configs[0].name
-                delete dataToExport.configs[0].description
-                request.json = JSON.stringify(dataToExport)
+            let request = {
+                name: dataToExport.name,
+                description: dataToExport.description
+            }
+            delete dataToExport.name
+            delete dataToExport.description
+            request.json = JSON.stringify(dataToExport)
 
-                // TODO : validation taille varchar(xxx) du name
-                if (this.motorId) {
-                    Axios.put(`/motors/${this.motorId}`, request)
-                        .then(function(response) {
-                            console.log('save OK')
-                        })
-                        .catch(function(error) {
-                            console.error(error)
-                        })
-                } else {
-                    Axios.post(`/motors/`, request)
-                        .then(function(response) {
-                            console.log('save OK')
-                        })
-                        .catch(function(error) {
-                            console.error(error)
-                            if (error.response.status === 409) {
-                                console.warn('name duplication')
-                            }
-                        })
-                }
+            // TODO : validation taille varchar(xxx) du name
+            if (this.motorId) {
+                Axios.put(`/motors/${this.motorId}`, request)
+                    .then(function(response) {
+                        console.log('save OK')
+                    })
+                    .catch(function(error) {
+                        console.error(error)
+                    })
             } else {
-                this.errorMessage = 'The form should be valid to be exported'
-                this.displayImportError = true
+                Axios.post(`/motors/`, request)
+                    .then(function(response) {
+                        console.log('save OK')
+                    })
+                    .catch(function(error) {
+                        console.error(error)
+                        if (error.response.status === 409) {
+                            console.warn('name duplication')
+                        }
+                    })
             }
         },
         formReset() {
