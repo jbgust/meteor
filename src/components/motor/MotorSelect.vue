@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="500">
+    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="600">
         <template v-slot:activator="{ on }">
             <v-btn
                 icon
@@ -21,6 +21,7 @@
                 <v-row justify="center" align="center">
                     <v-flex shrink>
                         <v-col>
+                            <import-json-motor ref="importForm" @importStart="loading = true"></import-json-motor>
                             <v-alert type="error" v-model="showError" dismissible outlined>
                                 {{ errorMessage }}
                             </v-alert>
@@ -28,6 +29,7 @@
                                 :headers="headers"
                                 :items="motors"
                                 :items-per-page="10"
+                                :loading="loading"
                                 class="elevation-1"
                             >
                                 <template v-slot:item.actions="{ item }">
@@ -55,7 +57,6 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <import-json-motor></import-json-motor>
                 <v-spacer></v-spacer>
                 <v-btn
                     @click="sheet = false"
@@ -110,6 +111,7 @@ export default {
                 { text: 'Description', value: 'description' },
                 { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
+            loading: false,
             confirmDialog: false,
             motorToDelete: null,
             errorMessage: null,
@@ -121,10 +123,16 @@ export default {
     watch: {
         sheet(newValue, oldValue) {
             if (newValue && !oldValue) {
+                if (this.$refs.importimportForm) {
+                    this.$refs.importForm.resetErrors()
+                }
                 this.errorMessage = null
                 this.showError = false
                 this.loadMotors(this.displayError)
             }
+        },
+        motors() {
+            this.loading = false
         }
     },
     methods: {

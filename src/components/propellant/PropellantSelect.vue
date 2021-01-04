@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="500">
+    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="600">
         <v-card>
             <v-card-title
                 class="headline purple"

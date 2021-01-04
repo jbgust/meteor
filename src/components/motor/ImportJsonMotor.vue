@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-col>
         <v-alert
             :value="displayImportError"
             class="mt-5 ml-2 mr-2"
@@ -10,17 +10,13 @@
             icon="mdi-alert-box-outline">
             {{errorMessage}}
         </v-alert>
-        <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="browseFile" text :loading="importInProgress">
-                    <v-icon>mdi-file-upload</v-icon>
-                </v-btn>
-            </template>
-            <span>Load your project</span>
-        </v-tooltip>
+        <v-btn small color="primary" @click="browseFile" :loading="importInProgress">
+            <v-icon left>mdi-file-upload</v-icon>
+            Import from file
+        </v-btn>
         <input type="file" style="display: none;" ref="fileBrowser"
                id="avatar" name="avatar" @change="loadFile" accept="application/json">
-    </div>
+    </v-col>
 </template>
 
 <script>
@@ -33,6 +29,7 @@ import {
 } from '@/modules/importValidator'
 import Axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
+var deepEqual = require('deep-equal')
 
 export default {
     name: 'ImportJsonMotor',
@@ -51,7 +48,12 @@ export default {
             this.$refs.fileBrowser.value = ''
             this.$refs.fileBrowser.click()
         },
+        resetErrors() {
+            this.errorMessage = null
+            this.displayImportError = false
+        },
         loadFile(event) {
+            this.resetErrors()
             let file = event.target.files[0]
             if (file) {
                 var reader = new FileReader()
@@ -77,7 +79,7 @@ export default {
             if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
                 convertFromVersion1ToVersion2(loadedConfig)
                 const newMotor = convertFromVersion2ToVersion3(loadedConfig)
-
+                this.$emit('importStart')
                 if (newMotor.customPropellant) {
                     scope.savePropellantAndMotor(newMotor)
                 } else {
@@ -86,30 +88,42 @@ export default {
                 scope.importInProgress = true
                 scope.displayImportError = false
             } else {
-                scope.errorMessage = `Your motor "${loadedConfig.name}" is invalid`
+                scope.errorMessage = `Your file is invalid`
                 scope.displayImportError = true
             }
         },
         savePropellantAndMotor(motorVersion3) {
-            Axios.post(`/propellants/`, {
-                name: motorVersion3.customPropellant.name ? motorVersion3.customPropellant.name : `Propellant - ${this.getDateTimeAsString()}`,
-                json: JSON.stringify(motorVersion3.customPropellant)
+            const propellantToImport = JSON.stringify(motorVersion3.customPropellant)
+            let matchingPropellant = this.customPropellants.filter(propellant => {
+                return deepEqual(JSON.parse(propellant.json), JSON.parse(propellantToImport))
             })
-                .then((response) => {
-                    const self = response.data._links.self.href
-                    const newPropellantId = self.substring(self.lastIndexOf('/') + 1, self.length)
-                    motorVersion3.motor.propellantId = newPropellantId
-                    this.loadCustomPropellants()
-                    this.saveMotor(motorVersion3)
+
+            if (matchingPropellant.length > 0) {
+                motorVersion3.motor.propellantId = matchingPropellant[0].id
+                this.saveMotor(motorVersion3)
+            } else {
+                Axios.post(`/propellants/`, {
+                    name: motorVersion3.customPropellant.name ? motorVersion3.customPropellant.name : `Propellant - ${this.getDateTimeAsString()}`,
+                    json: propellantToImport
                 })
-                .catch((error) => {
-                    if (error.response && error.response.status === 409) {
-                        motorVersion3.customPropellant.name = `${motorVersion3.customPropellant.name} - ${this.getDateTimeAsString()}`
-                        this.savePropellantAndMotor(motorVersion3)
-                    } else {
-                        console.error(error)
-                    }
-                })
+                    .then((response) => {
+                        const self = response.data._links.self.href
+                        const newPropellantId = self.substring(self.lastIndexOf('/') + 1, self.length)
+                        motorVersion3.motor.propellantId = newPropellantId
+                        this.loadCustomPropellants()
+                        this.saveMotor(motorVersion3)
+                    })
+                    .catch((error) => {
+                        if (error.response && error.response.status === 409) {
+                            motorVersion3.customPropellant.name = `${motorVersion3.customPropellant.name} - ${this.getDateTimeAsString()}`
+                            this.savePropellantAndMotor(motorVersion3)
+                        } else {
+                            console.error(error)
+                            this.$emit('importStop')
+                            this.importInProgress = false
+                        }
+                    })
+            }
         },
         saveMotor(motorVersion3) {
             Axios.post(`/motors/`, {
@@ -126,7 +140,10 @@ export default {
                         this.saveMotor(motorVersion3)
                     }
                 })
-                .finally(() => { this.importInProgress = false })
+                .finally(() => {
+                    this.$emit('importStop')
+                    this.importInProgress = false
+                })
         },
         getDateTimeAsString() {
             return new Date().toLocaleString()
