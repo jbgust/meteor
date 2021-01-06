@@ -98,6 +98,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import ImportJsonMotor from '@/components/motor/ImportJsonMotor'
 import { shortLabel } from '@/modules/utils'
+import { isCustomPropellant } from '@/modules/customPropellant'
 
 export default {
     name: 'MotorSelect',
@@ -116,7 +117,8 @@ export default {
             showError: false,
             sheet: false,
             on: null,
-            shortLabel: shortLabel
+            shortLabel: shortLabel,
+            customPropellantIds: []
         }
     },
     watch: {
@@ -132,6 +134,9 @@ export default {
         },
         motors() {
             this.loading = false
+        },
+        customPropellants(newValue) {
+            this.customPropellantIds = newValue.map(propellant => propellant.id)
         }
     },
     methods: {
@@ -157,15 +162,23 @@ export default {
         },
         loadMotor(motor) {
             let motorJson = JSON.parse(motor.json)
+            let missingPropellant = false
             motorJson.id = motor.id
             motorJson.name = motor.name
             motorJson.description = motor.description
-            this.$emit('loadMotor', motorJson)
+
+            // remove custom propellant if no more exists
+            if (isCustomPropellant(motorJson.propellantId) && !this.customPropellantIds.includes(motorJson.propellantId)) {
+                missingPropellant = true
+                motorJson.propellantId = null
+            }
+            this.$emit('loadMotor', motorJson, missingPropellant)
             this.sheet = false
         }
     },
     computed: {
-        ...mapGetters('motors', ['motors'])
+        ...mapGetters('motors', ['motors']),
+        ...mapGetters('customPropellants', ['customPropellants'])
     }
 }
 </script>

@@ -224,15 +224,28 @@ export default {
         exportRASP() {
             this.$refs.form.exportRASP()
         },
+        propellantUnknown() {
+            this.errorMessage = 'You have deleted the propellant for this motor, please choose a new one'
+            this.displayImportError = true
+            setTimeout(() => {
+                this.displayImportError = false
+                this.errorMessage = null
+            }, 5000)
+        },
         resetAll() {
             this.$refs.form.reset()
             this.formReset()
         },
-        loadMotor(loadedConfig, scope = this) {
+        loadMotor(loadedConfig, missingPropellant = false, scope = this) {
             if (validateImportVersion3(loadedConfig)) {
                 this.motorId = loadedConfig.id
                 scope.importInProgress = true
                 scope.displayImportError = false
+
+                if (missingPropellant) {
+                    scope.propellantUnknown()
+                }
+
                 scope.asResult = false
                 scope.$refs.form.loadForm(loadedConfig, loadedConfig.extraConfig)
                 scope.nozzleDesignValue = loadedConfig.nozzleDesign

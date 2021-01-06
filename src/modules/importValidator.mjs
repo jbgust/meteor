@@ -85,6 +85,7 @@ export function convertFromVersion2ToVersion3(loadedConfig) {
             configV3.propellantId = 'TO BE DEFINED DURING IMPORT PROCESS'
         }
         delete configV3.propellantType
+        delete configV3.computationHash
 
         delete configV3.customPropellant
         delete configV3.name

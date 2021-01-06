@@ -3,8 +3,7 @@ export function extractIdFromHateoasResponse(response) {
     return self.substring(self.lastIndexOf('/') + 1, self.length)
 }
 
-export function shortLabel(label, maxLength = 50) {
-    const maxLineLength = 40
+export function shortLabel(label, maxLength = 50, maxLineLength = 40) {
     if (label && label.length > maxLineLength) {
         var ret = []
         var i
