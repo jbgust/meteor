@@ -97,6 +97,9 @@ export default {
         getGrainType() {
             return this.formValue.grainType
         },
+        validateForm() {
+            return this.$refs.formJSRM.validate()
+        },
         runComputation() {
             const component = this
             let url = '/compute'

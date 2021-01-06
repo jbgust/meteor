@@ -276,56 +276,66 @@ export default {
             this.saveMotor()
         },
         saveMotor() {
-            this.errorMessage = null
-            this.displayImportError = false
-            const dataToExport = {
-                version: LAST_VERSION,
-                measureUnit: this.unitSelected,
-                ...this.$refs.form.buildExport()
-            }
+            if (this.$refs.form.validateForm()) {
+                this.errorMessage = null
+                this.displayImportError = false
+                const dataToExport = {
+                    version: LAST_VERSION,
+                    measureUnit: this.unitSelected,
+                    ...this.$refs.form.buildExport()
+                }
 
-            dataToExport.nozzleDesign = this.nozzleDesignValue
+                dataToExport.nozzleDesign = this.nozzleDesignValue
 
-            let request = {
-                name: dataToExport.name,
-                description: dataToExport.description
-            }
-            delete dataToExport.name
-            delete dataToExport.description
-            request.json = JSON.stringify(dataToExport)
+                let request = {
+                    name: dataToExport.name,
+                    description: dataToExport.description
+                }
+                delete dataToExport.name
+                delete dataToExport.description
+                request.json = JSON.stringify(dataToExport)
 
-            this.saveLoading = true
-            if (this.motorId) {
-                Axios.put(`/motors/${this.motorId}`, request)
-                    .then(() => {
-                        this.successMessage = 'Motor saved'
-                        this.displaySuccess = true
-                        setTimeout(() => { this.displaySuccess = false }, 4000)
-                    })
-                    .catch(() => {
-                        this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
-                        this.displayImportError = true
-                    })
-                    .finally(() => { this.saveLoading = false })
-            } else {
-                Axios.post(`/motors/`, request)
-                    .then((response) => {
-                        this.motorId = extractIdFromHateoasResponse(response)
-                        this.successMessage = 'Motor saved'
-                        this.displaySuccess = true
-                        setTimeout(() => { this.displaySuccess = false }, 4000)
-                    })
-                    .catch((error) => {
-                        console.error(error)
-                        if (error.response.status === 409) {
-                            this.errorMessage = 'Yon c\'ant have two motors with the same name, please change it to before save as new motor'
-                            this.displayImportError = true
-                        } else {
+                this.saveLoading = true
+                if (this.motorId) {
+                    Axios.put(`/motors/${this.motorId}`, request)
+                        .then(() => {
+                            this.successMessage = 'Motor saved'
+                            this.displaySuccess = true
+                            setTimeout(() => {
+                                this.displaySuccess = false
+                            }, 4000)
+                        })
+                        .catch(() => {
                             this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
                             this.displayImportError = true
-                        }
-                    })
-                    .finally(() => { this.saveLoading = false })
+                        })
+                        .finally(() => {
+                            this.saveLoading = false
+                        })
+                } else {
+                    Axios.post(`/motors/`, request)
+                        .then((response) => {
+                            this.motorId = extractIdFromHateoasResponse(response)
+                            this.successMessage = 'Motor saved'
+                            this.displaySuccess = true
+                            setTimeout(() => {
+                                this.displaySuccess = false
+                            }, 4000)
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                            if (error.response.status === 409) {
+                                this.errorMessage = 'Yon c\'ant have two motors with the same name, please change it to before save as new motor'
+                                this.displayImportError = true
+                            } else {
+                                this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                                this.displayImportError = true
+                            }
+                        })
+                        .finally(() => {
+                            this.saveLoading = false
+                        })
+                }
             }
         },
         formReset() {

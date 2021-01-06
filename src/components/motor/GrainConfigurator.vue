@@ -4,6 +4,7 @@
             <v-select
                 v-model="value.grainType"
                 :items="grainTypes"
+                :rules="requiredRules"
                 label="Grain configuration"
                 @change="grainTypeChange"
             ></v-select>
