@@ -94,6 +94,8 @@ export default {
             }
         },
         savePropellantAndMotor(motorVersion3) {
+            let propellantUnit = motorVersion3.customPropellant.unit
+            delete motorVersion3.customPropellant.unit
             const propellantToImport = JSON.stringify(motorVersion3.customPropellant)
             let matchingPropellant = this.customPropellants.filter(propellant => {
                 return deepEqual(JSON.parse(propellant.json), JSON.parse(propellantToImport))
@@ -104,6 +106,7 @@ export default {
                 this.saveMotor(motorVersion3)
             } else {
                 Axios.post(`/propellants/`, {
+                    unit: propellantUnit,
                     name: motorVersion3.customPropellant.name ? motorVersion3.customPropellant.name : `Propellant - ${this.getDateTimeAsString()}`,
                     json: propellantToImport
                 })

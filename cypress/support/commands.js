@@ -43,6 +43,9 @@ function getDensityUnit(units) {
 function getCstarUnit(units) {
     return units === 'METRIC' ? 'm/s' : 'feet/sec'
 }
+function getUnitLabel(units) {
+    return units === 'METRIC' ? 'Metric' : 'Imperial'
+}
 
 export function generateId(maxInt = 1000) {
     return Number(Math.random() * maxInt).toFixed(0)
@@ -572,6 +575,12 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
 Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
     cy.get('div.v-toolbar__content').contains('Custom propellant')
+
+    cy.get('.v-select__selections')
+        .eq(3)
+        .click()
+    cy.get('div.menuable__content__active')
+        .contains(getUnitLabel(unit)).click()
 
     cy.get('input#propellantName')
         .type(propellant.name)

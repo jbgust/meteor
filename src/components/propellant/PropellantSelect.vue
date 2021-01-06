@@ -120,6 +120,7 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'name' },
+                { text: 'Unit', value: 'unit' },
                 { text: 'Description', value: 'description' },
                 { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
@@ -165,6 +166,7 @@ export default {
         editPropellant(propellant) {
             let customPropellant = JSON.parse(propellant.json)
             customPropellant.id = propellant.id
+            customPropellant.unit = propellant.unit
             customPropellant.name = propellant.name
             customPropellant.description = propellant.description
             this.$refs.propellantEditor.show(customPropellant)

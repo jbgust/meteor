@@ -11,10 +11,22 @@
                         <v-form ref="formCustomPropellant">
                             <v-flex>
                                 <v-layout column>
-                                    <v-flex d-flex lg12>
-                                        <v-text-field filled hide-details id="propellantName" label="Propellant name"
-                                                      v-model="propellant.name" :rules="nameRule"/>
-                                    </v-flex>
+                                    <v-layout row>
+                                        <v-flex d-flex lg3 md3 sm3>
+                                            <v-select
+                                                v-model="propellant.unit"
+                                                :items="unitList"
+                                                :readonly="!!propellant.id"
+                                                :rules="requiredRules"
+                                                filled
+                                                label="Unit"
+                                            ></v-select>
+                                        </v-flex>
+                                        <v-flex d-flex lg9>
+                                            <v-text-field filled hide-details id="propellantName" label="Propellant name"
+                                                          v-model="propellant.name" :rules="nameRule"/>
+                                        </v-flex>
+                                    </v-layout>
                                     <v-flex d-flex lg12>
                                         <v-textarea
                                             filled
@@ -128,10 +140,16 @@
 
 <script>
 import { validatePropellant } from '../../modules/customPropellant'
-import { greaterThanRule, stringMaxLengthRule, stringRequiredMaxLengthRule } from '../../modules/formValidationRules'
+import {
+    greaterThanRule,
+    requiredRule,
+    stringMaxLengthRule,
+    stringRequiredMaxLengthRule
+} from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
 import Axios from 'axios'
+import { IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
 
 export default {
     name: 'PropellantEditor',
@@ -150,9 +168,11 @@ export default {
             numericGreater0Rules: greaterThanRule(0),
             nameRule: stringRequiredMaxLengthRule(256),
             descriptionRule: stringMaxLengthRule(1000),
+            requiredRules: requiredRule,
             loading: false,
             showError: false,
-            errorMessage: null
+            errorMessage: null,
+            unitList: [{ value: SI_UNITS, text: 'Metric' }, { value: IMPERIAL_UNITS, text: 'Imperial' }]
         }
     },
     methods: {
@@ -181,13 +201,15 @@ export default {
             this.nameRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.name) === true) })
             this.descriptionRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.description) === true) })
 
-            if (checkNameAndDescription && validatePropellant(this.propellant)) {
+            if (checkNameAndDescription && validatePropellant(this.propellant) && !!this.propellant.unit) {
                 const name = this.propellant.name
                 const description = this.propellant.description
                 const me = this
+                const unit = this.propellant.unit
+                delete this.propellant.unit
                 delete this.propellant.name
                 delete this.propellant.description
-                const request = { name: name, description: description, json: JSON.stringify(this.propellant) }
+                const request = { name: name, description: description, unit: unit, json: JSON.stringify(this.propellant) }
                 this.loading = true
                 if (this.propellant.id) {
                     Axios.put(`/propellants/${this.propellant.id}`, request)

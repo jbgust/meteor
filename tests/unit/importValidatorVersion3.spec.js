@@ -388,6 +388,7 @@ describe('Import Version 3 Validation', () => {
         expect(motorVersion3.motor.propellantType).toBeUndefined()
         expect(ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, motorVersion3.motor.grainConfig)).toBeTruthy()
         expect(validatePropellant(motorVersion3.customPropellant)).toBeTruthy()
+        expect(motorVersion3.customPropellant.unit).toEqual('SI')
     })
 
     test('should check finocyl grain config', () => {

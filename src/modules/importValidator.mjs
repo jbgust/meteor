@@ -79,9 +79,11 @@ export function convertFromVersion2ToVersion3(loadedConfig) {
             ...loadedConfig.configs[0]
         }
 
-        if (!loadedConfig.configs[0].customPropellant) {
+        let customPropellant = loadedConfig.configs[0].customPropellant
+        if (!customPropellant) {
             configV3.propellantId = loadedConfig.configs[0].propellantType
         } else {
+            customPropellant.unit = loadedConfig.measureUnit
             configV3.propellantId = 'TO BE DEFINED DURING IMPORT PROCESS'
         }
         delete configV3.propellantType
@@ -90,7 +92,7 @@ export function convertFromVersion2ToVersion3(loadedConfig) {
         delete configV3.customPropellant
         delete configV3.name
 
-        return { motor: configV3, customPropellant: loadedConfig.configs[0].customPropellant, name: loadedConfig.configs[0].name }
+        return { motor: configV3, customPropellant: customPropellant, name: loadedConfig.configs[0].name }
     }
 }
 

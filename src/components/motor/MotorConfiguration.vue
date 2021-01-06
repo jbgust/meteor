@@ -80,12 +80,14 @@ export default {
         propellants() {
             let propellants = []
             if (!(this.customPropellants == null || this.customPropellants === undefined)) {
-                this.customPropellants.forEach(customPropellant => propellants.push(
-                    {
-                        value: customPropellant.id,
-                        text: customPropellant.name,
-                        deription: customPropellant.description
-                    }))
+                this.customPropellants
+                    // .filter(customPropellant => customPropellant.unit === this.units.type)
+                    .forEach(customPropellant => propellants.push(
+                        {
+                            value: customPropellant.id,
+                            text: customPropellant.name,
+                            description: customPropellant.description
+                        }))
             }
             NATIVE_PROPELLANTS.forEach(nativePropellant => propellants.push(nativePropellant))
             return propellants
