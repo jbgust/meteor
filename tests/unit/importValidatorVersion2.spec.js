@@ -7,7 +7,8 @@ import {
     endBurnerGrainConfigVersion2ValidatorSchema,
     moonBurnerGrainConfigVersion2ValidatorSchema,
     cSlotGrainConfigVersion2ValidatorSchema,
-    rodTubeGrainConfigVersion2ValidatorSchema
+    rodTubeGrainConfigVersion2ValidatorSchema,
+    convertFromVersion1ToVersion2
 } from '../../src/modules/importValidator'
 import {
     C_SLOT,
@@ -23,7 +24,7 @@ import {
 import { createVersion1JsonConfig } from './importValidatorVersion1.spec'
 import { SI_UNITS } from '../../src/modules/computationUtils'
 
-function createVersion2FinocylJsonConfig() {
+export function createVersion2FinocylJsonConfig() {
     const validJsonV2 = {
         version: 2,
         configs: [
@@ -312,6 +313,13 @@ function assertAjvError(dataPath, message = false, params = false) {
 }
 
 describe('Import Version 2Validation', () => {
+    test('Convert form V1 to V2', () => {
+        let loadedConfig = createVersion1JsonConfig()
+        convertFromVersion1ToVersion2(loadedConfig)
+        expect(validateImportVersion2(loadedConfig)).toBeTruthy()
+        expect(ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, loadedConfig.configs[0].grainConfig)).toBeTruthy()
+    })
+
     test('should check finocyl grain config', () => {
         expect(ajvValidator.validate(finocylGrainConfigVersion2ValidatorSchema, createVersion2FinocylJsonConfig().configs[0].grainConfig)).toBeTruthy()
     })

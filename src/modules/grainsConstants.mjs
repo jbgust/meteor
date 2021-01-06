@@ -19,7 +19,7 @@ export const KNSB_COARSE = 'KNSB_COARSE'
 export const KNSB_FINE = 'KNSB_FINE'
 export const KNSU = 'KNSU'
 
-export const CUSTOM_PRPELLANT_PREFIX = 'CUSTOM_'
+export const CUSTOM_PROPELLANT_PREFIX = 'CUSTOM_'
 
 export const NATIVE_PROPELLANTS = [
     { value: KNDX, text: 'KNDX', description: '65% KNO3 / 35% Dextrose', idealDensity: '1.879 g/cm³' },

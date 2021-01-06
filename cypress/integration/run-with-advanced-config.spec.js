@@ -36,7 +36,7 @@ describe('Run computation with advanced settings', function() {
             endsSurface: 'Inhibited',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantType: 'KNSB (oxidizer finely milled)',
+            propellantId: 'KNSB (oxidizer finely milled)',
             chamberInnerDiameter: 28,
             chamberLength: 80
         }

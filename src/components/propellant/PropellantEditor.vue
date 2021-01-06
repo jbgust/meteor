@@ -11,9 +11,29 @@
                         <v-form ref="formCustomPropellant">
                             <v-flex>
                                 <v-layout column>
+                                    <v-layout row>
+                                        <v-flex d-flex lg3 md3 sm3>
+                                            <v-select
+                                                v-model="propellant.unit"
+                                                :items="unitList"
+                                                :readonly="!!propellant.id"
+                                                :rules="requiredRules"
+                                                filled
+                                                label="Unit"
+                                            ></v-select>
+                                        </v-flex>
+                                        <v-flex d-flex lg9>
+                                            <v-text-field filled hide-details id="propellantName" label="Propellant name"
+                                                          v-model="propellant.name" :rules="nameRule"/>
+                                        </v-flex>
+                                    </v-layout>
                                     <v-flex d-flex lg12>
-                                        <v-text-field filled hide-details id="propellantName" label="Propellant name"
-                                                      v-model="propellant.name"/>
+                                        <v-textarea
+                                            filled
+                                            id="propellantDescription"
+                                            label="Description"
+                                            :rules="descriptionRule"
+                                            v-model="propellant.description"/>
                                     </v-flex>
                                     <v-layout d-flex wrap>
                                         <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio"
@@ -87,10 +107,15 @@
                                                       v-model="propellant.k2ph" :rules="numericGreater0Rules"
                                                       step="0.01"/>
                                     </v-flex>
-
+                                    <v-flex>
+                                        <v-alert type="error" v-model="showError" dismissible outlined>
+                                            {{ errorMessage }}
+                                        </v-alert>
+                                    </v-flex>
                                         <div class="text-right">
                                             <v-btn
                                                 class="mr-4"
+                                                :disabled="loading"
                                                 @click="dialog = false">
                                                 Close
                                             </v-btn>
@@ -98,6 +123,7 @@
                                                 id="savePropellant"
                                                 color="primary"
                                                 class="mr-4"
+                                                :loading="loading"
                                                 @click="savePropellant()">
                                                 Save
                                             </v-btn>
@@ -114,12 +140,19 @@
 
 <script>
 import { validatePropellant } from '../../modules/customPropellant'
-import { greaterThanRule } from '../../modules/formValidationRules'
+import {
+    greaterThanRule,
+    requiredRule,
+    stringMaxLengthRule,
+    stringRequiredMaxLengthRule
+} from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
+import Axios from 'axios'
+import { IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
 
 export default {
-    name: 'CustomPropellantDialog',
+    name: 'PropellantEditor',
     components: { ComplexBurnRateDatas },
     props: {
         units: Object
@@ -132,11 +165,19 @@ export default {
             useChamberTemperature: false,
             useComplexBurnRate: false,
             hintBurnRate: 'Value is different between SI and Imperial',
-            numericGreater0Rules: greaterThanRule(0)
+            numericGreater0Rules: greaterThanRule(0),
+            nameRule: stringRequiredMaxLengthRule(256),
+            descriptionRule: stringMaxLengthRule(1000),
+            requiredRules: requiredRule,
+            loading: false,
+            showError: false,
+            errorMessage: null,
+            unitList: [{ value: SI_UNITS, text: 'Metric' }, { value: IMPERIAL_UNITS, text: 'Imperial' }]
         }
     },
     methods: {
         show(customPropellant, show = true) {
+            this.loading = false
             this.propellant = customPropellant || {}
 
             this.useK2ph = !!this.propellant.k2ph
@@ -156,15 +197,61 @@ export default {
             const hasName = this.propellant.name == null || this.propellant.name === ''
             this.propellant.name = hasName ? 'My propellant' : this.propellant.name
 
-            if (validatePropellant(this.propellant)) {
-                this.$emit('save-propellant', this.propellant)
-                this.dialog = false
+            let checkNameAndDescription = true
+            this.nameRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.name) === true) })
+            this.descriptionRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.description) === true) })
+
+            if (checkNameAndDescription && validatePropellant(this.propellant) && !!this.propellant.unit) {
+                const name = this.propellant.name
+                const description = this.propellant.description
+                const me = this
+                const unit = this.propellant.unit
+                delete this.propellant.unit
+                delete this.propellant.name
+                delete this.propellant.description
+                const request = { name: name, description: description, unit: unit, json: JSON.stringify(this.propellant) }
+                this.loading = true
+                if (this.propellant.id) {
+                    Axios.put(`/propellants/${this.propellant.id}`, request)
+                        .then(() => {
+                            me.$emit('propellantCommit')
+                            me.dialog = false
+                        })
+                        .catch((error) => {
+                            this.errorMessage = 'Save failed due to unknown reason. Please contact the support.'
+                            this.showError = true
+                            setTimeout(() => { this.showError = false }, 5000)
+                            console.error(error)
+                        })
+                } else {
+                    Axios.post(`/propellants/`, request)
+                        .then(function(response) {
+                            me.$emit('propellantCommit')
+                            me.dialog = false
+                        })
+                        .catch((error) => {
+                            if (error.response.status === 409) {
+                                this.errorMessage = 'Yon c\'ant have two propellants with the same name, please change it to before save'
+                                this.showError = true
+                                setTimeout(() => { this.showError = false }, 5000)
+                                console.error('propellant name duplication')
+                            } else {
+                                this.errorMessage = 'Save failed due to unknown reason. Please contact the support.'
+                                this.showError = true
+                                setTimeout(() => { this.showError = false }, 5000)
+                                console.error(error)
+                            }
+                        })
+                        .finally(() => { this.loading = false })
+                }
             } else {
+                this.errorMessage = 'the form is not valid'
+                this.showError = true
+                setTimeout(() => { this.showError = false }, 3000)
                 this.$refs.formCustomPropellant.validate()
                 if (this.useComplexBurnRate) {
                     this.$refs.burnRateDataEditor.validate()
                 }
-                console.error('cutom propellant not valid', this.propellant)
             }
         }
     },

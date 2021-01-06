@@ -68,7 +68,6 @@ import Axios from 'axios'
 import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
-import { getCustomPropellant, isCustomPropellant } from '../modules/customPropellant'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 
 export default {
@@ -97,6 +96,9 @@ export default {
         },
         getGrainType() {
             return this.formValue.grainType
+        },
+        validateForm() {
+            return this.$refs.formJSRM.validate()
         },
         runComputation() {
             const component = this
@@ -168,9 +170,6 @@ export default {
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
                 delete request.measureUnit
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
-                }
                 return request
             } else {
                 return null
@@ -184,9 +183,6 @@ export default {
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)
                 delete request.grainConfig
-                if (isCustomPropellant(this.formValue.propellantType)) {
-                    request.customPropellant = getCustomPropellant('CUSTOM_propellant')
-                }
 
                 request.grainType = this.getGrainType()
 
@@ -196,10 +192,6 @@ export default {
             }
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
-            if (isCustomPropellant(formData.propellantType)) {
-                this.$refs.motorConfiguration.loadPropellant(formData.customPropellant)
-            }
-
             this.extraConfig = extraConfig
             this.formValue = formData
             this.$refs.formJSRM.resetValidation()

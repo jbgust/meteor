@@ -1,9 +1,8 @@
 import {
     isCustomPropellant,
-    getCustomPropellant,
-    setCustomPropellant,
     validatePropellant, validateComplexBurnRateData
 } from '../../src/modules/customPropellant'
+import { KNDX } from '@/modules/grainsConstants'
 
 describe('Identify custom propellant', () => {
     test('should identify custom propellant', () => {
@@ -11,30 +10,12 @@ describe('Identify custom propellant', () => {
     })
 
     test('should identify native propellant', () => {
-        expect(isCustomPropellant('-CUSTOM_my_propellant')).toBeFalsy()
-        expect(isCustomPropellant('KNDX')).toBeFalsy()
+        expect(isCustomPropellant(KNDX)).toBeFalsy()
     })
 
     test('should not crash when undefined or null', () => {
         expect(isCustomPropellant(undefined)).toBeFalsy()
         expect(isCustomPropellant(null)).toBeFalsy()
-    })
-})
-
-describe('Load/save custom propellant', () => {
-    test('should save propellant', () => {
-        let propellant = { text: 'fakePropellant' }
-        let propellantId = setCustomPropellant('my Propellant', propellant)
-
-        expect(propellantId).toBe('CUSTOM_my Propellant')
-        expect(localStorage.getItem(propellantId)).toBe(JSON.stringify(propellant))
-    })
-
-    test('should get propellant', () => {
-        let propellant = { text: 'fakePropellant' }
-        setCustomPropellant('my Propellant', propellant)
-
-        expect(getCustomPropellant('CUSTOM_my Propellant')).toEqual(propellant)
     })
 })
 

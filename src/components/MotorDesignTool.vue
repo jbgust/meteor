@@ -1,25 +1,40 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fluid grid-list-md fill-height>
-        <v-layout row wrap fill-heith>
+        <v-layout row wrap fill-heigth>
             <v-flex xl3 lg4 md5>
                 <v-card>
                     <v-card-actions v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="exportConfig" text>
-                                    <v-icon>mdi-cloud-download</v-icon>
+                                <v-btn icon v-on="on" @click="resetAll">
+                                    <v-icon>mdi-file-plus</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Save your project</span>
+                            <span>New motor</span>
                         </v-tooltip>
-
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="browseFile" text>
-                                    <v-icon>mdi-file-upload</v-icon>
+                                <v-btn icon v-on="on" @click="saveNewMotor" text :loading="saveLoading">
+                                    <v-icon>mdi-file-document-multiple</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Load your project</span>
+                            <span>Save as new motor</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="saveMotor" text :loading="saveLoading">
+                                    <v-icon>mdi-content-save</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Save</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="$refs.motorSelect.show()">
+                                    <v-icon left size="25">mdi-folder-open</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Open</span>
                         </v-tooltip>
                         <v-divider
                             class="mx-2"
@@ -30,10 +45,10 @@
                             mandatory>
                             <div>
                                 <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn :value="siUnits" text>
+                                <v-btn :value="siUnits" text small>
                                     METRIC
                                 </v-btn>
-                                <v-btn :value="imperialUnits" text>
+                                <v-btn :value="imperialUnits" text small>
                                     IMPERIAL
                                 </v-btn>
                             </div>
@@ -55,12 +70,24 @@
                     <v-alert
                         :value="displayImportError"
                         class="mt-5 ml-2 mr-2"
-                        outlined
                         colored-border
+                        dismissible
                         border="left"
-                        color="warning"
+                        elevation="2"
+                        type="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
+                    </v-alert>
+                    <v-alert
+                        :value="displaySuccess"
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        dense
+                        type="success"
+                        colored-border
+                        border="left"
+                        icon="mdi-alert-box-outline">
+                        {{ successMessage }}
                     </v-alert>
 
                     <v-alert
@@ -89,9 +116,6 @@
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
                         <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
                     </div>
-
-                    <input v-if="!demo" type="file" style="display: none;" ref="fileBrowser"
-                           id="avatar" name="avatar" @change="loadFile" accept="application/json">
                     <solid-rocket-motor ref="form" :units="units" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 
                 </v-card>
@@ -127,6 +151,7 @@
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
         <donate :check-mode="true"></donate>
+        <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
     </v-container>
 </template>
 
@@ -137,9 +162,10 @@ import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
 import PerformanceInfo from './result/PerformanceInfo'
 import { demoForm, demoFormRequest, demoResultData, defaultAdvanceConfig } from '../modules/dataDemo'
-// eslint-disable-next-line no-unused-vars
-import { validateImportVersion1, validateImportVersion2, ajvValidator, LAST_VERSION } from '../modules/importValidator'
-// see : https://www.npmjs.com/package/ajv#related-packages
+import {
+    validateImportVersion3,
+    LAST_VERSION
+} from '../modules/importValidator'
 import NozzleDesign from './result/NozzleDesign'
 import {
     getSelectedUnit,
@@ -150,10 +176,13 @@ import {
 } from '../modules/computationUtils'
 import ExportRasp from './result/ExportRASPForm'
 import Donate from './donate'
+import MotorSelect from '@/components/motor/MotorSelect'
+import Axios from 'axios'
+import { extractIdFromHateoasResponse } from '@/modules/utils'
 
 export default {
     name: 'motor-design-tool',
-    components: { Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
+    components: { MotorSelect, Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,
@@ -174,7 +203,11 @@ export default {
             unitSelected: getSelectedUnitOrSI(),
             importInProgress: false,
             siUnits: SI_UNITS,
-            imperialUnits: IMPERIAL_UNITS
+            imperialUnits: IMPERIAL_UNITS,
+            motorId: null,
+            saveLoading: false,
+            displaySuccess: false,
+            successMessage: null
         }
     },
     mounted() {
@@ -188,12 +221,44 @@ export default {
         }
     },
     methods: {
-        browseFile() {
-            this.$refs.fileBrowser.value = ''
-            this.$refs.fileBrowser.click()
-        },
         exportRASP() {
             this.$refs.form.exportRASP()
+        },
+        propellantUnknown() {
+            this.errorMessage = 'You have deleted the propellant for this motor, please choose a new one'
+            this.displayImportError = true
+            setTimeout(() => {
+                this.displayImportError = false
+                this.errorMessage = null
+            }, 5000)
+        },
+        resetAll() {
+            this.$refs.form.reset()
+            this.formReset()
+        },
+        loadMotor(loadedConfig, missingPropellant = false, scope = this) {
+            if (validateImportVersion3(loadedConfig)) {
+                this.motorId = loadedConfig.id
+                scope.importInProgress = true
+                scope.displayImportError = false
+
+                if (missingPropellant) {
+                    scope.propellantUnknown()
+                }
+
+                scope.asResult = false
+                scope.$refs.form.loadForm(loadedConfig, loadedConfig.extraConfig)
+                scope.nozzleDesignValue = loadedConfig.nozzleDesign
+                scope.unitSelected = loadedConfig.measureUnit
+                // If nextTick is not here, the form will not be valid when call runComputation()
+                Vue.nextTick(() => {
+                    scope.$refs.form.runComputation()
+                    scope.importInProgress = false
+                })
+            } else {
+                scope.errorMessage = `Your motor "${loadedConfig.name}" is invalid`
+                scope.displayImportError = true
+            }
         },
         loadResult(data, request) {
             // save defaultUnit
@@ -219,100 +284,75 @@ export default {
                 this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
             }, this)
         },
-        loadFile(event) {
-            let file = event.target.files[0]
-            if (file) {
-                var reader = new FileReader()
-                reader.readAsText(file, 'UTF-8')
-                const me = this
-                reader.onload = function(evt) {
-                    try {
-                        let loadedConfig = JSON.parse(evt.target.result)
-                        if (validateImportVersion2(loadedConfig) || validateImportVersion1(loadedConfig)) {
-                            if (loadedConfig.version === 1) {
-                                // Convert to V2 format
-                                loadedConfig.configs[0].grainType = 'HOLLOW'
-                                loadedConfig.configs[0].grainConfig = {
-                                    outerDiameter: loadedConfig.configs[0].outerDiameter,
-                                    coreDiameter: loadedConfig.configs[0].coreDiameter,
-                                    segmentLength: loadedConfig.configs[0].segmentLength,
-                                    numberOfSegment: loadedConfig.configs[0].numberOfSegment,
-                                    outerSurface: loadedConfig.configs[0].outerSurface,
-                                    endsSurface: loadedConfig.configs[0].endsSurface,
-                                    coreSurface: loadedConfig.configs[0].coreSurface
-                                }
-                                delete loadedConfig.configs[0].outerDiameter
-                                delete loadedConfig.configs[0].coreDiameter
-                                delete loadedConfig.configs[0].segmentLength
-                                delete loadedConfig.configs[0].numberOfSegment
-                                delete loadedConfig.configs[0].outerSurface
-                                delete loadedConfig.configs[0].endsSurface
-                                delete loadedConfig.configs[0].coreSurface
-                            }
-                            me.importInProgress = true
-                            me.displayImportError = false
-                            me.asResult = false
-                            me.$refs.form.loadForm(loadedConfig.configs[0], loadedConfig.configs[0].extraConfig)
-                            me.nozzleDesignValue = loadedConfig.configs[0].nozzleDesign
-                            me.unitSelected = loadedConfig.measureUnit
-                            // If nextTick is not here, the form will not be valid when call runComputation()
-                            Vue.nextTick(() => {
-                                me.$refs.form.runComputation()
-                                me.importInProgress = false
-                            })
-                        } else {
-                            me.errorMessage = 'The file is not valid'
-                            me.displayImportError = true
-                        }
-                    } catch (e) {
-                        console.error('import fail', ajvValidator.errors)
-                        me.errorMessage = 'The file is not valid'
-                        me.displayImportError = true
-                    }
-                }
-                reader.onerror = function(evt) {
-                    me.errorMessage = 'Can\'t read file'
-                    me.displayImportError = true
-                }
-            }
+        saveNewMotor() {
+            this.motorId = null
+            this.saveMotor()
         },
-        exportConfig() {
-            const dataToExport = {
-                version: LAST_VERSION,
-                configs: [
-                    this.$refs.form.buildExport()
-                ],
-                measureUnit: this.unitSelected
-            }
-
-            if (dataToExport.configs[0] != null) {
-                dataToExport.configs[0].nozzleDesign = this.nozzleDesignValue
-
-                const fileContent = JSON.stringify(dataToExport)
-                let fileName = 'meteor-export' + '.json'
-                let motorName = dataToExport.configs[0].name
-                if (motorName != null) {
-                    fileName = motorName + '.json'
+        saveMotor() {
+            if (this.$refs.form.validateForm()) {
+                this.errorMessage = null
+                this.displayImportError = false
+                const dataToExport = {
+                    version: LAST_VERSION,
+                    measureUnit: this.unitSelected,
+                    ...this.$refs.form.buildExport()
                 }
 
-                if (window.navigator.msSaveOrOpenBlob) {
-                    const blob = new Blob([fileContent], { type: 'application/json' })
-                    window.navigator.msSaveOrOpenBlob(blob, fileName)
+                dataToExport.nozzleDesign = this.nozzleDesignValue
+
+                let request = {
+                    name: dataToExport.name,
+                    description: dataToExport.description
+                }
+                delete dataToExport.name
+                delete dataToExport.description
+                request.json = JSON.stringify(dataToExport)
+
+                this.saveLoading = true
+                if (this.motorId) {
+                    Axios.put(`/motors/${this.motorId}`, request)
+                        .then(() => {
+                            this.successMessage = 'Motor saved'
+                            this.displaySuccess = true
+                            setTimeout(() => {
+                                this.displaySuccess = false
+                            }, 4000)
+                        })
+                        .catch(() => {
+                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                            this.displayImportError = true
+                        })
+                        .finally(() => {
+                            this.saveLoading = false
+                        })
                 } else {
-                    var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(fileContent)
-                    var downloadAnchorNode = document.createElement('a')
-                    downloadAnchorNode.setAttribute('href', dataStr)
-                    downloadAnchorNode.setAttribute('download', fileName)
-                    document.body.appendChild(downloadAnchorNode) // required for firefox
-                    downloadAnchorNode.click()
-                    downloadAnchorNode.remove()
+                    Axios.post(`/motors/`, request)
+                        .then((response) => {
+                            this.motorId = extractIdFromHateoasResponse(response)
+                            this.successMessage = 'Motor saved'
+                            this.displaySuccess = true
+                            setTimeout(() => {
+                                this.displaySuccess = false
+                            }, 4000)
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                            if (error.response.status === 409) {
+                                this.errorMessage = 'Yon c\'ant have two motors with the same name, please change it to before save as new motor'
+                                this.displayImportError = true
+                            } else {
+                                this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                                this.displayImportError = true
+                            }
+                        })
+                        .finally(() => {
+                            this.saveLoading = false
+                        })
                 }
-            } else {
-                this.errorMessage = 'The form should be valid to be exported'
-                this.displayImportError = true
             }
         },
         formReset() {
+            this.motorId = null
             this.asResult = false
             this.displayImportError = false
         }

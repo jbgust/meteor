@@ -247,7 +247,7 @@ export default {
     name: 'app',
     components: { AuthenticationInfo, Donate, MeteorNews },
     router,
-    mounted() {
+    created() {
         this.loadToken()
         let me = this
         Axios.interceptors.response.use(function(response) {

@@ -8,7 +8,7 @@ describe.skip('Run Star in SI units', function() {
             throatDiameter: 10,
             chamberInnerDiameter: 40,
             chamberLength: 150,
-            propellantType: 'KNSU',
+            propellantId: 'KNSU',
             segmentLength: 70,
             numberOfSegment: 2,
             outerDiameter: 30,

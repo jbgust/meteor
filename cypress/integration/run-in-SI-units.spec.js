@@ -21,7 +21,7 @@ describe('Run computation in SI units', function() {
             endsSurface: 'Inhibited',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantType: 'KNSB (oxidizer finely milled)',
+            propellantId: 'KNSB (oxidizer finely milled)',
             chamberInnerDiameter: 28,
             chamberLength: 80
         }
@@ -79,7 +79,7 @@ describe('Should dislay error from backend', function() {
             endsSurface: 'Inhibited',
             coreSurface: 'Inhibited',
             outerSurface: 'Inhibited',
-            propellantType: 'KNSB (oxidizer finely milled)',
+            propellantId: 'KNSB (oxidizer finely milled)',
             chamberInnerDiameter: 28,
             chamberLength: 80
         }

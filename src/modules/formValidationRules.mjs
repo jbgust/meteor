@@ -68,6 +68,23 @@ export function greaterThanRule(minValueExcluded) {
     ]
 }
 
+export function stringMaxSizeValidator(maxLength) {
+    return fieldValue => !fieldValue || (fieldValue.length <= maxLength) || `Max size ${maxLength} char.`
+}
+
+export function stringRequiredMaxLengthRule(maxLength) {
+    return [
+        requiredValidator('Field is required'),
+        stringMaxSizeValidator(maxLength)
+    ]
+}
+
+export function stringMaxLengthRule(maxLength) {
+    return [
+        stringMaxSizeValidator(maxLength)
+    ]
+}
+
 export function integerGreaterThanRule(minValueExcluded) {
     return [
         requiredValidator('Field is required'),

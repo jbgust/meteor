@@ -12,12 +12,12 @@ import {
     numberValidator,
     numberValidatorNotRequired,
     passwordRule,
-    passwordValidator,
     rangeRule,
     rangeValidator,
     regexValidator,
     requiredRule,
-    requiredValidator
+    requiredValidator,
+    stringRequiredMaxLengthRule
 } from '../../src/modules/formValidationRules'
 
 describe('Check Validators', () => {
@@ -40,30 +40,36 @@ describe('Check Validators', () => {
         expect(emailValidator()('dev@meteor')).toBeFalsy()
         expect(emailValidator()('dev@.fr')).toBeFalsy()
         expect(emailValidator()('sdgsf')).toBeFalsy()
+    })
 
+    test('String required with max size', () => {
+        expect(stringRequiredMaxLengthRule(10)[1]('abcdefghij')).toBeTruthy()
+
+        expect(stringRequiredMaxLengthRule(10)[1]('@abcdefghijk')).toBe('Max size 10 char.')
+        expect(stringRequiredMaxLengthRule(10)[0]('')).toBe('Field is required')
+        expect(stringRequiredMaxLengthRule(10)[0](null)).toBe('Field is required')
+        expect(stringRequiredMaxLengthRule(10)[0](undefined)).toBe('Field is required')
     })
 
     test('passwordValidator', () => {
-
         checkPassword('1Dfu9fj$')
 
         checkPassword(null, 'Field is required')
-        checkPassword('1dfu9fj$', 'At least one uppercase letter');
-        checkPassword('1DFU9FJ$', 'At least one lowercase letter');
+        checkPassword('1dfu9fj$', 'At least one uppercase letter')
+        checkPassword('1DFU9FJ$', 'At least one lowercase letter')
         checkPassword('aDfujfj$', 'At least one number')
         checkPassword('1Dfu9fjh', 'At least one special character')
         checkPassword('1Dfu 9fj$', 'No whitespace')
         checkPassword('1Df9fj$', 'Password should have between 8 and 30 characters')
         checkPassword('1Dfu9fj$1Dfu9fj$1Dfu9fj$1Dfu9f1', 'Password should have between 8 and 30 characters')
-
     })
 
     function checkPassword(password, expectedResult) {
-        let passwordRule1 = passwordRule();
+        let passwordRule1 = passwordRule()
         let finish = false
         let currentValidator = 0
         while (!finish) {
-            let result = passwordRule1[currentValidator++](password);
+            let result = passwordRule1[currentValidator++](password)
             if (result === true) {
                 if (currentValidator === passwordRule1.length) {
                     finish = true
@@ -71,7 +77,7 @@ describe('Check Validators', () => {
                 }
             } else {
                 expect(result).toBe(expectedResult)
-                finish = true;
+                finish = true
             }
         }
     }

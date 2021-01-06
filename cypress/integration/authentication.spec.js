@@ -1,3 +1,5 @@
+import { generateId } from '../support/commands'
+
 describe('Authentication', function() {
 
     it('Should sign in', () => {
@@ -31,7 +33,7 @@ describe('Authentication', function() {
         cy.contains('Create an account.')
             .click()
 
-        const emailPrefix = 'cypress-' + Number(Math.random()*1000).toFixed(0);
+        const emailPrefix = 'cypress-' + generateId()
         cy.get('input#signupEmail')
             .clear()
             .type(`${emailPrefix}@meteor.fr`)
@@ -96,7 +98,7 @@ describe('Authentication', function() {
 
         cy.visit('/#/validate?token=TOKEN-reset-pwd&tokenType=RESET_PASSWORD')
 
-        const newPassword = Number(Math.random()*100000000).toFixed(0) + 'JHgt!hfNBv$' + Number(Math.random()*100000000).toFixed(0)
+        const newPassword = generateId(100000000) + 'JHgt!hfNBv$' + generateId(100000000)
 
         cy.get('#newPassword').clear().type(newPassword)
         cy.get('#newPasswordConfirm').clear().type(newPassword)

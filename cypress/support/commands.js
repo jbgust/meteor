@@ -43,16 +43,32 @@ function getDensityUnit(units) {
 function getCstarUnit(units) {
     return units === 'METRIC' ? 'm/s' : 'feet/sec'
 }
+function getUnitLabel(units) {
+    return units === 'METRIC' ? 'Metric' : 'Imperial'
+}
 
-Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
+export function generateId(maxInt = 1000) {
+    return Number(Math.random() * maxInt).toFixed(0)
+}
+
+function applyCommonCheck(formValues, units) {
+    if (!formValues.name) {
+        formValues.name = `Motor-${Number(Math.random() * 1000).toFixed(0)}`
+    }
     cy.contains(units).click()
     cy.get('input#name').should('have.value', '')
+
+    cy.get('input#name').type(formValues.name)
+}
+
+Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.get('div.v-list-item__title').contains(formValues.propellantType).click()
+    cy.get('div.v-list-item__title').contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -110,14 +126,13 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 })
 
 Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -181,14 +196,13 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
 })
 
 Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -247,14 +261,13 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
 })
 
 Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -310,14 +323,13 @@ Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) =>
 })
 
 Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -383,14 +395,13 @@ Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
 })
 
 Cypress.Commands.add('fillRodTubeForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -462,14 +473,13 @@ Cypress.Commands.add('setMotorSimAdvancedConfig', () => {
 })
 
 Cypress.Commands.add('fillEndBurnerForm', (formValues, units, submit = true) => {
-    cy.contains(units).click()
-    cy.get('input#name').should('have.value', '')
+    applyCommonCheck(formValues, units)
 
     cy.get('.v-select__selections')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.contains(formValues.propellantType).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
     cy.get('div.menuable__content__active')
@@ -564,9 +574,13 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
 
 Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
-    cy.get('button#custom-propellant-add').click()
-
     cy.get('div.v-toolbar__content').contains('Custom propellant')
+
+    cy.get('.v-select__selections')
+        .eq(3)
+        .click()
+    cy.get('div.menuable__content__active')
+        .contains(getUnitLabel(unit)).click()
 
     cy.get('input#propellantName')
         .type(propellant.name)

@@ -1,32 +1,36 @@
-describe('Use custom propellant with advance burn rate in IMPERIAL', function() {
-    it('Should set custom propellant in IMPERIAL', function() {
+describe('Use complexe custom propellant with advance burn rate in IMPERIAL', function() {
+    it('Should create complexe custom propellant in IMPERIAL', function() {
         cy.visit('/#/motorDesign')
-
-        cy.url().should('include', '/#/motorDesign')
         cy.contains('IMPERIAL').click()
+
+        cy.get('button#custom-propellant-add').click()
+        cy.contains('New propellant').click()
 
         cy.fixture('custom-KNDX-complexe-imperial.json').then(propellant => {
             cy.addPropellant(propellant, 'IMPERIAL', false)
             cy.addComplexeBurnRate(propellant.burnRateDataSet)
-            // To check default selection of custom propellant
-            cy.contains('custom KNDX imp')
-
-            const formDatas = {
-                throatDiameter: 0.68464,
-                outerDiameter: 2.7165354,
-                coreDiameter: 0.787401,
-                segmentLength: 4.527559,
-                numberOfSegment: 4,
-                endsSurface: 'Exposed',
-                coreSurface: 'Exposed',
-                outerSurface: 'Inhibited',
-                propellantType: 'custom KNDX imp',
-                chamberInnerDiameter: 2.95275,
-                chamberLength: 18.503937
-            }
-
-            cy.fillForm(formDatas, 'IMPERIAL')
         })
+        cy.contains('Close').click()
+    })
+
+    it('Should set custom propellant in IMPERIAL', function() {
+        const formDatas = {
+            throatDiameter: 0.68464,
+            outerDiameter: 2.7165354,
+            coreDiameter: 0.787401,
+            segmentLength: 4.527559,
+            numberOfSegment: 4,
+            endsSurface: 'Exposed',
+            coreSurface: 'Exposed',
+            outerSurface: 'Inhibited',
+            propellantId: 'custom dextrose imp',
+            chamberInnerDiameter: 2.95275,
+            chamberLength: 18.503937
+        }
+
+        cy.fillForm(formDatas, 'IMPERIAL')
+
+        cy.contains('custom dextrose imp')
     })
 
     it('Should check result in IMPERIALS', () => {
