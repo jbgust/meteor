@@ -6,21 +6,36 @@
                     <v-card-actions v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="saveNewMotor" text>
-                                    <v-icon>mdi-playlist-plus</v-icon>
+                                <v-btn icon v-on="on" @click="resetAll">
+                                    <v-icon>mdi-file-plus</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>New motor</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="saveNewMotor" text :loading="saveLoading">
+                                    <v-icon>mdi-file-document-multiple</v-icon>
                                 </v-btn>
                             </template>
                             <span>Save as new motor</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="saveMotor" text>
+                                <v-btn icon v-on="on" @click="saveMotor" text :loading="saveLoading">
                                     <v-icon>mdi-content-save</v-icon>
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
-                        <motor-select @loadMotor="loadMotor" />
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn icon v-on="on" @click="$refs.motorSelect.show()">
+                                    <v-icon left size="25">mdi-folder-open</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Open</span>
+                        </v-tooltip>
                         <v-divider
                             class="mx-2"
                             vertical
@@ -30,10 +45,10 @@
                             mandatory>
                             <div>
                                 <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn :value="siUnits" text>
+                                <v-btn :value="siUnits" text small>
                                     METRIC
                                 </v-btn>
-                                <v-btn :value="imperialUnits" text>
+                                <v-btn :value="imperialUnits" text small>
                                     IMPERIAL
                                 </v-btn>
                             </div>
@@ -56,11 +71,23 @@
                         :value="displayImportError"
                         class="mt-5 ml-2 mr-2"
                         colored-border
+                        dismissible
                         border="left"
                         elevation="2"
                         type="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
+                    </v-alert>
+                    <v-alert
+                        :value="displaySuccess"
+                        class="mt-5 ml-2 mr-2"
+                        outlined
+                        dense
+                        type="success"
+                        colored-border
+                        border="left"
+                        icon="mdi-alert-box-outline">
+                        {{ successMessage }}
                     </v-alert>
 
                     <v-alert
@@ -124,6 +151,7 @@
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
         <donate :check-mode="true"></donate>
+        <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
     </v-container>
 </template>
 
@@ -150,6 +178,7 @@ import ExportRasp from './result/ExportRASPForm'
 import Donate from './donate'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
+import { extractIdFromHateoasResponse } from '@/modules/utils'
 
 export default {
     name: 'motor-design-tool',
@@ -175,7 +204,10 @@ export default {
             importInProgress: false,
             siUnits: SI_UNITS,
             imperialUnits: IMPERIAL_UNITS,
-            motorId: null
+            motorId: null,
+            saveLoading: false,
+            displaySuccess: false,
+            successMessage: null
         }
     },
     mounted() {
@@ -191,6 +223,10 @@ export default {
     methods: {
         exportRASP() {
             this.$refs.form.exportRASP()
+        },
+        resetAll() {
+            this.$refs.form.reset()
+            this.formReset()
         },
         loadMotor(loadedConfig, scope = this) {
             if (validateImportVersion3(loadedConfig)) {
@@ -240,6 +276,8 @@ export default {
             this.saveMotor()
         },
         saveMotor() {
+            this.errorMessage = null
+            this.displayImportError = false
             const dataToExport = {
                 version: LAST_VERSION,
                 measureUnit: this.unitSelected,
@@ -256,29 +294,42 @@ export default {
             delete dataToExport.description
             request.json = JSON.stringify(dataToExport)
 
-            // TODO : validation taille varchar(xxx) du name
+            this.saveLoading = true
             if (this.motorId) {
                 Axios.put(`/motors/${this.motorId}`, request)
-                    .then(function(response) {
-                        console.log('save OK')
+                    .then(() => {
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => { this.displaySuccess = false }, 4000)
                     })
-                    .catch(function(error) {
-                        console.error(error)
+                    .catch(() => {
+                        this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                        this.displayImportError = true
                     })
+                    .finally(() => { this.saveLoading = false })
             } else {
                 Axios.post(`/motors/`, request)
-                    .then(function(response) {
-                        console.log('save OK')
+                    .then((response) => {
+                        this.motorId = extractIdFromHateoasResponse(response)
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => { this.displaySuccess = false }, 4000)
                     })
-                    .catch(function(error) {
+                    .catch((error) => {
                         console.error(error)
                         if (error.response.status === 409) {
-                            console.warn('name duplication')
+                            this.errorMessage = 'Yon c\'ant have two motors with the same name, please change it to before save as new motor'
+                            this.displayImportError = true
+                        } else {
+                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                            this.displayImportError = true
                         }
                     })
+                    .finally(() => { this.saveLoading = false })
             }
         },
         formReset() {
+            this.motorId = null
             this.asResult = false
             this.displayImportError = false
         }

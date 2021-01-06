@@ -29,6 +29,7 @@ import {
 } from '@/modules/importValidator'
 import Axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
+import { extractIdFromHateoasResponse } from '@/modules/utils'
 var deepEqual = require('deep-equal')
 
 export default {
@@ -107,9 +108,7 @@ export default {
                     json: propellantToImport
                 })
                     .then((response) => {
-                        const self = response.data._links.self.href
-                        const newPropellantId = self.substring(self.lastIndexOf('/') + 1, self.length)
-                        motorVersion3.motor.propellantId = newPropellantId
+                        motorVersion3.motor.propellantId = extractIdFromHateoasResponse(response)
                         this.loadCustomPropellants()
                         this.saveMotor(motorVersion3)
                     })

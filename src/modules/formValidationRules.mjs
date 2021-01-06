@@ -75,7 +75,7 @@ export function stringMaxSizeValidator(maxLength) {
 export function stringRequiredMaxLengthRule(maxLength) {
     return [
         requiredValidator('Field is required'),
-        stringMaxSizeValidator()
+        stringMaxSizeValidator(maxLength)
     ]
 }
 

@@ -1,14 +1,5 @@
 <template>
     <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="600">
-        <template v-slot:activator="{ on }">
-            <v-btn
-                icon
-                text
-                v-on="on"
-            >
-                <v-icon left size="25">mdi-database-arrow-down</v-icon>
-            </v-btn>
-        </template>
         <v-card>
             <v-card-title
                 class="headline purple"
@@ -137,6 +128,9 @@ export default {
     },
     methods: {
         ...mapActions('motors', ['loadMotors', 'deleteMotor']),
+        show() {
+            this.sheet = true
+        },
         confirmDelete(item) {
             this.motorToDelete = null
             this.motorToDelete = item
