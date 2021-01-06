@@ -13,13 +13,14 @@
                                 <v-layout column>
                                     <v-flex d-flex lg12>
                                         <v-text-field filled hide-details id="propellantName" label="Propellant name"
-                                                      v-model="propellant.name"/>
+                                                      v-model="propellant.name" :rules="nameRule"/>
                                     </v-flex>
                                     <v-flex d-flex lg12>
                                         <v-textarea
                                             filled
                                             id="propellantDescription"
                                             label="Description"
+                                            :rules="descriptionRule"
                                             v-model="propellant.description"/>
                                     </v-flex>
                                     <v-layout d-flex wrap>
@@ -94,10 +95,15 @@
                                                       v-model="propellant.k2ph" :rules="numericGreater0Rules"
                                                       step="0.01"/>
                                     </v-flex>
-
+                                    <v-flex>
+                                        <v-alert type="error" v-model="showError" dismissible outlined>
+                                            {{ errorMessage }}
+                                        </v-alert>
+                                    </v-flex>
                                         <div class="text-right">
                                             <v-btn
                                                 class="mr-4"
+                                                :disabled="loading"
                                                 @click="dialog = false">
                                                 Close
                                             </v-btn>
@@ -105,6 +111,7 @@
                                                 id="savePropellant"
                                                 color="primary"
                                                 class="mr-4"
+                                                :loading="loading"
                                                 @click="savePropellant()">
                                                 Save
                                             </v-btn>
@@ -121,7 +128,7 @@
 
 <script>
 import { validatePropellant } from '../../modules/customPropellant'
-import { greaterThanRule } from '../../modules/formValidationRules'
+import { greaterThanRule, stringMaxLengthRule, stringRequiredMaxLengthRule } from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
 import Axios from 'axios'
@@ -140,11 +147,17 @@ export default {
             useChamberTemperature: false,
             useComplexBurnRate: false,
             hintBurnRate: 'Value is different between SI and Imperial',
-            numericGreater0Rules: greaterThanRule(0)
+            numericGreater0Rules: greaterThanRule(0),
+            nameRule: stringRequiredMaxLengthRule(256),
+            descriptionRule: stringMaxLengthRule(1000),
+            loading: false,
+            showError: false,
+            errorMessage: null
         }
     },
     methods: {
         show(customPropellant, show = true) {
+            this.loading = false
             this.propellant = customPropellant || {}
 
             this.useK2ph = !!this.propellant.k2ph
@@ -164,45 +177,59 @@ export default {
             const hasName = this.propellant.name == null || this.propellant.name === ''
             this.propellant.name = hasName ? 'My propellant' : this.propellant.name
 
-            if (validatePropellant(this.propellant)) {
+            let checkNameAndDescription = true
+            this.nameRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.name) === true) })
+            this.descriptionRule.forEach(rule => { checkNameAndDescription = checkNameAndDescription && (rule(this.propellant.description) === true) })
+
+            if (checkNameAndDescription && validatePropellant(this.propellant)) {
                 const name = this.propellant.name
                 const description = this.propellant.description
                 const me = this
                 delete this.propellant.name
                 delete this.propellant.description
                 const request = { name: name, description: description, json: JSON.stringify(this.propellant) }
+                this.loading = true
                 if (this.propellant.id) {
                     Axios.put(`/propellants/${this.propellant.id}`, request)
-                        .then(function(response) {
-                            // TODO : validation taille varchar(xxx)
-                            // TODO :validation taille varchar(xxx) du champ name
+                        .then(() => {
                             me.$emit('propellantCommit')
                             me.dialog = false
                         })
-                        .catch(function(error) {
+                        .catch((error) => {
+                            this.errorMessage = 'Save failed due to unknown reason. Please contact the support.'
+                            this.showError = true
+                            setTimeout(() => { this.showError = false }, 5000)
                             console.error(error)
                         })
                 } else {
                     Axios.post(`/propellants/`, request)
                         .then(function(response) {
-                            // TODO : validation taille varchar(xxx)
-                            // TODO : validation taille varchar(xxx) du champ name
                             me.$emit('propellantCommit')
                             me.dialog = false
                         })
-                        .catch(function(error) {
-                            console.error(error)
+                        .catch((error) => {
                             if (error.response.status === 409) {
-                                console.warn('name duplication')
+                                this.errorMessage = 'Yon c\'ant have two propellants with the same name, please change it to before save'
+                                this.showError = true
+                                setTimeout(() => { this.showError = false }, 5000)
+                                console.error('propellant name duplication')
+                            } else {
+                                this.errorMessage = 'Save failed due to unknown reason. Please contact the support.'
+                                this.showError = true
+                                setTimeout(() => { this.showError = false }, 5000)
+                                console.error(error)
                             }
                         })
+                        .finally(() => { this.loading = false })
                 }
             } else {
+                this.errorMessage = 'the form is not valid'
+                this.showError = true
+                setTimeout(() => { this.showError = false }, 3000)
                 this.$refs.formCustomPropellant.validate()
                 if (this.useComplexBurnRate) {
                     this.$refs.burnRateDataEditor.validate()
                 }
-                console.error('cutom propellant not valid', this.propellant)
             }
         }
     },
