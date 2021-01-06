@@ -8,7 +8,7 @@ describe('Run end burner in SI units', function() {
             throatDiameter: 6,
             chamberInnerDiameter: 40,
             chamberLength: 75,
-            propellantType: 'KNSU',
+            propellantId: 'KNSU',
             segmentLength: 70,
             outerDiameter: 30,
             holeDiameter: 10,

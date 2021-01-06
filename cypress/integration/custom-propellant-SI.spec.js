@@ -1,14 +1,16 @@
-describe('Use custom propellant in SI', function() {
+import { generateId } from '../support/commands'
 
-    it('Should set custom propellant in SI', function() {
+const currentId = generateId()
+describe('Use simple custom propellant in SI', function() {
+    it('Should create simple custom propellant in SI', function() {
         cy.visit('/#/motorDesign')
-
-        cy.url().should('include', '/#/motorDesign')
         cy.contains('METRIC').click()
 
+        cy.get('button#custom-propellant-add').click()
+        cy.contains('New propellant').click()
 
         const propellant = {
-            name: 'custom KNSU',
+            name: `custom KNSU - ${currentId}`,
             burnRateCoefficient: 8.26,
             pressureExponent: 0.319,
             k: 1.133,
@@ -18,9 +20,12 @@ describe('Use custom propellant in SI', function() {
             chamberTemperature: 1720
         }
         cy.addPropellant(propellant, 'METRIC')
+        cy.contains('Close').click()
+    })
 
-        // To check default selection of custom propellant
-        cy.contains('custom KNSU')
+    it('Should set custom propellant in SI', function() {
+        cy.url().should('include', '/#/motorDesign')
+        cy.contains('METRIC').click()
 
         const formDatas = {
             throatDiameter: 17.39,
@@ -31,12 +36,13 @@ describe('Use custom propellant in SI', function() {
             endsSurface: 'Exposed',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantType: 'custom KNSU',
+            propellantId: `custom KNSU - ${currentId}`,
             chamberInnerDiameter: 75,
             chamberLength: 470
         }
 
         cy.fillForm(formDatas, 'METRIC')
+        cy.contains(`custom KNSU - ${currentId}`)
 
         // check result
         const expectedResults = {

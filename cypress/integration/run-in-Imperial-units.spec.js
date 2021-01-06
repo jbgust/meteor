@@ -16,7 +16,7 @@ describe('Run computation in imperial units', function() {
             endsSurface: 'Exposed',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantType: 'KNDX',
+            propellantId: 'KNDX',
             chamberInnerDiameter: 2.95275,
             chamberLength: 18.503937
         }

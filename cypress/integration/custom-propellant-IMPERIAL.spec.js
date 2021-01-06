@@ -1,12 +1,16 @@
-describe('Use custom propellant in IMPERIAL', function() {
-    it('Should set custom propellant in IMPERIAL', function() {
-        cy.visit('/#/motorDesign')
+import { generateId } from '../support/commands'
 
-        cy.url().should('include', '/#/motorDesign')
+const currentId = generateId()
+describe('Use simple custom propellant in IMPERIAL', function() {
+    it('Should create simple custom propellant in IMPERIAL', function() {
+        cy.visit('/#/motorDesign')
         cy.contains('IMPERIAL').click()
 
+        cy.get('button#custom-propellant-add').click()
+        cy.contains('New propellant').click()
+
         const propellant = {
-            name: 'my propellant',
+            name: 'my propellant IMPERIAL-' + currentId,
             cstar: 5468.4,
             burnRateCoefficient: 0.0174,
             pressureExponent: 0.4285,
@@ -15,9 +19,12 @@ describe('Use custom propellant in IMPERIAL', function() {
             molarMass: 0.45
         }
         cy.addPropellant(propellant, 'IMPERIAL')
+        cy.contains('Close').click()
+    })
 
-        // To check default selection of custom propellant
-        cy.contains('my propellant')
+    it('Should set custom propellant in IMPERIAL', function() {
+
+        cy.url().should('include', '/#/motorDesign')
 
         const formDatas = {
             throatDiameter: 0.68464,
@@ -28,12 +35,15 @@ describe('Use custom propellant in IMPERIAL', function() {
             endsSurface: 'Exposed',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantType: 'my propellant',
+            propellantId: 'my propellant IMPERIAL-' + currentId,
             chamberInnerDiameter: 2.95275,
             chamberLength: 18.503937
         }
 
         cy.fillForm(formDatas, 'IMPERIAL')
+
+        // To check default selection of custom propellant
+        cy.contains('my propellant IMPERIAL-' + currentId)
     })
 
     it('Should check result in IMPERIALS', () => {
