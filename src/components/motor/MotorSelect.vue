@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="600">
+    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="800">
         <v-card>
             <v-card-title
                 class="headline purple"
@@ -10,7 +10,7 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-flex shrink>
+                    <v-flex>
                         <v-col>
                             <import-json-motor ref="importForm" @importStart="loading = true"></import-json-motor>
                             <v-alert type="error" v-model="showError" dismissible outlined>
@@ -23,6 +23,12 @@
                                 :loading="loading"
                                 class="elevation-1"
                             >
+                                <template v-slot:item.name="{ item }">
+                                    {{ shortLabel(item.name) }}
+                                </template>
+                                <template v-slot:item.description="{ item }">
+                                    {{ shortLabel(item.description, 150) }}
+                                </template>
                                 <template v-slot:item.actions="{ item }">
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on }">
@@ -91,6 +97,7 @@
 
 import { mapActions, mapGetters } from 'vuex'
 import ImportJsonMotor from '@/components/motor/ImportJsonMotor'
+import { shortLabel } from '@/modules/utils'
 
 export default {
     name: 'MotorSelect',
@@ -108,7 +115,8 @@ export default {
             errorMessage: null,
             showError: false,
             sheet: false,
-            on: null
+            on: null,
+            shortLabel: shortLabel
         }
     },
     watch: {

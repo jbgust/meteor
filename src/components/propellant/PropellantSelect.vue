@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="600">
+    <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="800">
         <v-card>
             <v-card-title
                 class="headline purple"
@@ -10,7 +10,7 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-flex shrink>
+                    <v-flex>
                         <v-col>
                             <v-alert type="error" v-model="showError" dismissible outlined>
                                 {{ errorMessage }}
@@ -21,6 +21,12 @@
                                 :items-per-page="10"
                                 class="elevation-1"
                             >
+                                <template v-slot:item.name="{ item }">
+                                    {{ shortLabel(item.name) }}
+                                </template>
+                                <template v-slot:item.description="{ item }">
+                                    {{ shortLabel(item.description, 150) }}
+                                </template>
                                 <template v-slot:top>
                                     <v-toolbar
                                         flat
@@ -102,6 +108,7 @@
 
 import { mapActions, mapGetters } from 'vuex'
 import PropellantEditor from '@/components/propellant/PropellantEditor'
+import { shortLabel } from '@/modules/utils'
 
 export default {
     name: 'PropellantSelect',
@@ -121,7 +128,8 @@ export default {
             errorMessage: null,
             showError: false,
             sheet: false,
-            on: null
+            on: null,
+            shortLabel: shortLabel
         }
     },
     watch: {
