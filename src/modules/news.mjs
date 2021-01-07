@@ -91,7 +91,19 @@ export const news = [
         html: `<ul>
                         <li>
                             <b>August 2020</b>
-                            <p>Now you should register to use METEOR. This is to prepare new feature like online saving of your motors (no more json files)</p>
+                            <ul>
+                                <li>Now you should register to use METEOR. This is to prepare new feature like online saving of your motors (no more json files)</li>
+                            </ul>
+                        </li>
+                    </ul>`
+    }, {
+        id: 11,
+        html: `<ul>
+                        <li>
+                            <b>January 2021</b>
+                            <ul>
+                                <li>Online save for motors and propellants. This is the end the JSON file import/export</li>
+                            </ul>
                         </li>
                     </ul>`
     }

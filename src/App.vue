@@ -121,7 +121,6 @@
                 <router-view></router-view>
             </v-fade-transition>
         </v-content>
-        <authentication-info></authentication-info>
         <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
@@ -167,7 +166,6 @@ import Axios from 'axios'
 import LostPassword from './components/authentication/LostPassword'
 import TokenValidator from './components/authentication/TokenValidator'
 import { mapActions, mapGetters } from 'vuex'
-import AuthenticationInfo from './components/authenticationInfo'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -245,7 +243,7 @@ router.beforeEach((to, from, next) => {
 
 export default {
     name: 'app',
-    components: { AuthenticationInfo, Donate, MeteorNews },
+    components: { Donate, MeteorNews },
     router,
     created() {
         this.loadToken()
