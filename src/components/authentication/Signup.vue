@@ -103,10 +103,10 @@ export default {
                 const me = this
                 me.loading = true
                 me.clearToken()
-                Axios.post('/auth/signup', {}, { data: {
+                Axios.post('/auth/signup', {
                     email: this.email,
                     password: this.password
-                } })
+                })
                     .then(function() {
                         me.message = 'An activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
                         me.messageType = 'success'

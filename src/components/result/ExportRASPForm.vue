@@ -102,7 +102,7 @@ export default {
                 }
                 this.computationInProgress = true
                 const me = this
-                Axios.post('/export/rasp', {}, { data: exportRequest })
+                Axios.post('/export/rasp', exportRequest)
                     .then(function(response) {
                         me.computationInProgress = false
                         const fileContent = response.data

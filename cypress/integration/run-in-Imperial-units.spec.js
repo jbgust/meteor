@@ -1,12 +1,10 @@
 describe('Run computation in imperial units', function() {
-
     it('Should open meteor', function() {
         cy.visit('/#/motorDesign')
         cy.get('input#name').should('have.value', '')
     })
 
     it('Should submit form', function() {
-
         const formDatas = {
             throatDiameter: 0.68464,
             outerDiameter: 2.7165354,

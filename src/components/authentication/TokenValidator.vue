@@ -114,9 +114,9 @@ export default {
         },
         validate() {
             const me = this
-            Axios.post(`/auth/validate/${this.$route.query.token}`, {}, { data: {
+            Axios.post(`/auth/validate/${this.$route.query.token}`, {
                 email: this.email
-            } })
+            })
                 .then(() => {
                     me.message = 'Your account has been validated'
                     me.messageType = 'success'
