@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:4.5.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:4.5.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr,defaultCommandTimeout=8000
       - store_artifacts:
           path: /e2e/cypress/videos
       - store_artifacts:
