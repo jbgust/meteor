@@ -120,7 +120,6 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'name' },
-                { text: 'Unit', value: 'unit' },
                 { text: 'Description', value: 'description' },
                 { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
