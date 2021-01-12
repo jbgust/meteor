@@ -87,15 +87,13 @@
                     <v-btn
                         outlined
                         @click="cancelDelete"
-                    >
-                        No
+                    >No
                     </v-btn>
                     <v-btn
                         color="red darken-1"
                         outlined
                         @click="deleteItem"
-                    >
-                        Yes
+                    >Yes
                     </v-btn>
                 </v-card-actions>
             </v-card>

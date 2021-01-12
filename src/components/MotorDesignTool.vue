@@ -6,7 +6,7 @@
                     <v-card-actions v-if="!demo">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="resetAll">
+                                <v-btn id="btnNewMotor" icon v-on="on" @click="resetAll">
                                     <v-icon>mdi-file-plus</v-icon>
                                 </v-btn>
                             </template>
@@ -14,7 +14,7 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="saveNewMotor" text :loading="saveLoading">
+                                <v-btn id="btnSaveAsNewMotor" icon v-on="on" @click="saveNewMotor" text :loading="saveLoading">
                                     <v-icon>mdi-file-document-multiple</v-icon>
                                 </v-btn>
                             </template>
@@ -22,7 +22,7 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="saveMotor" text :loading="saveLoading">
+                                <v-btn id="btnSaveMotor" icon v-on="on" @click="saveMotor" text :loading="saveLoading">
                                     <v-icon>mdi-content-save</v-icon>
                                 </v-btn>
                             </template>
@@ -30,11 +30,11 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="$refs.motorSelect.show()">
+                                <v-btn id="btnOpenMotor" icon v-on="on" @click="$refs.motorSelect.show()">
                                     <v-icon left size="25">mdi-folder-open</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Open</span>
+                            <span>Open motor</span>
                         </v-tooltip>
                         <v-divider
                             class="mx-2"
@@ -338,7 +338,7 @@ export default {
                         .catch((error) => {
                             console.error(error)
                             if (error.response.status === 409) {
-                                this.errorMessage = 'Yon c\'ant have two motors with the same name, please change it to before save as new motor'
+                                this.errorMessage = 'You can\'t have two motors with the same name, please change it to before save as new motor'
                                 this.displayImportError = true
                             } else {
                                 this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'

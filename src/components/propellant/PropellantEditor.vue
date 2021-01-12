@@ -231,7 +231,7 @@ export default {
                         })
                         .catch((error) => {
                             if (error.response.status === 409) {
-                                this.errorMessage = 'Yon c\'ant have two propellants with the same name, please change it to before save'
+                                this.errorMessage = 'You can\'t have two propellants with the same name, please change it to before save'
                                 this.showError = true
                                 setTimeout(() => { this.showError = false }, 5000)
                                 console.error('propellant name duplication')

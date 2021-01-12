@@ -5,7 +5,7 @@
                 <v-textarea
                     :rules="descriptionRule"
                     rows="2"
-                    id="propellantDescription"
+                    id="motorDescription"
                     label="Description"
                     v-model="value.description"/>
             </v-col>

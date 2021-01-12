@@ -61,6 +61,11 @@ function applyCommonCheck(formValues, units) {
     cy.get('input#name').type(formValues.name)
 }
 
+Cypress.Commands.add('saveMotor', () => {
+    cy.get('#btnSaveMotor').click()
+    cy.contains('Motor saved')
+})
+
 Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
