@@ -66,6 +66,24 @@ Cypress.Commands.add('saveMotor', () => {
     cy.contains('Motor saved')
 })
 
+Cypress.Commands.add('runSavedMotor', (motorName) => {
+    cy.get('#btnOpenMotor').click()
+
+    cy.contains(motorName)
+        .parent()
+        .find('button')
+        .eq(0)
+        .click()
+})
+
+Cypress.Commands.add('saveAndRunCheck', (motorName, expectedResults) => {
+    cy.get('input#name').clear().type(motorName)
+    cy.saveMotor()
+    cy.contains('Reset').click()
+    cy.runSavedMotor(motorName)
+    cy.checkPerformanceResults(expectedResults, 'METRIC')
+})
+
 Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 

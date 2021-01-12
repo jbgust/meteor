@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'G9',
+    thrustTime: '10.04',
+    maxThrust: '33.97',
+    totalImpulse: '92.36',
+    isp: '106.66',
+    maxPressure: '9.79',
+    averagePressure: '2.74',
+    nozzleExitSpeed: '2.96'
+}
+
 describe('Run end burner in SI units', function() {
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
@@ -18,17 +29,10 @@ describe('Run end burner in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'G9',
-            thrustTime: '10.04',
-            maxThrust: '33.97',
-            totalImpulse: '92.36',
-            isp: '106.66',
-            maxPressure: '9.79',
-            averagePressure: '2.74',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('EndBurner motor', expectedResults)
     })
 })

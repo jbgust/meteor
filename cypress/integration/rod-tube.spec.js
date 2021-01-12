@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'G348',
+    thrustTime: '0.43',
+    maxThrust: '366.50',
+    totalImpulse: '149.35',
+    isp: '127.30',
+    maxPressure: '33.73',
+    averagePressure: '32.01',
+    nozzleExitSpeed: '2.96'
+}
+
 describe('Run rod and tube in SI units', function() {
 
     it('Should submit form', function() {
@@ -21,17 +32,10 @@ describe('Run rod and tube in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'G348',
-            thrustTime: '0.43',
-            maxThrust: '366.50',
-            totalImpulse: '149.35',
-            isp: '127.30',
-            maxPressure: '33.73',
-            averagePressure: '32.01',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('A-RobTube motor', expectedResults)
     })
 })

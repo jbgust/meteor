@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'H215',
+    thrustTime: '0.85',
+    maxThrust: '393.83',
+    totalImpulse: '181.61',
+    isp: '126.17',
+    maxPressure: '36.01',
+    averagePressure: '23.71',
+    nozzleExitSpeed: '2.96'
+}
+
 describe('Run Finocyl in SI units', function() {
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
@@ -26,17 +37,10 @@ describe('Run Finocyl in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'H215',
-            thrustTime: '0.85',
-            maxThrust: '393.83',
-            totalImpulse: '181.61',
-            isp: '126.17',
-            maxPressure: '36.01',
-            averagePressure: '23.71',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('Finocyl motor', expectedResults)
     })
 })

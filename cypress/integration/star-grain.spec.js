@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'H195',
+    thrustTime: '1.02',
+    maxThrust: '277.70',
+    totalImpulse: '200.26',
+    isp: '123.39',
+    maxPressure: '26.20',
+    averagePressure: '20.22',
+    nozzleExitSpeed: '2.96'
+}
+
 describe.skip('Run Star in SI units', function() {
     it('Should submit form', function() {
         cy.visit('/#/motorDesign')
@@ -25,17 +36,10 @@ describe.skip('Run Star in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'H195',
-            thrustTime: '1.02',
-            maxThrust: '277.70',
-            totalImpulse: '200.26',
-            isp: '123.39',
-            maxPressure: '26.20',
-            averagePressure: '20.22',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('Star motor', expectedResults)
     })
 })

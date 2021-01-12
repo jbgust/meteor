@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'H76',
+    thrustTime: '2.16',
+    maxThrust: '134.02',
+    totalImpulse: '164.00',
+    isp: '112.31',
+    maxPressure: '13.50',
+    averagePressure: '7.85',
+    nozzleExitSpeed: '2.96'
+}
+
 describe('Run C slot in SI units', function() {
 
     it('Should submit form', function() {
@@ -26,17 +37,10 @@ describe('Run C slot in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'H76',
-            thrustTime: '2.16',
-            maxThrust: '134.02',
-            totalImpulse: '164.00',
-            isp: '112.31',
-            maxPressure: '13.50',
-            averagePressure: '7.85',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('Cslot motor', expectedResults)
     })
 })

@@ -1,3 +1,14 @@
+const expectedResults = {
+    motorClasss: 'H102',
+    thrustTime: '1.77',
+    maxThrust: '191.79',
+    totalImpulse: '180.10',
+    isp: '115.10',
+    maxPressure: '18.71',
+    averagePressure: '10.36',
+    nozzleExitSpeed: '2.96'
+}
+
 describe('Run moon burner in SI units', function() {
 
     it('Should submit form', function() {
@@ -22,17 +33,10 @@ describe('Run moon burner in SI units', function() {
     })
 
     it('Should check result', () => {
-        const expectedResults = {
-            motorClasss: 'H102',
-            thrustTime: '1.77',
-            maxThrust: '191.79',
-            totalImpulse: '180.10',
-            isp: '115.10',
-            maxPressure: '18.71',
-            averagePressure: '10.36',
-            nozzleExitSpeed: '2.96'
-        }
-
         cy.checkPerformanceResults(expectedResults, 'METRIC')
+    })
+
+    it('Save it and run it', () => {
+        cy.saveAndRunCheck('MoonBurner motor', expectedResults)
     })
 })

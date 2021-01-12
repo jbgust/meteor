@@ -26,15 +26,7 @@ describe('Crud motor', () => {
         cy.contains('Reset').click()
     })
     it('Should run saved motor', () => {
-        cy.get('#btnOpenMotor').click()
-
-        cy.contains(motorName)
-            .parent()
-            .find('button')
-            .eq(0)
-            .click()
-
-        const expectedResults = {
+       cy.saveAndRunCheck(motorName, {
             motorClasss: 'F82',
             thrustTime: '0.91',
             maxThrust: '111.61',
@@ -44,13 +36,11 @@ describe('Crud motor', () => {
             averagePressure: '16.00',
             nozzleExitSpeed: '2.53',
             optimalExpansionRatio: '4.00'
-        }
+        })
 
         cy.get('input#motor-class')
             .parent()
             .contains('85%')
-
-        cy.checkPerformanceResults(expectedResults, 'METRIC')
     })
 
     it('Should update motor', () => {
