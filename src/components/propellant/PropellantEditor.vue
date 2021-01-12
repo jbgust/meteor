@@ -114,6 +114,7 @@
                                     </v-flex>
                                         <div class="text-right">
                                             <v-btn
+                                                id="closePropellantEditor"
                                                 class="mr-4"
                                                 :disabled="loading"
                                                 @click="dialog = false">

@@ -55,10 +55,6 @@ describe('Crud motor', () => {
 
         cy.contains('Rocket motors')
             .parent()
-            .contains(description)
-
-        cy.contains('Rocket motors')
-            .parent()
             .contains('Close')
             .click()
     })
