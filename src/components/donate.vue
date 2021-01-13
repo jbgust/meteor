@@ -34,7 +34,7 @@
                                 <strong>{{ Math.floor(donationProgress) }}%</strong>
                             </v-progress-linear>
                             <div style="text-align: center">
-                                <b>2020 Donation campaign progress (started in February)</b>
+                                <b>Donation campaign progress (started in February 2020)</b>
                             </div>
                             <div style="text-align: center; color: red">
                                 <b>{{parseInt(donation)}}€ donated by {{donors}} donors</b>
@@ -42,11 +42,12 @@
                             <div class="mb-6 mt-5">
                                 <h2 class="mb-5" style="color:purple">Meteor averages 2,500 calculations a month.</h2>
                                 <h2>Meteor is totally free and without ads.</h2>
-                                <p class="mt-5">
-                                    This application is <b>maintained and financed by only one person</b>.
-                                    I spent <b>over 500 hours</b> to make METEOR. That's 3 months of full-time work.
-                                </p>
-
+                                <h4 style="color:purple; margin-top: 5px">Main features added in 2020:</h4>
+                                <ul style="margin-bottom: 5px">
+                                    <li>New grain configuration (finocyl, moonburner, C slot, ...)</li>
+                                    <li>RASP export</li>
+                                    <li>User registration</li>
+                                </ul>
                                 <span><b>Your support will be use:</b></span>
                                 <ul>
                                     <li>to cover server costs</li>

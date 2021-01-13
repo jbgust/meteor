@@ -154,6 +154,7 @@ export default {
             this.showError = true
         },
         deleteItem() {
+            this.loading = true
             this.deleteMotor({ motor: this.motorToDelete, showError: this.displayError })
             this.confirmDialog = false
         },

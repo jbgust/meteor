@@ -19,6 +19,7 @@
                                 :headers="headers"
                                 :items="customPropellants"
                                 :items-per-page="10"
+                                :loading="loading"
                                 class="elevation-1"
                             >
                                 <template v-slot:item.name="{ item }">
@@ -81,7 +82,7 @@
                 <v-card-title class="headline">
                     Delete "{{ propellantToDelete ? propellantToDelete.name : ''}}"
                 </v-card-title>
-                <v-card-text>Are you sure ?</v-card-text>
+                <v-card-text>If motors use this propellant, you will have to choose another one to use them. Do you really want to delete it?</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -98,7 +99,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <propellant-editor ref="propellantEditor" :units="units" @propellantCommit="loadCustomPropellants"/>
+        <propellant-editor ref="propellantEditor" :units="units" @propellantCommit="commitPropellant"/>
     </v-dialog>
 </template>
 
@@ -127,6 +128,7 @@ export default {
             showError: false,
             sheet: false,
             on: null,
+            loading: false,
             shortLabel: shortLabel
         }
     },
@@ -135,14 +137,22 @@ export default {
             if (newValue && !oldValue) {
                 this.loadCustomPropellants(this.displayError)
             }
+        },
+        customPropellants() {
+            this.loading = false
         }
     },
     methods: {
         ...mapActions('customPropellants', ['loadCustomPropellants', 'deletePropellant']),
         show() {
+            this.loading = false
             this.sheet = true
             this.errorMessage = null
             this.showError = false
+        },
+        commitPropellant() {
+            this.loading = true
+            this.loadCustomPropellants()
         },
         confirmDelete(item) {
             this.propellantToDelete = null
@@ -154,6 +164,7 @@ export default {
             this.showError = true
         },
         deleteItem() {
+            this.loading = true
             this.deletePropellant({ propellant: this.propellantToDelete, showError: this.displayError })
             this.confirmDialog = false
         },
