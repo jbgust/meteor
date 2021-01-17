@@ -1,6 +1,14 @@
 export const SI_UNITS = 'SI'
 export const IMPERIAL_UNITS = 'IMPERIAL'
 
+export function getUnit(unitSelected) {
+    if (unitSelected === SI_UNITS) {
+        return { type: unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massUnit: 'Kg', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
+    } else {
+        return { type: unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massUnit: 'lb', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
+    }
+}
+
 export function computeNozzleLength(sectionDiameter, angle) {
     return Number.parseFloat(sectionDiameter / 2 / Math.tan(angle / 2 * Math.PI / 180))
 }

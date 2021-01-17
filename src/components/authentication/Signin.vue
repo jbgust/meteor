@@ -98,7 +98,7 @@ export default {
             }
         },
         signin() {
-            if (this.$refs.form.validate()) {
+            if (this.$refs.form && this.$refs.form.validate()) {
                 const me = this
                 me.showError = false
                 me.loading = true

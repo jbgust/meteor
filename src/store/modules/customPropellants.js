@@ -2,7 +2,7 @@
 import Axios from 'axios'
 
 const state = () => ({
-    customPropellants: null
+    customPropellants: []
 })
 
 // getters

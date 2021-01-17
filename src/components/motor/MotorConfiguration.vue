@@ -81,7 +81,6 @@ export default {
             let propellants = []
             if (!(this.customPropellants == null || this.customPropellants === undefined)) {
                 this.customPropellants
-                    // .filter(customPropellant => customPropellant.unit === this.units.type)
                     .forEach(customPropellant => propellants.push(
                         {
                             value: customPropellant.id,

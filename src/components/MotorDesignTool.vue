@@ -169,7 +169,7 @@ import {
 import NozzleDesign from './result/NozzleDesign'
 import {
     getSelectedUnit,
-    getSelectedUnitOrSI,
+    getSelectedUnitOrSI, getUnit,
     hasSelectedUnits, IMPERIAL_UNITS,
     setSelectedUnits,
     SI_UNITS
@@ -391,11 +391,7 @@ export default {
     },
     computed: {
         units() {
-            if (this.unitSelected === SI_UNITS) {
-                return { type: this.unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massUnit: 'Kg', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
-            } else {
-                return { type: this.unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massUnit: 'lb', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
-            }
+            return getUnit(this.unitSelected)
         }
     }
 }

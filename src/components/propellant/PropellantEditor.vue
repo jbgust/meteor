@@ -18,6 +18,7 @@
                                                 :items="unitList"
                                                 :readonly="!!propellant.id"
                                                 :rules="requiredRules"
+                                                @change="unitChanged"
                                                 filled
                                                 label="Unit"
                                             ></v-select>
@@ -150,14 +151,11 @@ import {
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
 import Axios from 'axios'
-import { IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
+import { getUnit, IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
 
 export default {
     name: 'PropellantEditor',
     components: { ComplexBurnRateDatas },
-    props: {
-        units: Object
-    },
     data() {
         return {
             dialog: false,
@@ -173,13 +171,18 @@ export default {
             loading: false,
             showError: false,
             errorMessage: null,
-            unitList: [{ value: SI_UNITS, text: 'Metric' }, { value: IMPERIAL_UNITS, text: 'Imperial' }]
+            unitList: [{ value: SI_UNITS, text: 'Metric' }, { value: IMPERIAL_UNITS, text: 'Imperial' }],
+            units: getUnit(SI_UNITS)
         }
     },
     methods: {
+        unitChanged() {
+            this.units = getUnit(this.propellant.unit)
+        },
         show(customPropellant, show = true) {
             this.loading = false
-            this.propellant = customPropellant || {}
+            this.propellant = customPropellant || { unit: SI_UNITS }
+            this.unitChanged()
 
             this.useK2ph = !!this.propellant.k2ph
             this.useChamberTemperature = !!this.propellant.chamberTemperature

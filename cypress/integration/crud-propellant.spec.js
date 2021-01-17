@@ -79,4 +79,31 @@ describe('Crud propellant', () => {
             .parent()
             .contains(propellantName).should('not.exist')
     })
+
+    it('Should display units correctly', () => {
+        cy.visit('/#/motorDesign')
+        // set main form to metric
+        cy.contains('METRIC').click()
+
+        cy.get('button#custom-propellant-add').click()
+        cy.contains('New propellant').click()
+
+        // set propellant unit to IMPERIAL
+        cy.get('.v-select__selections')
+            .eq(3)
+            .click()
+        cy.get('div.menuable__content__active')
+            .contains('Imperial').click()
+
+        // check propellant form are in imperial
+        cy.contains('lb/cubic inch')
+
+        // check burn rate form are in imperial
+        cy.get('input#complexBurnRate-switch')
+            .parent()
+            .click()
+        cy.get('#addBurRateDateBtn')
+            .click()
+        cy.contains('psi')
+    })
 })
