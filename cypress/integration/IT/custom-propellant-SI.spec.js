@@ -1,4 +1,4 @@
-import { generateId } from '../support/commands'
+import { generateId } from '../../support/commands'
 
 const currentId = generateId()
 describe('Use simple custom propellant in SI', function() {

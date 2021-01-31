@@ -1,4 +1,4 @@
-import { generateId } from '../support/commands'
+import { generateId } from '../../support/commands'
 
 describe('Authentication', function() {
 

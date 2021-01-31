@@ -588,10 +588,8 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
         .contains('Mach')
 
     if (expectedResults.optimalExpansionRatio) {
-        cy.get('span')
+        cy.get('p')
             .contains('Optimally designed nozzle with an expansion ratio of ' + expectedResults.optimalExpansionRatio)
-    } else {
-        cy.get('span').should('not.contain', 'Optimally designed')
     }
 })
 
