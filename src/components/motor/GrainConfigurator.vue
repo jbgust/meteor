@@ -57,8 +57,8 @@
             <v-flex lg12 md12 v-if="value.grainType === endBurnerGrain">
                 <v-text-field id="endBurnerOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="endBurnerSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
-                <v-text-field id="endBurnerHoleDiameter" label="Hole diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDiameter" :rules="integerGreater0Rules" step="0.01" />
-                <v-text-field id="endBurnerHoleDepth" label="Hole depth" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDepth" :rules="numericGreater0Rules" step="0.01" />
+                <v-text-field id="endBurnerHoleDiameter" label="Hole diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDiameter" :rules="numericGreaterOrEquals0Rules" step="0.01" />
+                <v-text-field id="endBurnerHoleDepth" label="Hole depth" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDepth" :rules="numericGreaterOrEquals0Rules" step="0.01" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === moonBurner">
                 <v-text-field id="moonBurnerOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
@@ -128,6 +128,7 @@ export default {
         return {
             numericGreater0Rules: greaterThanRule(0),
             integerGreater0Rules: integerGreaterThanRule(0),
+            numericGreaterOrEquals0Rules: greaterOrEqualsThanRule(0),
             nbFinsRules: rangeRule(1, 10),
             nbBranchesRules: rangeRule(1, 9),
             numericGreaterOrEqualsThan0Rules: greaterOrEqualsThanRule(0),
