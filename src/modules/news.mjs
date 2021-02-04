@@ -113,6 +113,7 @@ export const news = [
                             <b>February 2021</b>
                             <ul>
                                 <li>Warning on low port to throat ratio</li>
+                                <li>End burner grain now support configuration with no hole</li>
                             </ul>
                         </li>
                     </ul>`
