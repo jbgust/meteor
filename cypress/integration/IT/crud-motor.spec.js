@@ -59,20 +59,6 @@ describe('Crud motor', () => {
             .click()
     })
 
-    it('Should save as new motor', () => {
-        cy.get('#btnSaveAsNewMotor').click()
-
-        cy.contains('You can\'t have two motors with the same name, please change it to before save as new motor')
-
-        cy.get('input#name')
-            .clear()
-            .type(`motor-${generateId()}`)
-
-        cy.get('#btnSaveAsNewMotor').click()
-
-        cy.contains('Motor saved')
-    })
-
     it('Should delete saved motor', () => {
         cy.get('#btnOpenMotor').click()
 

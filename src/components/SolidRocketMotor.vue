@@ -97,6 +97,12 @@ export default {
         getGrainType() {
             return this.formValue.grainType
         },
+        duplicateMotor() {
+            this.formValue.name += ' ' + this.getDateTimeAsString()
+        },
+        getDateTimeAsString() {
+            return new Date().toLocaleString()
+        },
         validateForm() {
             return this.$refs.formJSRM.validate()
         },

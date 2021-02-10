@@ -14,11 +14,11 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
-                                <v-btn id="btnSaveAsNewMotor" icon v-on="on" @click="saveNewMotor" text :loading="saveLoading">
-                                    <v-icon>mdi-file-document-multiple</v-icon>
+                                <v-btn id="btnDuplicateMotor" icon v-on="on" @click="duplicateMotor" text>
+                                    <v-icon>mdi-content-duplicate</v-icon>
                                 </v-btn>
                             </template>
-                            <span>Save as new motor</span>
+                            <span>Duplicate current motor</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
@@ -284,9 +284,11 @@ export default {
                 this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
             }, this)
         },
-        saveNewMotor() {
-            this.motorId = null
-            this.saveMotor()
+        duplicateMotor() {
+            if (this.$refs.form.validateForm() && this.motorId !== null) {
+                this.motorId = null
+                this.$refs.form.duplicateMotor()
+            }
         },
         saveMotor() {
             if (this.$refs.form.validateForm()) {
