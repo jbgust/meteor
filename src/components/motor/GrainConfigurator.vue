@@ -40,7 +40,7 @@
             <v-flex lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylFinWidth" label="Fin width" :suffix="units.lengthUnit" v-model="value.grainConfig.finWidth" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylFinDiameter" label="Fin diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.finDiameter" :rules="numericGreater0Rules" step="0.01" />
-                <v-text-field id="finocylFinCount" label="Number of fin" :suffix="units.lengthUnit" v-model="value.grainConfig.finCount" :rules="nbFinsRules" step="0.01" />
+                <v-text-field id="finocylFinCount" label="Number of fin" v-model="value.grainConfig.finCount" :rules="nbFinsRules" step="0.01" />
                 <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === starGrain">
