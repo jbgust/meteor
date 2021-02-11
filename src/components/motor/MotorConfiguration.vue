@@ -68,7 +68,8 @@ export default {
             numericGreater0Rules: greaterThanRule(0),
             integerGreater0Rules: integerGreaterThanRule(0),
             requiredRules: requiredRule,
-            nameRule: stringRequiredMaxLengthRule(256),
+            // nameRule: stringRequiredMaxLengthRule(256),
+            nameRule: [...stringRequiredMaxLengthRule(256), this.checkNamesExists],
             descriptionRule: stringMaxLengthRule(1000)
         }
     },
@@ -101,13 +102,24 @@ export default {
         }
     },
     methods: {
+        checkNamesExists(fieldValue) {
+            if (fieldValue) {
+                const length = this.motors()
+                    .filter(motor => (!this.value.id || motor.id !== this.value.id) && motor.name === fieldValue)
+                    .length
+                return length !== 0 ? 'A motor already own this name, please change it.' : true
+            } else {
+                return true
+            }
+        },
         managePropellant() {
             this.$refs.dialogPropellant.show()
         },
         catchDeletedPropellant(propellantId) {
             this.$emit('propellantDeleted', propellantId)
         },
-        ...mapActions('customPropellants', ['loadCustomPropellants'])
+        ...mapActions('customPropellants', ['loadCustomPropellants']),
+        ...mapGetters('motors', ['motors'])
     }
 }
 </script>

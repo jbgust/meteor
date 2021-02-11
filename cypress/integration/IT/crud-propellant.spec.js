@@ -26,7 +26,7 @@ describe('Crud propellant', () => {
 
         cy.addPropellant(propellant, 'METRIC')
 
-        cy.contains('You can\'t have two propellants with the same name, please change it to before save')
+        cy.contains('A propellant already own this name, please change it.')
 
         cy.get('#closePropellantEditor').click()
     })

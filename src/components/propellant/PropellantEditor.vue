@@ -24,7 +24,7 @@
                                             ></v-select>
                                         </v-flex>
                                         <v-flex d-flex lg9>
-                                            <v-text-field filled hide-details id="propellantName" label="Propellant name"
+                                            <v-text-field filled id="propellantName" label="Propellant name"
                                                           v-model="propellant.name" :rules="nameRule"/>
                                         </v-flex>
                                     </v-layout>
@@ -152,6 +152,7 @@ import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
 import Vue from 'vue'
 import Axios from 'axios'
 import { getUnit, IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'PropellantEditor',
@@ -165,7 +166,7 @@ export default {
             useComplexBurnRate: false,
             hintBurnRate: 'Value is different between SI and Imperial',
             numericGreater0Rules: greaterThanRule(0),
-            nameRule: stringRequiredMaxLengthRule(256),
+            nameRule: [ ...stringRequiredMaxLengthRule(256), this.checkNamesExists ],
             descriptionRule: stringMaxLengthRule(1000),
             requiredRules: requiredRule,
             loading: false,
@@ -179,6 +180,16 @@ export default {
         unitChanged() {
             this.units = getUnit(this.propellant.unit)
         },
+        checkNamesExists(fieldValue) {
+            if (fieldValue) {
+                const length = this.customPropellants()
+                    .filter(propellant => (!this.propellant.id || propellant.id !== this.propellant.id) && propellant.name === fieldValue).length
+                return length !== 0 ? 'A propellant already own this name, please change it.' : true
+            } else {
+                return true
+            }
+        },
+        ...mapGetters('customPropellants', ['customPropellants']),
         show(customPropellant, show = true) {
             this.loading = false
             this.propellant = customPropellant || { unit: SI_UNITS }
