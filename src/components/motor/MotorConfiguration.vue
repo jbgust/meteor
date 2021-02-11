@@ -39,7 +39,7 @@
             <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-layout>
         </v-flex>
-        <propellant-select :units= "units" ref="dialogPropellant"></propellant-select>
+        <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
     </v-layout>
 </template>
 
@@ -103,6 +103,9 @@ export default {
     methods: {
         managePropellant() {
             this.$refs.dialogPropellant.show()
+        },
+        catchDeletedPropellant(propellantId) {
+            this.$emit('propellantDeleted', propellantId)
         },
         ...mapActions('customPropellants', ['loadCustomPropellants'])
     }

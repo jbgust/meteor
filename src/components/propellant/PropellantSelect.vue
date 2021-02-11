@@ -165,7 +165,10 @@ export default {
         },
         deleteItem() {
             this.loading = true
-            this.deletePropellant({ propellant: this.propellantToDelete, showError: this.displayError })
+            this.deletePropellant({
+                propellant: this.propellantToDelete,
+                showError: this.displayError,
+                successCallback: () => this.$emit('propellantDeleted', this.propellantToDelete.id) })
             this.confirmDialog = false
         },
         cancelDelete() {

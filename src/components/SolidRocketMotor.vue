@@ -2,7 +2,11 @@
     <v-container>
         <v-form ref="formJSRM">
 
-            <motor-configuration v-model="formValue" @resetValidation="$refs.formJSRM.resetValidation()" :units="units" ref="motorConfiguration"/>
+            <motor-configuration
+                v-model="formValue"
+                @resetValidation="$refs.formJSRM.resetValidation()"
+                @propellantDeleted="catchDeletedPropellant"
+                :units="units" ref="motorConfiguration"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <div class="text-center" v-if="!disabledButtons">
@@ -88,6 +92,11 @@ export default {
         units: Object
     },
     methods: {
+        catchDeletedPropellant(propellantId) {
+            if (this.formValue.propellantId === propellantId) {
+                this.formValue.propellantId = null
+            }
+        },
         resetConfig() {
             this.extraConfig = this.getDefaultAdvanceConfig()
         },

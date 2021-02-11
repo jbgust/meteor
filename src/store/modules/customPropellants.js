@@ -24,8 +24,9 @@ const actions = {
                 showError('Failed to retrieve propellant list')
             })
     },
-    deletePropellant({ dispatch, commit }, { propellant, showError = (message) => console.error(message) }) {
+    deletePropellant({ dispatch, commit }, { propellant, showError = (message) => console.error(message), successCallback = () => {} }) {
         Axios.delete(`/propellants/${propellant.id}`)
+            .then(successCallback)
             .catch(function(error) {
                 console.error(error)
                 showError('Delete action failed')
