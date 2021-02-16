@@ -89,6 +89,7 @@
 
 <script>
 import Axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'donate',
@@ -144,14 +145,7 @@ export default {
             const now = new Date()
             localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
         },
-        isDonator() {
-            const token = localStorage.getItem('token')
-            if (token) {
-                return JSON.parse(token).donator
-            } else {
-                return false
-            }
-        }
+        ...mapGetters('authentication', ['isDonator'])
     }
 }
 </script>

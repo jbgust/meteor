@@ -1,31 +1,46 @@
 // initial state
 import Axios from 'axios'
+import jwtDecode from 'jwt-decode'
 const TOKEN_STORAGE_KEY = 'token'
 
 const state = () => ({
-    token: null
+    accessToken: null
 })
+
+function decodeToken(token) {
+    try {
+        return token ? jwtDecode(token) : false
+    } catch (e) {
+        console.error('Invalid token')
+        return false
+    }
+}
 
 // getters
 const getters = {
     isLogged: (state) => {
-        return !!state.token
+        return !!decodeToken(state.accessToken)
+    },
+    isDonator: (state) => {
+        const decodedToken = decodeToken(state.accessToken)
+        const isDonator = decodedToken ? decodedToken.donator : false
+        return isDonator
     }
 }
 
 // actions
 const actions = {
     loadToken({ commit }) {
-        const token = localStorage.getItem(TOKEN_STORAGE_KEY)
-        if (token) {
-            commit('setToken', JSON.parse(token))
-            Axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(token).accessToken}`
+        const accesstoken = localStorage.getItem(TOKEN_STORAGE_KEY)
+        if (accesstoken) {
+            commit('setToken', accesstoken)
+            Axios.defaults.headers.common['Authorization'] = `Bearer ${accesstoken}`
         }
     },
-    saveToken({ commit, state }, token) {
-        commit('setToken', token)
-        localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(token))
-        Axios.defaults.headers.common['Authorization'] = `Bearer ${state.token.accessToken}`
+    saveToken({ commit, state }, tokenInJSON) {
+        commit('setToken', tokenInJSON.accessToken)
+        localStorage.setItem(TOKEN_STORAGE_KEY, '' + tokenInJSON.accessToken)
+        Axios.defaults.headers.common['Authorization'] = `Bearer ${tokenInJSON.accessToken}`
     },
     clearToken({ commit }) {
         commit('setToken', null)
@@ -37,7 +52,7 @@ const actions = {
 // mutations
 const mutations = {
     setToken(state, token) {
-        state.token = token
+        state.accessToken = token
     }
 }
 
