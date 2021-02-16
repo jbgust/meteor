@@ -24,38 +24,24 @@
                 <v-row justify="center" align="center">
                     <v-flex shrink>
                         <v-col>
-                            <v-progress-linear
-                                color="purple"
-                                height="25"
-                                :value="donationProgress"
-                                striped
-                                class="mt-5"
-                            >
-                                <strong>{{ Math.floor(donationProgress) }}%</strong>
-                            </v-progress-linear>
-                            <div style="text-align: center">
-                                <b>Donation campaign progress (started in February 2020)</b>
-                            </div>
-                            <div style="text-align: center; color: red">
-                                <b>{{parseInt(donation)}}€ donated by {{donors}} donors</b>
+                            <div style="text-align: center; padding: 20px; margin: 20px 40px 0 40px; border: 1px solid dimgray; border-radius: 5px;">
+                                <h2 style="margin-bottom: 10px;">Last 30 days donations</h2>
+                                <h2 style="color: #9c27b0">{{ rollingMonthDonationsInDollars }}$</h2>
                             </div>
                             <div class="mb-6 mt-5">
-                                <h2 class="mb-5" style="color:purple">Meteor averages 2,500 calculations a month.</h2>
-                                <h2>Meteor is totally free and without ads.</h2>
-                                <h4 style="color:purple; margin-top: 5px">Main features added in 2020:</h4>
+                                <h4 style="color:purple; margin-top: 5px">Benefits for donors:</h4>
                                 <ul style="margin-bottom: 5px">
-                                    <li>New grain configuration (finocyl, moonburner, C slot, ...)</li>
-                                    <li>RASP export</li>
-                                    <li>User registration</li>
+                                    <li>
+                                        <b>do not see this popup for 1 year</b>
+                                    </li>
+                                    <li>
+                                        <b>benchmark of motors</b>
+                                    </li>
                                 </ul>
-                                <span><b>Your support will be use:</b></span>
-                                <ul>
-                                    <li>to cover server costs</li>
-                                    <li>to rent a powerfullest server, for faster computations</li>
-                                    <li>as contribution to the next developments.</li>
-                                </ul>
+                                <br />
+                                <p>Donations ensure the survival of METEOR.  Notably by paying the server fees and the CI platform. {{ `METEOR receives ${currentYearDonationsInDollars}$ in ${new Date().getFullYear()}`}}</p>
                                 <p class="mt-5">
-                                    <b>Thank you for your support</b>
+                                    <b>Thank you for your support.</b>
                                 </p>
                             </div>
                         </v-col>
@@ -103,23 +89,15 @@ export default {
         return {
             sheet: false,
             on: null,
-            donationProgress: 0,
-            donors: '',
-            donation: 0,
-            axiosDonately: Axios.create({
-                baseURL: 'https://api.donately.com/v2/',
-                timeout: 10000
-            })
+            rollingMonthDonationsInDollars: 0,
+            currentYearDonationsInDollars: 0
         }
     },
     created() {
-        let me = this
-        delete this.axiosDonately.defaults.headers.common.Authorization
-        this.axiosDonately.get('campaigns/cmp_538c8c9886c5?account_id=act_0c5c4a8bab6f')
-            .then(function(response) {
-                me.donationProgress = response.data.data.percent_funded * 100
-                me.donors = response.data.data.donors_count
-                me.donation = response.data.data.amount_raised_in_cents / 100
+        Axios.get('/donations')
+            .then((response) => {
+                this.rollingMonthDonationsInDollars = response.data.rollingMonthDonationsInCent / 100
+                this.currentYearDonationsInDollars = response.data.currentYearDonationsInCent / 100
             })
             .catch(function(error) {
                 console.error(error)
