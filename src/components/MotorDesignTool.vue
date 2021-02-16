@@ -150,7 +150,6 @@
             </v-flex>
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
-        <donate :check-mode="true"></donate>
         <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
     </v-container>
 </template>
@@ -175,14 +174,13 @@ import {
     SI_UNITS
 } from '../modules/computationUtils'
 import ExportRasp from './result/ExportRASPForm'
-import Donate from './donate'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
 import { extractIdFromHateoasResponse } from '@/modules/utils'
 
 export default {
     name: 'motor-design-tool',
-    components: { MotorSelect, Donate, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
+    components: { MotorSelect, ExportRasp, NozzleDesign, PerformanceInfo, ThrustGraphicalResult, SolidRocketMotor, HelpDialog },
     props: {
         demo: {
             type: Boolean,

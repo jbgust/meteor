@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="sheet" width="500">
+    <v-dialog v-model="sheet" width="500" persistent>
         <template v-slot:activator="{ on }" v-show="!checkMode">
             <v-btn
                 id="btnDonate"
@@ -54,6 +54,7 @@
                 <v-btn
                     outlined
                     @click="sheet = false"
+                    :loading="!closable"
                 >
                     Later
                 </v-btn>
@@ -61,7 +62,7 @@
                     id="btnDonateNow"
                     color="purple"
                     dark
-                    @click="sheet = !sheet"
+                    @click="onDonateClick()"
                     target="_blank"
                     href="https://pages.donately.com/meteor/campaign/meteor/donate"
                 >
@@ -90,7 +91,8 @@ export default {
             sheet: false,
             on: null,
             rollingMonthDonationsInDollars: 0,
-            currentYearDonationsInDollars: 0
+            currentYearDonationsInDollars: 0,
+            closable: false
         }
     },
     created() {
@@ -103,27 +105,33 @@ export default {
                 console.error(error)
             })
     },
-    mounted() {
-        if (this.checkMode && !this.isDonator()) {
-            const now = new Date()
-            const nextShowDonationPage = Number(localStorage.getItem('nextShowDonationPage'))
-            if (nextShowDonationPage) {
-                if (new Date(nextShowDonationPage) < now) {
-                    this.sheet = true
-                    this.setNextShowDate()
-                }
-            } else {
-                this.sheet = true
-                this.setNextShowDate()
-            }
-        }
-    },
     methods: {
         setNextShowDate() {
             const now = new Date()
             localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
         },
+        onDonateClick() {
+            this.sheet = !this.sheet
+        },
+        check() {
+            if (!this.isDonator()) {
+                this.sheet = true
+            }
+        },
         ...mapGetters('authentication', ['isDonator'])
+    },
+    watch: {
+        sheet(newValue) {
+            if (newValue && this.checkMode) {
+                setTimeout(() => {
+                    if (this.sheet) {
+                        this.closable = true
+                    }
+                }, 4000)
+            } else {
+                this.closable = false || !this.checkMode
+            }
+        }
     }
 }
 </script>

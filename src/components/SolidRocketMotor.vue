@@ -63,6 +63,7 @@
                 <div class="text-center mt-30">Computation in progress ...</div>
             </v-col>
         </v-overlay>
+        <donate ref="donationPopup" :check-mode="true"></donate>
     </v-container>
 </template>
 
@@ -73,10 +74,11 @@ import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
+import Donate from '@/components/donate'
 
 export default {
     name: 'solid-rocket-motor',
-    components: { MotorConfiguration, AdvancedConfiguration },
+    components: { Donate, MotorConfiguration, AdvancedConfiguration },
     data() {
         return {
             formValue: { },
@@ -116,6 +118,7 @@ export default {
             return this.$refs.formJSRM.validate()
         },
         runComputation() {
+            this.$refs.donationPopup.check()
             const component = this
             let url = '/compute'
             let request
