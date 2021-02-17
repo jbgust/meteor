@@ -14,7 +14,7 @@
                 <v-btn class="mr-4" @click="$refs.advanceSettings.show()">
                     <v-icon dark id="btnAdvancedSettings">mdi-cog</v-icon>
                 </v-btn>
-                <v-btn class="mr-4" @click="runComputation" color="primary" :loading="loading" >Submit</v-btn>
+                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" >Submit</v-btn>
             </div>
 
             <v-dialog ref="errorModal" max-width="700px" v-model="showError">
@@ -63,7 +63,7 @@
                 <div class="text-center mt-30">Computation in progress ...</div>
             </v-col>
         </v-overlay>
-        <donate ref="donationPopup" :check-mode="true"></donate>
+        <donate ref="donationPopup" :check-mode="true" @closeDonation="runComputation"></donate>
     </v-container>
 </template>
 
@@ -117,11 +117,8 @@ export default {
         validateForm() {
             return this.$refs.formJSRM.validate()
         },
-        runComputation() {
-            this.$refs.donationPopup.check()
-            const component = this
+        checkGrainAndGetURL() {
             let url = '/compute'
-            let request
             let grainCheck = true
             if (this.getGrainType() === HOLLOW) {
                 grainCheck = this.checkMotorDimensions()
@@ -144,11 +141,27 @@ export default {
                 grainCheck = true
                 url += '/rodtube'
             }
+
+            return {
+                grainCheck: grainCheck,
+                url: url
+            }
+        },
+        checkDonor() {
+            const checkGrainAndGetURL = this.checkGrainAndGetURL()
+            if (this.$refs.formJSRM.validate() && checkGrainAndGetURL.grainCheck) {
+                this.$refs.donationPopup.check()
+            }
+        },
+        runComputation() {
+            const component = this
+            let request
+            const checkGrainAndGetURL = this.checkGrainAndGetURL()
             request = this.buildRequest()
 
-            if (this.$refs.formJSRM.validate() && grainCheck) {
+            if (this.$refs.formJSRM.validate() && checkGrainAndGetURL.grainCheck) {
                 this.loading = true
-                Axios.post(url, request)
+                Axios.post(checkGrainAndGetURL.url, request)
                     .then(function(response) {
                         component.$emit('computation-success', response.data, request)
                         component.loading = false

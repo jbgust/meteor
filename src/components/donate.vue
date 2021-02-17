@@ -32,10 +32,21 @@
                                 <h4 style="color:purple; margin-top: 5px">Benefits for donors:</h4>
                                 <ul style="margin-bottom: 5px">
                                     <li>
-                                        <b>do not see this popup for 1 year</b>
+                                        <b>do not see this popup anymore</b>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-icon
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                >
+                                                    mdi-information-variant
+                                                </v-icon>
+                                            </template>
+                                            <span>The popup will be disabled for one year.</span>
+                                        </v-tooltip>
                                     </li>
                                     <li>
-                                        <b>benchmark of motors</b>
+                                        <b>access to all new features</b> (like benchmark of motors, ...)
                                     </li>
                                 </ul>
                                 <br />
@@ -47,18 +58,30 @@
                         </v-col>
                     </v-flex>
                 </v-row>
+                <v-alert type="info" v-model="donateClicked" outlined>
+                    If you have made a donation, you must log out and log back in to be marked as donator.
+                </v-alert>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
                     outlined
+                    v-if="!donateClicked"
                     @click="sheet = false"
                     :loading="!closable"
                 >
                     Later
                 </v-btn>
                 <v-btn
+                    v-if="donateClicked"
+                    @click="sheet = false"
+                    color="primary"
+                >
+                    Close
+                </v-btn>
+                <v-btn
+                    v-else
                     id="btnDonateNow"
                     color="purple"
                     dark
@@ -92,7 +115,8 @@ export default {
             on: null,
             rollingMonthDonationsInDollars: 0,
             currentYearDonationsInDollars: 0,
-            closable: false
+            closable: false,
+            donateClicked: false
         }
     },
     created() {
@@ -111,11 +135,14 @@ export default {
             localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
         },
         onDonateClick() {
-            this.sheet = !this.sheet
+            this.donateClicked = true
         },
         check() {
             if (!this.isDonator()) {
                 this.sheet = true
+            } else {
+                this.$emit('closeDonation')
+                this.sheet = false
             }
         },
         ...mapGetters('authentication', ['isDonator'])
@@ -130,6 +157,8 @@ export default {
                 }, 4000)
             } else {
                 this.closable = false || !this.checkMode
+                this.donateClicked = false
+                this.$emit('closeDonation')
             }
         }
     }

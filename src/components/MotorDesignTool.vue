@@ -250,7 +250,7 @@ export default {
                 scope.unitSelected = loadedConfig.measureUnit
                 // If nextTick is not here, the form will not be valid when call runComputation()
                 Vue.nextTick(() => {
-                    scope.$refs.form.runComputation()
+                    scope.$refs.form.checkDonor()
                     scope.importInProgress = false
                 })
             } else {

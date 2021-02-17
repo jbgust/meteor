@@ -35,7 +35,7 @@ before(() => {
             password: Cypress.env('password')
         })
         .then((response) => {
-            Cypress.env('jwtToken', JSON.stringify(response.body))
+            Cypress.env('jwtToken', response.body.accessToken)
             Cypress.env('hasJjwtToken', true)
         })
 })
