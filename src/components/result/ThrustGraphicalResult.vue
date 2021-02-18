@@ -6,6 +6,7 @@
 <script>
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'thrust-graphical-result',
@@ -104,8 +105,14 @@ export default {
             indicatorLabel.fontSize = 20
         }
     },
+    computed: {
+        ...mapGetters('computation', ['currentComputation'])
+    },
     watch: {
-        units(newValue, oldValue) {
+        currentComputation(newValue) {
+            this.chart.data = this.currentComputation.motorParameters
+        },
+        units(newValue) {
             this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.resultPressureUnit}`
             this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
         }

@@ -75,6 +75,7 @@ import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
 import Donate from '@/components/donate'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'solid-rocket-motor',
@@ -153,20 +154,23 @@ export default {
                 this.$refs.donationPopup.check()
             }
         },
+        ...mapMutations('computation', ['setCurrentComputation']),
+        ...mapGetters('computation', ['currentComputation']),
         runComputation() {
             const component = this
             let request
             const checkGrainAndGetURL = this.checkGrainAndGetURL()
             request = this.buildRequest()
-
             if (this.$refs.formJSRM.validate() && checkGrainAndGetURL.grainCheck) {
                 this.loading = true
                 Axios.post(checkGrainAndGetURL.url, request)
-                    .then(function(response) {
-                        component.$emit('computation-success', response.data, request)
+                    .then((response) => {
+                        this.setCurrentComputation(response.data)
+                        component.$emit('computation-success', request)
                         component.loading = false
                     })
                     .catch(function(error) {
+                        console.error(error)
                         component.loading = false
 
                         if (!(error.response && error.response.status === 401)) {

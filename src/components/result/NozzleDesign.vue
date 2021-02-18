@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="currentComputation">
         <v-btn small @click="showNozzleDesignDialog = true">
             <v-icon left>mdi-ruler-square</v-icon>
             Nozzle design</v-btn>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div>
                                     <span class="label-nozzle-desing">Nozzle exit diameter:&nbsp;</span>
-                                    <span v-text="`${performance.nozzleExitDiameter} ${units.lengthUnit}`">
+                                    <span v-text="`${currentComputation.performanceResult.nozzleExitDiameter} ${units.lengthUnit}`">
                                     </span>
                                 </div>
                                 <h3 class="mt-5">Legend</h3>
@@ -60,12 +60,12 @@
 <script>
 import { rangeRule } from '../../modules/formValidationRules'
 import { computeNozzleLength } from '../../modules/computationUtils'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'NozzleDesign',
     data() {
         return {
-            performance: { divergenceCrossSectionDiameter: 0, convergenceCrossSectionDiameter: 0, optimalDesign: true },
             showNozzleDesignDialog: false,
             rangeRules: rangeRule(1, 90)
         }
@@ -84,11 +84,12 @@ export default {
         }
     },
     computed: {
+        ...mapGetters('computation', ['currentComputation']),
         divergenceLenght() {
-            return this.computeResult(this.performance.divergenceCrossSectionDiameter, this.value.divergenceAngle)
+            return this.computeResult(this.currentComputation.performanceResult.divergenceCrossSectionDiameter, this.value.divergenceAngle)
         },
         convergenceLenght() {
-            return this.computeResult(this.performance.convergenceCrossSectionDiameter, this.value.convergenceAngle)
+            return this.computeResult(this.currentComputation.performanceResult.convergenceCrossSectionDiameter, this.value.convergenceAngle)
         }
     }
 }

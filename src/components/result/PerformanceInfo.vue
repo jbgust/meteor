@@ -1,19 +1,55 @@
 <template>
-    <div>
+    <div v-if="!!performance">
         <v-layout d-flex wrap>
-            <v-text-field hide-details outlined class="resultElement" readonly id="motor-class" :suffix="performance.classPercentage+'%'" label="Class" v-model="performance.motorDescription"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s" v-model="performance.thrustTime"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N" v-model="performance.maxThrust" ></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns" v-model="performance.totalImpulse"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="specific-impulse" label="Specific impulse" suffix="s" v-model="performance.specificImpulse"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="max-pressure" label="Max pressure" :suffix="units.resultPressureUnit" v-model="performance.maxPressure"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="average-pressure" label="Average pressure" :suffix="units.resultPressureUnit" v-model="performance.averagePressure"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="nozzle-exit-speed" label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial"></v-text-field>
-            <v-text-field hide-details outlined class="resultElement" readonly id="grain-mass" label="Initial grain mass" :suffix="units.massUnit" v-model="performance.grainMass"></v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="motor-class" :suffix="performance.classPercentage+'%'" label="Class" v-model="performance.motorDescription">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.class.cssColor">{{ performance.compare.class.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s" v-model="performance.thrustTime">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.thrustTime.cssColor">{{ performance.compare.thrustTime.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N" v-model="performance.maxThrust" >
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.maxThrust.cssColor">{{ performance.compare.maxThrust.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns" v-model="performance.totalImpulse">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.totalImpulse.cssColor">{{ performance.compare.totalImpulse.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="specific-impulse" label="Specific impulse" suffix="s" v-model="performance.specificImpulse">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.specificImpulse.cssColor">{{ performance.compare.specificImpulse.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="max-pressure" label="Max pressure" :suffix="units.resultPressureUnit" v-model="performance.maxPressure">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.maxPressure.cssColor">{{ performance.compare.maxPressure.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="average-pressure" label="Average pressure" :suffix="units.resultPressureUnit" v-model="performance.averagePressure">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.averagePressure.cssColor">{{ performance.compare.averagePressure.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="nozzle-exit-speed" label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.exitSpeedInitial.cssColor">{{ performance.compare.exitSpeedInitial.icon }}</v-icon>
+                </template>
+            </v-text-field>
+            <v-text-field hide-details outlined class="resultElement" readonly id="grain-mass" label="Initial grain mass" :suffix="units.massUnit" v-model="performance.grainMass">
+                <template v-slot:prepend-inner v-if="!!performance.compare">
+                    <v-icon :color="performance.compare.grainMass.cssColor">{{ performance.compare.grainMass.icon }}</v-icon>
+                </template>
+            </v-text-field>
         </v-layout>
         <v-flex >
             <p class="label-nozzle" v-bind:style="{color: this.portThroatWarningColor}" v-if="showPortThroatAreaWarning">
-                {{`Your port-to-throat ratio is ${performance.portToThroatArea}, it can be a problem` }}
+                {{`Your port-to-throat ratio is ${currentComputation.performanceResult.portToThroatArea}, it can be a problem` }}
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <v-icon v-on="on">mdi-information-outline</v-icon>
@@ -23,7 +59,7 @@
                     </p>
                 </v-tooltip>
             </p>
-            <p class="label-nozzle" style="color: red;" v-if="performance.lowKNCorrection">
+            <p class="label-nozzle" style="color: red;" v-if="currentComputation.performanceResult.lowKNCorrection">
                 Low KN.
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -34,27 +70,37 @@
                     </p>
                 </v-tooltip>
             </p>
-            <p class="label-nozzle" style="color: #2196f3;" v-if="performance.optimalDesign">Optimally designed nozzle with an expansion ratio of {{performance.optimalNozzleExpansionRatio}}</p>
+            <p class="label-nozzle" style="color: #2196f3;" v-if="currentComputation.performanceResult.optimalDesign">Optimally designed nozzle with an expansion ratio of {{currentComputation.performanceResult.optimalNozzleExpansionRatio}}</p>
         </v-flex>
     </div>
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { comparePerformanceResults } from '@/modules/computationUtils.mjs'
+
 export default {
     name: 'PerformanceInfo',
     data() {
         return {
-            performance: {},
             showPortThroatAreaWarning: false,
-            portThroatWarningColor: 'red'
+            portThroatWarningColor: 'red',
+            performance: null
         }
     },
     props: {
         units: Object
     },
+    computed: {
+        ...mapGetters('computation', ['currentComputation', 'previousComputation'])
+    },
     watch: {
-        performance(newValue) {
+        currentComputation(newValue) {
+            this.performance = newValue.performanceResult
+            if (this.previousComputation) {
+                this.performance.compare = comparePerformanceResults(newValue.performanceResult, this.previousComputation.performanceResult)
+            }
             if (newValue) {
                 this.showPortThroatAreaWarning = !!newValue.portToThroatAreaWarning && newValue.portToThroatAreaWarning !== 'NORMAL'
                 this.portThroatWarningColor = newValue.portToThroatAreaWarning === 'DANGER' ? 'red' : 'orange'

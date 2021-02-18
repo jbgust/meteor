@@ -177,6 +177,7 @@ import ExportRasp from './result/ExportRASPForm'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
 import { extractIdFromHateoasResponse } from '@/modules/utils'
+import { mapMutations } from 'vuex'
 
 export default {
     name: 'motor-design-tool',
@@ -213,12 +214,14 @@ export default {
             this.$refs.form.disabledControls(true)
             this.$refs.form.loadForm(this.demoForm)
             this.unitSelected = SI_UNITS
-            this.loadResult(this.demoResultData)
+            this.setCurrentComputation(this.demoResultData)
+            this.loadResult()
         } else {
             this.unitSelected = getSelectedUnitOrSI()
         }
     },
     methods: {
+        ...mapMutations('computation', ['setCurrentComputation']),
         exportRASP() {
             this.$refs.form.exportRASP()
         },
@@ -258,25 +261,22 @@ export default {
                 scope.displayImportError = true
             }
         },
-        loadResult(data, request) {
+        loadResult(request) {
             // save defaultUnit
             if (!this.demo) {
                 setSelectedUnits(this.unitSelected)
-                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), request, data)
+                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), request)
             } else {
                 const demoRequest = demoFormRequest
                 demoRequest.extraConfig = defaultAdvanceConfig
-                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), demoRequest, data)
+                this.$refs.rasp.setComputationRequest(this.$refs.form.getGrainType(), demoRequest)
             }
 
             this.displayDefaultUnitInfo = false
 
             this.displayImportError = false
             this.displayUnitInfo = false
-            this.$refs.thrustGraphicalResult.chart.data = data.motorParameters
             this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
-            this.$refs.performanceResult.performance = data.performanceResult
-            this.$refs.nozzleDesign.performance = data.performanceResult
             this.asResult = true
             Vue.nextTick(() => {
                 this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })

@@ -2,7 +2,7 @@ import {
     computeNozzleLength,
     hasSelectedUnits, IMPERIAL_UNITS,
     setSelectedUnits, SI_UNITS
-    , getSelectedUnit, getSelectedUnitOrSI
+    , getSelectedUnit, getSelectedUnitOrSI, comparePerformanceResults
 } from '../../src/modules/computationUtils'
 
 describe('Nozzle length calculation (divergence and convergence length)', () => {
@@ -51,5 +51,270 @@ describe('Units management', () => {
 
         setSelectedUnits(IMPERIAL_UNITS)
         expect(getSelectedUnitOrSI()).toBe(IMPERIAL_UNITS)
+    })
+})
+
+describe('Motor performance comparison', () => {
+    test('Current motor better than the previous one', () => {
+        const motorPerformanceResult1 = {
+            motorDescription: 'M1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        const motorPerformanceResult2 = {
+            motorDescription: 'L1671',
+            maxThrust: '2060.34',
+            totalImpulse: '3603.06',
+            specificImpulse: '130.64',
+            maxPressure: '59.35',
+            thrustTime: '2.14',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.06',
+            grainMass: '2.812',
+            averagePressure: '49.05',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        expect(comparePerformanceResults(motorPerformanceResult1, motorPerformanceResult2))
+            .toEqual({
+                class: { icon: 'mdi-menu-up', cssColor: 'green' },
+                maxThrust: { icon: 'mdi-menu-up', cssColor: 'green' },
+                totalImpulse: { icon: 'mdi-menu-up', cssColor: 'green' },
+                specificImpulse: { icon: 'mdi-menu-up', cssColor: 'green' },
+                maxPressure: { icon: 'mdi-menu-up', cssColor: 'green' },
+                thrustTime: { icon: 'mdi-menu-up', cssColor: 'green' },
+                averagePressure: { icon: 'mdi-menu-up', cssColor: 'green' },
+                exitSpeedInitial: { icon: 'mdi-menu-up', cssColor: 'green' },
+                grainMass: { icon: 'mdi-menu-up', cssColor: 'green' }
+            })
+    })
+
+    test('Previous motor better than the current', () => {
+        const motorPerformanceResult1 = {
+            motorDescription: 'L1671',
+            maxThrust: '2060.34',
+            totalImpulse: '3603.06',
+            specificImpulse: '130.64',
+            maxPressure: '59.35',
+            thrustTime: '2.14',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.06',
+            grainMass: '2.812',
+            averagePressure: '49.05',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        const motorPerformanceResult2 = {
+            motorDescription: 'M1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        expect(comparePerformanceResults(motorPerformanceResult1, motorPerformanceResult2))
+            .toEqual({
+                class: { icon: 'mdi-menu-down', cssColor: 'red' },
+                maxThrust: { icon: 'mdi-menu-down', cssColor: 'red' },
+                totalImpulse: { icon: 'mdi-menu-down', cssColor: 'red' },
+                specificImpulse: { icon: 'mdi-menu-down', cssColor: 'red' },
+                maxPressure: { icon: 'mdi-menu-down', cssColor: 'red' },
+                thrustTime: { icon: 'mdi-menu-down', cssColor: 'red' },
+                averagePressure: { icon: 'mdi-menu-down', cssColor: 'red' },
+                exitSpeedInitial: { icon: 'mdi-menu-down', cssColor: 'red' },
+                grainMass: { icon: 'mdi-menu-down', cssColor: 'red' }
+            })
+    })
+
+    test('Previous motor class better than the current', () => {
+        const motorPerformanceResult1 = {
+            motorDescription: 'L9',
+            maxThrust: '2060.34',
+            totalImpulse: '3603.06',
+            specificImpulse: '130.64',
+            maxPressure: '59.35',
+            thrustTime: '2.14',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.06',
+            grainMass: '2.812',
+            averagePressure: '49.05',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        const motorPerformanceResult2 = {
+            motorDescription: 'L1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        expect(comparePerformanceResults(motorPerformanceResult1, motorPerformanceResult2))
+            .toEqual({
+                class: { icon: 'mdi-menu-down', cssColor: 'red' },
+                maxThrust: { icon: 'mdi-menu-down', cssColor: 'red' },
+                totalImpulse: { icon: 'mdi-menu-down', cssColor: 'red' },
+                specificImpulse: { icon: 'mdi-menu-down', cssColor: 'red' },
+                maxPressure: { icon: 'mdi-menu-down', cssColor: 'red' },
+                thrustTime: { icon: 'mdi-menu-down', cssColor: 'red' },
+                averagePressure: { icon: 'mdi-menu-down', cssColor: 'red' },
+                exitSpeedInitial: { icon: 'mdi-menu-down', cssColor: 'red' },
+                grainMass: { icon: 'mdi-menu-down', cssColor: 'red' }
+            })
+    })
+
+    test('Current motor class better than the previous one', () => {
+        const motorPerformanceResult1 = {
+            motorDescription: 'L1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        const motorPerformanceResult2 = {
+            motorDescription: 'L9',
+            maxThrust: '2060.34',
+            totalImpulse: '3603.06',
+            specificImpulse: '130.64',
+            maxPressure: '59.35',
+            thrustTime: '2.14',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.06',
+            grainMass: '2.812',
+            averagePressure: '49.05',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        expect(comparePerformanceResults(motorPerformanceResult1, motorPerformanceResult2))
+            .toEqual({
+                class: { icon: 'mdi-menu-up', cssColor: 'green' },
+                maxThrust: { icon: 'mdi-menu-up', cssColor: 'green' },
+                totalImpulse: { icon: 'mdi-menu-up', cssColor: 'green' },
+                specificImpulse: { icon: 'mdi-menu-up', cssColor: 'green' },
+                maxPressure: { icon: 'mdi-menu-up', cssColor: 'green' },
+                thrustTime: { icon: 'mdi-menu-up', cssColor: 'green' },
+                averagePressure: { icon: 'mdi-menu-up', cssColor: 'green' },
+                exitSpeedInitial: { icon: 'mdi-menu-up', cssColor: 'green' },
+                grainMass: { icon: 'mdi-menu-up', cssColor: 'green' }
+            })
+    })
+
+    test('Current motor equals previous one', () => {
+        const motorPerformanceResult1 = {
+            motorDescription: 'L1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        const motorPerformanceResult2 = {
+            motorDescription: 'L1672',
+            maxThrust: '2060.35',
+            totalImpulse: '3603.07',
+            specificImpulse: '130.65',
+            maxPressure: '59.36',
+            thrustTime: '12.15',
+            optimalDesign: true,
+            nozzleExitDiameter: '54.03',
+            convergenceCrossSectionDiameter: 57.61,
+            divergenceCrossSectionDiameter: 36.6356,
+            exitSpeedInitial: '3.07',
+            grainMass: '2.812',
+            averagePressure: '49.06',
+            optimalNozzleExpansionRatio: '9.65',
+            classPercentage: 41
+        }
+
+        expect(comparePerformanceResults(motorPerformanceResult1, motorPerformanceResult2))
+            .toEqual({
+                class: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                maxThrust: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                totalImpulse: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                specificImpulse: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                maxPressure: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                thrustTime: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                averagePressure: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                exitSpeedInitial: { icon: 'mdi-equal', cssColor: 'darkgray' },
+                grainMass: { icon: 'mdi-equal', cssColor: 'darkgray' }
+            })
+    })
+
+    test('Should return undefined if no previous computation', () => {
+        expect(comparePerformanceResults({}, null))
+            .toEqual(undefined)
+
+        expect(comparePerformanceResults({}, undefined))
+            .toEqual(undefined)
     })
 })

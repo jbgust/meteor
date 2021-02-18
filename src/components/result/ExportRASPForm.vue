@@ -42,6 +42,7 @@
 import Axios from 'axios'
 import { greaterThanRule, regexValidator, requiredValidator } from '../../modules/formValidationRules'
 import HelpDialog from '../motor/HelpDialog'
+import { mapGetters } from 'vuex'
 const delayHintMessage = 'This is the list of available delays, separated by dashes. If the motor has an ejection charge but no delay use "0" and if it has no ejection charge at all use "P" (plugged).'
 export default {
     name: 'export-rasp',
@@ -63,6 +64,9 @@ export default {
             delayRules: [requiredValidator('Field is required'), regexValidator(/^([0-9]+|P)(-([0-9]+|P))*$/g, `Invalid format. ${delayHintMessage}`)]
         }
     },
+    computed: {
+        ...mapGetters('computation', ['currentComputation'])
+    },
     methods: {
         show() {
             this.dialog = true
@@ -76,12 +80,12 @@ export default {
         isFormValid() {
             return this.$refs.exportRaspForm ? this.$refs.exportRaspForm.validate() : true
         },
-        setComputationRequest(grainType, request, computationResult) {
+        setComputationRequest(grainType, request) {
             this.computationRequest = Object.assign({}, request)
-            this.massRules = greaterThanRule(Number(computationResult.performanceResult.grainMass))
+            this.massRules = greaterThanRule(Number(this.currentComputation.performanceResult.grainMass))
             this.motorDiameterRules = greaterThanRule(Number(request.chamberInnerDiameter))
             this.motorLengthRules = greaterThanRule(Number(request.chamberLength))
-            this.safeKN = computationResult.performanceResult.safeKN
+            this.safeKN = this.currentComputation.performanceResult.safeKN
         },
         exportRASP() {
             if (this.isFormValid()) {
