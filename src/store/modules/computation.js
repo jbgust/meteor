@@ -1,6 +1,7 @@
 const state = () => ({
     previousComputation: null,
-    currentComputation: null
+    currentComputation: null,
+    compareWithPrevious: false
 })
 
 // getters
@@ -10,6 +11,9 @@ const getters = {
     },
     currentComputation: (state) => {
         return state.currentComputation
+    },
+    compareWithPrevious: (state) => {
+        return state.compareWithPrevious
     }
 }
 
@@ -18,6 +22,9 @@ const mutations = {
     setCurrentComputation(state, currentComputation) {
         state.previousComputation = Object.assign({}, state.currentComputation)
         state.currentComputation = currentComputation
+    },
+    setCompareWithPrevious(state, compareWithPrevious) {
+        state.compareWithPrevious = compareWithPrevious
     }
 }
 

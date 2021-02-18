@@ -1,49 +1,49 @@
 <template>
-    <div v-if="!!performance">
+    <div v-if="!!performance && !redraw">
         <v-layout d-flex wrap>
             <v-text-field hide-details outlined class="resultElement" readonly id="motor-class" :suffix="performance.classPercentage+'%'" label="Class" v-model="performance.motorDescription">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.class.cssColor">{{ performance.compare.class.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors" >
+                    <v-icon :color="compareMotors.class.cssColor">{{ compareMotors.class.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s" v-model="performance.thrustTime">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.thrustTime.cssColor">{{ performance.compare.thrustTime.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.thrustTime.cssColor">{{ compareMotors.thrustTime.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N" v-model="performance.maxThrust" >
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.maxThrust.cssColor">{{ performance.compare.maxThrust.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.maxThrust.cssColor">{{ compareMotors.maxThrust.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns" v-model="performance.totalImpulse">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.totalImpulse.cssColor">{{ performance.compare.totalImpulse.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.totalImpulse.cssColor">{{ compareMotors.totalImpulse.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="specific-impulse" label="Specific impulse" suffix="s" v-model="performance.specificImpulse">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.specificImpulse.cssColor">{{ performance.compare.specificImpulse.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.specificImpulse.cssColor">{{ compareMotors.specificImpulse.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="max-pressure" label="Max pressure" :suffix="units.resultPressureUnit" v-model="performance.maxPressure">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.maxPressure.cssColor">{{ performance.compare.maxPressure.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.maxPressure.cssColor">{{ compareMotors.maxPressure.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="average-pressure" label="Average pressure" :suffix="units.resultPressureUnit" v-model="performance.averagePressure">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.averagePressure.cssColor">{{ performance.compare.averagePressure.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.averagePressure.cssColor">{{ compareMotors.averagePressure.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="nozzle-exit-speed" label="Nozzle exit speed" prefix="Mach" v-model="performance.exitSpeedInitial">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.exitSpeedInitial.cssColor">{{ performance.compare.exitSpeedInitial.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.exitSpeedInitial.cssColor">{{ compareMotors.exitSpeedInitial.icon }}</v-icon>
                 </template>
             </v-text-field>
             <v-text-field hide-details outlined class="resultElement" readonly id="grain-mass" label="Initial grain mass" :suffix="units.massUnit" v-model="performance.grainMass">
-                <template v-slot:prepend-inner v-if="!!performance.compare">
-                    <v-icon :color="performance.compare.grainMass.cssColor">{{ performance.compare.grainMass.icon }}</v-icon>
+                <template v-slot:prepend-inner v-if="!!compareMotors">
+                    <v-icon :color="compareMotors.grainMass.cssColor">{{ compareMotors.grainMass.icon }}</v-icon>
                 </template>
             </v-text-field>
         </v-layout>
@@ -79,6 +79,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { comparePerformanceResults } from '@/modules/computationUtils.mjs'
+import Vue from 'vue'
 
 export default {
     name: 'PerformanceInfo',
@@ -86,21 +87,30 @@ export default {
         return {
             showPortThroatAreaWarning: false,
             portThroatWarningColor: 'red',
-            performance: null
+            performance: null,
+            redraw: false
         }
     },
     props: {
         units: Object
     },
     computed: {
-        ...mapGetters('computation', ['currentComputation', 'previousComputation'])
+        ...mapGetters('computation', ['currentComputation', 'previousComputation', 'compareWithPrevious']),
+        compareMotors() {
+            if (this.previousComputation && this.compareWithPrevious) {
+                return comparePerformanceResults(this.currentComputation.performanceResult, this.previousComputation.performanceResult)
+            } else {
+                return undefined
+            }
+        }
     },
     watch: {
+        compareMotors() {
+            this.redraw = true
+            Vue.nextTick(() => { this.redraw = false })
+        },
         currentComputation(newValue) {
             this.performance = newValue.performanceResult
-            if (this.previousComputation) {
-                this.performance.compare = comparePerformanceResults(newValue.performanceResult, this.previousComputation.performanceResult)
-            }
             if (newValue) {
                 this.showPortThroatAreaWarning = !!newValue.portToThroatAreaWarning && newValue.portToThroatAreaWarning !== 'NORMAL'
                 this.portThroatWarningColor = newValue.portToThroatAreaWarning === 'DANGER' ? 'red' : 'orange'

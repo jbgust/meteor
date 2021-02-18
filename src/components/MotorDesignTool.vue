@@ -137,6 +137,11 @@
                                 <performance-info :units="units" ref="performanceResult"/>
                             </v-card-text>
                             <v-card-actions>
+                                <v-switch
+                                    dense
+                                    v-model="showComparison"
+                                    label="Compare with previous motor"
+                                ></v-switch>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
@@ -177,7 +182,7 @@ import ExportRasp from './result/ExportRASPForm'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
 import { extractIdFromHateoasResponse } from '@/modules/utils'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'motor-design-tool',
@@ -355,7 +360,9 @@ export default {
             this.motorId = null
             this.asResult = false
             this.displayImportError = false
-        }
+        },
+        ...mapGetters('computation', ['compareWithPrevious']),
+        ...mapMutations('computation', ['setCompareWithPrevious'])
     },
     watch: {
         demo(newValue, oldValue) {
@@ -390,6 +397,14 @@ export default {
         }
     },
     computed: {
+        showComparison: {
+            get() {
+                return this.compareWithPrevious()
+            },
+            set(value) {
+                this.setCompareWithPrevious(value)
+            }
+        },
         units() {
             return getUnit(this.unitSelected)
         }
