@@ -139,6 +139,7 @@
                             <v-card-actions>
                                 <v-switch
                                     dense
+                                    inset
                                     v-model="showComparison"
                                     label="Compare with previous motor"
                                 ></v-switch>
@@ -402,7 +403,7 @@ export default {
                 return this.compareWithPrevious()
             },
             set(value) {
-                this.setCompareWithPrevious(value)
+                Vue.nextTick(() => { this.setCompareWithPrevious(value) })
             }
         },
         units() {
