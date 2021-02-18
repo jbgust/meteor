@@ -28,7 +28,7 @@
                             <v-btn @click="$refs.helpDialog.show()">Help</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
-                            <v-btn id="btnExportRASP" @click="exportRASP" :loading="computationInProgress" color="primary">Export</v-btn>
+                            <v-btn id="btnExportRASP" v-if="isLogged" @click="exportRASP" :loading="computationInProgress" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -65,7 +65,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('computation', ['currentComputation'])
+        ...mapGetters('computation', ['currentComputation']),
+        ...mapGetters('authentication', ['isLogged'])
     },
     methods: {
         show() {

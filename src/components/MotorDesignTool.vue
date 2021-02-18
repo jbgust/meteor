@@ -135,7 +135,7 @@
                             </v-app-bar>
                             <v-card-text v-show="showPerformanceInfo" class="pb-0">
                                 <performance-info :units="units" ref="performanceResult"/>
-                                <v-alert type="info" v-model="showDonatorInfo" dismissible outlined>Motor comparison is only available for donators.</v-alert>
+                                <v-alert dense type="info" v-model="showDonatorInfo" dismissible outlined>Motor comparison is only available for donators.</v-alert>
                             </v-card-text>
                             <v-card-actions>
                                 <v-switch

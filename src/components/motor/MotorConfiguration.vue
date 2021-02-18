@@ -14,7 +14,7 @@
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
                       :items="propellants" :rules="requiredRules" v-model="value.propellantId" />
-            <v-flex class="add-propellant-icon">
+            <v-flex class="add-propellant-icon" v-if="isLogged">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <v-btn class="mt-3" text icon @click="managePropellant" v-on="on" id="custom-propellant-add">
@@ -78,6 +78,7 @@ export default {
     },
     computed: {
         ...mapGetters('customPropellants', ['customPropellants']),
+        ...mapGetters('authentication', ['isLogged']),
         propellants() {
             let propellants = []
             if (!(this.customPropellants == null || this.customPropellants === undefined)) {
