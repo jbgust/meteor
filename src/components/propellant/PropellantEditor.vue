@@ -67,7 +67,7 @@
                                                           :rules="numericGreater0Rules" step="0.01"
                                                           class="custom-prop-element"/>
                                             <v-text-field id="pressureExponent" v-if="!useComplexBurnRate"
-                                                          :hint="hintBurnRate" persistent-hint label="Pressure exponent"
+                                                          persistent-hint label="Pressure exponent"
                                                           v-model="propellant.pressureExponent"
                                                           :rules="numericGreater0Rules" step="0.01"
                                                           class="custom-prop-element"/>

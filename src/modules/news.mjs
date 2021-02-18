@@ -103,17 +103,18 @@ export const news = [
                             <b>January 2021</b>
                             <ul>
                                 <li>Online save for motors and propellants. This is the end the JSON file import/export</li>
+                                <li>Warning on low port to throat ratio</li>
+                                <li>End burner grain now support configuration with no hole</li>
                             </ul>
                         </li>
                     </ul>`
     }, {
-        id: 12,
+        id: 13,
         html: `<ul>
                         <li>
                             <b>February 2021</b>
                             <ul>
-                                <li>Warning on low port to throat ratio</li>
-                                <li>End burner grain now support configuration with no hole</li>
+                                <li>Motor comparison</li>
                             </ul>
                         </li>
                     </ul>`

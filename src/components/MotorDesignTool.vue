@@ -139,11 +139,21 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-switch
+                                    style="margin-left: 20px"
                                     dense
                                     inset
                                     v-model="showComparison"
                                     label="Compare with previous motor"
                                 ></v-switch>
+                                <v-chip
+                                    class="ma-2"
+                                    color="pink"
+                                    label
+                                    x-small
+                                    text-color="white"
+                                >
+                                    new
+                                </v-chip>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>

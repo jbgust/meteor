@@ -80,12 +80,14 @@ export default {
             if (this.compareWithPrevious && !!this.previousComputation) {
                 let chartData = []
                 this.currentComputation.motorParameters.forEach((value, index) => {
-                    let item = Object.assign({}, value)
-                    item.yPrevious = this.previousComputation.motorParameters[index].y
-                    item.knPrevious = this.previousComputation.motorParameters[index].kn
-                    item.pPrevious = this.previousComputation.motorParameters[index].p
-                    item.mPrevious = this.previousComputation.motorParameters[index].m
-                    chartData.push(item)
+                    if (this.previousComputation.motorParameters[index]) {
+                        let item = Object.assign({}, value)
+                        item.yPrevious = this.previousComputation.motorParameters[index].y
+                        item.knPrevious = this.previousComputation.motorParameters[index].kn
+                        item.pPrevious = this.previousComputation.motorParameters[index].p
+                        item.mPrevious = this.previousComputation.motorParameters[index].m
+                        chartData.push(item)
+                    }
                 })
                 this.chart.data = chartData
             } else {
