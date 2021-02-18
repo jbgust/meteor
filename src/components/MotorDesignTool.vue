@@ -135,6 +135,7 @@
                             </v-app-bar>
                             <v-card-text v-show="showPerformanceInfo" class="pb-0">
                                 <performance-info :units="units" ref="performanceResult"/>
+                                <v-alert type="info" v-model="showDonatorInfo" dismissible outlined>Motor comparison is only available for donators.</v-alert>
                             </v-card-text>
                             <v-card-actions>
                                 <v-switch
@@ -212,7 +213,8 @@ export default {
             motorId: null,
             saveLoading: false,
             displaySuccess: false,
-            successMessage: null
+            successMessage: null,
+            showDonatorInfo: false
         }
     },
     mounted() {
@@ -363,7 +365,8 @@ export default {
             this.displayImportError = false
         },
         ...mapGetters('computation', ['compareWithPrevious']),
-        ...mapMutations('computation', ['setCompareWithPrevious'])
+        ...mapMutations('computation', ['setCompareWithPrevious']),
+        ...mapGetters('authentication', ['isDonator'])
     },
     watch: {
         demo(newValue, oldValue) {
@@ -403,7 +406,12 @@ export default {
                 return this.compareWithPrevious()
             },
             set(value) {
-                Vue.nextTick(() => { this.setCompareWithPrevious(value) })
+                if (this.isDonator()) {
+                    Vue.nextTick(() => { this.setCompareWithPrevious(value) })
+                } else {
+                    // toggle on when user activate showComparison
+                    this.showDonatorInfo = value
+                }
             }
         },
         units() {

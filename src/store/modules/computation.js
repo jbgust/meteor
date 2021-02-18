@@ -20,10 +20,10 @@ const getters = {
 // mutations
 const mutations = {
     setCurrentComputation(state, currentComputation) {
-        if (state.currentComputation) {
-            state.previousComputation = Object.assign({}, state.currentComputation)
-        }
         state.currentComputation = currentComputation
+    },
+    setPreviousComputation(state, previousComputation) {
+        state.previousComputation = previousComputation
     },
     setCompareWithPrevious(state, compareWithPrevious) {
         state.compareWithPrevious = compareWithPrevious

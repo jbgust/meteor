@@ -154,8 +154,9 @@ export default {
                 this.$refs.donationPopup.check()
             }
         },
-        ...mapMutations('computation', ['setCurrentComputation']),
+        ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation']),
         ...mapGetters('computation', ['currentComputation']),
+        ...mapGetters('authentication', ['isDonator']),
         runComputation() {
             const component = this
             let request
@@ -165,6 +166,9 @@ export default {
                 this.loading = true
                 Axios.post(checkGrainAndGetURL.url, request)
                     .then((response) => {
+                        if (this.isDonator() && !!this.currentComputation()) {
+                            this.setPreviousComputation(this.currentComputation())
+                        }
                         this.setCurrentComputation(response.data)
                         component.$emit('computation-success', request)
                         component.loading = false

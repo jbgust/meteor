@@ -112,8 +112,8 @@ export default {
         currentComputation(newValue) {
             this.performance = newValue.performanceResult
             if (newValue) {
-                this.showPortThroatAreaWarning = !!newValue.portToThroatAreaWarning && newValue.portToThroatAreaWarning !== 'NORMAL'
-                this.portThroatWarningColor = newValue.portToThroatAreaWarning === 'DANGER' ? 'red' : 'orange'
+                this.showPortThroatAreaWarning = !!newValue.performanceResult.portToThroatAreaWarning && newValue.performanceResult.portToThroatAreaWarning !== 'NORMAL'
+                this.portThroatWarningColor = newValue.performanceResult.portToThroatAreaWarning === 'DANGER' ? 'red' : 'orange'
             }
         }
     }
