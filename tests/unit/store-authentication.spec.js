@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import storeAuthConfig from '../../src/store/modules/authentication'
 import { cloneDeep } from 'lodash'
 import Axios from 'axios'
+import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
 
 describe('Test authentication store', () => {
     test('should mutate token', () => {
@@ -26,7 +27,7 @@ describe('Test authentication store', () => {
     test('should load token', () => {
         const store = createStore()
         const token = buildToken()
-        localStorage.setItem('token', token.accessToken)
+        localStorage.setItem(TOKEN_STORAGE_KEY, token.accessToken)
 
         store.dispatch('loadToken')
         expect(store.state.accessToken).toEqual(token.accessToken)
@@ -35,7 +36,7 @@ describe('Test authentication store', () => {
 
     test('should not load token if not saved', () => {
         const store = createStore()
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
         store.dispatch('loadToken')
         expect(store.state.accessToken).toBeNull()
     })
@@ -43,12 +44,12 @@ describe('Test authentication store', () => {
     test('should save token', () => {
         const store = createStore()
         const token = buildToken()
-        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem(TOKEN_STORAGE_KEY)).toBeNull()
 
         store.dispatch('saveToken', token)
 
         expect(store.state.accessToken).toEqual(token.accessToken)
-        expect(localStorage.getItem('token')).toEqual(token.accessToken)
+        expect(localStorage.getItem(TOKEN_STORAGE_KEY)).toEqual(token.accessToken)
         expect(Axios.defaults.headers.common['Authorization']).toEqual(`Bearer ${token.accessToken}`)
     })
 
@@ -61,7 +62,7 @@ describe('Test authentication store', () => {
 
         store.dispatch('clearToken')
         expect(store.state.accessToken).toBeNull()
-        expect(localStorage.getItem('token')).toBeNull()
+        expect(localStorage.getItem(TOKEN_STORAGE_KEY)).toBeNull()
         expect(Axios.defaults.headers.common['Authorization']).toBeUndefined()
     })
 

@@ -166,6 +166,7 @@ import Axios from 'axios'
 import LostPassword from './components/authentication/LostPassword'
 import TokenValidator from './components/authentication/TokenValidator'
 import { mapActions, mapGetters } from 'vuex'
+import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
@@ -236,7 +237,7 @@ let router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const isLogged = !!localStorage.getItem('token')
+    const isLogged = !!localStorage.getItem(TOKEN_STORAGE_KEY)
     if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
     else next()
 })

@@ -1,7 +1,8 @@
 // initial state
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
-const TOKEN_STORAGE_KEY = 'token'
+
+export const TOKEN_STORAGE_KEY = 'accessToken'
 
 const state = () => ({
     accessToken: null

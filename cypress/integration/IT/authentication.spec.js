@@ -1,4 +1,5 @@
 import { generateId } from '../../support/commands'
+import { TOKEN_STORAGE_KEY } from '../../../src/store/modules/authentication'
 
 describe('Authentication', function() {
 
@@ -26,7 +27,7 @@ describe('Authentication', function() {
 
     it('Should sign up', () => {
         //suppression de l'authentification
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
 
         cy.visit('/#/signin')
 
@@ -55,7 +56,7 @@ describe('Authentication', function() {
 
     it('Should validate account', () => {
         //suppression de l'authentification
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
 
         cy.visit('/#/validate?token=TOKEN-validate&tokenType=CREATION_COMPTE')
 
@@ -79,7 +80,7 @@ describe('Authentication', function() {
 
     it('Should reset password', () => {
         //suppression de l'authentification
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
 
         cy.visit('/#/signin')
 
@@ -94,7 +95,7 @@ describe('Authentication', function() {
 
     it('Should change password from reset link', () => {
         //suppression de l'authentification
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
 
         cy.visit('/#/validate?token=TOKEN-reset-pwd&tokenType=RESET_PASSWORD')
 
@@ -124,7 +125,7 @@ describe('Authentication', function() {
 
     it('Should ask for new validation link', () => {
         //suppression de l'authentification
-        localStorage.removeItem('token')
+        localStorage.removeItem(TOKEN_STORAGE_KEY)
 
         cy.visit('/#/validate?token=expired-token&tokenType=CREATION_COMPTE')
 

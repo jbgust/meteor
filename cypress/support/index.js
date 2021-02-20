@@ -19,10 +19,12 @@ import './mockCommands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+import { TOKEN_STORAGE_KEY } from '../../src/store/modules/authentication'
+
 beforeEach(function() {
     localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
 
-    localStorage.setItem('token', Cypress.env('jwtToken'))
+    localStorage.setItem(TOKEN_STORAGE_KEY, Cypress.env('jwtToken'))
 
     // Do not show registration info
     localStorage.setItem('authenticationInfoRead', '1')
