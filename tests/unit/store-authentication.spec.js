@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import storeAuthConfig from '../../src/store/modules/authentication'
 import { cloneDeep } from 'lodash'
 import Axios from 'axios'
-import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
+const TOKEN_STORAGE_KEY = 'accessToken'
 
 describe('Test authentication store', () => {
     test('should mutate token', () => {

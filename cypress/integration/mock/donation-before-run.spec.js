@@ -1,4 +1,4 @@
-import { TOKEN_STORAGE_KEY } from '../../../src/store/modules/authentication'
+const TOKEN_STORAGE_KEY = 'accessToken'
 
 function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
     return {
