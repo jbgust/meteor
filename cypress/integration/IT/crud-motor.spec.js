@@ -16,7 +16,7 @@ describe('Crud motor', () => {
             endsSurface: 'Inhibited',
             coreSurface: 'Exposed',
             outerSurface: 'Inhibited',
-            propellantId: 'KNSB (oxidizer finely milled)',
+            propellantId: 'Sorbitol (KNSB - oxidizer finely milled)',
             chamberInnerDiameter: 28,
             chamberLength: 80
         }
