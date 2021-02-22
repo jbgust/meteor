@@ -26,6 +26,30 @@ export function comparePerformanceResults(currentComputation, previousComputatio
     }
 }
 
+export function mergeCharetResults(currentResults, previousResults) {
+    let chartData = new Map()
+    currentResults.forEach(item => {
+        chartData.set(item.x, Object.assign({}, item))
+    })
+    previousResults.forEach((item) => {
+        const currentTime = item.x
+        const previousValues = {
+            x: currentTime,
+            yPrevious: item.y,
+            knPrevious: item.kn,
+            pPrevious: item.p,
+            mPrevious: item.m
+        }
+        if (chartData.has(currentTime)) {
+            chartData.set(currentTime, Object.assign(previousValues, chartData.get(currentTime)))
+        } else {
+            chartData.set(currentTime, previousValues)
+        }
+    })
+    const mapSortedByTime = new Map([...chartData.entries()].sort())
+    return Array.from(mapSortedByTime.values())
+}
+
 const betterPerformanceStyle = { icon: 'mdi-menu-up', cssColor: 'green' }
 const worstPerformanceStyle = { icon: 'mdi-menu-down', cssColor: 'red' }
 const samePerformanceStyle = { icon: 'mdi-equal', cssColor: 'darkgray' }

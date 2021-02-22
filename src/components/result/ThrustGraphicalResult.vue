@@ -7,6 +7,7 @@
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
 import { mapGetters } from 'vuex'
+import { mergeCharetResults } from '@/modules/computationUtils.mjs'
 
 export default {
     name: 'thrust-graphical-result',
@@ -78,18 +79,7 @@ export default {
         },
         addDataInChart() {
             if (this.compareWithPrevious && !!this.previousComputation) {
-                let chartData = []
-                this.currentComputation.motorParameters.forEach((value, index) => {
-                    if (this.previousComputation.motorParameters[index]) {
-                        let item = Object.assign({}, value)
-                        item.yPrevious = this.previousComputation.motorParameters[index].y
-                        item.knPrevious = this.previousComputation.motorParameters[index].kn
-                        item.pPrevious = this.previousComputation.motorParameters[index].p
-                        item.mPrevious = this.previousComputation.motorParameters[index].m
-                        chartData.push(item)
-                    }
-                })
-                this.chart.data = chartData
+                this.chart.data = mergeCharetResults(this.currentComputation.motorParameters, this.previousComputation.motorParameters)
             } else {
                 this.chart.data = this.currentComputation.motorParameters
             }

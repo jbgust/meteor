@@ -2,7 +2,7 @@ import {
     computeNozzleLength,
     hasSelectedUnits, IMPERIAL_UNITS,
     setSelectedUnits, SI_UNITS
-    , getSelectedUnit, getSelectedUnitOrSI, comparePerformanceResults
+    , getSelectedUnit, getSelectedUnitOrSI, comparePerformanceResults, mergeCharetResults
 } from '../../src/modules/computationUtils'
 
 describe('Nozzle length calculation (divergence and convergence length)', () => {
@@ -12,6 +12,42 @@ describe('Nozzle length calculation (divergence and convergence length)', () => 
 
         // Assert convergence length (same value as SRM 2014
         expect(computeNozzleLength(57.6014751080198, 70).toFixed(2)).toBe('41.13')
+    })
+})
+
+describe('Should merge results for chart', () => {
+    it('should rename previous results prop names', () => {
+        const currentResults = [
+            { x: 1, y: 2, kn: 3, p: 4, m: 5 }
+        ]
+
+        const previsouResults = [
+            { x: 2, y: 6, kn: 7, p: 8, m: 9 }
+        ]
+
+        expect(mergeCharetResults(currentResults, previsouResults))
+            .toEqual([
+                { x: 1, y: 2, kn: 3, p: 4, m: 5 },
+                { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9 }])
+    })
+
+    it('should merge results with same x value', () => {
+        const currentResults = [
+            { x: 1, y: 2, kn: 3, p: 4, m: 5 },
+            { x: 3, y: 22, kn: 33, p: 44, m: 55 }
+        ]
+
+        const previsouResults = [
+            { x: 1, y: 10, kn: 11, p: 12, m: 13 },
+            { x: 2, y: 6, kn: 7, p: 8, m: 9 }
+        ]
+
+        expect(mergeCharetResults(currentResults, previsouResults))
+            .toEqual([
+                { x: 1, y: 2, kn: 3, p: 4, m: 5, yPrevious: 10, knPrevious: 11, pPrevious: 12, mPrevious: 13 },
+                { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9 },
+                { x: 3, y: 22, kn: 33, p: 44, m: 55 }
+            ])
     })
 })
 
