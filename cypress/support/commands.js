@@ -104,11 +104,11 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 
     cy.get('@coreSurfaces').eq(3).click()
     cy.get('div.menuable__content__active')
-        .contains(formValues.endsSurface).click()
+        .contains(formValues.outerSurface).click()
 
     cy.get('@coreSurfaces').eq(4).click()
     cy.get('div.menuable__content__active')
-        .contains(formValues.outerSurface).click()
+        .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)

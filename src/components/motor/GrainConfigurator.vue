@@ -28,8 +28,8 @@
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === hollowCode">
                 <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.coreSurface" />
-                <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
                 <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.outerSurface"/>
+                <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
             </v-flex>
             <v-flex lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
