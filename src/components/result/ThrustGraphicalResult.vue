@@ -85,7 +85,6 @@ export default {
             }
         },
         createAxisAndSeries(chart, field, name, opposite, bullet, unit = '') {
-            const hidden = this.compareWithPrevious && name !== 'Thrust' && !!this.previousComputation
             // see https://www.amcharts.com/demos/multiple-value-axes/
             let valueAxis = chart.yAxes.push(new am4charts.ValueAxis())
 
@@ -95,8 +94,9 @@ export default {
             series.strokeWidth = 2
             series.yAxis = valueAxis
             series.name = name
-            series.hidden = hidden
+            series.hidden = this.isSerieHidden(series)
             series.tooltipText = `{name}: [bold]{valueY}[/] ${unit}`
+            this.addEventHideShowSerie(series)
 
             if (this.compareWithPrevious && !!this.previousComputation) {
                 let series2 = chart.series.push(new am4charts.LineSeries())
@@ -107,12 +107,13 @@ export default {
                 series2.strokeDasharray = '8,4'
                 series2.stroke = series.stroke
                 series2.name = 'Previous ' + name
-                series2.hidden = hidden
+                series2.hidden = this.isSerieHidden(series2)
                 series2.tooltipText = `{name}: [bold]{valueY}[/] ${unit}`
                 series2.tooltip.getFillFromObject = false
                 series2.tooltip.background.fill = series.stroke
                 // color of tooltip text
                 // series2.tooltip.label.fill = am4core.color('#000')
+                this.addEventHideShowSerie(series2)
             }
 
             valueAxis.renderer.line.strokeOpacity = 1
@@ -136,6 +137,24 @@ export default {
             indicatorLabel.align = 'center'
             indicatorLabel.valign = 'middle'
             indicatorLabel.fontSize = 20
+        },
+        getHiddenSeriePropertyKey(series) {
+            const compare = this.compareWithPrevious ? 'cpm_' : ''
+            return ('series_' + compare + series.name + '-hidden').replaceAll(' ', '_')
+        },
+        isSerieHidden(series) {
+            const keyHiddenChart = localStorage.getItem(this.getHiddenSeriePropertyKey(series))
+            if (this.compareWithPrevious) {
+                const hiddenByDefault = !series.name.includes('Thrust') && !!this.previousComputation
+                return keyHiddenChart != null ? keyHiddenChart === 'true' : hiddenByDefault
+            } else {
+                return keyHiddenChart === 'true'
+            }
+        },
+        addEventHideShowSerie(series) {
+            const keyHiddenChart = this.getHiddenSeriePropertyKey(series)
+            series.events.on('hidden', () => localStorage.setItem(keyHiddenChart, true), this)
+            series.events.on('shown', () => localStorage.setItem(keyHiddenChart, false), this)
         }
     },
     computed: {
