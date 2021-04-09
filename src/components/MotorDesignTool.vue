@@ -135,25 +135,31 @@
                             </v-app-bar>
                             <v-card-text v-show="showPerformanceInfo" class="pb-0">
                                 <performance-info :units="units" ref="performanceResult"/>
-                                <v-alert dense type="info" v-model="showDonatorInfo" dismissible outlined>Motor comparison is only available for donators.</v-alert>
+                                <v-alert dense type="info" v-model="showDonatorInfo" dismissible outlined>{{donationMessageAlert}}</v-alert>
                             </v-card-text>
                             <v-card-actions>
-                                <v-switch
-                                    style="margin-left: 20px"
-                                    dense
-                                    inset
-                                    v-model="showComparison"
-                                    label="Compare with previous motor"
-                                ></v-switch>
-                                <v-chip
-                                    class="ma-2"
-                                    color="pink"
-                                    label
-                                    x-small
-                                    text-color="white"
-                                >
-                                    new
-                                </v-chip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn v-on="on" id="btnMotorRevert" color="info" small class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
+                                            <v-icon>
+                                                mdi-undo-variant
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Restore last motor configuration</span>
+                                </v-tooltip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on }">
+                                        <v-switch
+                                            v-on="on"
+                                            style="margin-left: 20px;"
+                                            dense
+                                            inset
+                                            v-model="showComparison"
+                                        ></v-switch>
+                                    </template>
+                                    <span>Compare with previous motor</span>
+                                </v-tooltip>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
@@ -224,7 +230,8 @@ export default {
             saveLoading: false,
             displaySuccess: false,
             successMessage: null,
-            showDonatorInfo: false
+            showDonatorInfo: false,
+            donationMessageAlert: ''
         }
     },
     mounted() {
@@ -239,7 +246,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations('computation', ['setCurrentComputation']),
+        ...mapMutations('computation', ['setCurrentComputation', 'switchResults']),
+        ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation']),
+        ...mapMutations('computation', ['setCompareWithPrevious']),
+        ...mapGetters('authentication', ['isDonator']),
         exportRASP() {
             this.$refs.form.exportRASP()
         },
@@ -254,6 +264,18 @@ export default {
         resetAll() {
             this.$refs.form.reset()
             this.formReset()
+        },
+        restoreLastMotor() {
+            if (this.isDonator()) {
+                this.$refs.form.showLoadingOverlay(true)
+                const previousMotor = this.previousMotors()[1]
+                this.$refs.form.loadForm(previousMotor, previousMotor.extraConfig)
+                this.switchResults()
+                setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)
+            } else {
+                this.donationMessageAlert = 'This feature is reserved to donator.'
+                this.showDonatorInfo = true
+            }
         },
         loadMotor(loadedConfig, missingPropellant = false, scope = this) {
             if (validateImportVersion3(loadedConfig)) {
@@ -373,10 +395,7 @@ export default {
             this.motorId = null
             this.asResult = false
             this.displayImportError = false
-        },
-        ...mapGetters('computation', ['compareWithPrevious']),
-        ...mapMutations('computation', ['setCompareWithPrevious']),
-        ...mapGetters('authentication', ['isDonator'])
+        }
     },
     watch: {
         demo(newValue, oldValue) {
@@ -411,6 +430,10 @@ export default {
         }
     },
     computed: {
+        disabledPrevious() {
+            const previousMotors = this.previousMotors()
+            return !(previousMotors.length > 1 && !!previousMotors[1])
+        },
         showComparison: {
             get() {
                 return this.compareWithPrevious()
@@ -420,6 +443,7 @@ export default {
                     Vue.nextTick(() => { this.setCompareWithPrevious(value) })
                 } else {
                     // toggle on when user activate showComparison
+                    this.donationMessageAlert = 'Motor comparison is only available for donators.'
                     this.showDonatorInfo = value
                 }
             }

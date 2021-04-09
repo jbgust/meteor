@@ -100,6 +100,9 @@ export default {
                 this.formValue.propellantId = null
             }
         },
+        showLoadingOverlay(loading) {
+            this.loading = loading
+        },
         resetConfig() {
             this.extraConfig = this.getDefaultAdvanceConfig()
         },
@@ -154,7 +157,7 @@ export default {
                 this.$refs.donationPopup.check()
             }
         },
-        ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation']),
+        ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation', 'saveCurrentMotor']),
         ...mapGetters('computation', ['currentComputation']),
         ...mapGetters('authentication', ['isDonator']),
         runComputation() {
@@ -219,6 +222,10 @@ export default {
                 let request = Object.assign({ }, this.formValue)
                 request.extraConfig = Object.assign({}, this.extraConfig)
                 request.measureUnit = this.units.type
+
+                // save cuurent config to restore it later if necessary
+                this.saveCurrentMotor(Object.assign({ }, request))
+
                 delete request.grainType
                 request = Object.assign(request, request.grainConfig)
                 delete request.grainConfig

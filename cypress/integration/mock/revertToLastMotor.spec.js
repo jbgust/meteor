@@ -1,7 +1,7 @@
-function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
+function buildComputationResult(motorDescription) {
     return {
         performanceResult: {
-            motorDescription: 'Z112',
+            motorDescription: motorDescription,
             maxThrust: '213.14',
             totalImpulse: '151.99',
             specificImpulse: '191.90',
@@ -14,12 +14,12 @@ function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
             convergenceCrossSectionDiameter: 21.0,
             divergenceCrossSectionDiameter: 8.529875156696763,
             optimalNozzleExpansionRatio: '4.92',
-            lowKNCorrection: true,
+            lowKNCorrection: false,
             grainMass: '0.081',
-            safeKN: true,
+            safeKN: false,
             classPercentage: 90,
-            portToThroatArea: portToThroatArea,
-            portToThroatAreaWarning: portToThroatAreaWarning
+            portToThroatArea: '2.2',
+            portToThroatAreaWarning: null
         },
         motorParameters: [
             {
@@ -40,7 +40,7 @@ function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
     }
 }
 
-function buildMotorConfig(name) {
+function buildMotorConfig(name, propellantId) {
     return {
         name: name,
         config: {
@@ -71,7 +71,7 @@ function buildMotorConfig(name) {
                 divergenceAngle: 24,
                 convergenceAngle: 60
             },
-            propellantId: 'KNSB_FINE',
+            propellantId: propellantId,
             chamberLength: '150',
             throatDiameter: '10',
             chamberInnerDiameter: '40'
@@ -79,25 +79,37 @@ function buildMotorConfig(name) {
     }
 }
 
-describe('Display computationWarning', function() {
-    it('Display port-to-throat danger', function() {
-        // fill form
+describe('Should revert to last motor config', () => {
+    it('Revert is disabled when only one result is computed', function() {
         cy.visit('/#/motorDesign')
-        cy.mockMotorList([buildMotorConfig('Mock motor')])
+        cy.mockMotorList([
+            buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
+            buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
 
-        cy.intercept('POST', '/compute', buildComputationResult('1.00', 'DANGER'))
-        cy.runSavedMotor('Mock motor')
+        cy.intercept('POST', '/compute', buildComputationResult('G75'))
 
-        cy.get('p')
-            .contains('Your port-to-throat ratio is 1.00, it can be a problem')
-            .should('have.css', 'color', 'rgb(255, 0, 0)')
+        cy.runSavedMotor('Mock motor 1')
+        cy.get('input#motor-class')
+            .should('have.value', 'G75')
+        cy.get('#btnMotorRevert').should('be.disabled')
     })
+    it('Revert is enable on second computation', () => {
+        cy.mockMotorList([
+            buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
+            buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
 
-    it('Display port-to-throat warning', function() {
-        cy.intercept('POST', '/compute', buildComputationResult('1.50', 'WARNING'))
-        cy.contains('Submit').click()
-        cy.get('p')
-            .contains('Your port-to-throat ratio is 1.50, it can be a problem')
-            .should('have.css', 'color', 'rgb(255, 165, 0)')
+        cy.intercept('POST', '/compute', buildComputationResult('F45'))
+
+        cy.runSavedMotor('Mock motor 2')
+        cy.get('input#motor-class')
+            .should('have.value', 'F45')
+        cy.get('#btnMotorRevert').should('not.be.disabled')
+    })
+    it('Revert to first computation', () => {
+        cy.get('#btnMotorRevert').click()
+        cy.get('#name')
+            .should('have.value', 'Mock motor 1')
+        cy.get('input#motor-class')
+            .should('have.value', 'G75')
     })
 })

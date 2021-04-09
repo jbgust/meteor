@@ -1,24 +1,30 @@
-Cypress.Commands.add('mockMotorList', (motor, motorName = 'Mock motor') => {
+import {generateId} from "./commands";
+
+Cypress.Commands.add('mockMotorList', (motors) => {
+    const motorResponses = motors.map(motor => {
+        const motorId = generateId()
+        return {
+            'name': motor.name,
+            'id': motorId,
+            'json': JSON.stringify(motor.config),
+            'description': null,
+            '_links': {
+                'self': {
+                    'href': `http://localhost:8090/motors/${motorId}`
+                },
+                'motor': {
+                    'href': `http://localhost:8090/motors/{?projection}`,
+                    'templated': true
+                },
+                'owner': {
+                    'href': `http://localhost:8090/motors/${motorId}/owner`
+                }
+            }
+        }
+    })
     cy.intercept('GET', '/motors', {
         '_embedded': {
-            'motors': [{
-                'name': motorName,
-                'id': '123456',
-                'json': JSON.stringify(motor),
-                'description': null,
-                '_links': {
-                    'self': {
-                        'href': 'http://localhost:8090/motors/123456'
-                    },
-                    'motor': {
-                        'href': 'http://localhost:8090/motors/123456{?projection}',
-                        'templated': true
-                    },
-                    'owner': {
-                        'href': 'http://localhost:8090/motors/123456/owner'
-                    }
-                }
-            }]
+            'motors': motorResponses
         }
     })
 })
