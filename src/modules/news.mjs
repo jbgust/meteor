@@ -118,6 +118,17 @@ export const news = [
                             </ul>
                         </li>
                     </ul>`
+    }, {
+        id: 14,
+        html: `<ul>
+                        <li>
+                            <b>April 2021</b>
+                            <ul>
+                                <li>Save (by browser) if plots are chown or hidden.</li>
+                                <li>Revert button to restore the previous computation</li>
+                            </ul>
+                        </li>
+                    </ul>`
     }
 ]
 
