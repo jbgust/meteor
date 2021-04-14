@@ -22,9 +22,7 @@ describe('Tests Utils module', () => {
     })
 
     test('Should reduce label size', () => {
-        // we expect 'az\ne...' and not 'az\ner...' because the max length include de \n added by the split line
-        expect(shortLabel('azertyuiop', 4, 2)).toEqual('az\ne...')
-
+        expect(shortLabel('azertyuiop', 4)).toEqual('azer...')
         expect(shortLabel('azertyuiop', 10)).toEqual('azertyuiop')
     })
 })

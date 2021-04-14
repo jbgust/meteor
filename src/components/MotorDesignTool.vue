@@ -247,7 +247,7 @@ export default {
     },
     methods: {
         ...mapMutations('computation', ['setCurrentComputation', 'switchResults']),
-        ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation']),
+        ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation', 'getPreviousMotorComputation']),
         ...mapMutations('computation', ['setCompareWithPrevious']),
         ...mapGetters('authentication', ['isDonator']),
         exportRASP() {
@@ -268,7 +268,8 @@ export default {
         restoreLastMotor() {
             if (this.isDonator()) {
                 this.$refs.form.showLoadingOverlay(true)
-                const previousMotor = this.previousMotors()[1]
+                const previousMotor = this.getPreviousMotorComputation()
+                this.motorId = previousMotor.id
                 this.$refs.form.loadForm(previousMotor, previousMotor.extraConfig)
                 this.switchResults()
                 setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)

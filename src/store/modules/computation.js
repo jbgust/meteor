@@ -13,6 +13,9 @@ const getters = {
     previousMotors: (state) => {
         return state.previousMotors
     },
+    getPreviousMotorComputation: (state) => {
+        return Object.assign({}, state.previousMotors[1])
+    },
     currentComputation: (state) => {
         return state.currentComputation
     },
@@ -30,9 +33,10 @@ const mutations = {
         const lastComputation = state.currentComputation
         state.currentComputation = state.previousComputation
         state.previousComputation = lastComputation
+        state.previousMotors = [state.previousMotors[1], state.previousMotors[0]]
     },
     saveCurrentMotor(state, motorConfiguration) {
-        state.previousMotors = [motorConfiguration, state.previousMotors[0]]
+        state.previousMotors = [Object.assign({}, motorConfiguration), state.previousMotors[0]]
     },
     setPreviousComputation(state, previousComputation) {
         state.previousComputation = previousComputation
