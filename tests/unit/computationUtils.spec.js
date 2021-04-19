@@ -31,6 +31,44 @@ describe('Should merge results for chart', () => {
                 { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9 }])
     })
 
+    it('Compare with float not string (bug reported by Willima S.)', () => {
+        const currentResults = [
+            {
+                'x': 29.4227,
+                'y': 10501.3972,
+                'kn': 42.9653,
+                'p': 71.5775,
+                'm': 21.932
+            },
+            {
+                'x': 3.0214,
+                'yPrevious': 8.3905,
+                'knPrevious': 26.3625,
+                'pPrevious': 2.5903,
+                'mPrevious': 0.0081
+            }
+        ]
+
+        const previsouResults = [
+        ]
+
+        expect(mergeCharetResults(currentResults, previsouResults))
+            .toEqual([
+                {
+                    'x': 3.0214,
+                    'yPrevious': 8.3905,
+                    'knPrevious': 26.3625,
+                    'pPrevious': 2.5903,
+                    'mPrevious': 0.0081
+                }, {
+                    'x': 29.4227,
+                    'y': 10501.3972,
+                    'kn': 42.9653,
+                    'p': 71.5775,
+                    'm': 21.932
+                }])
+    })
+
     it('should merge results with same x value', () => {
         const currentResults = [
             { x: 1, y: 2, kn: 3, p: 4, m: 5 },

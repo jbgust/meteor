@@ -46,7 +46,7 @@ export function mergeCharetResults(currentResults, previousResults) {
             chartData.set(currentTime, previousValues)
         }
     })
-    const mapSortedByTime = new Map([...chartData.entries()].sort())
+    const mapSortedByTime = new Map([...chartData.entries()].sort((a, b) => a[0] - b[0]))
     return Array.from(mapSortedByTime.values())
 }
 

@@ -270,6 +270,7 @@ export default {
                 this.$refs.form.showLoadingOverlay(true)
                 const previousMotor = this.getPreviousMotorComputation()
                 this.motorId = previousMotor.id
+                this.unitSelected = previousMotor.measureUnit
                 this.$refs.form.loadForm(previousMotor, previousMotor.extraConfig)
                 this.switchResults()
                 setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)
@@ -423,7 +424,6 @@ export default {
             if (newValue !== oldValue && !this.demo) {
                 setSelectedUnits(newValue)
                 this.displayDefaultUnitInfo = false
-                this.asResult = false
                 if (!this.importInProgress) {
                     this.displayUnitInfo = true
                 }
