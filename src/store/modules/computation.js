@@ -36,7 +36,10 @@ const mutations = {
         state.previousMotors = [state.previousMotors[1], state.previousMotors[0]]
     },
     saveCurrentMotor(state, motorConfiguration) {
-        state.previousMotors = [Object.assign({}, motorConfiguration), state.previousMotors[0]]
+        const assign = Object.assign({}, motorConfiguration)
+        // TODO : améliorer ?
+        assign.grainConfig = Object.assign({}, motorConfiguration.grainConfig)
+        state.previousMotors = [assign, state.previousMotors[0]]
     },
     setPreviousComputation(state, previousComputation) {
         state.previousComputation = previousComputation

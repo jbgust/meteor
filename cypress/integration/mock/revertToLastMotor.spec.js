@@ -112,4 +112,40 @@ describe('Should revert to last motor config', () => {
         cy.get('input#motor-class')
             .should('have.value', 'G75')
     })
+    it('Change values manually ', () => {
+        // SET new config
+        cy.contains('IMPERIAL').click()
+        cy.get('input#name')
+            .clear()
+            .type('test 2')
+        cy.get('input#throatDiameter')
+            .clear()
+            .type(15)
+            .parent()
+            .contains('inch')
+
+        cy.get('input#segmentLength')
+            .clear()
+            .type(90)
+        // set advance config
+        cy.get('#btnAdvancedSettings').click()
+        cy.get('input#densityRatio').clear().type('0.67')
+        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+
+        // compute and revert last config
+        cy.intercept('POST', '/compute', buildComputationResult('H45'))
+        cy.contains('Submit').click()
+
+        cy.get('#btnMotorRevert').click()
+
+        // assert last config
+        cy.get('input#throatDiameter')
+            .parent()
+            .contains('mm')
+        cy.get('input#throatDiameter').should('have.value', 10)
+        cy.get('input#segmentLength').should('have.value', 80)
+        // TODO : Faire passer les deux lignes suivantes
+        // cy.get('#btnAdvancedSettings').click()
+        // cy.get('input#densityRatio').should('have.value', 0.96)
+    })
 })

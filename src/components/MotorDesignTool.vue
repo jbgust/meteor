@@ -269,6 +269,8 @@ export default {
             if (this.isDonator()) {
                 this.$refs.form.showLoadingOverlay(true)
                 const previousMotor = this.getPreviousMotorComputation()
+                // TODO : améliorer en mettant dans le store?
+                previousMotor.grainConfig = Object.assign({}, previousMotor.grainConfig)
                 this.motorId = previousMotor.id
                 this.unitSelected = previousMotor.measureUnit
                 this.$refs.form.loadForm(previousMotor, previousMotor.extraConfig)
