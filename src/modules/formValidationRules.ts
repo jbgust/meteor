@@ -1,17 +1,18 @@
 // Validators
-export function requiredValidator(valueIfFalse = false) {
+export function requiredValidator(valueIfFalse:string|boolean = false) {
     return fieldValue => (fieldValue === 0 || !!fieldValue) || valueIfFalse
 }
 
-export function numberValidator(valueIfFalse = false) {
+export function numberValidator(valueIfFalse:string|boolean = false) {
     return fieldValue => !isNaN(fieldValue) || valueIfFalse
 }
 
-export function emailValidator(valueIfFalse = false) {
+export function emailValidator(valueIfFalse:string|boolean = false) {
     return fieldValue => /.+@.+\..+/.test(fieldValue) || valueIfFalse
 }
 
-export function passwordValidator(valueIfFalse = false) {
+export function passwordValidator(valueIfFalse:string|boolean = false) {
+    // eslint-disable-next-line no-useless-escape
     return fieldValue => /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\*\.\!\@\$\%\^\&\(\)\{\}\[\]\:\;\<\>\,\.\?\/\~\_\+\-\=\|])(?!.*[\s]).{8,30}$/.test(fieldValue) || valueIfFalse
 }
 
@@ -19,30 +20,30 @@ function isFieldEmpty(fieldValue) {
     return fieldValue == null || fieldValue === ''
 }
 
-export function numberValidatorNotRequired(valueIfFalse = false) {
+export function numberValidatorNotRequired(valueIfFalse:string|boolean = false) {
     return fieldValue => isFieldEmpty(fieldValue) || !isNaN(fieldValue) || valueIfFalse
 }
 
-export function integerValidator(valueIfFalse = false) {
+export function integerValidator(valueIfFalse:string|boolean = false) {
     return fieldValue => {
         const convertedValue = typeof fieldValue === 'string' ? Number(fieldValue) : fieldValue
         return Number.isInteger(convertedValue) || valueIfFalse
     }
 }
 
-export function rangeValidator(minValue, maxValue, valueIfFalse = false) {
+export function rangeValidator(minValue, maxValue, valueIfFalse:string|boolean = false) {
     return fieldValue => (fieldValue >= minValue && fieldValue <= maxValue) || valueIfFalse
 }
 
-export function greaterThanValidator(minValueExcluded, valueIfFalse = false) {
+export function greaterThanValidator(minValueExcluded, valueIfFalse:string|boolean = false) {
     return fieldValue => (fieldValue > minValueExcluded) || valueIfFalse
 }
 
-export function greaterThanValidatorNotRequired(minValueExcluded, valueIfFalse = false) {
+export function greaterThanValidatorNotRequired(minValueExcluded, valueIfFalse:string|boolean = false) {
     return fieldValue => isFieldEmpty(fieldValue) || (fieldValue > minValueExcluded) || valueIfFalse
 }
 
-export function greaterOrEqualsThanValidator(minValue, valueIfFalse = false) {
+export function greaterOrEqualsThanValidator(minValue, valueIfFalse:string|boolean = false) {
     return fieldValue => (fieldValue >= minValue) || valueIfFalse
 }
 
@@ -107,6 +108,7 @@ export function passwordRule() {
         fieldValue => /^(?=.*[0-9])/.test(fieldValue) || 'At least one number',
         fieldValue => /^(?=.*[a-z])/.test(fieldValue) || 'At least one lowercase letter',
         fieldValue => /^(?=.*[A-Z])/.test(fieldValue) || 'At least one uppercase letter',
+        // eslint-disable-next-line no-useless-escape
         fieldValue => /^(?=.*[\*\.\!\@\$\%\^\&\(\)\{\}\[\]\:\;\<\>\,\.\?\/\~\_\+\-\=\|])/.test(fieldValue) || 'At least one special character',
         fieldValue => /^(?!.*[\s])/.test(fieldValue) || 'No whitespace'
     ]

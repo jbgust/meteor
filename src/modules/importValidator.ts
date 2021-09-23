@@ -37,7 +37,7 @@ export function validateImportVersion2(loadedConfig) {
 }
 
 function validateGrainConfig(loadedConfig) {
-    let valide = false
+    let valide:any = false
     if (loadedConfig.grainType === HOLLOW) {
         valide = ajvValidator.validate(hollowGrainConfigVersion2ValidatorSchema, loadedConfig.grainConfig)
     } else if (loadedConfig.grainType === FINOCYL) {

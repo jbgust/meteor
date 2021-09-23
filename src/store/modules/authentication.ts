@@ -23,7 +23,7 @@ const getters = {
         return !!decodeToken(state.accessToken)
     },
     isDonator: (state) => {
-        const decodedToken = decodeToken(state.accessToken)
+        const decodedToken:any = decodeToken(state.accessToken)
         const isDonator = decodedToken ? decodedToken.donator : false
         return isDonator
     }

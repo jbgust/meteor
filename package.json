@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "ci": "vue-cli-service serve --mode ci",
     "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "ci": "vue-cli-service serve --mode ci"
   },
   "dependencies": {
     "@amcharts/amcharts4": "4.10.15",
@@ -22,11 +22,14 @@
     "vuex": "^3.5.1"
   },
   "devDependencies": {
+    "@types/jest": "^23.1.4",
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-eslint": "^3.9.0",
+    "@vue/cli-plugin-typescript": "^4.5.13",
     "@vue/cli-plugin-unit-jest": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.20",
     "@webpack-cli/info": "^0.1.6",
     "babel-core": "7.0.0-bridge.0",
@@ -40,6 +43,8 @@
     "obsolete-webpack-plugin": "^0.5.6",
     "sass": "^1.17.4",
     "sass-loader": "^7.1.0",
+    "ts-jest": "^24.3.0",
+    "typescript": "4.1.6",
     "vue-cli-plugin-vuetify": "0.6.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.2.2",
@@ -52,7 +57,8 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "@vue/standard"
+      "@vue/standard",
+      "@vue/typescript"
     ],
     "rules": {
       "indent": [
@@ -69,7 +75,7 @@
       ]
     },
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@typescript-eslint/parser"
     }
   },
   "postcss": {
@@ -87,13 +93,15 @@
       "js",
       "jsx",
       "json",
-      "mjs",
-      "vue"
+      "vue",
+      "ts",
+      "tsx"
     ],
     "transform": {
       "^.+\\.vue$": "vue-jest",
       ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
-      "^.+\\.(mjs|jsx?)$": "babel-jest"
+      "^.+\\.(jsx?)$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     },
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
@@ -108,6 +116,11 @@
     "reporters": [
       "default",
       "jest-junit"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": true
+      }
+    }
   }
 }

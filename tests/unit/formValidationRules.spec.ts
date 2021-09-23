@@ -52,7 +52,7 @@ describe('Check Validators', () => {
     })
 
     test('passwordValidator', () => {
-        checkPassword('1Dfu9fj$')
+        checkPassword('1Dfu9fj$', true)
 
         checkPassword(null, 'Field is required')
         checkPassword('1dfu9fj$', 'At least one uppercase letter')
@@ -84,9 +84,8 @@ describe('Check Validators', () => {
 
     test('numberValidator', () => {
         expect(numberValidator()('ddfsd')).toBeFalsy()
-        expect(numberValidator()()).toBeFalsy()
 
-        expect(numberValidator('Zut !')()).toBe('Zut !')
+        expect(numberValidator('Zut !')('null')).toBe('Zut !')
 
         expect(numberValidator()(2)).toBeTruthy()
         expect(numberValidator()(3.6)).toBeTruthy()
@@ -99,7 +98,7 @@ describe('Check Validators', () => {
         expect(numberValidatorNotRequired()('ddfsd')).toBeFalsy()
         expect(numberValidatorNotRequired('Zut !')('sdf')).toBe('Zut !')
 
-        expect(numberValidatorNotRequired()()).toBeTruthy()
+        expect(numberValidatorNotRequired()(null)).toBeTruthy()
         expect(numberValidatorNotRequired()(null)).toBeTruthy()
         expect(numberValidatorNotRequired()(undefined)).toBeTruthy()
         expect(numberValidatorNotRequired()('')).toBeTruthy()
@@ -113,9 +112,9 @@ describe('Check Validators', () => {
 
     test('integerValidator', () => {
         expect(integerValidator()('ddfsd')).toBeFalsy()
-        expect(integerValidator()()).toBeFalsy()
+        expect(integerValidator()(null)).toBeFalsy()
 
-        expect(integerValidator('Zut !')()).toBe('Zut !')
+        expect(integerValidator('Zut !')(null)).toBe('Zut !')
 
         expect(integerValidator()(3.6)).toBeFalsy()
         expect(integerValidator()('3.2')).toBeFalsy()
@@ -128,7 +127,7 @@ describe('Check Validators', () => {
 
     test('rangeValidator', () => {
         expect(rangeValidator(1.1, 2.3)('ddfsd')).toBeFalsy()
-        expect(rangeValidator(1.1, 2.3)()).toBeFalsy()
+        expect(rangeValidator(1.1, 2.3)(null)).toBeFalsy()
 
         expect(rangeValidator(1.1, 2.3, 'Zut !')(3)).toBe('Zut !')
 
@@ -149,7 +148,7 @@ describe('Check Validators', () => {
 
     test('greaterThanValidator', () => {
         expect(greaterThanValidator(1.1)('ddfsd')).toBeFalsy()
-        expect(greaterThanValidator(1.1)()).toBeFalsy()
+        expect(greaterThanValidator(1.1)(null)).toBeFalsy()
 
         expect(greaterThanValidator(1.1, 'Zut !')(0.5)).toBe('Zut !')
 
@@ -183,7 +182,7 @@ describe('Check Validators', () => {
         expect(greaterThanValidatorNotRequired(1.1)('1.2')).toBeTruthy()
         expect(greaterThanValidatorNotRequired(1.1)('1.8')).toBeTruthy()
 
-        expect(greaterThanValidatorNotRequired(1.1)()).toBeTruthy()
+        expect(greaterThanValidatorNotRequired(1.1)(null)).toBeTruthy()
         expect(greaterThanValidatorNotRequired(1.1)(null)).toBeTruthy()
         expect(greaterThanValidatorNotRequired(1.1)(undefined)).toBeTruthy()
         expect(greaterThanValidatorNotRequired(1.1)('')).toBeTruthy()
@@ -191,7 +190,7 @@ describe('Check Validators', () => {
 
     test('greaterOrEqualsThanValidator', () => {
         expect(greaterOrEqualsThanValidator(1.1)('ddfsd')).toBeFalsy()
-        expect(greaterOrEqualsThanValidator(1.1)()).toBeFalsy()
+        expect(greaterOrEqualsThanValidator(1.1)(null)).toBeFalsy()
 
         expect(greaterOrEqualsThanValidator(1.1, 'Zut !')(0.5)).toBe('Zut !')
 
@@ -231,7 +230,7 @@ describe('Check Rules', () => {
     test('greaterThanRule', () => {
         expect(greaterThanRule(1.1).length).toBe(3)
 
-        expect(greaterThanRule(1.1)[0]()).toBe('Field is required')
+        expect(greaterThanRule(1.1)[0](null)).toBe('Field is required')
 
         expect(greaterThanRule(1.1)[1]('gf')).toBe('Value is not a number')
 
@@ -242,7 +241,7 @@ describe('Check Rules', () => {
     test('integerGreaterThanRule', () => {
         expect(integerGreaterThanRule(1).length).toBe(3)
 
-        expect(integerGreaterThanRule(1)[0]()).toBe('Field is required')
+        expect(integerGreaterThanRule(1)[0](null)).toBe('Field is required')
 
         expect(integerGreaterThanRule(1)[1]('1.2')).toBe('Value is not a integer')
 
@@ -253,7 +252,7 @@ describe('Check Rules', () => {
     test('greaterOrEqualsThanRule', () => {
         expect(greaterOrEqualsThanRule(1.1).length).toBe(3)
 
-        expect(greaterOrEqualsThanRule(1.1)[0]()).toBe('Field is required')
+        expect(greaterOrEqualsThanRule(1.1)[0](null)).toBe('Field is required')
 
         expect(greaterOrEqualsThanRule(1.1)[1]('gf')).toBe('Value is not a number')
 
@@ -264,7 +263,7 @@ describe('Check Rules', () => {
     test('rangeRule', () => {
         expect(rangeRule(1.1, 1.3).length).toBe(3)
 
-        expect(rangeRule(1.1, 1.3)[0]()).toBe('Field is required')
+        expect(rangeRule(1.1, 1.3)[0](null)).toBe('Field is required')
         expect(rangeRule(1.1, 1.3)[1]('gf')).toBe('Value is not a number')
         expect(rangeRule(1.1, 1.3)[2](1.0)).toBe('Value must be in range [1.1;1.3]')
 
@@ -274,7 +273,7 @@ describe('Check Rules', () => {
     test('numberRule', () => {
         expect(numberRule(1).length).toBe(2)
 
-        expect(numberRule(1)[0]()).toBe('Field is required')
+        expect(numberRule(1)[0](null)).toBe('Field is required')
 
         expect(numberRule(1)[1]('v1.2')).toBe('Value is not a number')
 

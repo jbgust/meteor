@@ -89,6 +89,7 @@ function getComparisonMotorDescription(currentValue, previousValue) {
 }
 
 export function computeNozzleLength(sectionDiameter, angle) {
+    // @ts-ignore
     return Number.parseFloat(sectionDiameter / 2 / Math.tan(angle / 2 * Math.PI / 180))
 }
 

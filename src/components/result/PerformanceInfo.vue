@@ -78,7 +78,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { comparePerformanceResults } from '@/modules/computationUtils.mjs'
+import { comparePerformanceResults } from '@/modules/computationUtils.ts'
 import Vue from 'vue'
 
 export default {

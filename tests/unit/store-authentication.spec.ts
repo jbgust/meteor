@@ -66,7 +66,7 @@ describe('Test authentication store', () => {
         expect(Axios.defaults.headers.common['Authorization']).toBeUndefined()
     })
 
-    function createStore() {
+    function createStore():any {
         const localVue = createLocalVue()
         localVue.use(Vuex)
         const store = new Vuex.Store(cloneDeep(storeAuthConfig))

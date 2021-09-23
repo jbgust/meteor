@@ -359,7 +359,7 @@ function createVersion3HollowJsonConfig() {
     return Object.assign(validJson)
 }
 
-function assertAjvError(dataPath, message = false, params = false) {
+function assertAjvError(dataPath:any, message:any = false, params:any = false) {
     expect(ajvValidator.errors[0].dataPath).toBe(dataPath)
     if (message) {
         expect(ajvValidator.errors[0].message).toBe(message)
