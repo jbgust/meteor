@@ -138,8 +138,11 @@ export default {
             this.donateClicked = true
         },
         check() {
-            if (!this.isDonator()) {
+            const now = new Date()
+            const nextShowDonationPage = Number(localStorage.getItem('nextShowDonationPage'))
+            if (!this.isDonator() && (new Date(nextShowDonationPage) < now)) {
                 this.sheet = true
+                this.setNextShowDate()
             } else {
                 this.$emit('closeDonation')
                 this.sheet = false
