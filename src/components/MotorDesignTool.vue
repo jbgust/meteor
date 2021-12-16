@@ -153,6 +153,7 @@
                                         <v-switch
                                             v-on="on"
                                             style="margin-left: 20px;"
+                                            label="Compare"
                                             dense
                                             inset
                                             v-model="showComparison"
