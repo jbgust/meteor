@@ -161,6 +161,28 @@
                                     </template>
                                     <span>Compare with previous motor</span>
                                 </v-tooltip>
+                                <v-tooltip bottom max-width="300px"  v-if="showUseRefBtn">
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                            v-on="on"
+                                            style="margin-left: 20px;"
+                                            small
+                                            :color="useAsRef ? 'orange':''"
+                                            dense
+                                            inset
+                                            @mouseup="toggleUseAsRef()"
+                                            value="useAsRef"
+                                        >
+                                            <v-icon left v-if="useAsRef">
+                                                mdi-delete
+                                            </v-icon>
+                                            <v-icon left v-else>
+                                                mdi-tag
+                                            </v-icon>
+                                            {{useAsRef ?  'Remove reference' : 'Use as reference'}}</v-btn>
+                                    </template>
+                                    <span>Use this motor as a reference for all comparisons, instead of using the engine from the previous computation.</span>
+                                </v-tooltip>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
@@ -232,7 +254,8 @@ export default {
             displaySuccess: false,
             successMessage: null,
             showDonatorInfo: false,
-            donationMessageAlert: ''
+            donationMessageAlert: '',
+            showUseRefBtn: false
         }
     },
     mounted() {
@@ -249,7 +272,7 @@ export default {
     methods: {
         ...mapMutations('computation', ['setCurrentComputation', 'switchResults']),
         ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation', 'getPreviousMotorComputation']),
-        ...mapMutations('computation', ['setCompareWithPrevious']),
+        ...mapMutations('computation', ['setCompareWithPrevious', 'toggleUseAsRef']),
         ...mapGetters('authentication', ['isDonator']),
         exportRASP() {
             this.$refs.form.exportRASP()
@@ -403,7 +426,7 @@ export default {
         }
     },
     watch: {
-        demo(newValue, oldValue) {
+        demo(newValue) {
             // if leave demo
             if (newValue !== undefined && !newValue) {
                 this.asResult = false
@@ -438,12 +461,14 @@ export default {
             const previousMotors = this.previousMotors()
             return !(previousMotors.length > 1 && !!previousMotors[1])
         },
+        ...mapGetters('computation', ['useAsRef']),
         showComparison: {
             get() {
                 return this.compareWithPrevious()
             },
             set(value) {
                 if (this.isDonator()) {
+                    this.showUseRefBtn = value
                     Vue.nextTick(() => { this.setCompareWithPrevious(value) })
                 } else {
                     // toggle on when user activate showComparison

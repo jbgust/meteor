@@ -158,7 +158,7 @@ export default {
             }
         },
         ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation', 'saveCurrentMotor']),
-        ...mapGetters('computation', ['currentComputation']),
+        ...mapGetters('computation', ['currentComputation', 'isPreviousMotorFlagAsReference']),
         ...mapGetters('authentication', ['isDonator']),
         runComputation() {
             const component = this

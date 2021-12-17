@@ -2,6 +2,7 @@ const state = () => ({
     previousComputation: null,
     currentComputation: null,
     compareWithPrevious: false,
+    useAsRef: false,
     previousMotors: []
 })
 
@@ -21,6 +22,9 @@ const getters = {
     },
     compareWithPrevious: (state) => {
         return state.compareWithPrevious
+    },
+    useAsRef: (state) => {
+        return state.useAsRef
     }
 }
 
@@ -32,8 +36,12 @@ const mutations = {
     switchResults(state) {
         const lastComputation = state.currentComputation
         state.currentComputation = state.previousComputation
-        state.previousComputation = lastComputation
-        state.previousMotors = [state.previousMotors[1], state.previousMotors[0]]
+        if (state.useAsRef) {
+            state.previousMotors[0] = state.previousMotors[1]
+        } else {
+            state.previousMotors = [state.previousMotors[1], state.previousMotors[0]]
+            state.previousComputation = lastComputation
+        }
     },
     saveCurrentMotor(state, motorConfiguration) {
         const assign = Object.assign({}, motorConfiguration)
@@ -42,10 +50,22 @@ const mutations = {
         state.previousMotors = [assign, state.previousMotors[0]]
     },
     setPreviousComputation(state, previousComputation) {
-        state.previousComputation = previousComputation
+        if (!state.useAsRef) {
+            state.previousComputation = previousComputation
+        }
     },
     setCompareWithPrevious(state, compareWithPrevious) {
         state.compareWithPrevious = compareWithPrevious
+        if (!compareWithPrevious) {
+            state.useAsRef = false
+        }
+    },
+    toggleUseAsRef(state) {
+        state.useAsRef = !(state.useAsRef)
+        if (state.useAsRef) {
+            state.previousComputation = state.currentComputation
+            state.previousMotors[1] = state.previousMotors[0]
+        }
     }
 }
 
