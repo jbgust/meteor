@@ -39,43 +39,43 @@ export const news = [
     //                 <li><b>New forum to share experience, request feature, report bug, ... See <a href="http://meteor.boards.net/">HERE</a></b></li>
     //             </ul>`
     // }, {
-        id: 6,
-        html: `<ul>
-                        <li>
-                            <b>New features, December 2019</b>
-                            <ul>
-                                <li>Finocyl grain configuration : thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on finocyl grain calculation.</li>
-                                <li>Motor export in RASP format (.eng)</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
-        id: 7,
-        html: `<ul>
-                        <li>
-                            <b>New features, January 2020</b>
-                            <ul>
-                                <li>Star grain configuration </li>
-                                <li>End burner grain configuration</li>
-                                <li>Motor class percentage</li>
-                                <li>Thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on this grain.</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
-        id: 8,
-        html: `<ul>
-                        <li>
-                            <b>New grains, January 2020</b>
-                            <ul>
-                                <li>C slot</li>
-                                <li>Moon burner</li>
-                                <li>Rod and tube</li>
-                                <li>Thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on C slot and moon burner grain.</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
+    //     id: 6,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>New features, December 2019</b>
+    //                         <ul>
+    //                             <li>Finocyl grain configuration : thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on finocyl grain calculation.</li>
+    //                             <li>Motor export in RASP format (.eng)</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
+    //     id: 7,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>New features, January 2020</b>
+    //                         <ul>
+    //                             <li>Star grain configuration </li>
+    //                             <li>End burner grain configuration</li>
+    //                             <li>Motor class percentage</li>
+    //                             <li>Thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on this grain.</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
+    //     id: 8,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>New grains, January 2020</b>
+    //                         <ul>
+    //                             <li>C slot</li>
+    //                             <li>Moon burner</li>
+    //                             <li>Rod and tube</li>
+    //                             <li>Thanks to <a href="https://github.com/bkuker/motorsim" target="_blank">Bill Kuker</a> for his work on C slot and moon burner grain.</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
         id: 9,
         html: `<ul>
                         <li>
@@ -126,6 +126,17 @@ export const news = [
                             <ul>
                                 <li>Save (by browser) if plots are chown or hidden.</li>
                                 <li>Revert button to restore the previous computation</li>
+                            </ul>
+                        </li>
+                    </ul>`
+    }, {
+        id: 15,
+        html: `<ul>
+                        <li>
+                            <b>December 2021</b>
+                            <ul>
+                                <li>Display previous values when comparing motors</li>
+                                <li>Flag a motor to be used as reference for comparison, instead using last computation</li>
                             </ul>
                         </li>
                     </ul>`
