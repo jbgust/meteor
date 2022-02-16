@@ -3,7 +3,7 @@ jobs:
   install:
     working_directory: ~/meteor
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14.17.6
     steps:
       - checkout
       - restore_cache:
@@ -22,7 +22,7 @@ jobs:
   jest:
     working_directory: ~/meteor
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14.17.6
     steps:
       - checkout
       - attach_workspace:
@@ -55,8 +55,9 @@ jobs:
           when: always
   package-ci:
     working_directory: ~/meteor
+    resource_class: medium+
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14.17.6
     steps:
       - checkout
       - attach_workspace:
@@ -76,8 +77,9 @@ jobs:
             - ansible
   package-prod:
     working_directory: ~/meteor
+    resource_class: medium+
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14.17.6
     steps:
       - checkout
       - attach_workspace:

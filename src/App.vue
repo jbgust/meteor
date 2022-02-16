@@ -276,7 +276,7 @@ export default {
         },
         signOut() {
             this.clearToken()
-            this.$router.push({ name: 'Home' })
+            this.$router.push({ name: 'Home' }).catch(() => {})
         },
         ...mapActions('authentication', ['loadToken', 'clearToken'])
     },
