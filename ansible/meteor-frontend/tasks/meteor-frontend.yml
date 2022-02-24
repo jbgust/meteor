@@ -1,3 +1,6 @@
+- name: Activation page maintenance
+  shell: "/root/scripts/meteor-maintenance.sh {{frontFolder}} stopFront"
+
 - name: Suppression de l'ancienne version
   shell: |
     rm -rf /var/www/{{frontFolder}}/*
@@ -6,6 +9,9 @@
   copy:
     src: ~/meteor/dist/
     dest: /var/www/{{frontFolder}}/
+
+- name: Desactivation page maintenance
+  shell: "/root/scripts/meteor-maintenance.sh {{frontFolder}} startFront"
 
 - name: Marquage de la version
   copy:
