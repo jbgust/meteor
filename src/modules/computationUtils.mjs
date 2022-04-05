@@ -3,9 +3,9 @@ export const IMPERIAL_UNITS = 'IMPERIAL'
 
 export function getUnit(unitSelected) {
     if (unitSelected === SI_UNITS) {
-        return { type: unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massUnit: 'Kg', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
+        return { type: unitSelected, lengthUnit: 'mm', pressureUnit: 'MPa', resultPressureUnit: 'Bar', massUnit: 'Kg', grainMassUnit: 'g', massFluxUnit: 'Kg/s', speedUnit: 'm/s', densityUnit: 'g/cm3' }
     } else {
-        return { type: unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massUnit: 'lb', massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
+        return { type: unitSelected, lengthUnit: 'inch', pressureUnit: 'psi', resultPressureUnit: 'psi', massUnit: 'lb', grainMassUnit: 'lb',massFluxUnit: 'lb/s', speedUnit: 'feet/sec', densityUnit: 'lb/cubic inch' }
     }
 }
 
@@ -38,7 +38,8 @@ export function mergeCharetResults(currentResults, previousResults) {
             yPrevious: item.y,
             knPrevious: item.kn,
             pPrevious: item.p,
-            mPrevious: item.m
+            mPrevious: item.m,
+            grainMassPrevious: item.grainMass
         }
         if (chartData.has(currentTime)) {
             chartData.set(currentTime, Object.assign(previousValues, chartData.get(currentTime)))

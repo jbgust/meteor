@@ -50,7 +50,7 @@
                 </template>
             </v-text-field>
             <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="grain-mass" label="Initial grain mass"
-                          :suffix="units.massUnit" v-model="performance.grainMass" :messages="getPreviousValue('grainMass')">>
+                          :suffix="units.grainMassUnit" v-model="performance.grainMass" :messages="getPreviousValue('grainMass')">>
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.grainMass.cssColor">{{ compareMotors.grainMass.icon }}</v-icon>
                 </template>

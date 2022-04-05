@@ -32,7 +32,8 @@ jobs:
           command: npm run test:unit
   cypress:
     working_directory: ~/meteor
-    machine: true
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
       - run:
@@ -121,7 +122,8 @@ jobs:
             ansible-playbook -i inventory open-sky.fr.yml --extra-vars frontFolder=<<parameters.front-folder>>
   cypress-check-prod:
     working_directory: ~/meteor
-    machine: true
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
       - run:

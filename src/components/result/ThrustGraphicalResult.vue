@@ -16,6 +16,7 @@ export default {
             chart: null,
             pressureSerie: null,
             massFluxSerie: null,
+            grainMass: null,
             chartLoader: null
         }
     },
@@ -53,6 +54,7 @@ export default {
             this.createAxisAndSeries(chart, 'kn', 'KN', true, 'triangle')
             this.pressureSerie = this.createAxisAndSeries(chart, 'p', 'Chamber pressure', true, 'rectangle', this.units.resultPressureUnit)
             this.massFluxSerie = this.createAxisAndSeries(chart, 'm', 'Mass flow rate', true, 'sqare', this.units.massFluxUnit)
+            this.grainMass = this.createAxisAndSeries(chart, 'grainMass', 'Grain mass', true, 'sqare', this.units.grainMassUnit)
             this.createAxisAndSeries(chart, 'y', 'Thrust', false, 'circle', 'N')
 
             chart.cursor = new am4charts.XYCursor()
@@ -172,6 +174,7 @@ export default {
         units(newValue) {
             this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.resultPressureUnit}`
             this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
+            this.grainMass.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.grainMassUnit}`
         }
     },
     beforeDestroy() {

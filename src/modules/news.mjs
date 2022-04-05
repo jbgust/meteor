@@ -140,6 +140,17 @@ export const news = [
                             </ul>
                         </li>
                     </ul>`
+    }, {
+        id: 16,
+        html: `<ul>
+                        <li>
+                            <b>April 2022</b>
+                            <ul>
+                                <li>Add grain mass evolution to result chart</li>
+                                <li>For SI unit initial grain mass is now in grams.</li>
+                            </ul>
+                        </li>
+                    </ul>`
     }
 ]
 

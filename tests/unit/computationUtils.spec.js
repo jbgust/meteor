@@ -18,17 +18,17 @@ describe('Nozzle length calculation (divergence and convergence length)', () => 
 describe('Should merge results for chart', () => {
     it('should rename previous results prop names', () => {
         const currentResults = [
-            { x: 1, y: 2, kn: 3, p: 4, m: 5 }
+            { x: 1, y: 2, kn: 3, p: 4, m: 5, grainMass: 11 }
         ]
 
         const previsouResults = [
-            { x: 2, y: 6, kn: 7, p: 8, m: 9 }
+            { x: 2, y: 6, kn: 7, p: 8, m: 9, grainMass: 12 }
         ]
 
         expect(mergeCharetResults(currentResults, previsouResults))
             .toEqual([
-                { x: 1, y: 2, kn: 3, p: 4, m: 5 },
-                { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9 }])
+                { x: 1, y: 2, kn: 3, p: 4, m: 5, grainMass: 11 },
+                { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9, grainMassPrevious: 12 }])
     })
 
     it('Compare with float not string (bug reported by Willima S.)', () => {
@@ -38,14 +38,16 @@ describe('Should merge results for chart', () => {
                 'y': 10501.3972,
                 'kn': 42.9653,
                 'p': 71.5775,
-                'm': 21.932
+                'm': 21.932,
+                'grainMass': 11
             },
             {
                 'x': 3.0214,
                 'yPrevious': 8.3905,
                 'knPrevious': 26.3625,
                 'pPrevious': 2.5903,
-                'mPrevious': 0.0081
+                'mPrevious': 0.0081,
+                'grainMassPrevious': 12
             }
         ]
 
@@ -59,13 +61,15 @@ describe('Should merge results for chart', () => {
                     'yPrevious': 8.3905,
                     'knPrevious': 26.3625,
                     'pPrevious': 2.5903,
-                    'mPrevious': 0.0081
+                    'mPrevious': 0.0081,
+                    'grainMassPrevious': 12
                 }, {
                     'x': 29.4227,
                     'y': 10501.3972,
                     'kn': 42.9653,
                     'p': 71.5775,
-                    'm': 21.932
+                    'm': 21.932,
+                    'grainMass': 11
                 }])
     })
 
