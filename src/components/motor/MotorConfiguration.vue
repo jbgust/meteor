@@ -29,8 +29,12 @@
             <v-layout column>
             <v-layout colum wrap>
                 <v-flex lg6 md6>
-                    <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter" :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
-                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" :suffix="units.lengthUnit" v-model="value.chamberLength" :rules="numericGreater0Rules" step="0.01" />
+                    <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter"
+                                  :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter"
+                                  :rules="chamberDiameterRules" step="0.01" />
+                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat"
+                                  :suffix="units.lengthUnit" v-model="value.chamberLength"
+                                  :rules="chamberLengthRules" step="0.01" />
                 </v-flex>
                 <v-flex lg6 md6>
                     <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
@@ -48,12 +52,13 @@ import {
     requiredRule,
     greaterThanRule,
     integerGreaterThanRule,
-    stringRequiredMaxLengthRule, stringMaxLengthRule
+    stringRequiredMaxLengthRule, stringMaxLengthRule, rangeRule
 } from '@/modules/formValidationRules'
 import GrainConfigurator from './GrainConfigurator'
 import { NATIVE_PROPELLANTS } from '@/modules/grainsConstants'
 import { mapActions, mapGetters } from 'vuex'
 import PropellantSelect from '@/components/propellant/PropellantSelect'
+import { SI_UNITS } from '@/modules/computationUtils.mjs'
 
 export default {
     name: 'motor-configuration',
@@ -79,6 +84,12 @@ export default {
     computed: {
         ...mapGetters('customPropellants', ['customPropellants']),
         ...mapGetters('authentication', ['isLogged']),
+        chamberDiameterRules() {
+            return rangeRule(0, this.units.type === SI_UNITS ? 500 : 500 / 2.54)
+        },
+        chamberLengthRules() {
+            return rangeRule(0, this.units.type === SI_UNITS ? 1200 : 1200 / 2.54)
+        },
         propellants() {
             let propellants = []
             if (!(this.customPropellants == null || this.customPropellants === undefined)) {
