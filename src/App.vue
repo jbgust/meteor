@@ -22,7 +22,7 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
-            <div class="hidden-xs-only ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;">
+            <div class="hidden-xs-only ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">
                 Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
@@ -267,7 +267,8 @@ export default {
     data: () => ({
         drawer: false,
         group: null,
-        lostConnectDialog: false
+        lostConnectDialog: false,
+        showMessageStarGrain: !localStorage.getItem('starEnabled')
     }),
     methods: {
         closeLostConnectionPopUp() {

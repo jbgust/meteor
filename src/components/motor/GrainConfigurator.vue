@@ -151,7 +151,7 @@ export default {
                 { value: HOLLOW, text: 'Hollow cylinder' },
                 { value: MOON_BURNER, text: 'Moon burner' },
                 { value: ROD_TUBE, text: 'Rod and tube' },
-                { value: STAR, text: 'Star (not available)', disabled: true }],
+                { value: STAR, text: 'Star (not available)', disabled: !localStorage.getItem('starEnabled') }],
             selectedGrain: null
         }
     },
