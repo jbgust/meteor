@@ -1,4 +1,4 @@
-import {generateId} from "./commands";
+import { generateId } from './commands'
 
 Cypress.Commands.add('mockMotorList', (motors) => {
     const motorResponses = motors.map(motor => {
