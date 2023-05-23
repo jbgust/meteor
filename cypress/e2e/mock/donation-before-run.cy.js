@@ -1,4 +1,4 @@
-const TOKEN_STORAGE_KEY = 'accessToken'
+const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
     return {

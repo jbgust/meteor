@@ -394,7 +394,7 @@ export default {
                             this.saveLoading = false
                         })
                 } else {
-                    Axios.post(`/motors/`, request)
+                    Axios.post(`/motors`, request)
                         .then((response) => {
                             this.motorId = extractIdFromHateoasResponse(response)
                             this.successMessage = 'Motor saved'

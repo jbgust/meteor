@@ -1,6 +1,6 @@
 import { generateId } from '../../support/commands'
 
-const TOKEN_STORAGE_KEY = 'accessToken'
+const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 describe('Authentication', function() {
     it('Should sign in', () => {

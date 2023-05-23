@@ -2,7 +2,7 @@
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
-export const TOKEN_STORAGE_KEY = 'accessToken'
+export const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 const state = () => ({
     accessToken: null
@@ -20,7 +20,16 @@ function decodeToken(token) {
 // getters
 const getters = {
     isLogged: (state) => {
-        return !!decodeToken(state.accessToken)
+        try {
+            const jsonToken = decodeToken(state.accessToken)
+            if (jsonToken !== false) {
+                return jsonToken.exp * 1000 > new Date().getTime() ? jsonToken : false
+            }
+            return false
+        } catch (e) {
+            console.error('Token expired')
+            return false
+        }
     },
     isDonator: (state) => {
         const decodedToken = decodeToken(state.accessToken)

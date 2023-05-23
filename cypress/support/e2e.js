@@ -19,7 +19,7 @@ import './mockCommands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-const TOKEN_STORAGE_KEY = 'accessToken'
+const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 beforeEach(function() {
     localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))

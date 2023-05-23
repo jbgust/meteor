@@ -105,7 +105,7 @@ export default {
                 motorVersion3.motor.propellantId = matchingPropellant[0].id
                 this.saveMotor(motorVersion3)
             } else {
-                Axios.post(`/propellants/`, {
+                Axios.post(`/propellants`, {
                     unit: propellantUnit,
                     name: motorVersion3.customPropellant.name ? motorVersion3.customPropellant.name : `Propellant - ${this.getDateTimeAsString()}`,
                     json: propellantToImport

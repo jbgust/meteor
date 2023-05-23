@@ -112,7 +112,6 @@ export default {
                         me.loading = false
                     })
                     .catch((error) => {
-                        me.email = ''
                         me.password = ''
                         me.showError = true
                         me.loading = false

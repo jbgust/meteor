@@ -239,7 +239,7 @@ export default {
                             console.error(error)
                         })
                 } else {
-                    Axios.post(`/propellants/`, request)
+                    Axios.post(`/propellants`, request)
                         .then(function(response) {
                             me.$emit('propellantCommit')
                             me.dialog = false
