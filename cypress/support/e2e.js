@@ -28,6 +28,7 @@ beforeEach(function() {
 
     // Do not show registration info
     localStorage.setItem('authenticationInfoRead', '1')
+    localStorage.setItem('unitSelected', 'SI_UNITS')
 })
 
 before(() => {

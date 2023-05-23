@@ -63,12 +63,16 @@ describe('Run computation in SI units', function() {
         cy.get('span').contains('Convergence length:').parent().contains('30.49 mm')
         cy.get('span').contains('Divergence length:').parent().contains('22.09 mm')
         cy.get('span').contains('Nozzle exit diameter:').parent().contains('14.00 mm')
+
+        cy.get('#btnCloseNozzleDesign > .v-btn__content > .v-icon').click()
     })
 })
 
 describe('Should dislay error from backend', function() {
     it('Should dislay error from backend', function() {
         cy.visit('/#/motorDesign')
+        cy.reload()
+
 
         const formDatas = {
             throatDiameter: 7,

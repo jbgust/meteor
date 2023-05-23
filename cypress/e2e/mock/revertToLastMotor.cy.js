@@ -99,7 +99,6 @@ describe('Should revert to last motor config', () => {
             buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
 
         cy.intercept('POST', '/compute', buildComputationResult('F45'))
-
         cy.runSavedMotor('Mock motor 2')
         cy.get('input#motor-class')
             .should('have.value', 'F45')

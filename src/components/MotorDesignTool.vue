@@ -114,7 +114,7 @@
                     </v-alert>
 
                     <div v-if="demo" style="padding: 15px 15px 0 15px;">
-                        <v-btn block :to="'/motorDesign'" color="success" >Try it !</v-btn>
+                        <v-btn block :to="'/motorDesign'" color="success" data-cy="tryIt">Try it !</v-btn>
                     </div>
                     <solid-rocket-motor ref="form" :units="units" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 

@@ -12,14 +12,17 @@ describe('Testing demo page', function() {
     })
 
     it('Should restore demo units', function() {
-        cy.contains('Try it !').click()
+        cy.visit('/#/motorDesign')
 
         cy.url().should('include', '/#/motorDesign')
 
         cy.contains('IMPERIAL').click()
         cy.get('#throatDiameter').parent().contains('inch')
 
-        cy.visit('/#/demo')
+        cy.visit('/')
+        cy.contains('View demo').click()
+
+        cy.url().should('include', '/#/demo')
         cy.get('#throatDiameter').parent().contains('mm')
     })
 })

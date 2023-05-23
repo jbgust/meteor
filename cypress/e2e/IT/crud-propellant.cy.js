@@ -1,4 +1,4 @@
-const propellantName = 'CrudPropellant'
+ const propellantName = 'CrudPropellant'
 const propellant = {
     name: propellantName,
     burnRateCoefficient: 8.26,
@@ -82,6 +82,7 @@ describe('Crud propellant', () => {
 
     it('Should display units correctly', () => {
         cy.visit('/#/motorDesign')
+        cy.reload()
         // set main form to metric
         cy.contains('METRIC').click()
 
