@@ -128,7 +128,7 @@ export default {
             }
         },
         saveMotor(motorVersion3) {
-            Axios.post(`/motors/`, {
+            Axios.post(`/motors`, {
                 name: motorVersion3.name ? motorVersion3.name : `Motor - ${this.getDateTimeAsString()}`,
                 json: JSON.stringify(motorVersion3.motor)
             })
