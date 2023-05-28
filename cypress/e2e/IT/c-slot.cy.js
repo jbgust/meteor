@@ -1,10 +1,10 @@
 const expectedResults = {
-    motorClasss: 'H76',
+    motorClasss: 'H75',
     thrustTime: '2.16',
-    maxThrust: '134.02',
-    totalImpulse: '164.00',
-    isp: '112.31',
-    maxPressure: '13.50',
+    maxThrust: '131.50',
+    totalImpulse: '162.11',
+    isp: '111.01',
+    maxPressure: '13.49',
     averagePressure: '7.85',
     nozzleExitSpeed: '2.96'
 }

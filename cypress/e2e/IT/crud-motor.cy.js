@@ -27,20 +27,20 @@ describe('Crud motor', () => {
     })
     it('Should run saved motor', () => {
        cy.saveAndRunCheck(motorName, {
-            motorClasss: 'F82',
+            motorClasss: 'F80',
             thrustTime: '0.91',
-            maxThrust: '111.61',
-            totalImpulse: '73.99',
-            isp: '116.78',
-            maxPressure: '21.87',
+            maxThrust: '108.77',
+            totalImpulse: '72.37',
+            isp: '114.21',
+            maxPressure: '21.86',
             averagePressure: '16.00',
-            nozzleExitSpeed: '2.53',
-            optimalExpansionRatio: '4.00'
+            nozzleExitSpeed: '2.43',
+            optimalExpansionRatio: '3.47'
         })
 
         cy.get('input#motor-class')
             .parent()
-            .contains('85%')
+            .contains('81%')
     })
 
     it('Should update motor', () => {

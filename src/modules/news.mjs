@@ -76,55 +76,55 @@ export const news = [
     //                     </li>
     //                 </ul>`
     // }, {
-        id: 9,
-        html: `<ul>
-                        <li>
-                            <b>May 2020</b>
-                            <ul>
-                                <li>RASP export now available for all grain type</li>
-                                <li>Due to performance problem star grain are temporarily not available. Any help to improve the regression computation of star grain are welcome.</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
-        id: 10,
-        html: `<ul>
-                        <li>
-                            <b>August 2020</b>
-                            <ul>
-                                <li>Now you should register to use METEOR. This is to prepare new feature like online saving of your motors (no more json files)</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
-        id: 11,
-        html: `<ul>
-                        <li>
-                            <b>January 2021</b>
-                            <ul>
-                                <li>Online save for motors and propellants. This is the end the JSON file import/export</li>
-                                <li>Warning on low port to throat ratio</li>
-                                <li>End burner grain now support configuration with no hole</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
-        id: 13,
-        html: `<ul>
-                        <li>
-                            <b>February 2021</b>
-                            <ul>
-                                <li>Motor comparison</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
+    //     id: 9,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>May 2020</b>
+    //                         <ul>
+    //                             <li>RASP export now available for all grain type</li>
+    //                             <li>Due to performance problem star grain are temporarily not available. Any help to improve the regression computation of star grain are welcome.</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
+    //     id: 10,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>August 2020</b>
+    //                         <ul>
+    //                             <li>Now you should register to use METEOR. This is to prepare new feature like online saving of your motors (no more json files)</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
+    //     id: 11,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>January 2021</b>
+    //                         <ul>
+    //                             <li>Online save for motors and propellants. This is the end the JSON file import/export</li>
+    //                             <li>Warning on low port to throat ratio</li>
+    //                             <li>End burner grain now support configuration with no hole</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
+    //     id: 13,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>February 2021</b>
+    //                         <ul>
+    //                             <li>Motor comparison</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
         id: 14,
         html: `<ul>
                         <li>
                             <b>April 2021</b>
                             <ul>
-                                <li>Save (by browser) if plots are chown or hidden.</li>
+                                <li>Remember if plots are chown or hidden.</li>
                                 <li>Revert button to restore the previous computation</li>
                             </ul>
                         </li>
@@ -148,6 +148,21 @@ export const news = [
                             <ul>
                                 <li>Add grain mass evolution to result chart</li>
                                 <li>For SI unit initial grain mass is now in grams.</li>
+                            </ul>
+                        </li>
+                    </ul>`
+    }, {
+        id: 17,
+        html: `<ul>
+                        <li>
+                            <b>May 2023</b>
+                            <ul>
+                                <li>Update propellants settings from SRM 2023 (performance prediction will be a few percent less) </li>
+                                <li>Adding new propellants from SRM 2023</li>
+                                <ul>
+                                    <li><b>KNFR</b> : 65% potassium nitrate / 35% fructose</li>                                
+                                    <li><b>KNPSB</b> : 35% potassium nitrate / 30% potassium perchlorate / 35% sorbitol</li>                                
+                                </ul>
                             </ul>
                         </li>
                     </ul>`

@@ -48,10 +48,10 @@ describe('Run computation with advanced settings', function() {
         const expectedResults = {
             motorClasss: 'F72',
             thrustTime: '0.91',
-            maxThrust: '95.18',
-            totalImpulse: '64.85',
-            isp: '102.35',
-            maxPressure: '21.87',
+            maxThrust: '95.91',
+            totalImpulse: '65.35',
+            isp: '103.14',
+            maxPressure: '21.86',
             averagePressure: '15.99',
             nozzleExitSpeed: '1.00'
         }

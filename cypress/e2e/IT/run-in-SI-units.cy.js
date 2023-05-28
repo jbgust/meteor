@@ -31,20 +31,20 @@ describe('Run computation in SI units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'F82',
+            motorClasss: 'F80',
             thrustTime: '0.91',
-            maxThrust: '111.61',
-            totalImpulse: '73.99',
-            isp: '116.78',
-            maxPressure: '21.87',
+            maxThrust: '108.77',
+            totalImpulse: '72.37',
+            isp: '114.21',
+            maxPressure: '21.86',
             averagePressure: '16.00',
-            nozzleExitSpeed: '2.53',
-            optimalExpansionRatio: '4.00'
+            nozzleExitSpeed: '2.43',
+            optimalExpansionRatio: '3.47'
         }
 
         cy.get('input#motor-class')
             .parent()
-            .contains("85%")
+            .contains("81%")
 
         cy.checkPerformanceResults(expectedResults, 'METRIC')
     })
@@ -61,8 +61,8 @@ describe('Run computation in SI units', function() {
             .type(18)
 
         cy.get('span').contains('Convergence length:').parent().contains('30.49 mm')
-        cy.get('span').contains('Divergence length:').parent().contains('22.09 mm')
-        cy.get('span').contains('Nozzle exit diameter:').parent().contains('14.00 mm')
+        cy.get('span').contains('Divergence length:').parent().contains('19.08 mm')
+        cy.get('span').contains('Nozzle exit diameter:').parent().contains('13.04 mm')
 
         cy.get('#btnCloseNozzleDesign > .v-btn__content > .v-icon').click()
     })

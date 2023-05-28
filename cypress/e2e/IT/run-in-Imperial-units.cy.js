@@ -24,15 +24,15 @@ describe('Run computation in imperial units', function() {
 
     it('Should check result', () => {
         const expectedResults = {
-            motorClasss: 'L1672',
-            thrustTime: '2.15',
-            maxThrust: '2060.35',
-            totalImpulse: '3603.08',
-            isp: '130.65',
-            maxPressure: '860.89',
-            averagePressure: '711.50',
-            nozzleExitSpeed: '3.07',
-            optimalExpansionRatio: '9.65'
+            motorClasss: 'L1607',
+            thrustTime: '2.16',
+            maxThrust: '1977.74',
+            totalImpulse: '3464.48',
+            isp: '125.62',
+            maxPressure: '860.62',
+            averagePressure: '710.88',
+            nozzleExitSpeed: '2.95',
+            optimalExpansionRatio: '7.95'
         }
 
         cy.checkPerformanceResults(expectedResults, 'IMPERIAL')
@@ -50,8 +50,8 @@ describe('Run computation in imperial units', function() {
             .type(24)
 
         cy.get('span').contains('Convergence length:').parent().contains('1.9642 inch')
-        cy.get('span').contains('Divergence length:').parent().contains('3.3929 inch')
-        cy.get('span').contains('Nozzle exit diameter:').parent().contains('2.1270 inch')
+        cy.get('span').contains('Divergence length:').parent().contains('2.9299 inch')
+        cy.get('span').contains('Nozzle exit diameter:').parent().contains('1.9302 inch')
 
         cy.get('#btnCloseNozzleDesign').click()
     })
