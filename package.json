@@ -10,7 +10,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "4.10.15",
+    "@amcharts/amcharts4": "^4.10.36",
     "ajv": "^6.10.0",
     "axios": "0.22.0",
     "core-js": "^2.6.11",
