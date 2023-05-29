@@ -3,7 +3,7 @@ jobs:
   install:
     working_directory: ~/meteor
     docker:
-      - image: circleci/node:14.17.6
+      - image: cimg/node:18.16.0
     steps:
       - checkout
       - restore_cache:
@@ -22,7 +22,7 @@ jobs:
   jest:
     working_directory: ~/meteor
     docker:
-      - image: circleci/node:14.17.6
+      - image: cimg/node:18.16.0
     steps:
       - checkout
       - attach_workspace:
@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.12.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr,defaultCommandTimeout=8000
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.13.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr,defaultCommandTimeout=8000
       - store_artifacts:
           path: ~/meteor/cypress/videos
       - store_artifacts:
@@ -58,7 +58,7 @@ jobs:
     working_directory: ~/meteor
     resource_class: medium+
     docker:
-      - image: circleci/node:14.17.6
+      - image: cimg/node:18.16.0
     steps:
       - checkout
       - attach_workspace:
@@ -80,7 +80,7 @@ jobs:
     working_directory: ~/meteor
     resource_class: medium+
     docker:
-      - image: circleci/node:14.17.6
+      - image: cimg/node:18.16.0
     steps:
       - checkout
       - attach_workspace:
@@ -134,7 +134,7 @@ jobs:
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.12.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/e2e/IT/run-in-SI-units.spec.js
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.13.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/e2e/IT/run-in-SI-units.spec.js
       - store_artifacts:
           path: ~/meteor/cypress/videos
       - store_artifacts:
