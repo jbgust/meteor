@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'H215',
     thrustTime: '0.85',
@@ -41,6 +43,6 @@ describe('Run Finocyl in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('Finocyl motor', expectedResults)
+        cy.saveAndRunCheck('Finocyl motor_' + generateId(), expectedResults)
     })
 })

@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'H75',
     thrustTime: '2.16',
@@ -41,6 +43,6 @@ describe('Run C slot in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('Cslot motor', expectedResults)
+        cy.saveAndRunCheck('Cslot motor_' + generateId(), expectedResults)
     })
 })

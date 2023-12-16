@@ -1,6 +1,6 @@
 import { generateId } from '../../support/commands'
 
-const motorName = 'HollowMotorSave'
+const motorName = 'HollowMotorSave_' + generateId()
 
 describe('Crud motor', () => {
     it('Should save form', () => {

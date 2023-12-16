@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'G348',
     thrustTime: '0.43',
@@ -36,6 +38,6 @@ describe('Run rod and tube in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('A-RobTube motor', expectedResults)
+        cy.saveAndRunCheck('A-RobTube motor_' + generateId(), expectedResults)
     })
 })

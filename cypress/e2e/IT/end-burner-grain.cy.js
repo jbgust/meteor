@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'G9',
     thrustTime: '10.04',
@@ -33,6 +35,6 @@ describe('Run end burner in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('EndBurner motor', expectedResults)
+        cy.saveAndRunCheck('EndBurner motor_' + generateId(), expectedResults)
     })
 })

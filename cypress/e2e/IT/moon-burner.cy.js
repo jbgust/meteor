@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'H102',
     thrustTime: '1.77',
@@ -37,6 +39,6 @@ describe('Run moon burner in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('MoonBurner motor', expectedResults)
+        cy.saveAndRunCheck('MoonBurner motor_' + generateId(), expectedResults)
     })
 })

@@ -1,3 +1,5 @@
+import { generateId } from '../../support/commands'
+
 const expectedResults = {
     motorClasss: 'H195',
     thrustTime: '1.02',
@@ -40,6 +42,6 @@ describe.skip('Run Star in SI units', function() {
     })
 
     it('Save it and run it', () => {
-        cy.saveAndRunCheck('Star motor', expectedResults)
+        cy.saveAndRunCheck('Star motor_' + generateId(), expectedResults)
     })
 })

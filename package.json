@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "ci": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --mode ci",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
-    "lint": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service lint",
-    "test:unit": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service test:unit"
+    "serve": "vue-cli-service serve",
+    "ci": "vue-cli-service serve --mode ci",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.36",
