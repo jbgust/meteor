@@ -10,15 +10,15 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "^4.10.36",
-    "ajv": "^6.10.2",
+    "@amcharts/amcharts4": "^4.10.38",
+    "ajv": "6.12.6",
     "axios": "1.4.0",
     "core-js": "^2.6.12",
     "deep-equal": "^2.2.1",
     "jwt-decode": "^3.1.2",
-    "vue": "^2.7.14",
+    "vue": "^2.7.15",
     "vue-router": "^3.0.7",
-    "vuetify": "2.6.15",
+    "vuetify": "2.7.1",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
