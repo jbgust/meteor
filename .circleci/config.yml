@@ -37,6 +37,7 @@ jobs:
     working_directory: ~/meteor
     machine:
       image: ubuntu-2004:202010-01
+    resource_class: large
     steps:
       - checkout
       - run:
@@ -59,7 +60,7 @@ jobs:
           when: always
   package-ci:
     working_directory: ~/meteor
-    resource_class: medium+
+    resource_class: large
     docker:
       - image: cimg/node:18.16.0
     steps:
