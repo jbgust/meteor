@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            mpn --version
+            npm --version
             node --version
             npm ci
       - save_cache:
