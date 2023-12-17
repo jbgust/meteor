@@ -82,7 +82,7 @@ jobs:
             - ansible
   package-prod:
     working_directory: ~/meteor
-    resource_class: medium+
+    resource_class: large
     docker:
       - image: cimg/node:18.16.0
     steps:
