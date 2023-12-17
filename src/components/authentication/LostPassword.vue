@@ -1,15 +1,15 @@
 <template>
     <v-container>
         <v-layout column align-center>
-            <v-flex xs10 sm6>
+            <v-col xs10 sm6>
                 <v-icon size="80">mdi-rocket</v-icon>
-            </v-flex>
-            <v-flex xs10 sm6 class="pb-10">
+            </v-col>
+            <v-col xs10 sm6 class="pb-10">
                 <h1>
                     Reset your password
                 </h1>
-            </v-flex>
-            <v-flex grow>
+            </v-col>
+            <v-col grow>
                 <v-alert
                     v-if="showMessage"
                     border="top"
@@ -45,7 +45,7 @@
                         </v-form>
                     </v-card-text>
                 </v-card>
-            </v-flex>
+            </v-col>
         </v-layout>
     </v-container>
 

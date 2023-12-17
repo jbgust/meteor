@@ -1,6 +1,6 @@
 <template>
     <v-bottom-sheet v-model="sheet" v-if="hasNews">
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ props }">
             <v-badge
                 color="red"
                 class="mr-5 ml-5 align-self-center"

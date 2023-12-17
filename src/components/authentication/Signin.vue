@@ -1,15 +1,15 @@
 <template>
     <v-container>
         <v-layout column align-center>
-            <v-flex xs10 sm6>
+            <v-col xs10 sm6>
                 <v-icon size="80">mdi-rocket</v-icon>
-            </v-flex>
-            <v-flex xs10 sm6 >
+            </v-col>
+            <v-col xs10 sm6 >
             <h1>
                 Sign in to METEOR
             </h1>
-            </v-flex>
-            <v-flex grow>
+            </v-col>
+            <v-col grow>
                 <v-alert
                     v-if="showError"
                     border="top"
@@ -66,7 +66,7 @@
                         New to METEOR? <v-btn color="blue" :to="'/signup'" text>Create an account.</v-btn>
                     </v-card-text>
                 </v-card>
-            </v-flex>
+            </v-col>
         </v-layout>
     </v-container>
 </template>

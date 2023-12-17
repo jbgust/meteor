@@ -56,12 +56,12 @@
                 </template>
             </v-text-field>
         </v-layout>
-        <v-flex >
+        <v-col >
             <p class="label-nozzle" v-bind:style="{color: this.portThroatWarningColor}" v-if="showPortThroatAreaWarning">
                 {{`Your port-to-throat ratio is ${currentComputation.performanceResult.portToThroatArea}, it can be a problem` }}
                 <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon v-on="on">mdi-information-outline</v-icon>
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">mdi-information-outline</v-icon>
                     </template>
                     <p class="label-nozzle tooltip-performance">
                         Enlarging the core is a good way to solve this problem. Except for extreme L/D ratio motors, no part of the core should be less than the diameter of the nozzle throat.
@@ -71,8 +71,8 @@
             <p class="label-nozzle" style="color: red;" v-if="currentComputation.performanceResult.lowKNCorrection">
                 Low KN.
                 <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon v-on="on">mdi-information-outline</v-icon>
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">mdi-information-outline</v-icon>
                     </template>
                     <p class="label-nozzle tooltip-performance">
                         KN is ratio between burn area and throat area. With low KN the result is approximate and the motor may be subject of chuffing. To increase it you can use a larger grain core diameter and/or decrease the throat diameter.
@@ -80,7 +80,7 @@
                 </v-tooltip>
             </p>
             <p class="label-nozzle" style="color: #2196f3;" v-if="currentComputation.performanceResult.optimalDesign">Optimally designed nozzle with an expansion ratio of {{currentComputation.performanceResult.optimalNozzleExpansionRatio}}</p>
-        </v-flex>
+        </v-col>
     </div>
 
 </template>
@@ -88,7 +88,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { comparePerformanceResults } from '@/modules/computationUtils.mjs'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 export default {
     name: 'PerformanceInfo',
@@ -124,7 +124,7 @@ export default {
     watch: {
         compareMotors() {
             this.redraw = true
-            Vue.nextTick(() => { this.redraw = false })
+            nextTick(() => { this.redraw = false })
         },
         currentComputation(newValue) {
             this.performance = newValue.performanceResult

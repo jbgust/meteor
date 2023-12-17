@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
         <v-layout column>
-            <v-flex>
+            <v-col>
                 <v-alert
                     type="info"
                     dismissible
@@ -11,8 +11,8 @@
                         <li>Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.</li>
                     </ul>
                 </v-alert>
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
                 <v-alert
                     :value="showError"
                     color="error"
@@ -20,7 +20,7 @@
                     outlined>
                     Your burn rate data should not be empty or has incorrect values.
                 </v-alert>
-            </v-flex>
+            </v-col>
 
         <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
         <v-data-table

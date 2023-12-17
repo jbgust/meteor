@@ -10,7 +10,7 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-flex>
+                    <v-col>
                         <v-col>
                             <v-alert type="error" v-model="showError" dismissible outlined>
                                 {{ errorMessage }}
@@ -42,16 +42,16 @@
                                 </template>
                                 <template v-slot:item.actions="{ item }">
                                     <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on" @click="editPropellant(item)" text>
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn icon v-bind="props" @click="editPropellant(item)" text>
                                                 <v-icon color="green">mdi-pencil</v-icon>
                                             </v-btn>
                                         </template>
                                         <span>Edit</span>
                                     </v-tooltip>
                                     <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on" @click="confirmDelete(item)" text>
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn icon v-bind="props" @click="confirmDelete(item)" text>
                                                 <v-icon color="red">mdi-delete</v-icon>
                                             </v-btn>
                                         </template>
@@ -60,7 +60,7 @@
                                 </template>
                             </v-data-table>
                         </v-col>
-                    </v-flex>
+                    </v-col>
                 </v-row>
             </v-card-text>
             <v-divider></v-divider>

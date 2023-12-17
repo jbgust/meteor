@@ -9,7 +9,7 @@
                 </v-card-title>
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex>
+                        <v-col>
                                 <v-form ref="burnRateEditorForm" class="mr-5 ml-5">
                                     <v-text-field id="startPressureInput" label="From pressure (included):" v-model="burnData.fromPressureIncluded" :suffix="units.pressureUnit" :rules="numberRule"/>
                                     <v-text-field id="endPressureInput" label="To pressure (excluded):" v-model="burnData.toPressureExcluded" :suffix="units.pressureUnit" :rules="numberRule" :error-messages="endPressureErrorMessage"/>
@@ -17,7 +17,7 @@
                                     <v-text-field id="pressureExponentInput" label="Pressure exponent:" v-model="burnData.pressureExponent" :hint="hintBurnRate" persistent-hint :rules="numberRule"/>
                                 </v-form>
 
-                        </v-flex>
+                        </v-col>
                     </v-layout>
                 </v-card-text>
                 <v-card-actions>
@@ -32,7 +32,7 @@
 
 <script>
 import { numberRule } from '../../modules/formValidationRules'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 export default {
     name: 'BurnDataEditor',
     data() {
@@ -55,7 +55,7 @@ export default {
             this.createMode = true
             this.burnData = {}
             this.show()
-            Vue.nextTick(() => this.$refs.burnRateEditorForm.reset())
+            nextTick(() => this.$refs.burnRateEditorForm.reset())
         },
         edit(item) {
             this.createMode = false

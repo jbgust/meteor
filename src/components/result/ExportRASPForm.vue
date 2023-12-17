@@ -12,7 +12,7 @@
                         </v-card-title>
                         <v-card-text>
                             <v-layout column>
-                                <v-flex>
+                                <v-col>
                                     <div style="padding: 10px;">
                                         <v-form ref="exportRaspForm" class="mr-5 ml-5">
                                             <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
@@ -21,7 +21,7 @@
                                             <v-text-field id="delay" label="Delay:"  suffix="s" persistent-hint :hint="delayHint" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
-                                </v-flex>
+                                </v-col>
                             </v-layout>
                         </v-card-text>
                         <v-card-actions>

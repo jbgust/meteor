@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-layout column align-center>
-            <v-flex xs10 sm6 class="pb-10">
+            <v-col xs10 sm6 class="pb-10">
                 <v-alert
                     v-if="showMessage"
                     border="top"
@@ -19,7 +19,7 @@
                         Sign in
                     </v-btn>
                 </v-alert>
-            </v-flex>
+            </v-col>
             <v-btn
                 v-if="resentToken"
                 color="primary"
@@ -28,7 +28,7 @@
                 Click here to get a new link
             </v-btn>
 
-            <v-flex grow v-if="isResetPassword && !isActivationCompte()">
+            <v-col grow v-if="isResetPassword && !isActivationCompte()">
                 <v-card v-if="!successChange">
                     <v-card-text>
                         <v-form
@@ -67,7 +67,7 @@
                         </v-form>
                     </v-card-text>
                 </v-card>
-            </v-flex>
+            </v-col>
 
         </v-layout>
     </v-container>

@@ -1,48 +1,49 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-layout column>
             <v-col>
-                <v-text-field filled id="name" :rules="nameRule" label="Motor name" v-model="value.name" />
+                <v-text-field filled id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name" />
                 <v-textarea
                     :rules="descriptionRule"
                     rows="2"
                     id="motorDescription"
                     label="Description"
-                    v-model="value.description"/>
+                    v-model="modelValue.description"/>
             </v-col>
 
-        <v-flex d-flex lg12>
+        <v-col d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellants" :rules="requiredRules" v-model="value.propellantId" />
-            <v-flex class="add-propellant-icon" v-if="isLogged">
+                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId" />
+            <v-col class="add-propellant-icon" v-if="isLogged">
                 <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn class="mt-3" text icon @click="managePropellant" v-on="on" id="custom-propellant-add">
+                    <template v-slot:activator="{ props }">
+                        <v-btn class="mt-3" text icon @click="managePropellant" v-bind="props" id="custom-propellant-add">
                             <v-icon>mdi-progress-wrench</v-icon>
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
                 </v-tooltip>
-            </v-flex>
-        </v-flex>
-        <v-flex d-flex lg12>
+            </v-col>
+        </v-col>
+        <v-col d-flex lg12>
             <v-layout column>
             <v-layout colum wrap>
-                <v-flex lg6 md6>
+                <v-col lg6 md6>
                     <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter"
-                                  :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter"
+                                  :suffix="units.lengthUnit" v-model="modelValue.chamberInnerDiameter"
                                   :rules="chamberDiameterRules" step="0.01" />
                     <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat"
-                                  :suffix="units.lengthUnit" v-model="value.chamberLength"
+                                  :suffix="units.lengthUnit" v-model="modelValue.chamberLength"
                                   :rules="chamberLengthRules" step="0.01" />
-                </v-flex>
-                <v-flex lg6 md6>
-                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
-                </v-flex>
+                </v-col>
+                <v-col lg6 md6>
+                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="modelValue.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
+                </v-col>
             </v-layout>
-            <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
+<!--                TODO : vuetify 3-->
+<!--            <GrainConfigurator v-model="modelValue" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>-->
             </v-layout>
-        </v-flex>
+        </v-col>
         <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
     </v-layout>
 </template>
@@ -64,9 +65,10 @@ export default {
     name: 'motor-configuration',
     components: { PropellantSelect, GrainConfigurator },
     props: {
-        value: Object,
+        modelValue: Object,
         units: Object
     },
+    emits: ['update:modelValue'],
     data() {
         return {
             propellantType: NATIVE_PROPELLANTS,
@@ -105,7 +107,7 @@ export default {
             return propellants
         },
         propellantHint() {
-            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantId)
+            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.modelValue.propellantId)
             if (matchingPropellants.length === 1 && !!matchingPropellants[0].description && !!matchingPropellants[0].idealDensity) {
                 return `${matchingPropellants[0].description} (${matchingPropellants[0].idealDensity})`
             } else {
@@ -117,7 +119,7 @@ export default {
         checkNamesExists(fieldValue) {
             if (fieldValue) {
                 const length = this.motors()
-                    .filter(motor => (!this.value.id || motor.id !== this.value.id) && motor.name === fieldValue)
+                    .filter(motor => (!this.modelValue.id || motor.id !== this.modelValue.id) && motor.name === fieldValue)
                     .length
                 return length !== 0 ? 'A motor already own this name, please change it.' : true
             } else {

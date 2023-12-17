@@ -1,12 +1,12 @@
 <template>
     <v-dialog v-model="sheet" width="500" persistent>
-        <template v-slot:activator="{ on }" v-show="!checkMode">
+        <template v-slot:activator="{ props }" v-show="!checkMode">
             <v-btn
                 id="btnDonate"
                 color="purple"
                 v-show="!checkMode"
                  dark
-                 v-on="on"
+                 v-bind="props"
             >
                 <v-icon left size="25">mdi-handshake</v-icon>
                 Donate
@@ -22,7 +22,7 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-flex shrink>
+                    <v-col shrink>
                         <v-col>
                             <div style="text-align: center; padding: 20px; margin: 20px 40px 0 40px; border: 1px solid dimgray; border-radius: 5px;">
                                 <h2 style="margin-bottom: 10px;">Last 30 days donations</h2>
@@ -34,10 +34,9 @@
                                     <li>
                                         <b>do not see this popup anymore</b>
                                         <v-tooltip bottom>
-                                            <template v-slot:activator="{ on, attrs }">
+                                            <template v-slot:activator="{props}">
                                                 <v-icon
-                                                    v-bind="attrs"
-                                                    v-on="on"
+                                                    v-bind="props"
                                                 >
                                                     mdi-information-variant
                                                 </v-icon>
@@ -56,7 +55,7 @@
                                 </p>
                             </div>
                         </v-col>
-                    </v-flex>
+                    </v-col>
                 </v-row>
                 <v-alert type="info" v-model="donateClicked" outlined>
                     If you have made a donation, you must log out and log back in to be marked as donator.
@@ -89,7 +88,7 @@
                     target="_blank"
                     href="https://pages.donately.com/meteor/campaign/meteor/donate"
                 >
-                    <v-icon left size="25"  v-on="on">mdi-handshake</v-icon>
+                    <v-icon left size="25"  v-bind="props">mdi-handshake</v-icon>
                     Donate now
                 </v-btn>
             </v-card-actions>

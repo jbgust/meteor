@@ -1,36 +1,36 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fluid grid-list-md fill-height>
         <v-layout row wrap fill-heigth>
-            <v-flex xl3 lg4 md5>
+            <v-col xl3 lg4 md5>
                 <v-card>
                     <v-card-actions v-if="!demo">
                         <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnNewMotor" icon v-on="on" @click="resetAll">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnNewMotor" icon v-bind="props" @click="resetAll">
                                     <v-icon>mdi-file-plus</v-icon>
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
                         <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnDuplicateMotor" icon v-on="on" @click="duplicateMotor" text>
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnDuplicateMotor" icon v-bind="props" @click="duplicateMotor" text>
                                     <v-icon>mdi-content-duplicate</v-icon>
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
                         <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnSaveMotor" icon v-on="on" @click="saveMotor" text :loading="saveLoading">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnSaveMotor" icon v-bind="props" @click="saveMotor" text :loading="saveLoading">
                                     <v-icon>mdi-content-save</v-icon>
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
                         <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnOpenMotor" icon v-on="on" @click="$refs.motorSelect.show()">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnOpenMotor" icon v-bind="props" @click="$refs.motorSelect.show()">
                                     <v-icon left size="25">mdi-folder-open</v-icon>
                                 </v-btn>
                             </template>
@@ -57,8 +57,8 @@
                         <v-spacer></v-spacer>
 
                         <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="$refs.helpDialog.show()">
+                            <template v-slot:activator="{ props }">
+                                <v-btn icon v-bind="props" @click="$refs.helpDialog.show()">
                                     <v-icon id="btnHelp">mdi-book-open-variant</v-icon>
                                 </v-btn>
                             </template>
@@ -72,7 +72,7 @@
                         class="mt-5 ml-2 mr-2"
                         colored-border
                         dismissible
-                        border="left"
+                        border="start"
                         elevation="2"
                         type="warning"
                         icon="mdi-alert-box-outline">
@@ -85,7 +85,7 @@
                         dense
                         type="success"
                         colored-border
-                        border="left"
+                        border="start"
                         icon="mdi-alert-box-outline">
                         {{ successMessage }}
                     </v-alert>
@@ -96,7 +96,7 @@
                         class="mt-5 ml-2 mr-2"
                         outlined
                         colored-border
-                        border="left"
+                        border="start"
                         dismissible
                         icon="mdi-alert-box-outline">
                         By default you are on metric units. You can change it above.
@@ -106,7 +106,7 @@
                         class="mt-5 ml-2 mr-2"
                         outlined
                         colored-border
-                        border="left"
+                        border="start"
                         :value="displayUnitInfo"
                         type="info"
                     >
@@ -119,10 +119,10 @@
                     <solid-rocket-motor ref="form" :units="units" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 
                 </v-card>
-            </v-flex>
-            <v-flex d-flex xl9 lg8 md7>
+            </v-col>
+            <v-col d-flex xl9 lg8 md7>
                 <v-layout column wrap v-show="asResult">
-                    <v-flex d-block shrink>
+                    <v-col d-block shrink>
                         <v-card>
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
@@ -139,8 +139,8 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn v-on="on" id="btnMotorRevert" color="info" small class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
+                                    <template v-slot:activator="{ props }">
+                                        <v-btn v-bind="props" id="btnMotorRevert" color="info" small class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
                                             <v-icon>
                                                 mdi-undo-variant
                                             </v-icon>
@@ -149,9 +149,9 @@
                                     <span>Restore last motor configuration</span>
                                 </v-tooltip>
                                 <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
+                                    <template v-slot:activator="{ props }">
                                         <v-switch
-                                            v-on="on"
+                                            v-bind="props"
                                             style="margin-left: 20px;"
                                             label="Compare"
                                             dense
@@ -162,9 +162,9 @@
                                     <span>Compare with previous motor</span>
                                 </v-tooltip>
                                 <v-tooltip bottom max-width="300px"  v-if="showUseRefBtn">
-                                    <template v-slot:activator="{ on }">
+                                    <template v-slot:activator="{ props }">
                                         <v-btn
-                                            v-on="on"
+                                            v-bind="props"
                                             style="margin-left: 20px;"
                                             small
                                             :color="useAsRef ? 'orange':''"
@@ -188,12 +188,12 @@
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
                             </v-card-actions>
                         </v-card>
-                    </v-flex>
-                    <v-flex d-flex>
+                    </v-col>
+                    <v-col d-flex>
                         <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
-                    </v-flex>
+                    </v-col>
                 </v-layout>
-            </v-flex>
+            </v-col>
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
         <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { nextTick } from 'vue'
 import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
@@ -320,7 +320,7 @@ export default {
                 scope.nozzleDesignValue = loadedConfig.nozzleDesign
                 scope.unitSelected = loadedConfig.measureUnit
                 // If nextTick is not here, the form will not be valid when call runComputation()
-                Vue.nextTick(() => {
+                nextTick(() => {
                     scope.$refs.form.checkDonor()
                     scope.importInProgress = false
                 })
@@ -346,7 +346,7 @@ export default {
             this.displayUnitInfo = false
             this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
             this.asResult = true
-            Vue.nextTick(() => {
+            nextTick(() => {
                 this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
             }, this)
         },
@@ -441,7 +441,7 @@ export default {
                 }
 
                 this.importInProgress = true
-                Vue.nextTick(() => {
+                nextTick(() => {
                     this.importInProgress = false
                 }, this)
             }
@@ -469,7 +469,7 @@ export default {
             set(value) {
                 if (this.isDonator()) {
                     this.showUseRefBtn = value
-                    Vue.nextTick(() => { this.setCompareWithPrevious(value) })
+                    nextTick(() => { this.setCompareWithPrevious(value) })
                 } else {
                     // toggle on when user activate showComparison
                     this.donationMessageAlert = 'Motor comparison is only available for donators.'

@@ -1,6 +1,6 @@
 <template>
     <v-layout column>
-        <v-flex d-flex lg12>
+        <v-col d-flex lg12>
             <v-select
                 v-model="value.grainType"
                 :items="grainTypes"
@@ -8,90 +8,90 @@
                 label="Grain configuration"
                 @change="grainTypeChange"
             ></v-select>
-            <v-flex class="grain-help-icon">
+            <v-col class="grain-help-icon">
                 <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn small text icon v-on="on" @click="$refs.helpDialog.show()" class="mt-3">
+                    <template v-slot:activator="{ props }">
+                        <v-btn small text icon v-bind="props" @click="$refs.helpDialog.show()" class="mt-3">
                             <v-icon id="btnHelpGrain">mdi-help</v-icon>
                         </v-btn>
                     </template>
                     <span>How configuring grain?</span>
                 </v-tooltip>
-            </v-flex>
-        </v-flex>
+            </v-col>
+        </v-col>
         <v-layout colum class="pl-1 pr-1" wrap>
-            <v-flex lg6 md6 v-if="value.grainType === hollowCode">
+            <v-col lg6 md6 v-if="value.grainType === hollowCode">
                 <v-text-field id="coreDiameter" label="Grain core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="segmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="numberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === hollowCode">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === hollowCode">
                 <v-select id="coreSurface" label="Core surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.coreSurface" />
                 <v-select id="outerSurface" label="Outer surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.outerSurface"/>
                 <v-select id="endsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === finocylCode">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="finocylNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-text-field id="finocylInnerDiameter" label="Core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === finocylCode">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === finocylCode">
                 <v-text-field id="finocylFinWidth" label="Fin width" :suffix="units.lengthUnit" v-model="value.grainConfig.finWidth" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylFinDiameter" label="Fin diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.finDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="finocylFinCount" label="Number of fin" v-model="value.grainConfig.finCount" :rules="nbFinsRules" step="0.01" />
                 <v-select id="finocylEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === starGrain">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === starGrain">
                 <v-text-field id="starOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="starSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="starNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-text-field id="starInnerDiameter" label="Inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.innerDiameter" :rules="numericGreater0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === starGrain">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === starGrain">
                 <v-text-field id="starPointDiameter" label="Star diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.pointDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="starPointCount" label="Number of branches" v-model="value.grainConfig.pointCount" :rules="nbBranchesRules" step="0.01" />
                 <v-select id="starEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
-            <v-flex lg12 md12 v-if="value.grainType === endBurnerGrain">
+            </v-col>
+            <v-col lg12 md12 v-if="value.grainType === endBurnerGrain">
                 <v-text-field id="endBurnerOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="endBurnerSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="endBurnerHoleDiameter" label="Hole diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDiameter" :rules="numericGreaterOrEquals0Rules" step="0.01" />
                 <v-text-field id="endBurnerHoleDepth" label="Hole depth" :suffix="units.lengthUnit" v-model="value.grainConfig.holeDepth" :rules="numericGreaterOrEquals0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === moonBurner">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === moonBurner">
                 <v-text-field id="moonBurnerOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="moonBurnerCoreDiameter" label="Core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="moonBurnerCoreOffset" label="Core offset" :suffix="units.lengthUnit" v-model="value.grainConfig.coreOffset" :rules="numericGreaterOrEqualsThan0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === moonBurner">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === moonBurner">
                 <v-text-field id="moonBurnerSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="moonBurnerNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-select id="moonBurnerEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === cSlot">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === cSlot">
                 <v-text-field id="cSlotOuterDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="cSlotCoreDiameter" label="Core diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.coreDiameter" :rules="numericGreaterOrEqualsThan0Rules" step="0.01" />
                 <v-text-field id="cSlotSlotWidth" label="Slot width" :suffix="units.lengthUnit" v-model="value.grainConfig.slotWidth" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="cSlotSlotDepth" label="Slot depth" :suffix="units.lengthUnit" v-model="value.grainConfig.slotDepth" :rules="numericGreater0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === cSlot">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === cSlot">
                 <v-text-field id="cSlotSlotOffset" label="Slot offset" :suffix="units.lengthUnit" v-model="value.grainConfig.slotOffset" :rules="numericGreaterOrEqualsThan0Rules" step="0.01" />
                 <v-text-field id="cSlotSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="cSlotNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-select id="cSlotEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === rodTube">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === rodTube">
                 <v-text-field id="rodTubeRodDiameter" label="Rod diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.rodDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="rodTubeTubeOuterDiameter" label="Tube outer diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.tubeOuterDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="rodTubeTubeInnerDiameter" label="Tube inner diameter" :suffix="units.lengthUnit" v-model="value.grainConfig.tubeInnerDiameter" :rules="numericGreater0Rules" step="0.01" />
-            </v-flex>
-            <v-flex lg6 md6 v-if="value.grainType === rodTube">
+            </v-col>
+            <v-col lg6 md6 v-if="value.grainType === rodTube">
                 <v-text-field id="rodTubeSegmentLength" label="Grain segment length" :suffix="units.lengthUnit" v-model="value.grainConfig.segmentLength" :rules="numericGreater0Rules" step="0.01"/>
                 <v-text-field id="rodTubeNumberOfSegment" label="Number of segments" v-model="value.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-select id="rodTubeEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="value.grainConfig.endsSurface" />
-            </v-flex>
+            </v-col>
         </v-layout>
         <help-dialog ref="helpDialog"></help-dialog>
     </v-layout>

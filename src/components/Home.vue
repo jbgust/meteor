@@ -1,6 +1,6 @@
 <template>
         <v-layout row>
-            <v-flex>
+            <v-col>
                 <div class="meteor-container block1">
                     <h1>
                         DESIGN YOUR SOLID ROCKET MOTOR
@@ -117,7 +117,7 @@
                         </ul>
                     </div>
                 </div>
-            </v-flex>
+            </v-col>
         </v-layout>
 </template>
 

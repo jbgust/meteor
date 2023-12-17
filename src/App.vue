@@ -2,18 +2,18 @@
     <v-app id="inspire">
         <v-app-bar color="indigo" dark fixed app>
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn text :to="'/home'">
+                <v-btn variant="text" :to="'/home'">
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
-                <v-btn text :to="'/motorDesign'">
+                <v-btn variant="text" :to="'/motorDesign'">
                     <v-icon left id="btnMeteor" size="25">mdi-rocket</v-icon>
                     Meteor
                 </v-btn>
-                <v-btn text href="http://meteor.boards.net/">
+                <v-btn variant="text" href="http://meteor.boards.net/">
                     <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
-                <v-btn text href="mailto:meteor@open-sky.fr?subject=METEOR">
+                <v-btn variant="text" href="mailto:meteor@open-sky.fr?subject=METEOR">
                     <v-icon left id="contactMain" size="25">mdi-email-edit-outline</v-icon>
                     Contact
                 </v-btn>
@@ -26,15 +26,15 @@
                 Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
-            <v-btn text :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
+            <v-btn variant="text" :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
                 <v-icon left id="btnSignIn" size="25">mdi-login</v-icon>
                 Sign in
             </v-btn>
-            <v-btn text :to="'/signup'" v-if="!isLogged" class="hidden-sm-and-down">
+            <v-btn variant="text" :to="'/signup'" v-if="!isLogged" class="hidden-sm-and-down">
                 <v-icon left id="btnSignUp" size="25">mdi-account-plus</v-icon>
                 Sign up
             </v-btn>
-            <v-btn text v-if="isLogged" @click="signOut" class="hidden-sm-and-down">
+            <v-btn variant="text" v-if="isLogged" @click="signOut" class="hidden-sm-and-down">
                 <v-icon left id="btnSignOut" size="25">mdi-logout</v-icon>
                 Sign out
             </v-btn>
@@ -48,79 +48,77 @@
             <v-list
                 nav
                 dense>
-                <v-list-item-group
+                <!--                TODO : vuetify 3-->
+<!--                <v-list-item-group-->
                     v-model="group">
-                    <v-list-item-group color="primary">
+                    <!--                TODO : vuetify 3-->
+<!--                    <v-list-item-group color="primary">-->
                         <v-list-item :to="'/home'">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-home</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Home</v-list-item-title>
-                            </v-list-item-content>
                         </v-list-item>
                         <v-list-item :to="'/motorDesign'">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-rocket</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Meteor</v-list-item-title>
-                            </v-list-item-content>
                         </v-list-item>
                         <v-list-item href="http://meteor.boards.net/">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-forum-outline</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Forum</v-list-item-title>
-                            </v-list-item-content>
+
                         </v-list-item>
                         <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-email-edit-outline</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Contact</v-list-item-title>
-                            </v-list-item-content>
+
                         </v-list-item>
                         <v-list-item :to="'/signin'" v-if="!isLogged">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-login</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Sign in</v-list-item-title>
-                            </v-list-item-content>
+
                         </v-list-item>
                         <v-list-item :to="'/signup'" v-if="!isLogged">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-account-plus</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Sign up</v-list-item-title>
-                            </v-list-item-content>
+
                         </v-list-item>
                         <v-list-item v-if="isLogged" @click="signOut">
-                            <v-list-item-icon>
+                            <v-list-item>
                                 <v-icon>mdi-logout</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>Sign out</v-list-item-title>
-                            </v-list-item-content>
+                            </v-list-item>
+                            <!--                TODO : vuetify 3-->
+                            <v-list-item-title>Sign out</v-list-item-title>
                         </v-list-item>
                         <v-list-item>
-                            <v-list-item-content>
+                            <!--                TODO : vuetify 3-->
                                 <donate></donate>
-                            </v-list-item-content>
                         </v-list-item>
-                    </v-list-item-group>
-                </v-list-item-group>
+<!--                    </v-list-item-group>-->
+<!--                </v-list-item-group>-->
             </v-list>
         </v-navigation-drawer>
-        <v-content>
-            <v-fade-transition mode="out-in">
+        <v-main>
+            <!--                TODO : vuetify 3-->
+<!--            <v-fade-transition mode="out-in">-->
                 <router-view></router-view>
-            </v-fade-transition>
-        </v-content>
+        </v-main>
         <v-footer app inset class="hidden-sm-and-down">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
         </v-footer>
@@ -153,100 +151,100 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuetify from 'vuetify/lib'
-import MotorDesignTool from './components/MotorDesignTool'
+// import Vue from 'vue'
+// import VueRouter from 'vue-router'
+// import Vuetify from 'vuetify/lib'
+// import MotorDesignTool from './components/MotorDesignTool'
 import Home from './components/Home'
 import MeteorNews from './components/news/meteor-news'
 import Donate from './components/donate'
 import Signin from './components/authentication/Signin'
-import Signup from './components/authentication/Signup'
+// import Signup from './components/authentication/Signup'
 import Axios from 'axios'
-import LostPassword from './components/authentication/LostPassword'
-import TokenValidator from './components/authentication/TokenValidator'
-import { mapActions, mapGetters } from 'vuex'
-import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
+// import LostPassword from './components/authentication/LostPassword'
+// import TokenValidator from './components/authentication/TokenValidator'
+import { mapActions, mapGetters } from  'vuex'
+// import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
+//
+// Vue.use(Vuetify)
+// Vue.use(VueRouter)
+//
+// let router = new VueRouter({
+//     routes: [
+//         {
+//             path: '/signin',
+//             name: 'Signin',
+//             component: Signin,
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/signup',
+//             name: 'Signup',
+//             component: Signup,
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/lost-password',
+//             name: 'LostPassword',
+//             component: LostPassword,
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/validate',
+//             name: 'TokenValidator',
+//             component: TokenValidator,
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/home',
+//             name: 'Home',
+//             component: Home,
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/demo',
+//             name: 'Demo : Solid rocket motor design',
+//             component: MotorDesignTool,
+//             props: {
+//                 demo: true
+//             },
+//             meta: {
+//                 publicAccess: true
+//             }
+//         },
+//         {
+//             path: '/motorDesign',
+//             name: 'Solid rocket motor design',
+//             component: MotorDesignTool,
+//             props: {
+//                 demo: false
+//             }
+//         },
+//         { path: '*', redirect: '/home' }
+//     ]
+// })
 
-Vue.use(Vuetify)
-Vue.use(VueRouter)
-
-let router = new VueRouter({
-    routes: [
-        {
-            path: '/signin',
-            name: 'Signin',
-            component: Signin,
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/signup',
-            name: 'Signup',
-            component: Signup,
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/lost-password',
-            name: 'LostPassword',
-            component: LostPassword,
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/validate',
-            name: 'TokenValidator',
-            component: TokenValidator,
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/home',
-            name: 'Home',
-            component: Home,
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/demo',
-            name: 'Demo : Solid rocket motor design',
-            component: MotorDesignTool,
-            props: {
-                demo: true
-            },
-            meta: {
-                publicAccess: true
-            }
-        },
-        {
-            path: '/motorDesign',
-            name: 'Solid rocket motor design',
-            component: MotorDesignTool,
-            props: {
-                demo: false
-            }
-        },
-        { path: '*', redirect: '/home' }
-    ]
-})
-
-router.beforeEach((to, from, next) => {
-    const isLogged = !!localStorage.getItem(TOKEN_STORAGE_KEY)
-    if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
-    else next()
-})
+// router.beforeEach((to, from, next) => {
+//     const isLogged = !!localStorage.getItem(TOKEN_STORAGE_KEY)
+//     if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
+//     else next()
+// })
 
 export default {
     name: 'app',
     components: { Donate, MeteorNews },
-    router,
     created() {
+        Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
         this.loadToken()
         let me = this
         Axios.interceptors.response.use(function(response) {

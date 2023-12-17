@@ -11,7 +11,7 @@
             </v-app-bar>
             <v-card-text>
                 <v-container grid-list-md>
-                <v-flex>
+                <v-col>
                     <v-card>
                         <v-toolbar>
                             <v-toolbar-title>
@@ -21,7 +21,8 @@
                         <v-card-text>
                             <v-col>
                                 <v-list-item>
-                                    <v-list-item-content>
+                                    <!--                TODO : vuetify 3-->
+<!--                                    <v-list-item-content>-->
                                         <v-list-item-title><a href="#finocyl">Finocyl grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#star">Star grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#moonburner">Moon burner grain settings</a></v-list-item-title>
@@ -30,14 +31,14 @@
                                         <v-list-item-title><a href="#hollow">Hollow cylinder grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#endburner">End burner grain settings</a></v-list-item-title>
                                         <v-list-item-title><a href="#rasp">RASP export and OpenRocket</a></v-list-item-title>
-                                    </v-list-item-content>
+<!--                                    </v-list-item-content>-->
                                 </v-list-item>
                             </v-col>
                         </v-card-text>
                     </v-card>
-                </v-flex>
+                </v-col>
                 <v-layout row wrap>
-                    <v-flex  lg6 md6>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="finocyl">
@@ -46,12 +47,12 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/finocyl-help.svg')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
@@ -60,8 +61,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
+                    </v-col>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="star">
@@ -70,12 +71,12 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/star-help.svg')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
@@ -84,8 +85,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
+                    </v-col>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="moonburner">
@@ -94,12 +95,12 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <img :src="require('@/assets/help/moon-burner.png')" class="help-image-large"/>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
@@ -108,8 +109,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
+                    </v-col>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="rodTube">
@@ -118,12 +119,12 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/rod-tube.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
@@ -132,8 +133,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
+                    </v-col>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="cSlot">
@@ -142,15 +143,15 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/c-slot_no-core.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/c-slot.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
+                                    </v-col>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
                                 <br>
@@ -159,8 +160,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex lg6 md6>
+                    </v-col>
+                    <v-col lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="hollow">
@@ -170,32 +171,32 @@
                             <v-card-text>
                                 <v-layout column>
                                     <v-layout row wrap>
-                                        <v-flex>
+                                        <v-col>
                                             <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                        </v-flex>
-                                        <v-flex>
+                                        </v-col>
+                                        <v-col>
                                             <v-img :src="require('@/assets/help/grain.png')" max-width="220px"></v-img>
-                                        </v-flex>
+                                        </v-col>
                                     </v-layout>
                                     <v-layout row wrap>
-                                        <v-flex>
+                                        <v-col>
                                             <h4>Outer surface</h4>
-                                            <v-flex>
+                                            <v-col>
                                                 <v-img :src="require('@/assets/help/outer_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
-                                        <v-flex>
+                                            </v-col>
+                                        </v-col>
+                                        <v-col>
                                             <h4>End surface</h4>
-                                            <v-flex>
+                                            <v-col>
                                                 <v-img :src="require('@/assets/help/end_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
-                                        <v-flex>
+                                            </v-col>
+                                        </v-col>
+                                        <v-col>
                                             <h4>Core surface</h4>
-                                            <v-flex>
+                                            <v-col>
                                                 <v-img :src="require('@/assets/help/core_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
+                                            </v-col>
+                                        </v-col>
                                     </v-layout>
                                 </v-layout>
                                 <v-divider inset></v-divider>
@@ -205,8 +206,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
+                    </v-col>
+                    <v-col  lg6 md6>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="endburner">
@@ -215,14 +216,14 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-col>
-                                    <v-flex>
+                                    <v-col>
                                         <v-img :src="require('@/assets/help/end-burner-help.png')" class="help-image"></v-img>
-                                    </v-flex>
+                                    </v-col>
                                 </v-col>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex>
+                    </v-col>
+                    <v-col>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="rasp">
@@ -244,7 +245,7 @@
                                 </v-col>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
+                    </v-col>
                 </v-layout>
                 </v-container>
             </v-card-text>

@@ -9,15 +9,15 @@
               </v-card-title>
               <v-card-text>
                   <v-layout row wrap>
-                      <v-flex d-flex lg6 md6>
+                      <v-col d-flex lg6 md6>
                           <div style="padding: 10px;">
                               <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
                               <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" :suffix="units.lengthUnit" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
                               <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" :hint="psiLabel" :persistent-hint="true" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
                           </div>
-                      </v-flex>
-                      <v-flex d-flex lg6 md6>
+                      </v-col>
+                      <v-col d-flex lg6 md6>
                           <div style="padding: 10px;">
                               <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
                               <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
@@ -25,7 +25,7 @@
                               <v-checkbox label="Optimal nozzle design" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
                               <v-text-field id="nozzleExpansionRatio" v-if="!value.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="value.nozzleExpansionRatio" :rules="expansionRules"/>
                           </div>
-                      </v-flex>
+                      </v-col>
                   </v-layout>
               </v-card-text>
               <v-card-actions>
@@ -40,7 +40,7 @@
 
 <script>
 import { greaterOrEqualsThanRule, rangeRule, rangeValidator, greaterOrEqualsThanValidator } from '../../modules/formValidationRules'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 const rationBounds = [0.3, 1]
 
@@ -64,7 +64,7 @@ export default {
             if (newOptimalNozzleDesignValue) {
                 this.value.nozzleExpansionRatio = null
             } else {
-                Vue.nextTick(() => {
+                nextTick(() => {
                     const input = document.getElementById('nozzleExpansionRatio')
                     if (input !== null) {
                         input.focus()

@@ -17,18 +17,18 @@
             <v-card>
 
                 <v-card-text>
-                    <v-flex>
+                    <v-col>
                         <v-alert
                             outlined
                             colored-border
-                            border="left"
+                            border="start"
                             :value="!formIsValid()"
                             color="error"
                             icon="mdi-alert-box-outline">
                             The form should be valid to close the dialog
                         </v-alert>
                         <v-layout row>
-                            <v-flex class="pl-5 pr-5 mt-5">
+                            <v-col class="pl-5 pr-5 mt-5">
                                     <v-form ref="nozzleDesignForm">
                                         <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="value.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
                                         <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="value.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
@@ -48,9 +48,9 @@
                                 </div>
                                 <h3 class="mt-5">Legend</h3>
                                 <img src="../../assets/Nozzle_illustration.svg" width="100%"/>
-                            </v-flex>
+                            </v-col>
                         </v-layout>
-                    </v-flex>
+                    </v-col>
                 </v-card-text>
             </v-card>
         </v-dialog>

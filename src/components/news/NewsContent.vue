@@ -1,13 +1,13 @@
 <template>
     <v-row justify="center" align="center">
-        <v-flex shrink>
+        <v-col shrink>
             <v-col>
                 <div v-for="item in newsToDisplay" v-bind:key="item.id">
                     <div v-html="item.html" :class="newsClass(item.id)">
                     </div>
                 </div>
             </v-col>
-        </v-flex>
+        </v-col>
     </v-row>
 </template>
 <script>
