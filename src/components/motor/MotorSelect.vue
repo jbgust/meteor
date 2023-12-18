@@ -31,7 +31,7 @@
                                 <template v-slot:item.actions="{ item }">
                                     <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon="mdi-play" v-bind="props" @click="loadMotor(item)" variant="text">
+                                            <v-btn icon="mdi-play" v-bind="props" color="green"  @click="loadMotor(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Run computation</span>
@@ -99,9 +99,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name', value: 'name' },
-                { text: 'Description', value: 'description' },
-                { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
+                { title: 'Name', value: 'name' },
+                { title: 'Description', value: 'description' },
+                { title: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
             loading: false,
             confirmDialog: false,

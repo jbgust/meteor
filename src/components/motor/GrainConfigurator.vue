@@ -1,5 +1,5 @@
 <template>
-    <v-layout column>
+    <v-col>
         <v-col d-flex lg12>
             <v-select
                 v-model="modelValue.grainType"
@@ -19,7 +19,7 @@
                 </v-tooltip>
             </v-col>
         </v-col>
-        <v-layout colum class="pl-1 pr-1" wrap>
+        <v-row class="pl-1 pr-1" d-flex wrap lg12>
             <v-col lg6 md6 v-if="modelValue.grainType === hollowCode">
                 <v-text-field id="coreDiameter" label="Grain core diameter" :suffix="units.lengthUnit" v-model="modelValue.grainConfig.coreDiameter" :rules="numericGreater0Rules" step="0.01" />
                 <v-text-field id="outerDiameter" label="Grain outer diameter" :suffix="units.lengthUnit" v-model="modelValue.grainConfig.outerDiameter" :rules="numericGreater0Rules" step="0.01" />
@@ -92,9 +92,9 @@
                 <v-text-field id="rodTubeNumberOfSegment" label="Number of segments" v-model="modelValue.grainConfig.numberOfSegment" :rules="integerGreater0Rules" step="0.01" />
                 <v-select id="rodTubeEndsSurface" label="Ends surface" :items="grainSurfaces" :rules="requiredRules" v-model="modelValue.grainConfig.endsSurface" item-title="text"/>
             </v-col>
-        </v-layout>
+        </v-row>
         <help-dialog ref="helpDialog"></help-dialog>
-    </v-layout>
+    </v-col>
 </template>
 
 <script>

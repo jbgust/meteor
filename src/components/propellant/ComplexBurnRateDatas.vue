@@ -70,10 +70,10 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Pressure', value: 'fromPressureIncluded' },
-                { text: 'Burn rate coeff.', value: 'burnRateCoefficient' },
-                { text: 'Pressure exp.', value: 'pressureExponent' },
-                { text: 'Actions', value: 'action', sortable: false }
+                { title: 'Pressure', value: 'fromPressureIncluded' },
+                { title: 'Burn rate coeff.', value: 'burnRateCoefficient' },
+                { title: 'Pressure exp.', value: 'pressureExponent' },
+                { title: 'Actions', value: 'action', sortable: false }
             ],
             burnRateDatas: [],
             showError: false

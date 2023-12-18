@@ -1,5 +1,5 @@
 <template>
-  <div class="thrust-graphic" id="thrust-chart" ref="motorParameters">
+  <div class="thrust-graphic" id="thrust-chart" ref="motorParameters" style="background-color: chartreuse; width: 1024px; height: 400px;">
   </div>
 </template>
 
@@ -164,12 +164,12 @@ export default {
     },
     watch: {
         compareWithPrevious() {
-            this.buildChart()
-            this.addDataInChart()
+            // this.buildChart()
+            // this.addDataInChart()
         },
         currentComputation() {
-            this.buildChart()
-            this.addDataInChart()
+            // this.buildChart()
+            // this.addDataInChart()
         },
         units(newValue) {
             this.pressureSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.resultPressureUnit}`

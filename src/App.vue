@@ -1,20 +1,20 @@
 <template>
     <v-app id="inspire">
-        <v-app-bar color="indigo" dark fixed app>
+        <v-app-bar color="indigo" theme="dark">
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn variant="text" :to="'/home'">
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
                 <v-btn variant="text" :to="'/motorDesign'">
-                    <v-icon left id="btnMeteor" size="25">mdi-rocket</v-icon>
+                    <v-icon start id="btnMeteor" size="25">mdi-rocket</v-icon>
                     Meteor
                 </v-btn>
                 <v-btn variant="text" href="http://meteor.boards.net/">
-                    <v-icon left id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
+                    <v-icon start id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
                     Forum
                 </v-btn>
                 <v-btn variant="text" href="mailto:meteor@open-sky.fr?subject=METEOR">
-                    <v-icon left id="contactMain" size="25">mdi-email-edit-outline</v-icon>
+                    <v-icon start id="contactMain" size="25">mdi-email-edit-outline</v-icon>
                     Contact
                 </v-btn>
                 <donate></donate>
@@ -22,20 +22,20 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
-            <div class="hidden-xs-only ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">
+            <div class="hidden-xs ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">
                 Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
             </div>
             <v-spacer></v-spacer>
             <v-btn variant="text" :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
-                <v-icon left id="btnSignIn" size="25">mdi-login</v-icon>
+                <v-icon start id="btnSignIn" size="25">mdi-login</v-icon>
                 Sign in
             </v-btn>
             <v-btn variant="text" :to="'/signup'" v-if="!isLogged" class="hidden-sm-and-down">
-                <v-icon left id="btnSignUp" size="25">mdi-account-plus</v-icon>
+                <v-icon start id="btnSignUp" size="25">mdi-account-plus</v-icon>
                 Sign up
             </v-btn>
             <v-btn variant="text" v-if="isLogged" @click="signOut" class="hidden-sm-and-down">
-                <v-icon left id="btnSignOut" size="25">mdi-logout</v-icon>
+                <v-icon start id="btnSignOut" size="25">mdi-logout</v-icon>
                 Sign out
             </v-btn>
             <meteor-news/>
@@ -45,9 +45,7 @@
             absolute
             left
             temporary>
-            <v-list
-                nav
-                dense>
+            <v-list nav density="compact">
                 <!--                TODO : vuetify 3-->
 <!--                <v-list-item-group-->
                     v-model="group">
@@ -128,7 +126,7 @@
             max-width="290">
             <v-card>
                 <v-card-title
-                    class="headline grey lighten-2"
+                    class="text-h5 bg-grey-lighten-2"
                     primary-title>
                     Token expired</v-card-title>
                 <v-card-text>
@@ -151,95 +149,10 @@
 </template>
 
 <script>
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
-// import Vuetify from 'vuetify/lib'
-// import MotorDesignTool from './components/MotorDesignTool'
-import Home from './components/Home'
 import MeteorNews from './components/news/meteor-news'
 import Donate from './components/donate'
-import Signin from './components/authentication/Signin'
-// import Signup from './components/authentication/Signup'
 import Axios from 'axios'
-// import LostPassword from './components/authentication/LostPassword'
-// import TokenValidator from './components/authentication/TokenValidator'
 import { mapActions, mapGetters } from  'vuex'
-// import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
-//
-// Vue.use(Vuetify)
-// Vue.use(VueRouter)
-//
-// let router = new VueRouter({
-//     routes: [
-//         {
-//             path: '/signin',
-//             name: 'Signin',
-//             component: Signin,
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/signup',
-//             name: 'Signup',
-//             component: Signup,
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/lost-password',
-//             name: 'LostPassword',
-//             component: LostPassword,
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/validate',
-//             name: 'TokenValidator',
-//             component: TokenValidator,
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/home',
-//             name: 'Home',
-//             component: Home,
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/demo',
-//             name: 'Demo : Solid rocket motor design',
-//             component: MotorDesignTool,
-//             props: {
-//                 demo: true
-//             },
-//             meta: {
-//                 publicAccess: true
-//             }
-//         },
-//         {
-//             path: '/motorDesign',
-//             name: 'Solid rocket motor design',
-//             component: MotorDesignTool,
-//             props: {
-//                 demo: false
-//             }
-//         },
-//         { path: '*', redirect: '/home' }
-//     ]
-// })
-
-// router.beforeEach((to, from, next) => {
-//     const isLogged = !!localStorage.getItem(TOKEN_STORAGE_KEY)
-//     if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
-//     else next()
-// })
-
 export default {
     name: 'app',
     components: { Donate, MeteorNews },

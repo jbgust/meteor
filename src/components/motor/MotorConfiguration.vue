@@ -1,34 +1,31 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-layout column>
-            <v-col>
-                <v-text-field filled id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name" />
+    <v-col>
+
+                <v-text-field variant="filled" id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name" />
                 <v-textarea
                     :rules="descriptionRule"
                     rows="2"
                     id="motorDescription"
                     label="Description"
                     v-model="modelValue.description"/>
-            </v-col>
 
-        <v-col d-flex lg12>
+
+        <v-row>
             <v-select id="propellantType" label="Propellant:"
                       item-title="text"
                       :hint="`${propellantHint}`" persistent-hint
                       :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId" />
-            <v-col class="add-propellant-icon" v-if="isLogged">
-                <v-tooltip bottom>
+                <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
-                        <v-btn class="mt-3" variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
+                        <v-btn v-if="isLogged" class="mt-3" variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
                 </v-tooltip>
-            </v-col>
-        </v-col>
-        <v-col d-flex lg12>
-            <v-layout column>
-            <v-layout colum wrap>
-                <v-col lg6 md6>
+        </v-row>
+        <v-col>
+            <v-row>
+                <v-col>
                     <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter"
                                   :suffix="units.lengthUnit" v-model="modelValue.chamberInnerDiameter"
                                   :rules="chamberDiameterRules" step="0.01" />
@@ -36,16 +33,16 @@
                                   :suffix="units.lengthUnit" v-model="modelValue.chamberLength"
                                   :rules="chamberLengthRules" step="0.01" />
                 </v-col>
-                <v-col lg6 md6>
+                <v-col>
                     <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="modelValue.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
                 </v-col>
-            </v-layout>
-<!--                TODO : vuetify 3-->
-            <GrainConfigurator :model-value="modelValue" @update:modelValue="modelValue = $event" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
-            </v-layout>
-        </v-col>
+            </v-row>
+            <v-row>
+                <GrainConfigurator :model-value="modelValue" @update:modelValue="modelValue = $event" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
+            </v-row>
+            </v-col>
         <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
-    </v-layout>
+    </v-col>
 </template>
 
 <script>

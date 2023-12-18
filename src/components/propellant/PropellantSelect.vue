@@ -116,9 +116,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name', value: 'name' },
-                { text: 'Description', value: 'description' },
-                { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
+                { title: 'Name', value: 'name' },
+                { title: 'Description', value: 'description' },
+                { title: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
             confirmDialog: false,
             propellantToDelete: null,

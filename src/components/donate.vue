@@ -1,14 +1,17 @@
 <template>
     <v-dialog v-model="sheet" width="500" persistent>
-        <template v-slot:activator="{ props }" v-show="!checkMode">
+        <template v-slot:activator="{ props }">
             <v-btn
                 id="btnDonate"
-                color="purple"
                 v-show="!checkMode"
                 theme="dark"
                 v-bind="props"
                 icon="mdi-handshake"
+                variant="text"
+                style="background-color: #9c27b0"
+                width="140px"
             >
+                <v-icon start size="25">mdi-handshake</v-icon>
                 Donate
             </v-btn>
         </template>

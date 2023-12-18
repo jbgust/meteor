@@ -1,8 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-container fluid grid-list-md fill-height>
-        <v-layout row wrap fill-heigth>
-            <v-col xl3 lg4 md5>
-                <v-card>
+    <v-layout full-height>
+    <v-container fluid>
+        <v-row style="background-color: rebeccapurple">
+            <v-col cols="4">
+                <v-card style="background-color: aquamarine">
                     <v-card-actions v-if="!demo">
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
@@ -115,9 +116,8 @@
 
                 </v-card>
             </v-col>
-            <v-col d-flex xl9 lg8 md7>
-                <v-layout column wrap v-show="asResult">
-                    <v-col d-block shrink>
+            <v-col cols="8"  v-show="hasResult">
+                    <v-col cols="12">
                         <v-card>
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
@@ -177,19 +177,20 @@
                                 </v-tooltip>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
-<!--                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>-->
+                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
                             </v-card-actions>
                         </v-card>
-                    </v-col>
-                    <v-col d-flex>
+
+                    <v-sheet d-flex>
                         <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
+                    </v-sheet>
                     </v-col>
-                </v-layout>
             </v-col>
-        </v-layout>
+        </v-row>
         <help-dialog ref="helpDialog"></help-dialog>
         <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
     </v-container>
+    </v-layout>
 </template>
 
 <script>
@@ -229,7 +230,7 @@ export default {
     data() {
         return {
             errorMessage: null,
-            asResult: false,
+            hasResult: false,
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
@@ -307,7 +308,7 @@ export default {
                     scope.propellantUnknown()
                 }
 
-                scope.asResult = false
+                scope.hasResult = false
                 scope.$refs.form.loadForm(loadedConfig, loadedConfig.extraConfig)
                 scope.nozzleDesignValue = loadedConfig.nozzleDesign
                 scope.unitSelected = loadedConfig.measureUnit
@@ -336,8 +337,9 @@ export default {
 
             this.displayImportError = false
             this.displayUnitInfo = false
-            this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
-            this.asResult = true
+            // TODO : vuetify 3 => semble pas encore implémenté
+            // this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
+            this.hasResult = true
             // TODO : vuetify 3 => semble pas encore implémenté
             // nextTick(() => {
             //     this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
@@ -414,7 +416,7 @@ export default {
         },
         formReset() {
             this.motorId = null
-            this.asResult = false
+            this.hasResult = false
             this.displayImportError = false
         }
     },
@@ -422,7 +424,7 @@ export default {
         demo(newValue) {
             // if leave demo
             if (newValue !== undefined && !newValue) {
-                this.asResult = false
+                this.hasResult = false
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
 

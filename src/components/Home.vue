@@ -1,5 +1,5 @@
 <template>
-        <v-layout row>
+        <v-row>
             <v-col>
                 <div class="meteor-container block1">
                     <h1>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
             </v-col>
-        </v-layout>
+        </v-row>
 </template>
 
 <script>
