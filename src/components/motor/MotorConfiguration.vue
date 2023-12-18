@@ -12,13 +12,13 @@
 
         <v-col d-flex lg12>
             <v-select id="propellantType" label="Propellant:"
+                      item-title="text"
                       :hint="`${propellantHint}`" persistent-hint
                       :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId" />
             <v-col class="add-propellant-icon" v-if="isLogged">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ props }">
-                        <v-btn class="mt-3" text icon @click="managePropellant" v-bind="props" id="custom-propellant-add">
-                            <v-icon>mdi-progress-wrench</v-icon>
+                        <v-btn class="mt-3" variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
@@ -41,7 +41,7 @@
                 </v-col>
             </v-layout>
 <!--                TODO : vuetify 3-->
-<!--            <GrainConfigurator v-model="modelValue" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>-->
+            <GrainConfigurator :model-value="modelValue" @update:modelValue="modelValue = $event" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-layout>
         </v-col>
         <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
@@ -68,7 +68,7 @@ export default {
         modelValue: Object,
         units: Object
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'resetValidation'],
     data() {
         return {
             propellantType: NATIVE_PROPELLANTS,

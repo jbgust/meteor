@@ -13,7 +13,7 @@
                 <v-alert
                     v-if="showError"
                     border="top"
-                    colored-border
+                    border-color="top"
                     type="error"
                     elevation="2"
                     max-width="400"

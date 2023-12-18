@@ -3,8 +3,8 @@
             <v-col>
                 <v-alert
                     type="info"
-                    dismissible
-                    outlined>
+                    closable
+                    variant="outlined">
                     <ul>
                         <li>Pressure intervals must not overlap.</li>
                         <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
@@ -14,10 +14,10 @@
             </v-col>
             <v-col>
                 <v-alert
-                    :value="showError"
+                    :model-value="showError"
                     color="error"
                     icon="mdi-alert-box-outline"
-                    outlined>
+                    variant="outlined">
                     Your burn rate data should not be empty or has incorrect values.
                 </v-alert>
             </v-col>

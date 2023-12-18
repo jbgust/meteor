@@ -6,6 +6,8 @@ module.exports = {
     extends: [
         'plugin:vue/vue3-essential',
         'eslint:recommended',
+        'plugin:vue/base',
+        'plugin:vuetify/base'
     ],
     rules: {
         indent: [
@@ -20,8 +22,5 @@ module.exports = {
                 "asyncArrow": "always"
             }
         ]
-    },
-    parserOptions: {
-        "parser": "babel-eslint"
     }
 }

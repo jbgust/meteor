@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" fullscreen :scrim="false" transition="dialog-bottom-transition">
         <v-card>
             <v-app-bar dark color="primary">
                 <v-toolbar-title>Custom propellant</v-toolbar-title>
@@ -18,19 +18,20 @@
                                                 :items="unitList"
                                                 :readonly="!!propellant.id"
                                                 :rules="requiredRules"
+                                                item-title="text"
                                                 @change="unitChanged"
-                                                filled
+                                                variant="filled"
                                                 label="Unit"
                                             ></v-select>
                                         </v-col>
                                         <v-col d-flex lg9>
-                                            <v-text-field filled id="propellantName" label="Propellant name"
+                                            <v-text-field variant="filled" id="propellantName" label="Propellant name"
                                                           v-model="propellant.name" :rules="nameRule"/>
                                         </v-col>
                                     </v-layout>
                                     <v-col d-flex lg12>
                                         <v-textarea
-                                            filled
+                                            variant="filled"
                                             id="propellantDescription"
                                             label="Description"
                                             :rules="descriptionRule"
@@ -109,7 +110,7 @@
                                                       step="0.01"/>
                                     </v-col>
                                     <v-col>
-                                        <v-alert type="error" v-model="showError" dismissible outlined>
+                                        <v-alert type="error" v-model="showError" closable variant="outlined">
                                             {{ errorMessage }}
                                         </v-alert>
                                     </v-col>
@@ -240,7 +241,7 @@ export default {
                         })
                 } else {
                     Axios.post(`/propellants`, request)
-                        .then(function(response) {
+                        .then(function() {
                             me.$emit('propellantCommit')
                             me.dialog = false
                         })
@@ -271,7 +272,7 @@ export default {
         }
     },
     watch: {
-        useComplexBurnRate(newValue, oldValue) {
+        useComplexBurnRate(newValue) {
             if (newValue) {
                 this.propellant.burnRateCoefficient = null
                 this.propellant.pressureExponent = null
@@ -279,14 +280,14 @@ export default {
                 this.burnRateDataSet = null
             }
         },
-        useChamberTemperature(newValue, oldValue) {
+        useChamberTemperature(newValue) {
             if (newValue) {
                 this.propellant.cstar = null
             } else {
                 this.propellant.chamberTemperature = null
             }
         },
-        useK2ph(newValue, oldValue) {
+        useK2ph(newValue) {
             if (!newValue) {
                 this.propellant.k2ph = null
             }

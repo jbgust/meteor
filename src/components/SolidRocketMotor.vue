@@ -21,17 +21,17 @@
 
                 <v-card>
                     <v-card-title
-                        class="headline grey lighten-2"
+                        class="text-h5 bg-grey-lighten-2"
                         primary-title>
                         Computation failed
                     </v-card-title>
 
                     <v-card-text class="mt-5">
-                        <v-textarea readonly outline
+                        <v-textarea readonly variant="outlined"
                                     v-show="errorDetail == null"
                                     v-model="errorMessage"/>
 
-                        <v-textarea readonly outline
+                        <v-textarea readonly variant="outlined"
                                     :label="errorMessage"
                                     v-show="errorDetail !== null"
                                     v-model="errorDetail"/>
@@ -55,7 +55,7 @@
                 </v-card>
             </v-dialog>
         </v-form>
-        <v-overlay :value="loading">
+        <v-overlay :model-value="loading">
             <v-col>
                 <div class="text-center">
                     <v-progress-circular indeterminate size="64" width="6"></v-progress-circular>

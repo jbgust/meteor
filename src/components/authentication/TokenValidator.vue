@@ -5,7 +5,7 @@
                 <v-alert
                     v-if="showMessage"
                     border="top"
-                    colored-border
+                    border-color="top"
                     :type="messageType"
                     elevation="2"
                     max-width="400"

@@ -4,34 +4,30 @@
             <v-col xl3 lg4 md5>
                 <v-card>
                     <v-card-actions v-if="!demo">
-                        <v-tooltip bottom>
+                        <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnNewMotor" icon v-bind="props" @click="resetAll">
-                                    <v-icon>mdi-file-plus</v-icon>
+                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll">
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
+                        <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnDuplicateMotor" icon v-bind="props" @click="duplicateMotor" text>
-                                    <v-icon>mdi-content-duplicate</v-icon>
+                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text">
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
+                        <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnSaveMotor" icon v-bind="props" @click="saveMotor" text :loading="saveLoading">
-                                    <v-icon>mdi-content-save</v-icon>
+                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading">
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
+                        <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnOpenMotor" icon v-bind="props" @click="$refs.motorSelect.show()">
-                                    <v-icon left size="25">mdi-folder-open</v-icon>
+                                <v-btn id="btnOpenMotor" prepend-icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()">
                                 </v-btn>
                             </template>
                             <span>Open motor</span>
@@ -45,10 +41,10 @@
                             mandatory>
                             <div>
                                 <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn :value="siUnits" text small>
+                                <v-btn :value="siUnits" variant="text" size="small">
                                     METRIC
                                 </v-btn>
-                                <v-btn :value="imperialUnits" text small>
+                                <v-btn :value="imperialUnits" variant="text" size="small">
                                     IMPERIAL
                                 </v-btn>
                             </div>
@@ -56,10 +52,9 @@
 
                         <v-spacer></v-spacer>
 
-                        <v-tooltip bottom>
+                        <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn icon v-bind="props" @click="$refs.helpDialog.show()">
-                                    <v-icon id="btnHelp">mdi-book-open-variant</v-icon>
+                                <v-btn id="btnCloseHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()">
                                 </v-btn>
                             </template>
                             <span>Documentation</span>
@@ -68,10 +63,10 @@
                     </v-card-actions>
 
                     <v-alert
-                        :value="displayImportError"
+                        :model-value="displayImportError"
                         class="mt-5 ml-2 mr-2"
-                        colored-border
-                        dismissible
+                        border-color="top"
+                        closable
                         border="start"
                         elevation="2"
                         type="warning"
@@ -79,35 +74,35 @@
                         {{errorMessage}}
                     </v-alert>
                     <v-alert
-                        :value="displaySuccess"
+                        :model-value="displaySuccess"
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        dense
+                        variant="outlined"
+                        density="compact"
                         type="success"
-                        colored-border
+                        border-color="top"
                         border="start"
                         icon="mdi-alert-box-outline">
                         {{ successMessage }}
                     </v-alert>
 
                     <v-alert
-                        :value="displayDefaultUnitInfo"
+                        :model-value="displayDefaultUnitInfo"
                         color="info"
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        colored-border
+                        variant="outlined"
+                        border-color="top"
                         border="start"
-                        dismissible
+                        closable
                         icon="mdi-alert-box-outline">
                         By default you are on metric units. You can change it above.
                     </v-alert>
 
                     <v-alert
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        colored-border
+                        variant="outlined"
+                        border-color="top"
                         border="start"
-                        :value="displayUnitInfo"
+                        :model-value="displayUnitInfo"
                         type="info"
                     >
                         Changing unit <b>doesn't convert values</b> in the form. Please check your values even in <b>advanced settings</b> and your <b>custom propellant</b>.
@@ -127,7 +122,7 @@
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
                                 <v-spacer></v-spacer>
-                                <v-btn color="info" small class="ml-4 tooglePerf">
+                                <v-btn color="info" size="small" class="ml-4 tooglePerf">
                                     <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
                                         {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
                                     </v-icon>
@@ -135,48 +130,45 @@
                             </v-app-bar>
                             <v-card-text v-show="showPerformanceInfo" class="pb-0">
                                 <performance-info :units="units" ref="performanceResult"/>
-                                <v-alert dense type="info" v-model="showDonatorInfo" dismissible outlined>{{donationMessageAlert}}</v-alert>
+                                <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
                             </v-card-text>
                             <v-card-actions>
-                                <v-tooltip bottom>
+                                <v-tooltip location="bottom">
                                     <template v-slot:activator="{ props }">
-                                        <v-btn v-bind="props" id="btnMotorRevert" color="info" small class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
-                                            <v-icon>
-                                                mdi-undo-variant
-                                            </v-icon>
+                                        <v-btn v-bind="props" id="btnMotorRevert" icon="mdi-undo-variant" color="info" size="small" class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
                                         </v-btn>
                                     </template>
                                     <span>Restore last motor configuration</span>
                                 </v-tooltip>
-                                <v-tooltip bottom>
+                                <v-tooltip location="bottom">
                                     <template v-slot:activator="{ props }">
                                         <v-switch
                                             v-bind="props"
                                             style="margin-left: 20px;"
                                             label="Compare"
-                                            dense
+                                            density="compact"
                                             inset
                                             v-model="showComparison"
                                         ></v-switch>
                                     </template>
                                     <span>Compare with previous motor</span>
                                 </v-tooltip>
-                                <v-tooltip bottom max-width="300px"  v-if="showUseRefBtn">
+                                <v-tooltip location="bottom" max-width="300px"  v-if="showUseRefBtn">
                                     <template v-slot:activator="{ props }">
                                         <v-btn
                                             v-bind="props"
                                             style="margin-left: 20px;"
-                                            small
+                                            size="small"
                                             :color="useAsRef ? 'orange':''"
                                             dense
                                             inset
                                             @mouseup="toggleUseAsRef()"
                                             value="useAsRef"
                                         >
-                                            <v-icon left v-if="useAsRef">
+                                            <v-icon start v-if="useAsRef">
                                                 mdi-delete
                                             </v-icon>
-                                            <v-icon left v-else>
+                                            <v-icon start v-else>
                                                 mdi-tag
                                             </v-icon>
                                             {{useAsRef ?  'Remove reference' : 'Use as reference'}}</v-btn>
@@ -185,7 +177,7 @@
                                 </v-tooltip>
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
-                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
+<!--                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>-->
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -346,9 +338,10 @@ export default {
             this.displayUnitInfo = false
             this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
             this.asResult = true
-            nextTick(() => {
-                this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
-            }, this)
+            // TODO : vuetify 3 => semble pas encore implémenté
+            // nextTick(() => {
+            //     this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
+            // })
         },
         duplicateMotor() {
             if (this.$refs.form.validateForm() && this.motorId !== null) {

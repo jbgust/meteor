@@ -1,9 +1,8 @@
 <template>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" fullscreen :scrim="false" transition="dialog-bottom-transition">
         <v-card>
-            <v-app-bar dark color="primary">
-                <v-btn icon dark @click="dialog = false">
-                    <v-icon id="btnCloseHelp">mdi-close</v-icon>
+            <v-app-bar color="primary">
+                <v-btn icon="mdi-close" @click="dialog = false" id="btnCloseHelp">
                 </v-btn>
                 <v-toolbar-title>
                     Meteor Manual
@@ -48,10 +47,10 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/finocyl-help.svg')" class="help-image"></v-img>
+                                        <v-img :src="urlFinocylHelp" class="help-image"></v-img>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
                                     </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
@@ -72,10 +71,10 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/star-help.svg')" class="help-image"></v-img>
+                                        <v-img :src="starHelpImage" class="help-image"></v-img>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
                                     </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
@@ -96,10 +95,10 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <img :src="require('@/assets/help/moon-burner.png')" class="help-image-large"/>
+                                        <img :src="moonburnerImage" class="help-image-large"/>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
                                     </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
@@ -120,10 +119,10 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/rod-tube.png')" class="help-image"></v-img>
+                                        <v-img :src="rodTubeImage" class="help-image"></v-img>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
                                     </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
@@ -144,13 +143,13 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/c-slot_no-core.png')" class="help-image"></v-img>
+                                        <v-img :src="cslotNoCoreImage" class="help-image"></v-img>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/c-slot.png')" class="help-image"></v-img>
+                                        <v-img :src="cslotImage" class="help-image"></v-img>
                                     </v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
                                     </v-col>
                                 </v-col>
                                 <v-divider inset></v-divider>
@@ -172,29 +171,29 @@
                                 <v-layout column>
                                     <v-layout row wrap>
                                         <v-col>
-                                            <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
+                                            <v-img :src="motorImage" max-width="450px"></v-img>
                                         </v-col>
                                         <v-col>
-                                            <v-img :src="require('@/assets/help/grain.png')" max-width="220px"></v-img>
+                                            <v-img :src="grainImage" max-width="220px"></v-img>
                                         </v-col>
                                     </v-layout>
                                     <v-layout row wrap>
                                         <v-col>
                                             <h4>Outer surface</h4>
                                             <v-col>
-                                                <v-img :src="require('@/assets/help/outer_surface.png')" max-width="220px"></v-img>
+                                                <v-img :src="outerSurfaceImage" max-width="220px"></v-img>
                                             </v-col>
                                         </v-col>
                                         <v-col>
                                             <h4>End surface</h4>
                                             <v-col>
-                                                <v-img :src="require('@/assets/help/end_surface.png')" max-width="220px"></v-img>
+                                                <v-img :src="endSurfaceImage" max-width="220px"></v-img>
                                             </v-col>
                                         </v-col>
                                         <v-col>
                                             <h4>Core surface</h4>
                                             <v-col>
-                                                <v-img :src="require('@/assets/help/core_surface.png')" max-width="220px"></v-img>
+                                                <v-img :src="coreSurfaceImage" max-width="220px"></v-img>
                                             </v-col>
                                         </v-col>
                                     </v-layout>
@@ -217,7 +216,7 @@
                             <v-card-text>
                                 <v-col>
                                     <v-col>
-                                        <v-img :src="require('@/assets/help/end-burner-help.png')" class="help-image"></v-img>
+                                        <v-img :src="endBurnerhelpImage" class="help-image"></v-img>
                                     </v-col>
                                 </v-col>
                             </v-card-text>
@@ -254,11 +253,35 @@
 </template>
 
 <script>
+import finocylHelp from '@/assets/help/finocyl-help.svg'
+import starHelp from '@/assets/help/star-help.svg'
+import moonburner from '@/assets/help/moon-burner.png'
+import rodTube from '@/assets/help/rod-tube.png'
+import cslotNoCore from '@/assets/help/c-slot_no-core.png'
+import cslot from '@/assets/help/c-slot.png'
+import motor from '@/assets/help/motor.png'
+import grain from '@/assets/help/grain.png'
+import outerSurface from '@/assets/help/outer_surface.png'
+import endSurface from '@/assets/help/end_surface.png'
+import coreSurface from '@/assets/help/core_surface.png'
+import endBurnerhelp from '@/assets/help/end-burner-help.png'
 export default {
     name: 'HelpDialog',
     data() {
         return {
-            dialog: false
+            dialog: false,
+            urlFinocylHelp: finocylHelp,
+            starHelpImage: starHelp,
+            moonburnerImage: moonburner,
+            rodTubeImage: rodTube,
+            cslotNoCoreImage: cslotNoCore,
+            cslotImage: cslot,
+            motorImage: motor,
+            grainImage: grain,
+            outerSurfaceImage: outerSurface,
+            endSurfaceImage: endSurface,
+            coreSurfaceImage: coreSurface,
+            endBurnerhelpImage: endBurnerhelp
         }
     },
     methods: {

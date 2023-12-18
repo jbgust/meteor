@@ -2,7 +2,7 @@
     <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="800">
         <v-card>
             <v-card-title
-                class="headline purple"
+                class="text-h5 bg-purple"
                 primary-title
                 style="color: white"
             >
@@ -12,7 +12,7 @@
                 <v-row justify="center" align="center">
                     <v-col>
                         <v-col>
-                            <v-alert type="error" v-model="showError" dismissible outlined>
+                            <v-alert type="error" v-model="showError" closable variant="outlined">
                                 {{ errorMessage }}
                             </v-alert>
                             <v-data-table
@@ -33,7 +33,7 @@
                                         flat
                                     >
                                         <v-btn id="btnAddPropellant" @click="addPropellant">
-                                            <v-icon left>
+                                            <v-icon start>
                                                 mdi-plus
                                             </v-icon>
                                             New propellant
@@ -41,18 +41,16 @@
                                     </v-toolbar>
                                 </template>
                                 <template v-slot:item.actions="{ item }">
-                                    <v-tooltip bottom>
+                                    <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon v-bind="props" @click="editPropellant(item)" text>
-                                                <v-icon color="green">mdi-pencil</v-icon>
+                                            <v-btn icon="mdi-pencil" v-bind="props" @click="editPropellant(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Edit</span>
                                     </v-tooltip>
-                                    <v-tooltip bottom>
+                                    <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon v-bind="props" @click="confirmDelete(item)" text>
-                                                <v-icon color="red">mdi-delete</v-icon>
+                                            <v-btn icon="mdi-delete" color="red" v-bind="props" @click="confirmDelete(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Delete</span>
@@ -79,20 +77,20 @@
             max-width="400"
         >
             <v-card>
-                <v-card-title class="headline">
+                <v-card-title class="text-h5">
                     Delete "{{ propellantToDelete ? propellantToDelete.name : ''}}"
                 </v-card-title>
                 <v-card-text>If motors use this propellant, you will have to choose another one to use them. Do you really want to delete it?</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                        outlined
+                        variant="outlined"
                         @click="cancelDelete"
                     >No
                     </v-btn>
                     <v-btn
-                        color="red darken-1"
-                        outlined
+                        color="red-darken-1"
+                        variant="outlined"
                         @click="deleteItem"
                     >Yes
                     </v-btn>

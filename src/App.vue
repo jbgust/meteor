@@ -255,7 +255,7 @@ export default {
             // Don't show lost connection dialog when calling auth endpoint
             if (error.response && error.response.status === 401 &&
                 !(error.response.data && error.response.data.path && error.response.data.path.match(/\/auth\//))) {
-                const isOnDemoPage = me.$router.currentRoute.path.includes('demo')
+                const isOnDemoPage = me.$router.currentRoute.value.path.includes('demo')
                 me.lostConnectDialog = !isOnDemoPage
                 me.clearToken()
             }
@@ -271,7 +271,7 @@ export default {
     methods: {
         closeLostConnectionPopUp() {
             this.lostConnectDialog = false
-            router.push({ name: 'Signin' })
+            this.$router.push({ name: 'Signin' })
         },
         signOut() {
             this.clearToken()

@@ -2,7 +2,7 @@
     <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="800">
         <v-card>
             <v-card-title
-                class="headline purple"
+                class="text-h5 bg-purple"
                 primary-title
                 style="color: white"
             >
@@ -12,7 +12,7 @@
                 <v-row justify="center" align="center">
                     <v-col>
                         <v-col>
-                            <v-alert type="error" v-model="showError" dismissible outlined>
+                            <v-alert type="error" v-model="showError" closable variant="outlined">
                                 {{ errorMessage }}
                             </v-alert>
                             <v-data-table
@@ -29,18 +29,16 @@
                                     {{ shortLabel(item.description, 150) }}
                                 </template>
                                 <template v-slot:item.actions="{ item }">
-                                    <v-tooltip bottom>
+                                    <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon v-bind="props" @click="loadMotor(item)" text>
-                                                <v-icon color="green">mdi-play</v-icon>
+                                            <v-btn icon="mdi-play" v-bind="props" @click="loadMotor(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Run computation</span>
                                     </v-tooltip>
-                                    <v-tooltip bottom>
+                                    <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon v-bind="props" @click="confirmDelete(item)" text>
-                                                <v-icon color="red">mdi-delete</v-icon>
+                                            <v-btn icon="mdi-delete" v-bind="props" color="red" @click="confirmDelete(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Delete</span>
@@ -54,9 +52,7 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                    @click="sheet = false"
-                >
+                <v-btn @click="sheet = false">
                     Close
                 </v-btn>
             </v-card-actions>
@@ -67,21 +63,21 @@
             max-width="400"
         >
             <v-card>
-                <v-card-title class="headline">
+                <v-card-title class="text-h5">
                     Delete "{{ motorToDelete ? motorToDelete.name : ''}}"
                 </v-card-title>
                 <v-card-text>Are you sure ?</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                        outlined
+                        variant="outlined"
                         @click="cancelDelete"
                     >
                         No
                     </v-btn>
                     <v-btn
-                        color="red darken-1"
-                        outlined
+                        color="red-darken-1"
+                        variant="outlined"
                         @click="deleteItem"
                     >
                         Yes
@@ -122,7 +118,7 @@ export default {
         sheet(newValue, oldValue) {
             if (newValue && !oldValue) {
                 if (this.$refs.importimportForm) {
-                    this.$refs.importForm.resetErrors()
+                    this.$refs.importForm.resetValidation()
                 }
                 this.errorMessage = null
                 this.showError = false

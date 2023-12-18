@@ -11,19 +11,19 @@
                   <v-layout row wrap>
                       <v-col d-flex lg6 md6>
                           <div style="padding: 10px;">
-                              <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="value.densityRatio" :rules="ratioRules"/>
-                              <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" :suffix="units.lengthUnit" v-model="value.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
-                              <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="value.combustionEfficiencyRatio" :rules="ratioRules"/>
-                              <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" :hint="psiLabel" :persistent-hint="true" suffix="MPa" v-model="value.ambiantPressureInMPa" :rules="pressureRules"/>
+                              <v-text-field id="densityRatio" label="Propellant density ratio:" v-model="modelValue.densityRatio" :rules="ratioRules"/>
+                              <v-text-field id="nozzleErosionInMillimeter" label="Nozzle erosion:" :suffix="units.lengthUnit" v-model="modelValue.nozzleErosionInMillimeter" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="combustionEfficiencyRatio" label="Combustion efficiency ratio:" v-model="modelValue.combustionEfficiencyRatio" :rules="ratioRules"/>
+                              <v-text-field id="ambiantPressureInMPa" label="Ambiant pressure:" :hint="psiLabel" :persistent-hint="true" suffix="MPa" v-model="modelValue.ambiantPressureInMPa" :rules="pressureRules"/>
                           </div>
                       </v-col>
                       <v-col d-flex lg6 md6>
                           <div style="padding: 10px;">
-                              <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="value.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
-                              <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="value.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
-                              <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="value.nozzleEfficiency" :rules="ratioRules"/>
-                              <v-checkbox label="Optimal nozzle design" v-model="value.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
-                              <v-text-field id="nozzleExpansionRatio" v-if="!value.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="value.nozzleExpansionRatio" :rules="expansionRules"/>
+                              <v-text-field id="erosiveBurningAreaRatioThreshold" label="Erosive burning area ratio threshold:" v-model="modelValue.erosiveBurningAreaRatioThreshold" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="erosiveBurningVelocityCoefficient" label="Erosive burning velocity coefficient:" v-model="modelValue.erosiveBurningVelocityCoefficient" :rules="numericGreaterOrEqual0Rules"/>
+                              <v-text-field id="nozzleEfficiency" label="Nozzle efficiency:" v-model="modelValue.nozzleEfficiency" :rules="ratioRules"/>
+                              <v-checkbox label="Optimal nozzle design" v-model="modelValue.optimalNozzleDesign" @change="resetNozzleExpansionRation" />
+                              <v-text-field id="nozzleExpansionRatio" v-if="!modelValue.optimalNozzleDesign" label="Nozzle expansion ratio:" v-model="modelValue.nozzleExpansionRatio" :rules="expansionRules"/>
                           </div>
                       </v-col>
                   </v-layout>
@@ -47,7 +47,7 @@ const rationBounds = [0.3, 1]
 export default {
     name: 'advanced-configuration',
     props: {
-        value: Object,
+        modelValue: Object,
         units: Object
     },
     data() {
@@ -62,7 +62,7 @@ export default {
     methods: {
         resetNozzleExpansionRation(newOptimalNozzleDesignValue) {
             if (newOptimalNozzleDesignValue) {
-                this.value.nozzleExpansionRatio = null
+                this.modelValue.nozzleExpansionRatio = null
             } else {
                 nextTick(() => {
                     const input = document.getElementById('nozzleExpansionRatio')
@@ -86,18 +86,18 @@ export default {
         isConfigValid() {
             let isValid = true
 
-            for (const value of [this.value.densityRatio, this.value.combustionEfficiencyRatio, this.value.nozzleEfficiency]) {
+            for (const value of [this.modelValue.densityRatio, this.modelValue.combustionEfficiencyRatio, this.modelValue.nozzleEfficiency]) {
                 isValid &= rangeValidator(...rationBounds)(value)
             }
 
-            for (const value of [this.value.nozzleErosionInMillimeter, this.value.erosiveBurningAreaRatioThreshold, this.value.erosiveBurningVelocityCoefficient]) {
+            for (const value of [this.modelValue.nozzleErosionInMillimeter, this.modelValue.erosiveBurningAreaRatioThreshold, this.modelValue.erosiveBurningVelocityCoefficient]) {
                 isValid &= greaterOrEqualsThanValidator(0)(value)
             }
 
-            isValid &= greaterOrEqualsThanValidator(0)(this.value.ambiantPressureInMPa)
+            isValid &= greaterOrEqualsThanValidator(0)(this.modelValue.ambiantPressureInMPa)
 
-            if (!this.value.optimalNozzleDesign) {
-                isValid &= greaterOrEqualsThanValidator(1)(this.value.nozzleExpansionRatio)
+            if (!this.modelValue.optimalNozzleDesign) {
+                isValid &= greaterOrEqualsThanValidator(1)(this.modelValue.nozzleExpansionRatio)
             }
 
             return isValid
@@ -105,7 +105,7 @@ export default {
     },
     computed: {
         psiLabel() {
-            return Number(this.value.ambiantPressureInMPa * 1000000 / 6895).toFixed(3) + ' psi'
+            return Number(this.modelValue.ambiantPressureInMPa * 1000000 / 6895).toFixed(3) + ' psi'
         }
     }
 }

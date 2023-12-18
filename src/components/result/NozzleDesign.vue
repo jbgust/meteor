@@ -10,8 +10,7 @@
                     Nozzle design tool
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon dark id="btnCloseNozzleDesign" @click="showNozzleDesignDialog = !formIsValid()">
-                    <v-icon>mdi-close</v-icon>
+                <v-btn icon="mdi-close" dark id="btnCloseNozzleDesign" @click="showNozzleDesignDialog = !formIsValid()">
                 </v-btn>
             </v-app-bar>
             <v-card>
@@ -19,8 +18,8 @@
                 <v-card-text>
                     <v-col>
                         <v-alert
-                            outlined
-                            colored-border
+                            variant="outlined"
+                            border-color="top"
                             border="start"
                             :value="!formIsValid()"
                             color="error"
@@ -30,8 +29,8 @@
                         <v-layout row>
                             <v-col class="pl-5 pr-5 mt-5">
                                     <v-form ref="nozzleDesignForm">
-                                        <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="value.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
-                                        <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="value.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
+                                        <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="modelValue.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
+                                        <v-text-field id="divergenceAngle" label="Divergence angle" suffix="°" v-model="modelValue.divergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
                                     </v-form>
                                 <div>
                                     <span class="label-nozzle-desing">Convergence length:&nbsp;</span>
@@ -71,7 +70,7 @@ export default {
         }
     },
     props: {
-        value: { type: Object, default: () => { return { convergenceAngle: 60, divergenceAngle: 24 } } },
+        modelValue: { type: Object, default: () => { return { convergenceAngle: 60, divergenceAngle: 24 } } },
         units: Object
     },
     methods: {
@@ -86,10 +85,10 @@ export default {
     computed: {
         ...mapGetters('computation', ['currentComputation']),
         divergenceLenght() {
-            return this.computeResult(this.currentComputation.performanceResult.divergenceCrossSectionDiameter, this.value.divergenceAngle)
+            return this.computeResult(this.currentComputation.performanceResult.divergenceCrossSectionDiameter, this.modelValue.divergenceAngle)
         },
         convergenceLenght() {
-            return this.computeResult(this.currentComputation.performanceResult.convergenceCrossSectionDiameter, this.value.convergenceAngle)
+            return this.computeResult(this.currentComputation.performanceResult.convergenceCrossSectionDiameter, this.modelValue.convergenceAngle)
         }
     }
 }

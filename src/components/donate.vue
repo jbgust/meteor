@@ -5,16 +5,16 @@
                 id="btnDonate"
                 color="purple"
                 v-show="!checkMode"
-                 dark
-                 v-bind="props"
+                theme="dark"
+                v-bind="props"
+                icon="mdi-handshake"
             >
-                <v-icon left size="25">mdi-handshake</v-icon>
                 Donate
             </v-btn>
         </template>
         <v-card>
             <v-card-title
-                class="headline purple"
+                class="text-h5 bg-purple"
                 primary-title
                 style="color: white"
             >
@@ -33,7 +33,7 @@
                                 <ul style="margin-bottom: 5px">
                                     <li>
                                         <b>do not see this popup anymore</b>
-                                        <v-tooltip bottom>
+                                        <v-tooltip location="bottom">
                                             <template v-slot:activator="{props}">
                                                 <v-icon
                                                     v-bind="props"
@@ -57,7 +57,7 @@
                         </v-col>
                     </v-col>
                 </v-row>
-                <v-alert type="info" v-model="donateClicked" outlined>
+                <v-alert type="info" v-model="donateClicked" variant="outlined">
                     If you have made a donation, you must log out and log back in to be marked as donator.
                 </v-alert>
             </v-card-text>
@@ -65,7 +65,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                    outlined
+                    variant="outlined"
                     v-if="!donateClicked"
                     @click="sheet = false"
                     :loading="!closable"
@@ -83,12 +83,12 @@
                     v-else
                     id="btnDonateNow"
                     color="purple"
-                    dark
+                    theme="dark"
                     @click="onDonateClick()"
                     target="_blank"
                     href="https://pages.donately.com/meteor/campaign/meteor/donate"
                 >
-                    <v-icon left size="25"  v-bind="props">mdi-handshake</v-icon>
+                    <v-icon start size="25"  v-bind="props">mdi-handshake</v-icon>
                     Donate now
                 </v-btn>
             </v-card-actions>

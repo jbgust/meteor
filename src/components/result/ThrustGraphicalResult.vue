@@ -24,7 +24,7 @@ export default {
         units: Object
     },
     mounted() {
-        this.buildChart()
+        // this.buildChart()
     },
     methods: {
         buildChart() {
@@ -64,12 +64,12 @@ export default {
             })
 
             chart.preloader.disabled = true
-            chart.events.on('validated', function(ev) {
+            chart.events.on('validated', function() {
                 if (this.chartLoader) {
                     this.chartLoader.hide()
                 }
             }, this)
-            chart.events.on('beforedatavalidated', function(ev) {
+            chart.events.on('beforedatavalidated', function() {
                 if (this.chartLoader) {
                     this.chartLoader.show()
                 }
@@ -177,7 +177,7 @@ export default {
             this.grainMass.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.grainMassUnit}`
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         if (this.chart) {
             this.chart.dispose()
         }
