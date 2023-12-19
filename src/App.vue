@@ -157,7 +157,7 @@ export default {
     name: 'app',
     components: { Donate, MeteorNews },
     created() {
-        Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL
+        Axios.defaults.baseURL = import.meta.env.VITE_METEOR_BACKEND_BASE_URL
         this.loadToken()
         let me = this
         Axios.interceptors.response.use(function(response) {

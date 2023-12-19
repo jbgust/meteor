@@ -7,7 +7,7 @@
 // Vue.config.productionTip = false
 //
 // new Vue({
-//     created: function() { Axios.defaults.baseURL = process.env.VITE_APP_BASE_URL },
+//     created: function() { Axios.defaults.baseURL = process.env.VITE_METEOR_BACKEND_BASE_URL },
 //     vuetify,
 //     store,
 //     render: h => h(App)
