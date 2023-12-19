@@ -69,7 +69,7 @@ jobs:
           at: ~/meteor
       - run:
           name: Build for CI
-          command: npm run build -- --modern --mode ci
+          command: npm run build -- --mode ci
       - run:
           name: zip dist
           command: zip -r meteor-dist.zip ./dist
@@ -91,7 +91,7 @@ jobs:
           at: ~/meteor
       - run:
           name: Build for CI
-          command: npm run build -- --modern
+          command: npm run build
       - run:
           name: zip dist
           command: zip -r meteor-dist.zip ./dist
