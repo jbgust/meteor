@@ -1,8 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-layout full-height>
-    <v-container fluid>
-        <v-row style="background-color: rebeccapurple">
-            <v-col cols="4">
+    <v-layout full-height style="background-color: darkturquoise">
+    <v-container fluid style="background-color: yellow">
+        <v-row style="background-color: rebeccapurple" row class="fill-height">
+            <v-col cols="4" style="background-color: darkgrey">
                 <v-card style="background-color: aquamarine">
                     <v-card-actions v-if="!demo">
                         <v-tooltip location="bottom">
@@ -116,8 +116,8 @@
 
                 </v-card>
             </v-col>
-            <v-col cols="8"  v-show="hasResult">
-                    <v-col cols="12">
+            <v-col cols="8" v-show="hasResult" style="background-color: brown">
+                    <v-col cols="12" style="background-color: pink" class="fill-height">
                         <v-card>
                             <v-app-bar flat height="40px" id="performanceInfosToolbar">
                                 <v-toolbar-title>Motor performance</v-toolbar-title>
@@ -128,11 +128,11 @@
                                     </v-icon>
                                 </v-btn>
                             </v-app-bar>
-                            <v-card-text v-show="showPerformanceInfo" class="pb-0">
+                            <v-card-text v-show="showPerformanceInfo" style="margin-top: 30px" >
                                 <performance-info :units="units" ref="performanceResult"/>
                                 <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
                             </v-card-text>
-                            <v-card-actions>
+                            <v-card-actions style="margin-top: 30px">
                                 <v-tooltip location="bottom">
                                     <template v-slot:activator="{ props }">
                                         <v-btn v-bind="props" id="btnMotorRevert" icon="mdi-undo-variant" color="info" size="small" class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
@@ -181,9 +181,9 @@
                             </v-card-actions>
                         </v-card>
 
-                    <v-sheet d-flex>
+                    <v-layout style="background-color: azure">
                         <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
-                    </v-sheet>
+                    </v-layout>
                     </v-col>
             </v-col>
         </v-row>

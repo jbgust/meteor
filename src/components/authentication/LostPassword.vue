@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-layout column align-center>
+        <v-col align-center>
             <v-col xs10 sm6>
                 <v-icon size="80">mdi-rocket</v-icon>
             </v-col>
@@ -46,7 +46,7 @@
                     </v-card-text>
                 </v-card>
             </v-col>
-        </v-layout>
+        </v-col>
     </v-container>
 
 </template>

@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-        <v-layout column>
+        <v-col >
             <v-col>
                 <v-alert
                     type="info"
@@ -43,19 +43,19 @@
             </template>
             <template v-slot:item.action="{ item }">
                 <v-icon
-                    small
+                    size="small"
                     class="mr-2"
                     @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
                 <v-icon
-                    small
+                    size="small"
                     @click="deleteItem(item)">
                     mdi-delete
                 </v-icon>
             </template>
         </v-data-table>
-        </v-layout>
+        </v-col>
 </template>
 
 <script>

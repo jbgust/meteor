@@ -1,65 +1,65 @@
 <template>
     <div v-if="!!performance && !redraw">
-        <v-layout d-flex wrap>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="motor-class" :suffix="performance.classPercentage+'%'"
-                          label="Class" v-model="performance.motorDescription" :messages="getPreviousValue('motorDescription')">>
+        <v-row d-flex wrap>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="motor-class" :suffix="performance.classPercentage+'%'"
+                          label="Class" v-model="performance.motorDescription" :messages="getPreviousValue('motorDescription')">
                 <template v-slot:prepend-inner v-if="!!compareMotors" >
                     <v-icon :color="compareMotors.class.cssColor">{{ compareMotors.class.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s"
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="thrust-time" label="Thrust time" suffix="s"
                           v-model="performance.thrustTime" :messages="getPreviousValue('thrustTime')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.thrustTime.cssColor">{{ compareMotors.thrustTime.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N"
-                          v-model="performance.maxThrust" :messages="getPreviousValue('maxThrust')">>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="max-thrust" label="Max thrust" suffix="N"
+                          v-model="performance.maxThrust" :messages="getPreviousValue('maxThrust')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.maxThrust.cssColor">{{ compareMotors.maxThrust.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns"
-                          v-model="performance.totalImpulse" :messages="getPreviousValue('totalImpulse')">>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="total-impulse" label="Total impulse" suffix="Ns"
+                          v-model="performance.totalImpulse" :messages="getPreviousValue('totalImpulse')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.totalImpulse.cssColor">{{ compareMotors.totalImpulse.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="specific-impulse" label="Specific impulse" suffix="s"
-                          v-model="performance.specificImpulse" :messages="getPreviousValue('specificImpulse')">>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="specific-impulse" label="Specific impulse" suffix="s"
+                          v-model="performance.specificImpulse" :messages="getPreviousValue('specificImpulse')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.specificImpulse.cssColor">{{ compareMotors.specificImpulse.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="max-pressure" label="Max pressure" :suffix="units.resultPressureUnit"
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="max-pressure" label="Max pressure" :suffix="units.resultPressureUnit"
                           v-model="performance.maxPressure" :messages="getPreviousValue('maxPressure')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.maxPressure.cssColor">{{ compareMotors.maxPressure.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="average-pressure" label="Average pressure"
-                          :suffix="units.resultPressureUnit" v-model="performance.averagePressure" :messages="getPreviousValue('averagePressure')">>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="average-pressure" label="Average pressure"
+                          :suffix="units.resultPressureUnit" v-model="performance.averagePressure" :messages="getPreviousValue('averagePressure')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.averagePressure.cssColor">{{ compareMotors.averagePressure.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="nozzle-exit-speed" label="Nozzle exit speed" prefix="Mach"
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="nozzle-exit-speed" label="Nozzle exit speed" prefix="Mach"
                           v-model="performance.exitSpeedInitial" :messages="getPreviousValue('exitSpeedInitial')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.exitSpeedInitial.cssColor">{{ compareMotors.exitSpeedInitial.icon }}</v-icon>
                 </template>
             </v-text-field>
-            <v-text-field :hide-details="!compareWithPrevious" outlined class="resultElement" readonly id="grain-mass" label="Initial grain mass"
-                          :suffix="units.grainMassUnit" v-model="performance.grainMass" :messages="getPreviousValue('grainMass')">>
+            <v-text-field :hide-details="!compareWithPrevious" variant="outlined" class="resultElement" readonly id="grain-mass" label="Initial grain mass"
+                          :suffix="units.grainMassUnit" v-model="performance.grainMass" :messages="getPreviousValue('grainMass')">
                 <template v-slot:prepend-inner v-if="!!compareMotors">
                     <v-icon :color="compareMotors.grainMass.cssColor">{{ compareMotors.grainMass.icon }}</v-icon>
                 </template>
             </v-text-field>
-        </v-layout>
+        </v-row>
         <v-col >
             <p class="label-nozzle" v-bind:style="{color: this.portThroatWarningColor}" v-if="showPortThroatAreaWarning">
                 {{`Your port-to-throat ratio is ${currentComputation.performanceResult.portToThroatArea}, it can be a problem` }}
-                <v-tooltip bottom>
+                <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props">mdi-information-outline</v-icon>
                     </template>
@@ -70,7 +70,7 @@
             </p>
             <p class="label-nozzle" style="color: red;" v-if="currentComputation.performanceResult.lowKNCorrection">
                 Low KN.
-                <v-tooltip bottom>
+                <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props">mdi-information-outline</v-icon>
                     </template>

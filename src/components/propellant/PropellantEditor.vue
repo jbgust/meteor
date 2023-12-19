@@ -1,17 +1,17 @@
 <template>
     <v-dialog v-model="dialog" fullscreen :scrim="false" transition="dialog-bottom-transition">
         <v-card>
-            <v-app-bar dark color="primary">
+            <v-app-bar theme="dark" color="primary">
                 <v-toolbar-title>Custom propellant</v-toolbar-title>
             </v-app-bar>
             <!-- v-if="dialog" is here to disable inputs when popup is not show to prevent form validation failure -->
             <v-card-text v-if="dialog">
                 <v-container grid-list-md>
-                    <v-layout row wrap align-center justify-center>
+                    <v-col row wrap align-center justify-center>
                         <v-form ref="formCustomPropellant">
                             <v-col>
-                                <v-layout column>
-                                    <v-layout row>
+                                <v-col>
+                                    <v-row >
                                         <v-col d-flex lg3 md3 sm3>
                                             <v-select
                                                 v-model="propellant.unit"
@@ -28,7 +28,7 @@
                                             <v-text-field variant="filled" id="propellantName" label="Propellant name"
                                                           v-model="propellant.name" :rules="nameRule"/>
                                         </v-col>
-                                    </v-layout>
+                                    </v-row>
                                     <v-col d-flex lg12>
                                         <v-textarea
                                             variant="filled"
@@ -37,7 +37,7 @@
                                             :rules="descriptionRule"
                                             v-model="propellant.description"/>
                                     </v-col>
-                                    <v-layout d-flex wrap>
+                                    <v-col d-flex wrap>
                                         <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio"
                                                       v-model="propellant.k" :rules="numericGreater0Rules" step="0.01"/>
                                         <v-text-field class="custom-prop-element" id="density"
@@ -48,9 +48,9 @@
                                                       hint="Try 45 if you don't know this value" suffix="kg/kmol"
                                                       v-model="propellant.molarMass" :rules="numericGreater0Rules"
                                                       step="0.01"/>
-                                    </v-layout>
-                                </v-layout>
-                                <v-layout column>
+                                    </v-col>
+                                </v-col>
+                                <v-col>
                                     <v-col d-flex lg12>
                                         <v-switch
                                             hide-details
@@ -60,7 +60,7 @@
                                         </v-switch>
                                     </v-col>
                                     <v-col d-flex lg12>
-                                        <v-layout d-flex wrap>
+                                        <v-col d-flex wrap>
                                             <v-text-field id="burnRateCoefficient" v-if="!useComplexBurnRate"
                                                           :hint="hintBurnRate" persistent-hint
                                                           label="Burn rate coefficient"
@@ -74,7 +74,7 @@
                                                           class="custom-prop-element"/>
                                             <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units"
                                                                      ref="burnRateDataEditor"></complex-burn-rate-datas>
-                                        </v-layout>
+                                        </v-col>
                                     </v-col>
                                     <v-col d-flex lg12>
                                         <v-switch
@@ -131,10 +131,10 @@
                                                 Save
                                             </v-btn>
                                         </div>
-                                </v-layout>
+                                </v-col>
                             </v-col>
                         </v-form>
-                    </v-layout>
+                    </v-col>
                 </v-container>
             </v-card-text>
         </v-card>
