@@ -2,9 +2,9 @@ describe('Run computation with advanced settings', function() {
 
     it('Should set advanced config settings', function() {
 
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
         cy.contains('METRIC').click()
         cy.get('input#name').should('have.value', '')
 
@@ -21,9 +21,11 @@ describe('Run computation with advanced settings', function() {
             .parent()
             .parent()
             .parent()
+            .parent()
+            .parent()
             .contains('12.255 psi')
 
-        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+        cy.contains('Advanced settings').parent().contains('Save').click()
     })
 
     it ('Should fill and submit the form', function() {

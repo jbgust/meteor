@@ -3,7 +3,7 @@ import { generateId } from '../../support/commands'
 const currentId = generateId()
 describe('Use simple custom propellant in IMPERIAL', function() {
     it('Should create simple custom propellant in IMPERIAL', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.contains('IMPERIAL').click()
 
         cy.get('button#custom-propellant-add').click()
@@ -24,7 +24,7 @@ describe('Use simple custom propellant in IMPERIAL', function() {
 
     it('Should set custom propellant in IMPERIAL', function() {
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         const formDatas = {
             throatDiameter: 0.68464,

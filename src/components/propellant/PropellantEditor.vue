@@ -19,7 +19,7 @@
                                                 :readonly="!!propellant.id"
                                                 :rules="requiredRules"
                                                 item-title="text"
-                                                @change="unitChanged"
+                                                @update:model-value="unitChanged"
                                                 variant="filled"
                                                 label="Unit"
                                             ></v-select>

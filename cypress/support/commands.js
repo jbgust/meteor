@@ -56,6 +56,8 @@ function applyCommonCheck(formValues, units) {
         formValues.name = `Motor-${Number(Math.random() * 1000).toFixed(0)}`
     }
     cy.contains(units).click()
+    cy.get('#throatDiameter').click().parent().contains(getLengthUnit(units))
+
     cy.get('input#name').should('have.value', '')
 
     cy.get('input#name').type(formValues.name)
@@ -87,28 +89,24 @@ Cypress.Commands.add('saveAndRunCheck', (motorName, expectedResults) => {
 Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
-    cy.get('div.v-list-item__title').contains(formValues.propellantId).click()
+    cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
-        .contains('Hollow cylinder').click()
+    cy.contains('Hollow cylinder').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(2).click()
-    cy.get('div.menuable__content__active')
-        .contains(formValues.coreSurface).click()
+    cy.get('.v-overlay__content > .v-list').contains(formValues.coreSurface).click()
 
     cy.get('@coreSurfaces').eq(3).click()
-    cy.get('div.menuable__content__active')
-        .contains(formValues.outerSurface).click()
+    cy.get('.v-overlay__content > .v-list').contains(formValues.outerSurface).click()
 
     cy.get('@coreSurfaces').eq(4).click()
-    cy.get('div.menuable__content__active')
-        .contains(formValues.endsSurface).click()
+    cy.get('.v-overlay__content > .v-list').contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
@@ -151,20 +149,20 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('Finocyl').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces')
         .eq(2).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
@@ -221,20 +219,20 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
 Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('Star').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces')
         .eq(2).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
@@ -286,20 +284,20 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
 Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('Moon burner').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces')
         .eq(2).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
@@ -348,20 +346,20 @@ Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) =>
 Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('C slot').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces')
         .eq(2).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
@@ -420,20 +418,20 @@ Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
 Cypress.Commands.add('fillRodTubeForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('Rod and tube').click()
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces')
         .eq(2).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(formValues.endsSurface).click()
 
     cy.get('input#throatDiameter')
@@ -492,20 +490,20 @@ Cypress.Commands.add('setMotorSimAdvancedConfig', () => {
     cy.get('input#densityRatio').clear().type(0.96)
     cy.get('input#combustionEfficiencyRatio').clear().type(0.97)
 
-    cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+    cy.contains('Advanced settings').parent().contains('Save').click()
 })
 
 Cypress.Commands.add('fillEndBurnerForm', (formValues, units, submit = true) => {
     applyCommonCheck(formValues, units)
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .as('coreSurfaces').eq(0)
         .click()
 
     cy.contains(formValues.propellantId).click()
 
     cy.get('@coreSurfaces').eq(1).click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains('End burner').click()
 
     cy.get('input#throatDiameter')
@@ -597,10 +595,10 @@ Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
     cy.get('div.v-toolbar__content').contains('Custom propellant')
 
-    cy.get('.v-select__selections')
+    cy.get('.v-select--single')
         .eq(3)
         .click()
-    cy.get('div.menuable__content__active')
+    cy.get('.v-overlay__content > .v-list')
         .contains(getUnitLabel(unit)).click()
 
     cy.get('input#propellantName')

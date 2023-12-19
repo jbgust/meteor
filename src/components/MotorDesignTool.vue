@@ -2,7 +2,7 @@
     <v-layout full-height style="background-color: darkturquoise">
     <v-container fluid style="background-color: yellow">
         <v-row style="background-color: rebeccapurple" row class="fill-height">
-            <v-col cols="4" style="background-color: darkgrey">
+            <v-col cols="6" style="background-color: darkgrey">
                 <v-card style="background-color: aquamarine">
                     <v-card-actions v-if="!demo">
                         <v-tooltip location="bottom">
@@ -55,7 +55,7 @@
 
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnCloseHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()">
+                                <v-btn id="btnHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()">
                                 </v-btn>
                             </template>
                             <span>Documentation</span>
@@ -438,7 +438,7 @@ export default {
                 this.importInProgress = true
                 nextTick(() => {
                     this.importInProgress = false
-                }, this)
+                })
             }
         },
         unitSelected(newValue, oldValue) {

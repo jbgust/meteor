@@ -12,7 +12,7 @@ const propellant = {
 
 describe('Crud propellant', () => {
     it('Should save form', () => {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.get('button#custom-propellant-add').click()
         cy.contains('New propellant').click()
 
@@ -81,7 +81,7 @@ describe('Crud propellant', () => {
     })
 
     it('Should display units correctly', () => {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.reload()
         // set main form to metric
         cy.contains('METRIC').click()
@@ -90,14 +90,14 @@ describe('Crud propellant', () => {
         cy.contains('New propellant').click()
 
         // set propellant unit to IMPERIAL
-        cy.get('.v-select__selections')
+        cy.get('.v-select--single')
             .eq(3)
             .click()
-        cy.get('div.menuable__content__active')
+        cy.get('.v-overlay__content > .v-list')
             .contains('Imperial').click()
 
         // check propellant form are in imperial
-        cy.contains('lb/cubic inch')
+        cy.get('#density').click().parent().contains('lb/cubic inch')
 
         // check burn rate form are in imperial
         cy.get('input#complexBurnRate-switch')

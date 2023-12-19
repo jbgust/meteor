@@ -1,6 +1,6 @@
 describe('Run computation in imperial units', function() {
     it('Should open meteor', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.get('input#name').should('have.value', '')
     })
 

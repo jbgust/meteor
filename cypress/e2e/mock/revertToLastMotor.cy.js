@@ -82,7 +82,7 @@ function buildMotorConfig(name, propellantId) {
 // TODO : marche en local mais plus sur la CI
 describe.skip('Should revert to last motor config', () => {
     it('Revert is disabled when only one result is computed', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.mockMotorList([
             buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
             buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])

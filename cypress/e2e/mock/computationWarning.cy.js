@@ -83,7 +83,7 @@ function buildMotorConfig(name) {
 describe.skip('Display computationWarning', function() {
     it('Display port-to-throat danger', function() {
         // fill form
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.mockMotorList([buildMotorConfig('Mock motor')])
 
         cy.intercept('POST', '/compute', buildComputationResult('1.00', 'DANGER'))

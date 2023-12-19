@@ -3,7 +3,7 @@ import { generateId } from '../../support/commands'
 const currentId = generateId()
 describe('Use simple custom propellant in SI', function() {
     it('Should create simple custom propellant in SI', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.contains('METRIC').click()
 
         cy.get('button#custom-propellant-add').click()
@@ -24,7 +24,7 @@ describe('Use simple custom propellant in SI', function() {
     })
 
     it('Should set custom propellant in SI', function() {
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
         cy.contains('METRIC').click()
 
         const formDatas = {

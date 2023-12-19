@@ -1,21 +1,21 @@
 <template>
     <div v-if="currentComputation">
-        <v-btn small @click="showNozzleDesignDialog = true">
-            <v-icon left>mdi-ruler-square</v-icon>
+        <v-btn size="small" @click="showNozzleDesignDialog = true">
+            <v-icon start>mdi-ruler-square</v-icon>
             Nozzle design</v-btn>
 
         <v-dialog persistent ref="errorModal" width="470px" v-model="showNozzleDesignDialog">
-            <v-app-bar dark color="primary">
+            <v-app-bar theme="dark" color="primary">
                 <v-toolbar-title>
                     Nozzle design tool
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon="mdi-close" dark id="btnCloseNozzleDesign" @click="showNozzleDesignDialog = !formIsValid()">
+                <v-btn icon="mdi-close" theme="dark" id="btnCloseNozzleDesign" @click="showNozzleDesignDialog = !formIsValid()">
                 </v-btn>
             </v-app-bar>
             <v-card>
 
-                <v-card-text>
+                <v-card-text class="mt-10">
                     <v-col>
                         <v-alert
                             variant="outlined"
@@ -26,7 +26,7 @@
                             icon="mdi-alert-box-outline">
                             The form should be valid to close the dialog
                         </v-alert>
-                        <v-layout row>
+                        <v-row>
                             <v-col class="pl-5 pr-5 mt-5">
                                     <v-form ref="nozzleDesignForm">
                                         <v-text-field id="convergenceAngle" label="Convergence angle" suffix="°" v-model="modelValue.convergenceAngle" :rules="rangeRules" step="0.01"></v-text-field>
@@ -48,7 +48,7 @@
                                 <h3 class="mt-5">Legend</h3>
                                 <img src="../../assets/Nozzle_illustration.svg" width="100%"/>
                             </v-col>
-                        </v-layout>
+                        </v-row>
                     </v-col>
                 </v-card-text>
             </v-card>
@@ -79,6 +79,8 @@ export default {
             return computeNozzleLength(sectionDiameter, angle).toFixed(precision) + ' ' + this.units.lengthUnit
         },
         formIsValid() {
+            if(this.$refs.nozzleDesignForm)
+                console.error("validate", this.$refs.nozzleDesignForm.validate())
             return this.$refs.nozzleDesignForm ? this.$refs.nozzleDesignForm.validate() : true
         }
     },

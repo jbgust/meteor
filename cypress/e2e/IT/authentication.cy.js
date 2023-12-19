@@ -8,8 +8,8 @@ describe('Authentication', function() {
         cy.contains('Sign out').click()
 
         // Check redirect to login page
-        cy.visit('/#/motorDesign')
-        cy.url().should('include', '/#/signin')
+        cy.visit('/motorDesign')
+        cy.url().should('include', '/signin')
 
         cy.get('#signinEmail')
             .clear()
@@ -20,14 +20,14 @@ describe('Authentication', function() {
 
         cy.get('form').contains('Sign in').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
     })
 
     it('Should sign up', () => {
         // suppression de l'authentification
         localStorage.removeItem(TOKEN_STORAGE_KEY)
 
-        cy.visit('/#/signin')
+        cy.visit('/signin')
 
         cy.contains('Create an account.')
             .click()
@@ -55,7 +55,7 @@ describe('Authentication', function() {
         // suppression de l'authentification
         localStorage.removeItem(TOKEN_STORAGE_KEY)
 
-        cy.visit('/#/validate?token=TOKEN-validate&tokenType=CREATION_COMPTE')
+        cy.visit('/validate?token=TOKEN-validate&tokenType=CREATION_COMPTE')
 
         cy.contains('Your account has been validated')
 
@@ -72,14 +72,14 @@ describe('Authentication', function() {
 
         cy.get('form').contains('Sign in').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
     })
 
     it('Should reset password', () => {
         // suppression de l'authentification
         localStorage.removeItem(TOKEN_STORAGE_KEY)
 
-        cy.visit('/#/signin')
+        cy.visit('/signin')
 
         cy.contains('Forgot password?')
             .click()
@@ -94,7 +94,7 @@ describe('Authentication', function() {
         // suppression de l'authentification
         localStorage.removeItem(TOKEN_STORAGE_KEY)
 
-        cy.visit('/#/validate?token=TOKEN-reset-pwd&tokenType=RESET_PASSWORD')
+        cy.visit('/validate?token=TOKEN-reset-pwd&tokenType=RESET_PASSWORD')
 
         const newPassword = generateId(100000000) + 'JHgt!hfNBv$' + generateId(100000000)
 
@@ -116,14 +116,14 @@ describe('Authentication', function() {
 
         cy.get('form').contains('Sign in').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
     })
 
     it('Should ask for new validation link', () => {
         // suppression de l'authentification
         localStorage.removeItem(TOKEN_STORAGE_KEY)
 
-        cy.visit('/#/validate?token=expired-token&tokenType=CREATION_COMPTE')
+        cy.visit('/validate?token=expired-token&tokenType=CREATION_COMPTE')
 
         cy.contains('Click here to get a new link').click()
 

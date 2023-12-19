@@ -51,9 +51,9 @@ describe.skip('Show Donation popup before run', function() {
         cy.intercept('GET', '/propellants', [])
         cy.intercept('POST', '/compute', buildComputationResult())
 
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         const formDatas = {
             throatDiameter: 7,

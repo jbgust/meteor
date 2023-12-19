@@ -4,7 +4,7 @@ const motorName = 'HollowMotorSave_' + generateId()
 
 describe('Crud motor', () => {
     it('Should save form', () => {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         const formDatas = {
             name: motorName,

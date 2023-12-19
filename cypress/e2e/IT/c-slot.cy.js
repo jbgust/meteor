@@ -14,7 +14,7 @@ const expectedResults = {
 describe('Run C slot in SI units', function() {
 
     it('Should submit form', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         cy.setMotorSimAdvancedConfig()
 

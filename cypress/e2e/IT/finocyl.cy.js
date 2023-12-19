@@ -13,7 +13,7 @@ const expectedResults = {
 
 describe('Run Finocyl in SI units', function() {
     it('Should submit form', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         cy.setMotorSimAdvancedConfig()
 

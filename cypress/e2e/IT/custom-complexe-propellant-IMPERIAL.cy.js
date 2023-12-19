@@ -1,6 +1,6 @@
 describe('Use complexe custom propellant with advance burn rate in IMPERIAL', function() {
     it('Should create complexe custom propellant in IMPERIAL', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.contains('IMPERIAL').click()
 
         cy.get('button#custom-propellant-add').click()

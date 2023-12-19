@@ -3,7 +3,7 @@ describe.skip('RASP export', function() {
         cy.visit('/')
         cy.contains('View demo').click()
 
-        cy.url().should('include', '/#/demo')
+        cy.url().should('include', '/demo')
 
         cy.server()
 

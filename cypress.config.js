@@ -9,6 +9,8 @@ module.exports = defineConfig({
         },
         baseUrl: 'http://localhost:8080',
         testIsolation: false,
-        experimentalRunAllSpecs:true
+        experimentalRunAllSpecs:true,
+        viewportHeight:2048,
+        viewportWidth:2048
     }
 })

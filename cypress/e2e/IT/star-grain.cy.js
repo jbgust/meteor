@@ -13,7 +13,7 @@ const expectedResults = {
 
 describe.skip('Run Star in SI units', function() {
     it('Should submit form', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         cy.setMotorSimAdvancedConfig()
 

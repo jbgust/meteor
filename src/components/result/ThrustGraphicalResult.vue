@@ -24,7 +24,6 @@ export default {
         units: Object
     },
     created() {
-        console.error("ITERATION - created")
         let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
         let chartLoader = this.createChartLoader(chart)
         this.buildChart(chart, chartLoader)
@@ -34,7 +33,6 @@ export default {
     },
     methods: {
         buildChart(chart, chartLoader) {
-            console.error("ITERATION - buildchart")
             chart.paddingRight = 20
             chart.numberFormatter.numberFormat = '.##'
             chart.exporting.menu = new am4core.ExportMenu()
