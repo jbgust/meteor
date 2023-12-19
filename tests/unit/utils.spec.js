@@ -1,3 +1,4 @@
+import { expect, test, describe } from 'vitest'
 import { extractIdFromHateoasResponse, shortLabel } from '@/modules/utils'
 
 describe('Tests Utils module', () => {

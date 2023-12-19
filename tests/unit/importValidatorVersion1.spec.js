@@ -1,3 +1,4 @@
+import { expect, test, describe } from 'vitest'
 import { validateImportVersion1, ajvValidator } from '../../src/modules/importValidator'
 import { SI_UNITS } from '../../src/modules/computationUtils'
 import { EXPOSED, INHIBITED } from '../../src/modules/grainsConstants'

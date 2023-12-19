@@ -1,13 +1,13 @@
-import { createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
+import { expect, test, describe } from 'vitest'
 import storeAuthConfig from '../../src/store/modules/authentication'
 import { cloneDeep } from 'lodash'
 import Axios from 'axios'
 const TOKEN_STORAGE_KEY = 'accessToken-1'
+import { createStore } from 'vuex'
 
 describe('Test authentication store', () => {
     test('should mutate token', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         expect(store.state.accessToken).toBe(null)
         const token = buildToken()
 
@@ -18,7 +18,7 @@ describe('Test authentication store', () => {
     // TODO test désactiver car maintenant en prend en compte la date d'expiration
     // mettre en place un regénération de token
     test.skip('should identified logged user', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         expect(store.getters.isLogged).toBe(false)
         const token = buildToken()
 
@@ -27,7 +27,7 @@ describe('Test authentication store', () => {
     })
 
     test('should load token', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         const token = buildToken()
         localStorage.setItem(TOKEN_STORAGE_KEY, token.accessToken)
 
@@ -37,14 +37,14 @@ describe('Test authentication store', () => {
     })
 
     test('should not load token if not saved', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         localStorage.removeItem(TOKEN_STORAGE_KEY)
         store.dispatch('loadToken')
         expect(store.state.accessToken).toBeNull()
     })
 
     test('should save token', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         const token = buildToken()
         expect(localStorage.getItem(TOKEN_STORAGE_KEY)).toBeNull()
 
@@ -56,7 +56,7 @@ describe('Test authentication store', () => {
     })
 
     test('should clear token', () => {
-        const store = createStore()
+        const store = createStoreVuex()
         const token = buildToken()
 
         store.dispatch('saveToken', token)
@@ -68,10 +68,10 @@ describe('Test authentication store', () => {
         expect(Axios.defaults.headers.common['Authorization']).toBeUndefined()
     })
 
-    function createStore() {
-        const localVue = createLocalVue()
-        localVue.use(Vuex)
-        const store = new Vuex.Store(cloneDeep(storeAuthConfig))
+    function createStoreVuex() {
+        // const localVue = createApp()
+        // localVue.use(Vuex)
+        const store = createStore(cloneDeep(storeAuthConfig))
         return store
     }
 

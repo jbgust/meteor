@@ -22,7 +22,7 @@ jobs:
           root: ~/meteor
           paths:
             - node_modules
-  jest:
+  unit-test:
     working_directory: ~/meteor
     docker:
       - image: cimg/node:18.16.0
@@ -32,7 +32,7 @@ jobs:
           at: ~/meteor
       - run:
           name: Run Tests
-          command: npm run test:unit
+          command: npx vitest run
   cypress:
     working_directory: ~/meteor
     machine:
@@ -161,7 +161,7 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - jest:
+      - unit-test:
           filters:
             tags:
               only: /^v.*/
@@ -169,13 +169,13 @@ workflows:
             - install
       - package-ci:
           requires:
-            - jest
+            - unit-test
           filters:
             tags:
               ignore: /.*/
       - package-prod:
           requires:
-            - jest
+            - unit-test
           filters:
             branches:
               ignore: /.*/

@@ -1,3 +1,4 @@
+import { expect, test, describe } from 'vitest'
 import {
     computeNozzleLength,
     hasSelectedUnits, IMPERIAL_UNITS,
@@ -16,7 +17,7 @@ describe('Nozzle length calculation (divergence and convergence length)', () => 
 })
 
 describe('Should merge results for chart', () => {
-    it('should rename previous results prop names', () => {
+    test('should rename previous results prop names', () => {
         const currentResults = [
             { x: 1, y: 2, kn: 3, p: 4, m: 5, grainMass: 11 }
         ]
@@ -31,7 +32,7 @@ describe('Should merge results for chart', () => {
                 { x: 2, yPrevious: 6, knPrevious: 7, pPrevious: 8, mPrevious: 9, grainMassPrevious: 12 }])
     })
 
-    it('Compare with float not string (bug reported by Willima S.)', () => {
+    test('Compare with float not string (bug reported by Willima S.)', () => {
         const currentResults = [
             {
                 'x': 29.4227,
@@ -73,7 +74,7 @@ describe('Should merge results for chart', () => {
                 }])
     })
 
-    it('should merge results with same x value', () => {
+    test('should merge results with same x value', () => {
         const currentResults = [
             { x: 1, y: 2, kn: 3, p: 4, m: 5 },
             { x: 3, y: 22, kn: 33, p: 44, m: 55 }
@@ -117,7 +118,7 @@ describe('Units management', () => {
 
     test('should get default unit', () => {
         localStorage.clear()
-        expect(getSelectedUnit()).toBe(null)
+        expect(getSelectedUnit()).toBe(undefined)
 
         setSelectedUnits(SI_UNITS)
         expect(getSelectedUnit()).toBe(SI_UNITS)
