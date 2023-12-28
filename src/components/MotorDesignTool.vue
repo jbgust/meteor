@@ -6,28 +6,28 @@
                 <v-card>
                     <v-card-actions v-if="!demo">
                         <v-row no-gutters align="center">
-                        <v-tooltip location="bottom">
+                        <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
                                 <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll">
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
-                        <v-tooltip location="bottom">
+                        <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
                                 <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text">
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
-                        <v-tooltip location="bottom">
+                        <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
                                 <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading">
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
-                        <v-tooltip location="bottom">
+                        <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
                                 <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()">
                                 </v-btn>

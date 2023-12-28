@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <v-form ref="formJSRM">
-
             <motor-configuration
                 v-model="formValue"
                 @resetValidation="$refs.formJSRM.resetValidation()"

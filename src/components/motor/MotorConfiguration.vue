@@ -1,46 +1,48 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-col>
+    <v-col class="pa-0">
 
-                <v-text-field variant="filled" id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name" />
+                <v-text-field variant="underlined" id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name"  density="compact"/>
                 <v-textarea
                     :rules="descriptionRule"
                     rows="2"
                     id="motorDescription"
                     label="Description"
+                    variant="underlined"
                     v-model="modelValue.description"/>
 
 
-        <v-row>
+        <v-row no-gutters>
             <v-select id="propellantType" label="Propellant:"
+                      variant="underlined"
                       item-title="text"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId" />
+                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId"  density="compact"/>
                 <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-if="isLogged" class="mt-3" variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
+                        <v-btn v-if="isLogged"  variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
                 </v-tooltip>
         </v-row>
-        <v-col>
+<!--        <v-col>-->
             <v-row>
                 <v-col>
                     <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter"
-                                  :suffix="units.lengthUnit" v-model="modelValue.chamberInnerDiameter"
+                                  :suffix="units.lengthUnit" v-model="modelValue.chamberInnerDiameter" density="compact" variant="underlined"
                                   :rules="chamberDiameterRules" step="0.01" />
-                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat"
+                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" density="compact" variant="underlined"
                                   :suffix="units.lengthUnit" v-model="modelValue.chamberLength"
                                   :rules="chamberLengthRules" step="0.01" />
                 </v-col>
                 <v-col>
-                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="modelValue.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
+                    <v-text-field id="throatDiameter" label="Throat diameter" density="compact" :suffix="units.lengthUnit" variant="underlined" v-model="modelValue.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
                 <GrainConfigurator :model-value="modelValue" @update:modelValue="modelValue = $event" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
             </v-row>
-            </v-col>
+<!--        </v-col>-->
         <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
     </v-col>
 </template>
