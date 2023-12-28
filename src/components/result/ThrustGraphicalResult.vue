@@ -1,5 +1,5 @@
 <template>
-  <div class="thrust-graphic" id="thrust-chart" ref="motorParameters" style="background-color: chartreuse;">
+  <div class="thrust-graphic" id="thrust-chart" ref="motorParameters">
   </div>
 </template>
 
@@ -187,7 +187,7 @@ export default {
 <style>
   .thrust-graphic {
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
     margin-top: 20px;
   }
 

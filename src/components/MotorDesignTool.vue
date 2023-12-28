@@ -1,9 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-layout full-height style="background-color: darkturquoise">
-    <v-container fluid style="background-color: yellow">
-        <v-row style="background-color: rebeccapurple" row class="fill-height">
-            <v-col cols="6" style="background-color: darkgrey">
-                <v-card style="background-color: aquamarine">
+    <v-layout full-height>
+    <v-container fluid>
+        <v-row row class="fill-height">
+            <v-col xl="3" lg="4" md="5">
+                <v-card>
                     <v-card-actions v-if="!demo">
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
@@ -116,76 +116,74 @@
 
                 </v-card>
             </v-col>
-            <v-col cols="8" v-show="hasResult" style="background-color: brown">
-                    <v-col cols="12" style="background-color: pink" class="fill-height">
-                        <v-card>
-                            <v-app-bar flat height="40px" id="performanceInfosToolbar">
-                                <v-toolbar-title>Motor performance</v-toolbar-title>
-                                <v-spacer></v-spacer>
-                                <v-btn color="info" size="small" class="ml-4 tooglePerf">
-                                    <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
-                                        {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
-                                    </v-icon>
-                                </v-btn>
-                            </v-app-bar>
-                            <v-card-text v-show="showPerformanceInfo" style="margin-top: 30px" >
-                                <performance-info :units="units" ref="performanceResult"/>
-                                <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
-                            </v-card-text>
-                            <v-card-actions style="margin-top: 30px">
-                                <v-tooltip location="bottom">
-                                    <template v-slot:activator="{ props }">
-                                        <v-btn v-bind="props" id="btnMotorRevert" icon="mdi-undo-variant" color="info" size="small" class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
-                                        </v-btn>
-                                    </template>
-                                    <span>Restore last motor configuration</span>
-                                </v-tooltip>
-                                <v-tooltip location="bottom">
-                                    <template v-slot:activator="{ props }">
-                                        <v-switch
-                                            v-bind="props"
-                                            style="margin-left: 20px;"
-                                            label="Compare"
-                                            density="compact"
-                                            inset
-                                            v-model="showComparison"
-                                        ></v-switch>
-                                    </template>
-                                    <span>Compare with previous motor</span>
-                                </v-tooltip>
-                                <v-tooltip location="bottom" max-width="300px"  v-if="showUseRefBtn">
-                                    <template v-slot:activator="{ props }">
-                                        <v-btn
-                                            v-bind="props"
-                                            style="margin-left: 20px;"
-                                            size="small"
-                                            :color="useAsRef ? 'orange':''"
-                                            dense
-                                            inset
-                                            @mouseup="toggleUseAsRef()"
-                                            value="useAsRef"
-                                        >
-                                            <v-icon start v-if="useAsRef">
-                                                mdi-delete
-                                            </v-icon>
-                                            <v-icon start v-else>
-                                                mdi-tag
-                                            </v-icon>
-                                            {{useAsRef ?  'Remove reference' : 'Use as reference'}}</v-btn>
-                                    </template>
-                                    <span>Use this motor as a reference for all comparisons, instead of using the engine from the previous computation.</span>
-                                </v-tooltip>
-                                <v-spacer></v-spacer>
-                                <export-rasp ref="rasp" :units="units"></export-rasp>
-                                <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
-                            </v-card-actions>
-                        </v-card>
+            <v-col xl="9" lg="8" md="7" v-show="hasResult">
+                    <v-card>
+                        <v-app-bar flat height="40px" id="performanceInfosToolbar">
+                            <v-toolbar-title>Motor performance</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-btn color="info" size="small" class="ml-4 tooglePerf">
+                                <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
+                                    {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
+                                </v-icon>
+                            </v-btn>
+                        </v-app-bar>
+                        <v-card-text v-show="showPerformanceInfo" style="margin-top: 30px" >
+                            <performance-info :units="units" ref="performanceResult"/>
+                            <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
+                        </v-card-text>
+                        <v-card-actions style="margin-top: 30px">
+                            <v-tooltip location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn v-bind="props" id="btnMotorRevert" icon="mdi-undo-variant" color="info" size="small" class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
+                                    </v-btn>
+                                </template>
+                                <span>Restore last motor configuration</span>
+                            </v-tooltip>
+                            <v-tooltip location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-switch
+                                        v-bind="props"
+                                        style="margin-left: 20px;"
+                                        label="Compare"
+                                        density="compact"
+                                        inset
+                                        v-model="showComparison"
+                                    ></v-switch>
+                                </template>
+                                <span>Compare with previous motor</span>
+                            </v-tooltip>
+                            <v-tooltip location="bottom" max-width="300px"  v-if="showUseRefBtn">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        v-bind="props"
+                                        style="margin-left: 20px;"
+                                        size="small"
+                                        :color="useAsRef ? 'orange':''"
+                                        dense
+                                        inset
+                                        @mouseup="toggleUseAsRef()"
+                                        value="useAsRef"
+                                    >
+                                        <v-icon start v-if="useAsRef">
+                                            mdi-delete
+                                        </v-icon>
+                                        <v-icon start v-else>
+                                            mdi-tag
+                                        </v-icon>
+                                        {{useAsRef ?  'Remove reference' : 'Use as reference'}}</v-btn>
+                                </template>
+                                <span>Use this motor as a reference for all comparisons, instead of using the engine from the previous computation.</span>
+                            </v-tooltip>
+                            <v-spacer></v-spacer>
+                            <export-rasp ref="rasp" :units="units"></export-rasp>
+                            <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
+                        </v-card-actions>
+                    </v-card>
 
-                    <v-layout style="background-color: azure">
-                        <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
-                    </v-layout>
-                    </v-col>
-            </v-col>
+                <v-layout>
+                    <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
+                </v-layout>
+                </v-col>
         </v-row>
         <help-dialog ref="helpDialog"></help-dialog>
         <motor-select @loadMotor="loadMotor" ref="motorSelect"/>

@@ -1,5 +1,6 @@
 <template>
     <v-row justify="center" align="center">
+        <v-col class="hidden-md-and-down"></v-col>
         <v-col shrink>
             <v-col>
                 <div v-for="item in newsToDisplay" v-bind:key="item.id">
@@ -8,6 +9,7 @@
                 </div>
             </v-col>
         </v-col>
+        <v-col shrink class="hidden-md-and-down"></v-col>
     </v-row>
 </template>
 <script>
