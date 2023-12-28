@@ -1,10 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-layout full-height>
+    <v-layout full-height class="bg-grey-lighten-3">
     <v-container fluid>
         <v-row row class="fill-height">
             <v-col xl="3" lg="4" md="5">
                 <v-card>
                     <v-card-actions v-if="!demo">
+                        <v-row no-gutters align="center">
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
                                 <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll">
@@ -28,27 +29,25 @@
                         </v-tooltip>
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnOpenMotor" prepend-icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()">
+                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()">
                                 </v-btn>
                             </template>
                             <span>Open motor</span>
                         </v-tooltip>
-                        <v-divider
-                            class="mx-2"
-                            vertical
-                        ></v-divider>
                         <v-btn-toggle
                             v-model="unitSelected"
+                            density="compact"
+                            divided
+                            variant="outlined"
+                            class="ml-5"
+                            color="light-blue-darken-4"
                             mandatory>
-                            <div>
-                                <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn :value="siUnits" variant="text" size="small">
-                                    METRIC
-                                </v-btn>
-                                <v-btn :value="imperialUnits" variant="text" size="small">
-                                    IMPERIAL
-                                </v-btn>
-                            </div>
+                            <v-btn :value="siUnits" >
+                                METRIC
+                            </v-btn>
+                            <v-btn :value="imperialUnits">
+                                IMPERIAL
+                            </v-btn>
                         </v-btn-toggle>
 
                         <v-spacer></v-spacer>
@@ -60,7 +59,7 @@
                             </template>
                             <span>Documentation</span>
                         </v-tooltip>
-
+                        </v-row>
                     </v-card-actions>
 
                     <v-alert
