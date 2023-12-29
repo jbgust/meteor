@@ -9,11 +9,11 @@
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <div class="text-center" v-if="!disabledButtons">
-                <v-btn class="mr-4" @click="reset">Reset</v-btn>
-                <v-btn class="mr-4" @click="$refs.advanceSettings.show()">
+                <v-btn class="mr-4" @click="reset" variant="tonal">Reset</v-btn>
+                <v-btn class="mr-4" @click="$refs.advanceSettings.show()" variant="tonal">
                     <v-icon dark id="btnAdvancedSettings">mdi-cog</v-icon>
                 </v-btn>
-                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" >Submit</v-btn>
+                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" variant="tonal">Submit</v-btn>
             </div>
 
             <v-dialog ref="errorModal" max-width="700px" v-model="showError">

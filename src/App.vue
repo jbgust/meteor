@@ -117,8 +117,8 @@
 <!--            <v-fade-transition mode="out-in">-->
                 <router-view></router-view>
         </v-main>
-        <v-footer app inset class="hidden-sm-and-down bg-grey-lighten-2">
-            <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jordan38" target="_blank">Jordan Content</a> and <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a></span>
+        <v-footer app inset height="20px" class="hidden-sm-and-down bg-grey-lighten-2">
+            <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a> and <a href="https://github.com/jordan38" target="_blank">Jordan Content</a>.</span>
         </v-footer>
 
         <v-dialog

@@ -1,6 +1,6 @@
 <template>
     <div v-if="currentComputation">
-        <v-btn size="small" @click="showNozzleDesignDialog = true">
+        <v-btn @click="showNozzleDesignDialog = true" color="primary" variant="tonal">
             <v-icon start>mdi-ruler-square</v-icon>
             Nozzle design</v-btn>
 

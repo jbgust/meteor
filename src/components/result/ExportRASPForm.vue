@@ -1,12 +1,12 @@
 <template>
-        <v-btn id="btnShowRASPExport" class="pr-4" small @click="show">
-            <v-icon left>mdi-file-export-outline</v-icon>
+        <v-btn id="btnShowRASPExport" class="pr-4" @click="show" color="primary" variant="tonal">
+            <v-icon start>mdi-file-export-outline</v-icon>
             RASP export
             <v-layout row justify-center>
                 <v-dialog scrollable v-model="dialog" persistent max-width="600px">
                     <v-card>
                         <v-card-title
-                            class="headline grey lighten-2"
+                            class="text-h5 bg-grey-lighten-2"
                             primary-title>
                             RASP export
                         </v-card-title>
