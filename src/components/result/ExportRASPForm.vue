@@ -1,5 +1,5 @@
 <template>
-        <v-btn id="btnShowRASPExport" class="pr-4" @click="show" color="primary" variant="tonal">
+        <v-btn id="btnShowRASPExport" class="pr-4" @click="show" color="primary" variant="tonal" density="compact">
             <v-icon start>mdi-file-export-outline</v-icon>
             RASP export
             <v-layout row justify-center>

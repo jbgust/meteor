@@ -187,18 +187,6 @@ export default {
 <style>
   .thrust-graphic {
     width: 100vw;
-    height: 50vh;
-    margin-top: 20px;
-  }
-
-  @media all and (max-width: 1280px) {
-      .thrust-graphic {
-          min-height: 350px;
-      }
-  }
-  .amcharts-amexport-icon-level-0 {
-      padding: 5px !important;
-      width: 30px !important;
-      height: 30px !important;
+    min-height: 600px;
   }
 </style>

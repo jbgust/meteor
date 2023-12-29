@@ -131,10 +131,10 @@
                             <performance-info :units="units" ref="performanceResult"/>
                             <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
                             <!-- Actions -->
-                            <v-row class="ml-2 mr-2 mt-5">
+                            <v-row class="ml-2 mr-2">
                                 <v-tooltip location="bottom">
                                     <template v-slot:activator="{ props }">
-                                        <v-btn v-bind="props" id="btnMotorRevert" variant="tonal" color="info" class="mr-5"
+                                        <v-btn v-bind="props" id="btnMotorRevert" variant="tonal" color="info" class="mr-5"  density="compact"
                                                :disabled="disabledPrevious" @click="restoreLastMotor">
                                             <v-icon>
                                                 mdi-undo-variant
@@ -150,6 +150,8 @@
                                             label="Compare motors"
                                             density="compact"
                                             color="primary"
+                                            hide-details
+                                            style="margin-top: -7px"
                                             v-model="showComparison"
                                         ></v-switch>
                                     </template>
@@ -160,8 +162,7 @@
                                         <v-btn
                                             v-bind="props"
                                             :color="useAsRef ? 'orange':'primary'"
-                                            dense
-                                            inset
+                                            density="compact"
                                             @mouseup="toggleUseAsRef()"
                                             variant="tonal"
                                             value="useAsRef"
@@ -183,7 +184,7 @@
                         </v-card-text>
                     </v-card>
 
-                <v-layout>
+                <v-layout class="mt-5">
                     <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
                 </v-layout>
                 </v-col>
