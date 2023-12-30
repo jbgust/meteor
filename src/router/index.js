@@ -7,6 +7,7 @@ import TokenValidator from '@/components/authentication/TokenValidator.vue'
 import Home from '@/components/Home.vue'
 import MotorDesignTool from '@/components/MotorDesignTool.vue'
 import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
+import { isTokenValid } from '@/modules/utils.mjs'
 
 const routes = [
     {
@@ -92,7 +93,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const isLogged = !!localStorage.getItem(TOKEN_STORAGE_KEY)
+    const isLogged = isTokenValid(localStorage.getItem(TOKEN_STORAGE_KEY))
     if (!to.meta.publicAccess && !isLogged) next({ name: 'Signin' })
     else next()
 })

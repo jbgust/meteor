@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "test-unit": "vitest run",
     "build": "vite build",
     "preview": "vite preview",
     "cypress-run": "npx cypress run",

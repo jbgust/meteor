@@ -1,6 +1,7 @@
 // initial state
 import Axios from 'axios'
-import jwtDecode from 'jwt-decode'
+import { decodeToken, isTokenValid } from '@/modules/utils.mjs'
+
 
 export const TOKEN_STORAGE_KEY = 'accessToken-1'
 
@@ -8,28 +9,10 @@ const state = () => ({
     accessToken: null
 })
 
-function decodeToken(token) {
-    try {
-        return token ? jwtDecode(token) : false
-    } catch (e) {
-        console.error('Invalid token')
-        return false
-    }
-}
-
 // getters
 const getters = {
     isLogged: (state) => {
-        try {
-            const jsonToken = decodeToken(state.accessToken)
-            if (jsonToken !== false) {
-                return jsonToken.exp * 1000 > new Date().getTime() ? jsonToken : false
-            }
-            return false
-        } catch (e) {
-            console.error('Token expired')
-            return false
-        }
+        return isTokenValid(state.accessToken)
     },
     isDonator: (state) => {
         const decodedToken = decodeToken(state.accessToken)
