@@ -29,7 +29,7 @@ describe('Authentication', function() {
 
         cy.visit('/signin')
 
-        cy.contains('Create an account.')
+        cy.contains('Create an account')
             .click()
 
         const emailPrefix = 'cypress-' + generateId()

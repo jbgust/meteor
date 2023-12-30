@@ -75,7 +75,20 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        console.error("arg to", to)
+        if (savedPosition) {
+            console.error("saved")
+            return savedPosition;
+        }
+        if (to.hash) {
+            console.error("#", to.hash)
+            return { el: to.hash, behavior: 'smooth' };
+        }
+        console.error("no  scrolll")
+        return { x: 0, y: 0 };
+    }
 })
 
 router.beforeEach((to, from, next) => {

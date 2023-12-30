@@ -68,7 +68,8 @@
                         border-color="top"
                         closable
                         border="start"
-                        elevation="2"
+                        variant="outlined"
+                        density="compact"
                         type="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
@@ -129,7 +130,7 @@
                         </v-card-actions>
                         <v-card-text v-show="showPerformanceInfo" >
                             <performance-info :units="units" ref="performanceResult"/>
-                            <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined">{{donationMessageAlert}}</v-alert>
+                            <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined" class="mb-5" >{{donationMessageAlert}}</v-alert>
                             <!-- Actions -->
                             <v-row class="ml-2 mr-2">
                                 <v-tooltip location="bottom">

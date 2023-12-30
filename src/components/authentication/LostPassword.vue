@@ -1,51 +1,47 @@
 <template>
-    <v-container>
-        <v-col align-center>
-            <v-col xs10 sm6>
-                <v-icon size="80">mdi-rocket</v-icon>
-            </v-col>
-            <v-col xs10 sm6 class="pb-10">
-                <h1>
-                    Reset your password
-                </h1>
-            </v-col>
-            <v-col grow>
-                <v-alert
-                    v-if="showMessage"
-                    border="top"
-                    border-color="top"
-                    :type="messageType"
-                    elevation="2"
-                    max-width="400"
-                >
-                    {{ message }}
-                </v-alert>
-                <v-card>
-                    <v-card-text>
-                        <v-form
-                            ref="form"
-                            v-model="valid"
+    <v-container fluid align="center">
+        <v-col grow xs="10" sm="6" lg="3">
+            <v-card>
+                <v-card-title>
+                    <v-icon size="80">mdi-rocket</v-icon>
+                    <h2>
+                        Reset your password
+                    </h2>
+                </v-card-title>
+                <v-card-text>
+                    <v-alert
+                        v-if="showMessage"
+                        border="start"
+                        border-color="top"
+                        variant="outlined"
+                        :type="messageType"
+                        class="mb-5"
+                    >
+                        {{ message }}
+                    </v-alert>
+                    <v-form
+                        ref="form"
+                        v-model="valid"
+                    >
+                        <v-text-field
+                            id="emailResetPassword"
+                            v-model="email"
+                            label="E-mail"
+                            :rules="emailRules"
+                            required
+                        ></v-text-field>
+                        <v-btn
+                            width="100%"
+                            :disabled="!valid"
+                            color="success"
+                            @click="resetPassword"
+                            :loading="loading"
                         >
-                            <v-text-field
-                                id="emailResetPassword"
-                                v-model="email"
-                                label="E-mail"
-                                :rules="emailRules"
-                                required
-                            ></v-text-field>
-                            <v-btn
-                                width="100%"
-                                :disabled="!valid"
-                                color="success"
-                                @click="resetPassword"
-                                :loading="loading"
-                            >
-                                Reset
-                            </v-btn>
-                        </v-form>
-                    </v-card-text>
-                </v-card>
-            </v-col>
+                            Reset
+                        </v-btn>
+                    </v-form>
+                </v-card-text>
+            </v-card>
         </v-col>
     </v-container>
 

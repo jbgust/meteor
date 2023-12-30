@@ -1,14 +1,13 @@
 <template>
-    <v-container>
-        <v-layout column align-center>
-            <v-col xs10 sm6 class="pb-10">
+    <v-container fluid align="center">
+        <v-col xs="10" sm="6" lg="3">
+            <v-col>
                 <v-alert
                     v-if="showMessage"
-                    border="top"
+                    border="start"
                     border-color="top"
                     :type="messageType"
-                    elevation="2"
-                    max-width="400"
+                    variant="tonal"
                 >
                     <p>{{ message }}</p>
                     <v-btn
@@ -39,20 +38,20 @@
                                 id="newPassword"
                                 v-model="password"
                                 label="Password"
-                                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword ? 'text' : 'password'"
                                 :rules="passwordRules"
-                                @click:append="showPassword = !showPassword"
+                                @click:append-inner="showPassword = !showPassword"
                                 required
                             ></v-text-field>
                             <v-text-field
                                 id="newPasswordConfirm"
                                 v-model="passwordConfirm"
                                 label="Confirm password"
-                                :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                                :append-inner-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword2 ? 'text' : 'password'"
                                 :rules="confirmPasswordRule"
-                                @click:append="showPassword2 = !showPassword2"
+                                @click:append-inner="showPassword2 = !showPassword2"
                                 required
                             ></v-text-field>
                             <v-btn
@@ -69,7 +68,7 @@
                 </v-card>
             </v-col>
 
-        </v-layout>
+        </v-col>
     </v-container>
 
 </template>
