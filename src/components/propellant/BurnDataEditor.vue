@@ -23,7 +23,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn @click="cancel">Cancel</v-btn>
-                    <v-btn color="primary" @click="save" id="saveBurnRateDataBtn">Save</v-btn>
+                    <v-btn color="primary" @click="isFormValid" id="saveBurnRateDataBtn">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -33,12 +33,14 @@
 <script>
 import { numberRule } from '../../modules/formValidationRules'
 import { nextTick } from 'vue'
+import { object } from '@amcharts/amcharts4/core'
 export default {
     name: 'BurnDataEditor',
     data() {
         return {
             dialog: false,
             burnData: {},
+            originalBurnData: {},
             hintBurnRate: 'Value is different between SI and Imperial',
             createMode: false,
             numberRule: numberRule()
@@ -59,19 +61,25 @@ export default {
         },
         edit(item) {
             this.createMode = false
-            this.burnData = item
+            this.originalBurnData = item
+            this.burnData = object.clone(item)
             this.show()
         },
         save() {
-            if (this.isFormValid()) {
-                if (this.createMode) {
-                    this.$emit('created', this.burnData)
-                }
-                this.dialog = false
+            if (this.createMode) {
+                this.$emit('created', this.burnData)
+            } else {
+                Object.assign(this.originalBurnData, this.burnData)
             }
+            this.dialog = false
         },
         isFormValid() {
-            return this.$refs.burnRateEditorForm ? this.$refs.burnRateEditorForm.validate() : true
+            this.$refs.burnRateEditorForm.validate()
+                .then(result => {
+                    if (result.valid) {
+                        this.save()
+                    }
+                })
         },
         cancel() {
             this.burnData = {}

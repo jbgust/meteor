@@ -2,34 +2,34 @@
     <v-layout full-height class="bg-grey-lighten-3">
     <v-container fluid>
         <v-row row class="fill-height">
-            <v-col xl="3" lg="4" md="5">
+            <v-col xl="3" lg="3" md="5">
                 <v-card>
                     <v-card-actions v-if="!demo">
                         <v-row no-gutters align="center">
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll">
+                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll" density="compact">
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text">
+                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text" density="compact">
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading">
+                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading" density="compact">
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()">
+                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()" density="compact">
                                 </v-btn>
                             </template>
                             <span>Open motor</span>
@@ -42,10 +42,10 @@
                             class="ml-5"
                             color="light-blue-darken-4"
                             mandatory>
-                            <v-btn :value="siUnits" >
+                            <v-btn :value="siUnits"  density="compact" size="small">
                                 METRIC
                             </v-btn>
-                            <v-btn :value="imperialUnits">
+                            <v-btn :value="imperialUnits" density="compact" size="small">
                                 IMPERIAL
                             </v-btn>
                         </v-btn-toggle>
@@ -54,7 +54,7 @@
 
                         <v-tooltip location="bottom">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()">
+                                <v-btn id="btnHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()" density="compact">
                                 </v-btn>
                             </template>
                             <span>Documentation</span>
@@ -115,7 +115,7 @@
 
                 </v-card>
             </v-col>
-            <v-col xl="9" lg="8" md="7" v-show="hasResult">
+            <v-col xl="9" lg="9" md="7" v-show="hasResult">
                     <v-card>
                         <v-card-actions>
                             <v-app-bar flat density="compact" id="performanceInfosToolbar">
@@ -348,73 +348,74 @@ export default {
             // })
         },
         duplicateMotor() {
-            if (this.$refs.form.validateForm() && this.motorId !== null) {
+            if (this.motorId !== null) {
                 this.motorId = null
-                this.$refs.form.duplicateMotor()
+                this.$refs.form.validateForm(() => this.$refs.form.duplicateMotor())
+            }
+        },
+        saveMotorExecutor() {
+            this.errorMessage = null
+            this.displayImportError = false
+            const dataToExport = {
+                version: LAST_VERSION,
+                measureUnit: this.unitSelected,
+                ...this.$refs.form.buildExport()
+            }
+
+            dataToExport.nozzleDesign = this.nozzleDesignValue
+
+            let request = {
+                name: dataToExport.name,
+                description: dataToExport.description
+            }
+            delete dataToExport.name
+            delete dataToExport.description
+            request.json = JSON.stringify(dataToExport)
+
+            this.saveLoading = true
+            if (this.motorId) {
+                Axios.put(`/motors/${this.motorId}`, request)
+                    .then(() => {
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => {
+                            this.displaySuccess = false
+                        }, 4000)
+                    })
+                    .catch(() => {
+                        this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                        this.displayImportError = true
+                    })
+                    .finally(() => {
+                        this.saveLoading = false
+                    })
+            } else {
+                Axios.post(`/motors`, request)
+                    .then((response) => {
+                        this.motorId = extractIdFromHateoasResponse(response)
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => {
+                            this.displaySuccess = false
+                        }, 4000)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                        if (error.response.status === 409) {
+                            this.errorMessage = 'You can\'t have two motors with the same name, please change it to before save as new motor'
+                            this.displayImportError = true
+                        } else {
+                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                            this.displayImportError = true
+                        }
+                    })
+                    .finally(() => {
+                        this.saveLoading = false
+                    })
             }
         },
         saveMotor() {
-            if (this.$refs.form.validateForm()) {
-                this.errorMessage = null
-                this.displayImportError = false
-                const dataToExport = {
-                    version: LAST_VERSION,
-                    measureUnit: this.unitSelected,
-                    ...this.$refs.form.buildExport()
-                }
-
-                dataToExport.nozzleDesign = this.nozzleDesignValue
-
-                let request = {
-                    name: dataToExport.name,
-                    description: dataToExport.description
-                }
-                delete dataToExport.name
-                delete dataToExport.description
-                request.json = JSON.stringify(dataToExport)
-
-                this.saveLoading = true
-                if (this.motorId) {
-                    Axios.put(`/motors/${this.motorId}`, request)
-                        .then(() => {
-                            this.successMessage = 'Motor saved'
-                            this.displaySuccess = true
-                            setTimeout(() => {
-                                this.displaySuccess = false
-                            }, 4000)
-                        })
-                        .catch(() => {
-                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
-                            this.displayImportError = true
-                        })
-                        .finally(() => {
-                            this.saveLoading = false
-                        })
-                } else {
-                    Axios.post(`/motors`, request)
-                        .then((response) => {
-                            this.motorId = extractIdFromHateoasResponse(response)
-                            this.successMessage = 'Motor saved'
-                            this.displaySuccess = true
-                            setTimeout(() => {
-                                this.displaySuccess = false
-                            }, 4000)
-                        })
-                        .catch((error) => {
-                            console.error(error)
-                            if (error.response.status === 409) {
-                                this.errorMessage = 'You can\'t have two motors with the same name, please change it to before save as new motor'
-                                this.displayImportError = true
-                            } else {
-                                this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
-                                this.displayImportError = true
-                            }
-                        })
-                        .finally(() => {
-                            this.saveLoading = false
-                        })
-                }
-            }
+            this.$refs.form.validateForm(this.saveMotorExecutor)
         },
         formReset() {
             this.motorId = null

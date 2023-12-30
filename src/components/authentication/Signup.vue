@@ -99,27 +99,30 @@ export default {
             return value => value === password || 'Password don\'t match'
         },
         signup() {
-            if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
-                const me = this
-                me.loading = true
-                me.clearToken()
-                Axios.post('/auth/signup', {
-                    email: this.email,
-                    password: this.password
-                })
-                    .then(function() {
-                        me.message = 'An activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
-                        me.messageType = 'success'
-                        me.showMessage = true
-                        me.emailSent = true
-                        me.loading = false
-                    })
-                    .catch(function(error) {
-                        me.message = error.response.data.message
-                        me.messageType = 'error'
-                        me.showMessage = true
-                        me.loading = false
-                        console.error(error)
+            if (this.password === this.passwordConfirm) {
+                this.$refs.form.validate()
+                    .then(() => {
+                        const me = this
+                        me.loading = true
+                        me.clearToken()
+                        Axios.post('/auth/signup', {
+                            email: this.email,
+                            password: this.password
+                        })
+                            .then(function() {
+                                me.message = 'An activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
+                                me.messageType = 'success'
+                                me.showMessage = true
+                                me.emailSent = true
+                                me.loading = false
+                            })
+                            .catch(function(error) {
+                                me.message = error.response.data.message
+                                me.messageType = 'error'
+                                me.showMessage = true
+                                me.loading = false
+                                console.error(error)
+                            })
                     })
             }
         },

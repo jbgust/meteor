@@ -98,25 +98,27 @@ export default {
             }
         },
         signin() {
-            if (this.$refs.form && this.$refs.form.validate()) {
-                const me = this
-                me.showError = false
-                me.loading = true
-                Axios.post('/auth/signin', {
-                    username: this.email,
-                    password: this.password
+            if (this.$refs.form) {
+                this.$refs.form.validate().then(() => {
+                    const me = this
+                    me.showError = false
+                    me.loading = true
+                    Axios.post('/auth/signin', {
+                        username: this.email,
+                        password: this.password
+                    })
+                        .then(function(response) {
+                            me.saveToken(response.data)
+                            me.$router.push({ path: '/motorDesign' })
+                            me.loading = false
+                        })
+                        .catch((error) => {
+                            me.password = ''
+                            me.showError = true
+                            me.loading = false
+                            console.error(error)
+                        })
                 })
-                    .then(function(response) {
-                        me.saveToken(response.data)
-                        me.$router.push({ path: '/motorDesign' })
-                        me.loading = false
-                    })
-                    .catch((error) => {
-                        me.password = ''
-                        me.showError = true
-                        me.loading = false
-                        console.error(error)
-                    })
             }
         },
         ...mapActions('authentication', ['saveToken'])

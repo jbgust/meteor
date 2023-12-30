@@ -9,11 +9,15 @@
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
             <div class="text-center" v-if="!disabledButtons">
-                <v-btn class="mr-4" @click="reset" variant="tonal">Reset</v-btn>
+                <v-btn class="mr-4" @click="reset" variant="tonal">
+                    Reset
+                </v-btn>
                 <v-btn class="mr-4" @click="$refs.advanceSettings.show()" variant="tonal">
                     <v-icon dark id="btnAdvancedSettings">mdi-cog</v-icon>
                 </v-btn>
-                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" variant="tonal">Submit</v-btn>
+                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" variant="tonal">
+                    Submit
+                </v-btn>
             </div>
 
             <v-dialog ref="errorModal" max-width="700px" v-model="showError">
@@ -117,8 +121,13 @@ export default {
         getDateTimeAsString() {
             return new Date().toLocaleString()
         },
-        validateForm() {
-            return this.$refs.formJSRM.validate()
+        validateForm(functionToExecute = () => console.error('NOT implemented check validateForm()')) {
+            this.$refs.formJSRM.validate()
+                .then(result => {
+                    if (result.valid) {
+                        functionToExecute()
+                    }
+                })
         },
         checkGrainAndGetURL() {
             let url = '/compute'
@@ -152,19 +161,24 @@ export default {
         },
         checkDonor() {
             const checkGrainAndGetURL = this.checkGrainAndGetURL()
-            if (this.$refs.formJSRM.validate() && checkGrainAndGetURL.grainCheck) {
-                this.$refs.donationPopup.check()
+            if (checkGrainAndGetURL.grainCheck) {
+                this.$refs.formJSRM.validate()
+                    .then((result) => {
+                        if(result.valid) {
+                            this.$refs.donationPopup.check()
+                        }
+                    })
             }
         },
         ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation', 'saveCurrentMotor']),
         ...mapGetters('computation', ['currentComputation', 'isPreviousMotorFlagAsReference']),
         ...mapGetters('authentication', ['isDonator']),
-        runComputation() {
+        runComputationExecutor() {
             const component = this
             let request
             const checkGrainAndGetURL = this.checkGrainAndGetURL()
-            request = this.buildRequest()
-            if (this.$refs.formJSRM.validate() && checkGrainAndGetURL.grainCheck) {
+            if (checkGrainAndGetURL.grainCheck) {
+                request = this.buildRequest()
                 this.loading = true
                 Axios.post(checkGrainAndGetURL.url, request)
                     .then((response) => {
@@ -196,6 +210,13 @@ export default {
                     })
             }
         },
+        runComputation() {
+            this.$refs.formJSRM.validate().then(result => {
+                if (result.valid) {
+                    this.runComputationExecutor()
+                }
+            })
+        },
         checkMotorDimensions() {
             if (this.formValue.chamberLength < this.formValue.grainConfig.segmentLength * this.formValue.grainConfig.numberOfSegment) {
                 this.errorDetail = `The 'combustion chamber length' should be >= 'grain segment length' times 'number of segment'. Otherwise your grain configuration will not fit into your motor. Increase your combustion chamber length and/or decrease : grain segment length, number of segment.`
@@ -206,35 +227,27 @@ export default {
         },
 
         buildExport() {
-            if (this.$refs.formJSRM.validate()) {
-                let request = Object.assign({ }, this.formValue)
-                request.extraConfig = Object.assign({}, this.extraConfig)
-                request.measureUnit = this.units.type
-                delete request.measureUnit
-                return request
-            } else {
-                return null
-            }
+            let request = Object.assign({ }, this.formValue)
+            request.extraConfig = Object.assign({}, this.extraConfig)
+            request.measureUnit = this.units.type
+            delete request.measureUnit
+            return request
         },
         buildRequest() {
-            if (this.$refs.formJSRM.validate()) {
-                let request = Object.assign({ }, this.formValue)
-                request.extraConfig = Object.assign({}, this.extraConfig)
-                request.measureUnit = this.units.type
+            let request = Object.assign({ }, this.formValue)
+            request.extraConfig = Object.assign({}, this.extraConfig)
+            request.measureUnit = this.units.type
 
-                // save cuurent config to restore it later if necessary
-                this.saveCurrentMotor(Object.assign({ }, request))
+            // save cuurent config to restore it later if necessary
+            this.saveCurrentMotor(Object.assign({ }, request))
 
-                delete request.grainType
-                request = Object.assign(request, request.grainConfig)
-                delete request.grainConfig
+            delete request.grainType
+            request = Object.assign(request, request.grainConfig)
+            delete request.grainConfig
 
-                request.grainType = this.getGrainType()
+            request.grainType = this.getGrainType()
 
-                return request
-            } else {
-                return null
-            }
+            return request
         },
         loadForm(formData = {}, extraConfig = this.getDefaultAdvanceConfig()) {
             this.extraConfig = extraConfig

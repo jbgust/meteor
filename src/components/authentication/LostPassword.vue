@@ -68,24 +68,27 @@ export default {
     }),
     methods: {
         resetPassword() {
-            if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
-                const me = this
-                me.loading = true
-                Axios.post('/auth/reset-password', {
-                    email: this.email
-                })
+            if (this.password === this.passwordConfirm) {
+                this.$refs.form.validate()
                     .then(() => {
-                        me.message = 'A reset link has been sent to your address. Also please check the Spam folder in your mailbox.'
-                        me.messageType = 'info'
-                        me.showMessage = true
-                        me.loading = false
-                    })
-                    .catch((error) => {
-                        me.message = 'Failed to send reset link, please double check your email. If the problem persist please contact us.'
-                        me.messageType = 'error'
-                        me.showMessage = true
-                        me.loading = false
-                        console.error(error)
+                        const me = this
+                        me.loading = true
+                        Axios.post('/auth/reset-password', {
+                            email: this.email
+                        })
+                            .then(() => {
+                                me.message = 'A reset link has been sent to your address. Also please check the Spam folder in your mailbox.'
+                                me.messageType = 'info'
+                                me.showMessage = true
+                                me.loading = false
+                            })
+                            .catch((error) => {
+                                me.message = 'Failed to send reset link, please double check your email. If the problem persist please contact us.'
+                                me.messageType = 'error'
+                                me.showMessage = true
+                                me.loading = false
+                                console.error(error)
+                            })
                     })
             }
         }
