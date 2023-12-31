@@ -11,8 +11,7 @@
             </v-card-title>
             <v-card-text>
                 <v-container grid-list-md>
-                <v-col>
-                    <v-card>
+                    <v-card class="mb-5">
                         <v-toolbar>
                             <v-toolbar-title>
                                 Help content
@@ -20,23 +19,35 @@
                         </v-toolbar>
                         <v-card-text>
                             <v-col>
-                                <!-- TODO : vue3 les href avec les ancres ne fonctionne plus-->
-                                <v-list-item to="#finocyl">
-                                    <v-list-item-title>Finocyl grain settings</v-list-item-title>
-                                </v-list-item>
-                                <v-list-item to="#star">Star grain settings</v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title><a href="#moonburner">Moon burner grain settings</a></v-list-item-title>
-                                    <v-list-item-title><a href="#rodTube">Rod and tube grain settings</a></v-list-item-title>
-                                    <v-list-item-title><a href="#cSlot">C slot grain settings</a></v-list-item-title>
-                                    <v-list-item-title><a href="#hollow">Hollow cylinder grain settings</a></v-list-item-title>
-                                    <v-list-item-title><a href="#endburner">End burner grain settings</a></v-list-item-title>
-                                    <v-list-item-title><a href="#rasp">RASP export and OpenRocket</a></v-list-item-title>
-                                </v-list-item>
+                                <v-list variant="flat" density="compact">
+                                    <v-list-item @click="showElement('hollow')" class="text-blue-darken-2">
+                                        Hollow cylinder grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('rasp')" class="text-blue-darken-2">
+                                        RASP export and OpenRocket
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('finocyl')" class="text-blue-darken-2">
+                                        Finocyl grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('star')" class="text-blue-darken-2">
+                                        Star grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('moonburner')" class="text-blue-darken-2">
+                                        Moon burner grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('rodTube')" class="text-blue-darken-2">
+                                        Rod and tube grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('cSlot')" class="text-blue-darken-2">
+                                        C slot grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('endburner')" class="text-blue-darken-2">
+                                        End burner grain settings
+                                    </v-list-item>
+                                </v-list>
                             </v-col>
                         </v-card-text>
                     </v-card>
-                </v-col>
                 <v-row wrap>
                     <v-col lg="6" md="6">
                         <v-card>
@@ -266,6 +277,7 @@ import outerSurface from '@/assets/help/outer_surface.png'
 import endSurface from '@/assets/help/end_surface.png'
 import coreSurface from '@/assets/help/core_surface.png'
 import endBurnerhelp from '@/assets/help/end-burner-help.png'
+import { scrollToElement } from '@/modules/utils.mjs'
 export default {
     name: 'HelpDialog',
     data() {
@@ -288,6 +300,9 @@ export default {
     methods: {
         show(showHelp = true) {
             this.dialog = showHelp
+        },
+        showElement(elementId) {
+            scrollToElement(elementId)
         }
     }
 }

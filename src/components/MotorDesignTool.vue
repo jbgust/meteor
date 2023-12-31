@@ -218,7 +218,7 @@ import {
 import ExportRasp from './result/ExportRASPForm'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
-import { extractIdFromHateoasResponse } from '@/modules/utils'
+import { extractIdFromHateoasResponse, scrollToElement } from '@/modules/utils'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -343,10 +343,10 @@ export default {
             // TODO : vuetify 3 => semble pas encore implémenté
             // this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
             this.hasResult = true
-            // TODO : vuetify 3 => semble pas encore implémenté
-            // nextTick(() => {
-            //     this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
-            // })
+            nextTick(() => {
+                // location.hash= '#performanceInfosToolbar'
+                scrollToElement('runComputationToolbar')
+            })
         },
         duplicateMotor() {
             if (this.motorId !== null) {

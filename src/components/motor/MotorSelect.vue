@@ -10,8 +10,6 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-col>
-                        <v-col>
                             <v-alert type="error" v-model="showError" closable variant="outlined">
                                 {{ errorMessage }}
                             </v-alert>
@@ -20,7 +18,7 @@
                                 :items="motors"
                                 :items-per-page="10"
                                 :loading="loading"
-                                class="elevation-1"
+                                density="compact"
                             >
                                 <template v-slot:item.name="{ item }">
                                     {{ shortLabel(item.name) }}
@@ -45,11 +43,8 @@
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
-                        </v-col>
-                    </v-col>
-                </v-row>
+                        </v-row>
             </v-card-text>
-            <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="sheet = false">

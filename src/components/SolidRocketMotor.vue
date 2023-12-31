@@ -8,7 +8,7 @@
                 :units="units" ref="motorConfiguration"/>
             <advanced-configuration ref="advanceSettings" v-model="extraConfig" @reset="resetConfig" :units="units"/>
 
-            <div class="text-center" v-if="!disabledButtons">
+            <div class="text-center" v-if="!disabledButtons" id="runComputationToolbar">
                 <v-btn class="mr-4" @click="reset" variant="tonal">
                     Reset
                 </v-btn>
@@ -58,13 +58,13 @@
                 </v-card>
             </v-dialog>
         </v-form>
-        <v-overlay :model-value="loading">
-            <v-col>
-                <div class="text-center">
-                    <v-progress-circular indeterminate size="64" width="6"></v-progress-circular>
-                </div>
-                <div class="text-center mt-30">Computation in progress ...</div>
-            </v-col>
+        <v-overlay :model-value="loading" class="align-center justify-center">
+            <v-row>
+                <v-col align-self="center" align="center">
+                    <v-progress-circular class="align-center" indeterminate size="64" color="purple" width="6"></v-progress-circular>
+                    <div class="text-center mt-30"><h3 class="text-white">Computation in progress ...</h3></div>
+                </v-col>
+            </v-row>
         </v-overlay>
         <donate ref="donationPopup" :check-mode="true" @closeDonation="runComputation"></donate>
     </v-container>

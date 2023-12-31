@@ -33,3 +33,7 @@ export function isTokenValid(accessToken) {
         return false
     }
 }
+
+export function scrollToElement(elementId, options = { behavior: "smooth", block: "start", inline: "start" }) {
+    document.getElementById(elementId).scrollIntoView(options);
+}
