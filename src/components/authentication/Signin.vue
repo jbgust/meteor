@@ -3,7 +3,7 @@
             <v-col grow xs="10" sm="6" lg="3">
                 <v-card>
                     <v-card-title>
-                        <v-icon size="80">mdi-rocket</v-icon>
+                        <v-icon size="80" color="purple">mdi-rocket-launch</v-icon>
                         <h2>
                             Sign in to METEOR
                         </h2>

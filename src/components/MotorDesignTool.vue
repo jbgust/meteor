@@ -8,28 +8,28 @@
                         <v-row no-gutters align="center">
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll" density="compact">
+                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text" density="compact">
+                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading" density="compact">
+                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
                         <v-tooltip location="top">
                             <template v-slot:activator="{ props }">
-                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()" density="compact">
+                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Open motor</span>

@@ -1,12 +1,12 @@
 <template>
     <v-app id="inspire">
-        <v-app-bar color="indigo" theme="dark">
+        <v-app-bar color="indigo" theme="dark" density="compact">
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn variant="text" :to="'/home'">
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
                 <v-btn variant="text" :to="'/motorDesign'">
-                    <v-icon start id="btnMeteor" size="25">mdi-rocket</v-icon>
+                    <v-icon start id="btnMeteor" size="25">mdi-rocket-launch</v-icon>
                     Meteor
                 </v-btn>
                 <v-btn variant="text" href="http://meteor.boards.net/">
@@ -60,7 +60,7 @@
                         </v-list-item>
                         <v-list-item :to="'/motorDesign'">
                             <v-list-item>
-                                <v-icon>mdi-rocket</v-icon>
+                                <v-icon>mdi-rocket-launch</v-icon>
                             </v-list-item>
                             <!--                TODO : vuetify 3-->
                                 <v-list-item-title>Meteor</v-list-item-title>

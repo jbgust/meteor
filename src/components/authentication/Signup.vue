@@ -13,7 +13,7 @@
             </v-alert>
             <v-card v-if="!emailSent">
                 <v-card-title>
-                    <v-icon size="80">mdi-rocket</v-icon>
+                    <v-icon size="80" color="purple">mdi-rocket-launch</v-icon>
                     <h2>
                         Create an account
                     </h2>
@@ -104,8 +104,7 @@ export default {
                             email: this.email,
                             password: this.password
                         })
-                            .then((response) => {
-                                console.error(response)
+                            .then(() => {
                                 this.message = 'An activation link has been sent to your address. Also please check the Spam folder in your mailbox.'
                                 this.messageType = 'success'
                                 this.showMessage = true

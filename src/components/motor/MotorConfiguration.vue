@@ -16,14 +16,18 @@
                       variant="underlined"
                       item-title="text"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId"  density="compact"/>
+                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId"  density="compact">
+            <template v-slot:append>
                 <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-if="isLogged"  variant="text" icon="mdi-progress-wrench" @click="managePropellant" v-bind="props" id="custom-propellant-add">
+                        <v-btn v-if="isLogged" density="compact" variant="text" icon="mdi-progress-wrench" @click="managePropellant" color="purple" v-bind="props" id="custom-propellant-add">
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
                 </v-tooltip>
+            </template>
+            </v-select>
+
         </v-row>
 <!--        <v-col>-->
             <v-row>
@@ -137,8 +141,3 @@ export default {
 }
 </script>
 
-<style scoped>
-    .add-propellant-icon {
-        max-width: 40px;
-    }
-</style>

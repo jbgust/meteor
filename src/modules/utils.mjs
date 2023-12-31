@@ -35,5 +35,8 @@ export function isTokenValid(accessToken) {
 }
 
 export function scrollToElement(elementId, options = { behavior: "smooth", block: "start", inline: "start" }) {
-    document.getElementById(elementId).scrollIntoView(options);
+    const elementById = document.getElementById(elementId)
+    if(elementById) {
+        elementById.scrollIntoView(options);
+    }
 }

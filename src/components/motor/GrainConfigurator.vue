@@ -9,16 +9,17 @@
                 :rules="requiredRules"
                 label="Grain configuration"
                 @update:model-value="grainTypeChange"
-            ></v-select>
-            <v-col class="grain-help-icon">
-                <v-tooltip location="bottom">
-                    <template v-slot:activator="{ props }">
-                        <v-btn size="small" variant="text" icon="mdi-help" v-bind="props" @click="$refs.helpDialog.show()" class="mt-3">
-                        </v-btn>
-                    </template>
-                    <span>How configuring grain?</span>
-                </v-tooltip>
-            </v-col>
+            >
+                <template v-slot:append>
+                    <v-tooltip location="bottom">
+                        <template v-slot:activator="{ props }">
+                            <v-btn size="small" variant="text" density="compact" color="gray" icon="mdi-help" v-bind="props" @click="$refs.helpDialog.show()">
+                            </v-btn>
+                        </template>
+                        <span>How configuring grain?</span>
+                    </v-tooltip>
+                </template>
+            </v-select>
         </v-row>
         <v-row class="pl-1 pr-1" d-flex wrap lg12>
             <v-col lg6 md6 v-if="modelValue.grainType === hollowCode">
@@ -178,9 +179,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .grain-help-icon {
-        max-width: 40px;
-    }
-</style>

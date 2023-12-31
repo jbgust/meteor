@@ -12,7 +12,7 @@
                             <v-col>
                                 <v-col>
                                     <v-row >
-                                        <v-col d-flex lg3 md3 sm3>
+                                        <v-col d-flex lg="3" md="3" sm="3">
                                             <v-select
                                                 v-model="propellant.unit"
                                                 :items="unitList"
@@ -24,12 +24,12 @@
                                                 label="Unit"
                                             ></v-select>
                                         </v-col>
-                                        <v-col d-flex lg9>
+                                        <v-col d-flex lg="9">
                                             <v-text-field variant="filled" id="propellantName" label="Propellant name"
                                                           v-model="propellant.name" :rules="nameRule"/>
                                         </v-col>
                                     </v-row>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-textarea
                                             variant="filled"
                                             id="propellantDescription"
@@ -37,7 +37,7 @@
                                             :rules="descriptionRule"
                                             v-model="propellant.description"/>
                                     </v-col>
-                                    <v-col d-flex wrap>
+                                    <v-row d-flex wrap>
                                         <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio"
                                                       v-model="propellant.k" :rules="numericGreater0Rules" step="0.01"/>
                                         <v-text-field class="custom-prop-element" id="density"
@@ -48,10 +48,10 @@
                                                       hint="Try 45 if you don't know this value" suffix="kg/kmol"
                                                       v-model="propellant.molarMass" :rules="numericGreater0Rules"
                                                       step="0.01"/>
-                                    </v-col>
+                                    </v-row>
                                 </v-col>
                                 <v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-switch
                                             hide-details
                                             id="complexBurnRate-switch"
@@ -59,7 +59,7 @@
                                             label="Use complexe burnrate coeff and pressure exponent">
                                         </v-switch>
                                     </v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-col d-flex wrap>
                                             <v-text-field id="burnRateCoefficient" v-if="!useComplexBurnRate"
                                                           :hint="hintBurnRate" persistent-hint
@@ -76,7 +76,7 @@
                                                                      ref="burnRateDataEditor"></complex-burn-rate-datas>
                                         </v-col>
                                     </v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-switch
                                             hide-details
                                             id="chamberTemperature-switch"
@@ -84,7 +84,7 @@
                                             label="Set chamber temperature">
                                         </v-switch>
                                     </v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-text-field class="custom-prop-element" id="cstar"
                                                       v-show="!useChamberTemperature" label="C*"
                                                       :suffix="units.speedUnit" v-model="propellant.cstar"
@@ -95,7 +95,7 @@
                                                       v-model="propellant.chamberTemperature"
                                                       :rules="numericGreater0Rules" step="0.01"/>
                                     </v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-switch
                                             hide-details
                                             id="k2ph-switch"
@@ -103,7 +103,7 @@
                                             label="Use specific heat ratio for two-phase flow">
                                         </v-switch>
                                     </v-col>
-                                    <v-col d-flex lg12>
+                                    <v-col d-flex lg="12">
                                         <v-text-field class="custom-prop-element" id="k2ph" v-show="useK2ph"
                                                       label="k2ph" hint="Specific heat ratio for two-phase flow"
                                                       v-model="propellant.k2ph" :rules="numericGreater0Rules"
