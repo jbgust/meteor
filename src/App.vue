@@ -22,9 +22,9 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
-            <div class="hidden-xs ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">
-                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.
-            </div>
+<!--            <div class="hidden-xs ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">-->
+<!--                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.-->
+<!--            </div>-->
             <v-spacer></v-spacer>
             <v-btn variant="text" :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
                 <v-icon start id="btnSignIn" size="25">mdi-login</v-icon>
@@ -46,76 +46,34 @@
             left
             temporary>
             <v-list nav density="compact">
-                <!--                TODO : vuetify 3-->
-<!--                <v-list-item-group-->
-                    v-model="group">
-                    <!--                TODO : vuetify 3-->
-<!--                    <v-list-item-group color="primary">-->
-                        <v-list-item :to="'/home'">
-                            <v-list-item>
-                                <v-icon>mdi-home</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Home</v-list-item-title>
+                        <v-list-item :to="'/home'" prepend-icon="mdi-home">
+                                Home
                         </v-list-item>
-                        <v-list-item :to="'/motorDesign'">
-                            <v-list-item>
-                                <v-icon>mdi-rocket-launch</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Meteor</v-list-item-title>
+                        <v-list-item :to="'/motorDesign'" prepend-icon="mdi-rocket-launch">
+                            Meteor
                         </v-list-item>
-                        <v-list-item href="http://meteor.boards.net/">
-                            <v-list-item>
-                                <v-icon>mdi-forum-outline</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Forum</v-list-item-title>
-
+                        <v-list-item href="https://meteor.boards.net/" prepend-icon="mdi-forum-outline">
+                            Forum
                         </v-list-item>
-                        <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR">
-                            <v-list-item>
-                                <v-icon>mdi-email-edit-outline</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Contact</v-list-item-title>
-
+                        <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR" prepend-icon="mdi-email-edit-outline">
+                            Contact
                         </v-list-item>
-                        <v-list-item :to="'/signin'" v-if="!isLogged">
-                            <v-list-item>
-                                <v-icon>mdi-login</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Sign in</v-list-item-title>
-
+                        <v-list-item :to="'/signin'" v-if="!isLogged" prepend-icon="mdi-login">
+                            Sign in
                         </v-list-item>
-                        <v-list-item :to="'/signup'" v-if="!isLogged">
-                            <v-list-item>
-                                <v-icon>mdi-account-plus</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <v-list-item-title>Sign up</v-list-item-title>
-
+                        <v-list-item :to="'/signup'" v-if="!isLogged" prepend-icon="mdi-account-plus">
+                            Sign up
                         </v-list-item>
-                        <v-list-item v-if="isLogged" @click="signOut">
-                            <v-list-item>
-                                <v-icon>mdi-logout</v-icon>
-                            </v-list-item>
-                            <!--                TODO : vuetify 3-->
-                            <v-list-item-title>Sign out</v-list-item-title>
+                        <v-list-item v-if="isLogged" @click="signOut" prepend-icon="mdi-logout">
+                            Sign out
                         </v-list-item>
                         <v-list-item>
-                            <!--                TODO : vuetify 3-->
-                                <donate></donate>
+                            <donate />
                         </v-list-item>
-<!--                    </v-list-item-group>-->
-<!--                </v-list-item-group>-->
             </v-list>
         </v-navigation-drawer>
         <v-main>
-            <!--                TODO : vuetify 3-->
-<!--            <v-fade-transition mode="out-in">-->
-                <router-view></router-view>
+            <router-view></router-view>
         </v-main>
         <v-footer app inset height="20px" class="hidden-sm-and-down bg-grey-lighten-2">
             <span class="footer-app">Made with love in Lyon, France by <a href="https://github.com/jbgust" target="_blank">Jérôme Bise</a> and <a href="https://github.com/jordan38" target="_blank">Jordan Content</a>.</span>

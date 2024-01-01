@@ -2,11 +2,10 @@
     <v-dialog v-model="sheet" width="500" persistent>
         <template v-slot:activator="{ props }">
             <v-btn
+                color="white"
                 id="btnDonate"
                 v-show="!checkMode"
-                theme="dark"
                 v-bind="props"
-                icon="mdi-handshake"
                 variant="text"
                 style="background-color: #9c27b0"
                 width="140px"

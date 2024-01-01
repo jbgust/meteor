@@ -340,8 +340,7 @@ export default {
 
             this.displayImportError = false
             this.displayUnitInfo = false
-            // TODO : vuetify 3 => semble pas encore implémenté
-            // this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
+            this.$refs.thrustGraphicalResult.filePrefix = this.$refs.form.getMotorName()
             this.hasResult = true
             nextTick(() => {
                 // location.hash= '#performanceInfosToolbar'

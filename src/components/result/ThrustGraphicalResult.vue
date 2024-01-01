@@ -13,11 +13,11 @@ export default {
     name: 'thrust-graphical-result',
     data() {
         return {
-            chart: null,
             pressureSerie: null,
             massFluxSerie: null,
             grainMass: null,
-            chartLoader: null
+            chartLoader: null,
+            filePrefix: 'METEOR'
         }
     },
     props: {
@@ -80,6 +80,7 @@ export default {
             let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
             let chartLoader = this.createChartLoader(chart)
             this.buildChart(chart, chartLoader)
+            chart.exporting.filePrefix = this.filePrefix
             if (this.compareWithPrevious && !!this.previousComputation) {
                 chart.data = mergeCharetResults(this.currentComputation.motorParameters, this.previousComputation.motorParameters)
             } else {
@@ -175,11 +176,6 @@ export default {
             this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
             this.grainMass.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.grainMassUnit}`
         }
-    },
-    beforeUnmount() {
-        // if (this.chart) {
-        //     this.chart.dispose()
-        // }
     }
 }
 </script>
