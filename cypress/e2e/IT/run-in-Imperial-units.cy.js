@@ -56,9 +56,9 @@ describe('Run computation in imperial units', function() {
         cy.get('#btnCloseNozzleDesign').click()
     })
 
-    it.skip('Should export to RASP in IMPERIAL', function() {
-        cy.server()
-        cy.route('POST', '/export/rasp').as('postExportRASPImperial')
+    it('Should export to RASP in IMPERIAL', function() {
+
+        cy.intercept('POST', '/export/rasp').as('postExportRASPImperial')
 
         cy.get('button#btnShowRASPExport').click()
 
@@ -77,16 +77,13 @@ describe('Run computation in imperial units', function() {
 
         cy.get('button#btnExportRASP').click()
 
-        cy.wait('@postExportRASPImperial')
-
-        // Assert on XHR
-        cy.get('@postExportRASPImperial').then(function(xhr) {
-            console.log(xhr)
-            expect(xhr.status).to.eq(200)
-            expect(xhr.method).to.eq('POST')
-            expect(xhr.responseBody.startsWith(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
+        cy.wait('@postExportRASPImperial').then(function(xhr) {
+            console.warn(xhr)
+            expect(xhr.response.statusCode).to.eq(200)
+            expect(xhr.request.method).to.eq('POST')
+            expect(xhr.response.body.startsWith(`L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
-    0.0253 917`)).to.be(true)
+    0.0253 889.141`)).to.eq(true)
         })
     })
 })

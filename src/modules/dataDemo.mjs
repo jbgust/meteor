@@ -1,4 +1,5 @@
 import { EXPOSED, HOLLOW, INHIBITED, KNDX } from './grainsConstants'
+import { IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils.mjs'
 
 export const defaultAdvanceConfig = {
     densityRatio: 0.95,
@@ -36,23 +37,23 @@ export const demoForm = {
 }
 
 export const demoFormRequest = {
-    throatDiameter: 17.39,
-    coreDiameter: 20,
-    numberOfSegment: 4,
-    outerSurface: INHIBITED,
-    endsSurface: EXPOSED,
-    coreSurface: EXPOSED,
-    outerDiameter: 69,
-    segmentLength: 115,
-    propellantId: KNDX,
-    chamberInnerDiameter: 75,
-    chamberLength: 470,
     extraConfig: defaultAdvanceConfig,
-    name: 'Demo',
     nozzleDesign: {
         divergenceAngle: 18,
         convergenceAngle: 38
-    }
+    },
+    propellantId: KNDX,
+    chamberLength: 470,
+    throatDiameter: 17.39,
+    chamberInnerDiameter: 75,
+    coreSurface: EXPOSED,
+    endsSurface: EXPOSED,
+    coreDiameter: 20,
+    outerSurface: INHIBITED,
+    outerDiameter: 69,
+    segmentLength: 115,
+    numberOfSegment: 4,
+    grainType: "HOLLOW"
 }
 
 export const demoResultData = {
