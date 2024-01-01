@@ -593,7 +593,7 @@ Cypress.Commands.add('checkPerformanceResults', (expectedResults, units) => {
 
 Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
-    cy.get('div.v-toolbar__content').contains('Custom propellant')
+    cy.get('.v-dialog--fullscreen > .v-overlay__content > .v-card > .v-card-title').contains('Custom propellant')
 
     cy.get('.v-select--single')
         .eq(3)

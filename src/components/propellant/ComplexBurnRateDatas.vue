@@ -45,11 +45,13 @@
                 <v-icon
                     size="small"
                     class="mr-2"
+                    color="green"
                     @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
                 <v-icon
                     size="small"
+                    color="red"
                     @click="deleteItem(item)">
                     mdi-delete
                 </v-icon>

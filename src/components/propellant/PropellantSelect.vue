@@ -43,7 +43,7 @@
                                 <template v-slot:item.actions="{ item }">
                                     <v-tooltip location="bottom">
                                         <template v-slot:activator="{ props }">
-                                            <v-btn icon="mdi-pencil" v-bind="props" @click="editPropellant(item)" variant="text">
+                                            <v-btn icon="mdi-pencil" v-bind="props" @click="editPropellant(item)" variant="text" color="green">
                                             </v-btn>
                                         </template>
                                         <span>Edit</span>
