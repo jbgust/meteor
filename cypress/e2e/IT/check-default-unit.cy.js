@@ -4,7 +4,8 @@ describe('Check default unit in SI', function() {
         cy.visit('/motorDesign')
 
         cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').click().parent().contains('mm')
+        cy.get('#throatDiameter').click()
+        cy.get('#throatDiameter').parent().contains('mm')
 
         // check message about default unit
         cy.contains('By default you are on metric units. You can change it above.')

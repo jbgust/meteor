@@ -46,10 +46,12 @@ describe('Run computation in SI units', function() {
 
         cy.get('input#convergenceAngle')
             .clear()
+        cy.get('input#convergenceAngle')
             .type(38)
 
         cy.get('input#divergenceAngle')
             .clear()
+        cy.get('input#divergenceAngle')
             .type(18)
 
         cy.get('span').contains('Convergence length:').parent().contains('30.49 mm')

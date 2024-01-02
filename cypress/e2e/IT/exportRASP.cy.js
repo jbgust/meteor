@@ -7,16 +7,27 @@ describe.skip('RASP export', function() {
 
         cy.get('button#btnShowRASPExport').click()
 
-        cy.get('input#motorDiameter').clear().type(80)
+        cy.get('input#motorDiameter').clear()
+        cy.get('input#motorDiameter').type(80)
+        cy.get('input#motorDiameter')
             .parent()
             .contains('mm')
-        cy.get('input#motorLength').clear().type(500)
+
+        cy.get('input#motorLength').clear()
+        cy.get('input#motorLength').type(500)
+        cy.get('input#motorLength')
             .parent()
             .contains('mm')
-        cy.get('input#motorWeight').clear().type(4.23)
+
+        cy.get('input#motorWeight').clear()
+        cy.get('input#motorWeight').type(4.23)
+        cy.get('input#motorWeight')
             .parent()
             .contains('Kg')
-        cy.get('input#delay').clear().type('0-1-P')
+
+        cy.get('input#delay').clear()
+        cy.get('input#delay').type('0-1-P')
+        cy.get('input#delay')
             .parent()
             .contains('s')
 

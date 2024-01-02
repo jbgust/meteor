@@ -13,9 +13,11 @@ describe('Authentication', function() {
 
         cy.get('#signinEmail')
             .clear()
+        cy.get('#signinEmail')
             .type(Cypress.env('user'))
         cy.get('#signinPassword')
             .clear()
+        cy.get('#signinPassword')
             .type(Cypress.env('password'))
 
         cy.get('form').contains('Sign in').click()
@@ -35,15 +37,18 @@ describe('Authentication', function() {
         const emailPrefix = 'cypress-' + generateId()
         cy.get('input#signupEmail')
             .clear()
+        cy.get('input#signupEmail')
             .type(`${emailPrefix}@meteor.fr`)
 
         let password = 'JYgf284!@ds'
         cy.get('input#signupPassword')
             .clear()
+        cy.get('input#signupPassword')
             .type(password)
 
         cy.get('input#signupPasswordConfirm')
             .clear()
+        cy.get('input#signupPasswordConfirm')
             .type(password)
 
         cy.get('form').contains('Create account').click()
@@ -65,9 +70,11 @@ describe('Authentication', function() {
 
         cy.get('#signinEmail')
             .clear()
+        cy.get('#signinEmail')
             .type('token-test@meteor.fr')
         cy.get('#signinPassword')
             .clear()
+        cy.get('#signinPassword')
             .type(Cypress.env('passwordUserTestToken'))
 
         cy.get('form').contains('Sign in').click()
@@ -84,7 +91,9 @@ describe('Authentication', function() {
         cy.contains('Forgot password?')
             .click()
 
-        cy.get('#emailResetPassword').clear().type('token-test@meteor.fr')
+        cy.get('#emailResetPassword').clear()
+        cy.get('#emailResetPassword').type('token-test@meteor.fr')
+
         cy.get('.v-form').contains('Reset').click()
 
         cy.contains('A reset link has been sent to your address. Also please check the Spam folder in your mailbox.')
@@ -98,8 +107,11 @@ describe('Authentication', function() {
 
         const newPassword = generateId(100000000) + 'JHgt!hfNBv$' + generateId(100000000)
 
-        cy.get('#newPassword').clear().type(newPassword)
-        cy.get('#newPasswordConfirm').clear().type(newPassword)
+        cy.get('#newPassword').clear()
+        cy.get('#newPassword').type(newPassword)
+
+        cy.get('#newPasswordConfirm').clear()
+        cy.get('#newPasswordConfirm').type(newPassword)
 
         cy.get('.v-form').contains('Change password').click()
 
@@ -109,9 +121,11 @@ describe('Authentication', function() {
 
         cy.get('#signinEmail')
             .clear()
+        cy.get('#signinEmail')
             .type('token-test@meteor.fr')
         cy.get('#signinPassword')
             .clear()
+        cy.get('#signinPassword')
             .type(newPassword)
 
         cy.get('form').contains('Sign in').click()

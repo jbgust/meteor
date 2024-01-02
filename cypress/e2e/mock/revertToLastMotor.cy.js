@@ -1,3 +1,6 @@
+// TODO remove when delete .skip
+/* eslint-disable */
+
 function buildComputationResult(motorDescription) {
     return {
         performanceResult: {
@@ -115,6 +118,7 @@ describe.skip('Should revert to last motor config', () => {
     it('Change values manually ', () => {
         // SET new config
         cy.contains('IMPERIAL').click()
+
         cy.get('input#name')
             .clear()
             .type('test 2')
@@ -149,3 +153,4 @@ describe.skip('Should revert to last motor config', () => {
         // cy.get('input#densityRatio').should('have.value', 0.96)
     })
 })
+/* eslint-enable */

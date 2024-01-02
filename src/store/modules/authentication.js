@@ -30,7 +30,7 @@ const actions = {
             Axios.defaults.headers.common['Authorization'] = `Bearer ${accesstoken}`
         }
     },
-    saveToken({ commit, state }, tokenInJSON) {
+    saveToken({ commit }, tokenInJSON) {
         commit('setToken', tokenInJSON.accessToken)
         localStorage.setItem(TOKEN_STORAGE_KEY, '' + tokenInJSON.accessToken)
         Axios.defaults.headers.common['Authorization'] = `Bearer ${tokenInJSON.accessToken}`

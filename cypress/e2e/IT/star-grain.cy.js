@@ -34,6 +34,7 @@ describe.skip('Run Star in SI units', function() {
         cy.fillStarForm(formDatas, 'METRIC')
 
         // Le calcul peut mettre plus de temps que le timeout sur la CI.
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(5000)
     })
 

@@ -35,6 +35,7 @@ describe('Run C slot in SI units', function() {
         cy.fillCSlotForm(formDatas, 'METRIC')
 
         // Le calcul peut mettre plus de temps que le timeout sur la CI.
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(5000)
     })
 

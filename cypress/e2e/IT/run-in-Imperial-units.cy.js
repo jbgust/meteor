@@ -42,11 +42,13 @@ describe('Run computation in imperial units', function() {
 
         cy.get('input#convergenceAngle')
             .clear()
-            .type(60)
+        cy.get('input#convergenceAngle')
+            .type('60')
 
         cy.get('input#divergenceAngle')
             .clear()
-            .type(24)
+        cy.get('input#divergenceAngle')
+            .type('24')
 
         cy.get('span').contains('Convergence length:').parent().contains('1.9642 inch')
         cy.get('span').contains('Divergence length:').parent().contains('2.9299 inch')
@@ -59,16 +61,27 @@ describe('Run computation in imperial units', function() {
 
         cy.get('button#btnShowRASPExport').click()
 
-        cy.get('input#motorDiameter').clear().type(3.14961)
+        cy.get('input#motorDiameter').clear()
+        cy.get('input#motorDiameter').type(3.14961)
+        cy.get('input#motorDiameter')
             .parent()
             .contains('inch')
-        cy.get('input#motorLength').clear().type(19.685)
+
+        cy.get('input#motorLength').clear()
+        cy.get('input#motorDiameter').type(19.685)
+        cy.get('input#motorDiameter')
             .parent()
             .contains('inch')
-        cy.get('input#motorWeight').clear().type(9.325554)
+
+        cy.get('input#motorWeight').clear()
+        cy.get('input#motorDiameter').type(9.325554)
+        cy.get('input#motorDiameter')
             .parent()
             .contains('lb')
-        cy.get('input#delay').clear().type('0-1-P')
+
+        cy.get('input#delay').clear()
+        cy.get('input#motorDiameter').type('0-1-P')
+        cy.get('input#motorDiameter')
             .parent()
             .contains('s')
 

@@ -5,7 +5,11 @@ module.exports = {
     },
     extends: [
         'plugin:vue/vue3-essential',
-        'eslint:recommended'
+        'eslint:recommended',
+        'plugin:cypress/recommended'
+    ],
+    plugins: [
+        'cypress'
     ],
     rules: {
         indent: [
@@ -19,6 +23,12 @@ module.exports = {
                 "named": "never",
                 "asyncArrow": "always"
             }
-        ]
+        ],
+        "cypress/no-assigning-return-values": "error",
+        "cypress/no-unnecessary-waiting": "error",
+        "cypress/assertion-before-screenshot": "warn",
+        "cypress/no-force": "warn",
+        "cypress/no-async-tests": "error",
+        "cypress/no-pause": "error"
     }
 }

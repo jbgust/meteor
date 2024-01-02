@@ -11,11 +11,13 @@ describe('Run computation with advanced settings', function() {
         cy.get('#btnAdvancedSettings').click()
 
         cy.get('label').contains('Optimal nozzle design').click()
-        cy.get('input#nozzleExpansionRatio').type(1)
+        cy.get('input#nozzleExpansionRatio').type('1')
 
         cy.get('input#ambiantPressureInMPa')
             .clear()
-            .type(0.0845)
+        cy.get('input#ambiantPressureInMPa')
+            .type('0.0845')
+        cy.get('input#ambiantPressureInMPa')
             .parent()
             .contains('MPa')
             .parent()

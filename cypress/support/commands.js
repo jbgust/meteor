@@ -56,7 +56,8 @@ function applyCommonCheck(formValues, units) {
         formValues.name = `Motor-${Number(Math.random() * 1000).toFixed(0)}`
     }
     cy.contains(units).click()
-    cy.get('#throatDiameter').click().parent().contains(getLengthUnit(units))
+    cy.get('#throatDiameter').click()
+    cy.get('#throatDiameter').parent().contains(getLengthUnit(units))
 
     cy.get('input#name').should('have.value', '')
 
@@ -79,7 +80,9 @@ Cypress.Commands.add('runSavedMotor', (motorName) => {
 })
 
 Cypress.Commands.add('saveAndRunCheck', (motorName, expectedResults) => {
-    cy.get('input#name').clear().type(motorName)
+    cy.get('input#name').clear()
+    cy.get('input#name').type(motorName)
+
     cy.saveMotor()
     cy.contains('Reset').click()
     cy.runSavedMotor(motorName)
@@ -110,21 +113,25 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#coreDiameter')
         .type(formValues.coreDiameter)
+    cy.get('input#coreDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#outerDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#outerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#segmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#segmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -133,11 +140,13 @@ Cypress.Commands.add('fillForm', (formValues, units, submit = true) => {
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -167,21 +176,25 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#finocylSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#finocylSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -190,21 +203,25 @@ Cypress.Commands.add('fillFinocylForm', (formValues, units, submit = true) => {
 
     cy.get('input#finocylOuterDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#finocylOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#finocylInnerDiameter')
         .type(formValues.innerDiameter)
+    cy.get('input#finocylInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#finocylFinWidth')
         .type(formValues.finWidth)
+    cy.get('input#finocylFinWidth')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#finocylFinDiameter')
         .type(formValues.finDiameter)
+    cy.get('input#finocylFinDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -237,21 +254,25 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#starSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#starSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -260,16 +281,19 @@ Cypress.Commands.add('fillStarForm', (formValues, units, submit = true) => {
 
     cy.get('input#starOuterDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#starOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#starInnerDiameter')
         .type(formValues.innerDiameter)
+    cy.get('input#starInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#starPointDiameter')
         .type(formValues.pointDiameter)
+    cy.get('input#starPointDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -302,21 +326,25 @@ Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) =>
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#moonBurnerSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#moonBurnerSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -325,16 +353,19 @@ Cypress.Commands.add('fillMoonBurnerForm', (formValues, units, submit = true) =>
 
     cy.get('input#moonBurnerOuterDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#moonBurnerOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#moonBurnerCoreDiameter')
         .type(formValues.coreDiameter)
+    cy.get('input#moonBurnerCoreDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#moonBurnerCoreOffset')
         .type(formValues.coreOffset)
+    cy.get('input#moonBurnerCoreOffset')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -364,21 +395,25 @@ Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#cSlotSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#cSlotSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -387,26 +422,31 @@ Cypress.Commands.add('fillCSlotForm', (formValues, units, submit = true) => {
 
     cy.get('input#cSlotOuterDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#cSlotOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#cSlotCoreDiameter')
         .type(formValues.coreDiameter)
+    cy.get('input#cSlotCoreDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#cSlotSlotWidth')
         .type(formValues.slotWidth)
+    cy.get('input#cSlotSlotWidth')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#cSlotSlotDepth')
         .type(formValues.slotDepth)
+    cy.get('input#cSlotSlotDepth')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#cSlotSlotOffset')
         .type(formValues.slotOffset)
+    cy.get('input#cSlotSlotOffset')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -436,21 +476,25 @@ Cypress.Commands.add('fillRodTubeForm', (formValues, units, submit = true) => {
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#rodTubeSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#rodTubeSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -459,16 +503,19 @@ Cypress.Commands.add('fillRodTubeForm', (formValues, units, submit = true) => {
 
     cy.get('input#rodTubeRodDiameter')
         .type(formValues.rodDiameter)
+    cy.get('input#rodTubeRodDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#rodTubeTubeOuterDiameter')
         .type(formValues.tubeOuterDiameter)
+    cy.get('input#rodTubeTubeOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#rodTubeTubeInnerDiameter')
         .type(formValues.tubeInnerDiameter)
+    cy.get('input#rodTubeTubeInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -487,8 +534,11 @@ Cypress.Commands.add('setMotorSimAdvancedConfig', () => {
     cy.get('label').contains('Optimal nozzle design').click()
     cy.get('input#nozzleExpansionRatio').type(8)
 
-    cy.get('input#densityRatio').clear().type(0.96)
-    cy.get('input#combustionEfficiencyRatio').clear().type(0.97)
+    cy.get('input#densityRatio').clear()
+    cy.get('input#densityRatio').type(0.96)
+
+    cy.get('input#combustionEfficiencyRatio').clear()
+    cy.get('input#combustionEfficiencyRatio').type(0.97)
 
     cy.contains('Advanced settings').parent().contains('Save').click()
 })
@@ -508,36 +558,43 @@ Cypress.Commands.add('fillEndBurnerForm', (formValues, units, submit = true) => 
 
     cy.get('input#throatDiameter')
         .type(formValues.throatDiameter)
+    cy.get('input#throatDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberInnerDiameter')
         .type(formValues.chamberInnerDiameter)
+    cy.get('input#chamberInnerDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#chamberLength')
         .type(formValues.chamberLength)
+    cy.get('input#chamberLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#endBurnerSegmentLength')
         .type(formValues.segmentLength)
+    cy.get('input#endBurnerSegmentLength')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#endBurnerOuterDiameter')
         .type(formValues.outerDiameter)
+    cy.get('input#endBurnerOuterDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#endBurnerHoleDiameter')
         .type(formValues.holeDiameter)
+    cy.get('input#endBurnerHoleDiameter')
         .parent()
         .contains(getLengthUnit(units))
 
     cy.get('input#endBurnerHoleDepth')
         .type(formValues.holeDepth)
+    cy.get('input#endBurnerHoleDepth')
         .parent()
         .contains(getLengthUnit(units))
 
@@ -607,6 +664,7 @@ Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
     if (propellant.cstar) {
         cy.get('input#cstar')
             .type(propellant.cstar)
+        cy.get('input#cstar')
             .parent()
             .contains(getCstarUnit(unit))
     } else {
@@ -630,11 +688,13 @@ Cypress.Commands.add("addPropellant", (propellant, unit, closeForm = true) => {
 
     cy.get('input#density')
         .type(propellant.density)
+    cy.get('input#density')
         .parent()
         .contains(getDensityUnit(unit))
 
     cy.get('input#molarMass')
         .type(propellant.molarMass)
+    cy.get('input#molarMass')
         .parent()
         .contains('kg/kmol')
 
@@ -670,21 +730,22 @@ Cypress.Commands.add('addComplexeBurnRate', (burnRateDataSet, unit) => {
 
         cy.get('input#startPressureInput')
             .type(item.fromPressureIncluded)
-            .parent()
+        cy.get('input#startPressureInput').parent()
             .contains(getPressureUnit(unit))
 
         cy.get('input#endPressureInput')
             .type(item.toPressureExcluded)
+        cy.get('input#endPressureInput')
             .parent()
             .contains(getPressureUnit(unit))
 
         cy.get('input#burnRateCoeffInput')
             .type(item.burnRateCoefficient)
+        cy.get('input#burnRateCoeffInput')
             .parent()
 
-        cy.get('input#pressureExponentInput')
-            .type(item.pressureExponent)
-            .parent()
+        cy.get('input#pressureExponentInput').type(item.pressureExponent)
+        cy.get('input#pressureExponentInput').parent()
 
         cy.get('#saveBurnRateDataBtn')
             .click()

@@ -97,7 +97,8 @@ describe('Crud propellant', () => {
             .contains('Imperial').click()
 
         // check propellant form are in imperial
-        cy.get('#density').click().parent().contains('lb/cubic inch')
+        cy.get('#density').click()
+        cy.get('#density').parent().contains('lb/cubic inch')
 
         // check burn rate form are in imperial
         cy.get('input#complexBurnRate-switch')

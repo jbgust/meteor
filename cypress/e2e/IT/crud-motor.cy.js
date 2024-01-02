@@ -26,7 +26,7 @@ describe('Crud motor', () => {
         cy.contains('Reset').click()
     })
     it('Should run saved motor', () => {
-       cy.saveAndRunCheck(motorName, {
+        cy.saveAndRunCheck(motorName, {
             motorClasss: 'F80',
             thrustTime: '0.91',
             maxThrust: '108.77',
