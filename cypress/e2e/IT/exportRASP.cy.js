@@ -1,4 +1,4 @@
-describe.skip('RASP export', function() {
+describe('RASP export', function() {
     it('Should export to RASP in METRIC', function() {
         cy.visit('/')
         cy.contains('View demo').click()

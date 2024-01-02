@@ -57,7 +57,7 @@ describe('Run computation in imperial units', function() {
         cy.get('#btnCloseNozzleDesign').click()
     })
 
-    it.skip('Should export to RASP in IMPERIAL', function() {
+    it('Should export to RASP in IMPERIAL', function() {
 
         cy.get('button#btnShowRASPExport').click()
 
@@ -68,20 +68,20 @@ describe('Run computation in imperial units', function() {
             .contains('inch')
 
         cy.get('input#motorLength').clear()
-        cy.get('input#motorDiameter').type(19.685)
-        cy.get('input#motorDiameter')
+        cy.get('input#motorLength').type(19.685)
+        cy.get('input#motorLength')
             .parent()
             .contains('inch')
 
         cy.get('input#motorWeight').clear()
-        cy.get('input#motorDiameter').type(9.325554)
-        cy.get('input#motorDiameter')
+        cy.get('input#motorWeight').type(9.325554)
+        cy.get('input#motorWeight')
             .parent()
             .contains('lb')
 
         cy.get('input#delay').clear()
-        cy.get('input#motorDiameter').type('0-1-P')
-        cy.get('input#motorDiameter')
+        cy.get('input#delay').type('0-1-P')
+        cy.get('input#delay')
             .parent()
             .contains('s')
 
