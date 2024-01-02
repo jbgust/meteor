@@ -4,8 +4,6 @@ describe('RASP export', function() {
         cy.contains('View demo').click()
 
         cy.url().should('include', '/demo')
-        // This is the post call we are interested in capturing
-        cy.intercept('POST', '/export/rasp').as('postExportRASP')
 
         cy.get('button#btnShowRASPExport').click()
 
@@ -24,10 +22,8 @@ describe('RASP export', function() {
 
         cy.get('button#btnExportRASP').click()
 
-        cy.wait('@postExportRASP').then((xhr) => {
-            expect(xhr.response.statusCode).to.eq(200)
-            expect(xhr.request.method).to.eq('POST')
-            expect(xhr.response.body).to.eq(`L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
+        cy.readFile('cypress/downloads/meteor-RASP.eng')
+            .should('eq', `L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
     0.0253 889.1291
     0.0394 1011.0918
@@ -249,6 +245,5 @@ describe('RASP export', function() {
     2.1418 70.3497
     2.148 49.3132
     2.1541 33.4867`)
-        })
     })
 })

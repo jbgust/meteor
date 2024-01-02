@@ -54,6 +54,8 @@ jobs:
           path: ~/meteor/cypress/videos
       - store_artifacts:
           path: ~/meteor/cypress/screenshots
+      - store_artifacts:
+          path: ~/meteor/cypress/downloads
       - run:
           name: Stop CI
           command: ssh open-sky.fr "~/env-ci.sh stop"

@@ -1,3 +1,16 @@
+const formDatas = {
+    throatDiameter: 0.68464,
+    outerDiameter: 2.7165354,
+    coreDiameter: 0.787401,
+    segmentLength: 4.527559,
+    numberOfSegment: 4,
+    endsSurface: 'Exposed',
+    coreSurface: 'Exposed',
+    outerSurface: 'Inhibited',
+    propellantId: 'KNDX',
+    chamberInnerDiameter: 2.95275,
+    chamberLength: 18.503937
+}
 describe('Run computation in imperial units', function() {
     it('Should open meteor', function() {
         cy.visit('/motorDesign')
@@ -5,20 +18,6 @@ describe('Run computation in imperial units', function() {
     })
 
     it('Should submit form', function() {
-        const formDatas = {
-            throatDiameter: 0.68464,
-            outerDiameter: 2.7165354,
-            coreDiameter: 0.787401,
-            segmentLength: 4.527559,
-            numberOfSegment: 4,
-            endsSurface: 'Exposed',
-            coreSurface: 'Exposed',
-            outerSurface: 'Inhibited',
-            propellantId: 'KNDX',
-            chamberInnerDiameter: 2.95275,
-            chamberLength: 18.503937
-        }
-
         cy.fillForm(formDatas, 'IMPERIAL')
     })
 
@@ -58,8 +57,6 @@ describe('Run computation in imperial units', function() {
 
     it('Should export to RASP in IMPERIAL', function() {
 
-        cy.intercept('POST', '/export/rasp').as('postExportRASPImperial')
-
         cy.get('button#btnShowRASPExport').click()
 
         cy.get('input#motorDiameter').clear().type(3.14961)
@@ -77,13 +74,9 @@ describe('Run computation in imperial units', function() {
 
         cy.get('button#btnExportRASP').click()
 
-        cy.wait('@postExportRASPImperial').then(function(xhr) {
-            console.warn(xhr)
-            expect(xhr.response.statusCode).to.eq(200)
-            expect(xhr.request.method).to.eq('POST')
-            expect(xhr.response.body.startsWith(`L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
+        cy.readFile(`cypress/downloads/meteor-RASP_${formDatas.name}.eng`)
+            .should('contain',`L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
-    0.0253 889.141`)).to.eq(true)
-        })
+    0.0253 889.141`)
     })
 })

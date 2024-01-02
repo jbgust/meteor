@@ -1,4 +1,4 @@
- const propellantName = 'CrudPropellant'
+const propellantName = 'CrudPropellant'
 const propellant = {
     name: propellantName,
     burnRateCoefficient: 8.26,
