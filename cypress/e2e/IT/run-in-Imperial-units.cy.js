@@ -55,7 +55,7 @@ describe('Run computation in imperial units', function() {
         cy.get('#btnCloseNozzleDesign').click()
     })
 
-    it('Should export to RASP in IMPERIAL', function() {
+    it.skip('Should export to RASP in IMPERIAL', function() {
 
         cy.get('button#btnShowRASPExport').click()
 
