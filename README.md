@@ -14,12 +14,12 @@ npm run serve
 
 ### Compiles and minifies for production
 ```
-npm run build
+npm run dev
 ```
 
 ### Run your tests
 ```
-npm run test
+npx vitest run
 ```
 
 ### Lints and fixes files
