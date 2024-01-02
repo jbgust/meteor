@@ -14,7 +14,7 @@ const expectedResults = {
 describe('Run moon burner in SI units', function() {
 
     it('Should submit form', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         cy.setMotorSimAdvancedConfig()
 

@@ -1,113 +1,109 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-container fluid grid-list-md fill-height>
-        <v-layout row wrap fill-heigth>
-            <v-flex xl3 lg4 md5>
+    <v-layout full-height class="bg-grey-lighten-3">
+    <v-container fluid>
+        <v-row row class="fill-height">
+            <v-col xl="3" lg="3" md="5">
                 <v-card>
                     <v-card-actions v-if="!demo">
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnNewMotor" icon v-on="on" @click="resetAll">
-                                    <v-icon>mdi-file-plus</v-icon>
+                        <v-row no-gutters align="center">
+                        <v-tooltip location="top">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnNewMotor" icon="mdi-file-plus" v-bind="props" @click="resetAll" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>New motor</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnDuplicateMotor" icon v-on="on" @click="duplicateMotor" text>
-                                    <v-icon>mdi-content-duplicate</v-icon>
+                        <v-tooltip location="top">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnDuplicateMotor" icon="mdi-content-duplicate" v-bind="props" @click="duplicateMotor" variant="text" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Duplicate current motor</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnSaveMotor" icon v-on="on" @click="saveMotor" text :loading="saveLoading">
-                                    <v-icon>mdi-content-save</v-icon>
+                        <v-tooltip location="top">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnSaveMotor" icon="mdi-content-save" v-bind="props" @click="saveMotor" variant="text" :loading="saveLoading" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Save</span>
                         </v-tooltip>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn id="btnOpenMotor" icon v-on="on" @click="$refs.motorSelect.show()">
-                                    <v-icon left size="25">mdi-folder-open</v-icon>
+                        <v-tooltip location="top">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnOpenMotor" icon="mdi-folder-open" v-bind="props" @click="$refs.motorSelect.show()" density="compact" color="purple">
                                 </v-btn>
                             </template>
                             <span>Open motor</span>
                         </v-tooltip>
-                        <v-divider
-                            class="mx-2"
-                            vertical
-                        ></v-divider>
                         <v-btn-toggle
                             v-model="unitSelected"
+                            density="compact"
+                            divided
+                            variant="outlined"
+                            class="ml-5"
+                            color="light-blue-darken-4"
                             mandatory>
-                            <div>
-                                <span class="hidden-md-and-down mr-3">Units:</span>
-                                <v-btn :value="siUnits" text small>
-                                    METRIC
-                                </v-btn>
-                                <v-btn :value="imperialUnits" text small>
-                                    IMPERIAL
-                                </v-btn>
-                            </div>
+                            <v-btn :value="siUnits"  density="compact" size="small">
+                                METRIC
+                            </v-btn>
+                            <v-btn :value="imperialUnits" density="compact" size="small">
+                                IMPERIAL
+                            </v-btn>
                         </v-btn-toggle>
 
                         <v-spacer></v-spacer>
 
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on }">
-                                <v-btn icon v-on="on" @click="$refs.helpDialog.show()">
-                                    <v-icon id="btnHelp">mdi-book-open-variant</v-icon>
+                        <v-tooltip location="bottom">
+                            <template v-slot:activator="{ props }">
+                                <v-btn id="btnHelp" icon="mdi-book-open-variant" v-bind="props" @click="$refs.helpDialog.show()" density="compact">
                                 </v-btn>
                             </template>
                             <span>Documentation</span>
                         </v-tooltip>
-
+                        </v-row>
                     </v-card-actions>
 
                     <v-alert
-                        :value="displayImportError"
+                        :model-value="displayImportError"
                         class="mt-5 ml-2 mr-2"
-                        colored-border
-                        dismissible
-                        border="left"
-                        elevation="2"
+                        border-color="top"
+                        closable
+                        border="start"
+                        variant="outlined"
+                        density="compact"
                         type="warning"
                         icon="mdi-alert-box-outline">
                         {{errorMessage}}
                     </v-alert>
                     <v-alert
-                        :value="displaySuccess"
+                        :model-value="displaySuccess"
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        dense
+                        variant="outlined"
+                        density="compact"
                         type="success"
-                        colored-border
-                        border="left"
+                        border-color="top"
+                        border="start"
                         icon="mdi-alert-box-outline">
                         {{ successMessage }}
                     </v-alert>
 
                     <v-alert
-                        :value="displayDefaultUnitInfo"
+                        :model-value="displayDefaultUnitInfo"
                         color="info"
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        colored-border
-                        border="left"
-                        dismissible
+                        variant="outlined"
+                        border-color="top"
+                        border="start"
+                        closable
                         icon="mdi-alert-box-outline">
                         By default you are on metric units. You can change it above.
                     </v-alert>
 
                     <v-alert
                         class="mt-5 ml-2 mr-2"
-                        outlined
-                        colored-border
-                        border="left"
-                        :value="displayUnitInfo"
+                        variant="outlined"
+                        border-color="top"
+                        border="start"
+                        :model-value="displayUnitInfo"
                         type="info"
                     >
                         Changing unit <b>doesn't convert values</b> in the form. Please check your values even in <b>advanced settings</b> and your <b>custom propellant</b>.
@@ -119,28 +115,28 @@
                     <solid-rocket-motor ref="form" :units="units" @computation-success="loadResult" @reset="formReset" @showDocumentation="$refs.helpDialog.show()"/>
 
                 </v-card>
-            </v-flex>
-            <v-flex d-flex xl9 lg8 md7>
-                <v-layout column wrap v-show="asResult">
-                    <v-flex d-block shrink>
-                        <v-card>
-                            <v-app-bar flat height="40px" id="performanceInfosToolbar">
-                                <v-toolbar-title>Motor performance</v-toolbar-title>
-                                <v-spacer></v-spacer>
-                                <v-btn color="info" small class="ml-4 tooglePerf">
+            </v-col>
+            <v-col xl="9" lg="9" md="7" v-show="hasResult">
+                    <v-card>
+                        <v-card-actions>
+                            <v-app-bar flat density="compact" id="performanceInfosToolbar">
+                                <v-btn color="info" class="ml-4 tooglePerf" variant="tonal" density="compact">
                                     <v-icon @click="showPerformanceInfo = !showPerformanceInfo">
                                         {{showPerformanceInfo? 'mdi-chevron-up' : 'mdi-chevron-down'}}
                                     </v-icon>
                                 </v-btn>
+                                <v-toolbar-title>Motor performance</v-toolbar-title>
                             </v-app-bar>
-                            <v-card-text v-show="showPerformanceInfo" class="pb-0">
-                                <performance-info :units="units" ref="performanceResult"/>
-                                <v-alert dense type="info" v-model="showDonatorInfo" dismissible outlined>{{donationMessageAlert}}</v-alert>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn v-on="on" id="btnMotorRevert" color="info" small class="ml-4 tooglePerf" :disabled="disabledPrevious" @click="restoreLastMotor">
+                        </v-card-actions>
+                        <v-card-text v-show="showPerformanceInfo" >
+                            <performance-info :units="units" ref="performanceResult"/>
+                            <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined" class="mb-5" >{{donationMessageAlert}}</v-alert>
+                            <!-- Actions -->
+                            <v-row class="ml-2 mr-2">
+                                <v-tooltip location="bottom">
+                                    <template v-slot:activator="{ props }">
+                                        <v-btn v-bind="props" id="btnMotorRevert" variant="tonal" color="info" class="mr-5"  density="compact"
+                                               :disabled="disabledPrevious" @click="restoreLastMotor">
                                             <v-icon>
                                                 mdi-undo-variant
                                             </v-icon>
@@ -148,35 +144,34 @@
                                     </template>
                                     <span>Restore last motor configuration</span>
                                 </v-tooltip>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
+                                <v-tooltip location="bottom">
+                                    <template v-slot:activator="{ props }">
                                         <v-switch
-                                            v-on="on"
-                                            style="margin-left: 20px;"
-                                            label="Compare"
-                                            dense
-                                            inset
+                                            v-bind="props"
+                                            label="Compare motors"
+                                            density="compact"
+                                            color="primary"
+                                            hide-details
+                                            style="margin-top: -7px"
                                             v-model="showComparison"
                                         ></v-switch>
                                     </template>
                                     <span>Compare with previous motor</span>
                                 </v-tooltip>
-                                <v-tooltip bottom max-width="300px"  v-if="showUseRefBtn">
-                                    <template v-slot:activator="{ on }">
+                                <v-tooltip location="bottom"  v-if="showUseRefBtn">
+                                    <template v-slot:activator="{ props }">
                                         <v-btn
-                                            v-on="on"
-                                            style="margin-left: 20px;"
-                                            small
-                                            :color="useAsRef ? 'orange':''"
-                                            dense
-                                            inset
+                                            v-bind="props"
+                                            :color="useAsRef ? 'orange':'primary'"
+                                            density="compact"
                                             @mouseup="toggleUseAsRef()"
+                                            variant="tonal"
                                             value="useAsRef"
                                         >
-                                            <v-icon left v-if="useAsRef">
+                                            <v-icon start v-if="useAsRef">
                                                 mdi-delete
                                             </v-icon>
-                                            <v-icon left v-else>
+                                            <v-icon start v-else>
                                                 mdi-tag
                                             </v-icon>
                                             {{useAsRef ?  'Remove reference' : 'Use as reference'}}</v-btn>
@@ -186,22 +181,23 @@
                                 <v-spacer></v-spacer>
                                 <export-rasp ref="rasp" :units="units"></export-rasp>
                                 <nozzle-design v-model="nozzleDesignValue" class="ml-4" ref="nozzleDesign" :units="units"></nozzle-design>
-                            </v-card-actions>
-                        </v-card>
-                    </v-flex>
-                    <v-flex d-flex>
-                        <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
-                    </v-flex>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+
+                <v-layout class="mt-5">
+                    <thrust-graphical-result :units="units" ref="thrustGraphicalResult"/>
                 </v-layout>
-            </v-flex>
-        </v-layout>
+                </v-col>
+        </v-row>
         <help-dialog ref="helpDialog"></help-dialog>
         <motor-select @loadMotor="loadMotor" ref="motorSelect"/>
     </v-container>
+    </v-layout>
 </template>
 
 <script>
-import Vue from 'vue'
+import { nextTick } from 'vue'
 import SolidRocketMotor from './SolidRocketMotor'
 import ThrustGraphicalResult from './result/ThrustGraphicalResult'
 import HelpDialog from './motor/HelpDialog'
@@ -222,7 +218,7 @@ import {
 import ExportRasp from './result/ExportRASPForm'
 import MotorSelect from '@/components/motor/MotorSelect'
 import Axios from 'axios'
-import { extractIdFromHateoasResponse } from '@/modules/utils'
+import { extractIdFromHateoasResponse, scrollToElement } from '@/modules/utils'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -237,7 +233,7 @@ export default {
     data() {
         return {
             errorMessage: null,
-            asResult: false,
+            hasResult: false,
             demoForm: Object.assign({}, demoForm),
             demoResultData: Object.assign({}, demoResultData),
             displayImportError: false,
@@ -315,12 +311,12 @@ export default {
                     scope.propellantUnknown()
                 }
 
-                scope.asResult = false
+                scope.hasResult = false
                 scope.$refs.form.loadForm(loadedConfig, loadedConfig.extraConfig)
                 scope.nozzleDesignValue = loadedConfig.nozzleDesign
                 scope.unitSelected = loadedConfig.measureUnit
                 // If nextTick is not here, the form will not be valid when call runComputation()
-                Vue.nextTick(() => {
+                nextTick(() => {
                     scope.$refs.form.checkDonor()
                     scope.importInProgress = false
                 })
@@ -344,84 +340,86 @@ export default {
 
             this.displayImportError = false
             this.displayUnitInfo = false
-            this.$refs.thrustGraphicalResult.chart.exporting.filePrefix = this.$refs.form.getMotorName()
-            this.asResult = true
-            Vue.nextTick(() => {
-                this.$vuetify.goTo('#performanceInfosToolbar', { duration: 0, offset: 0, easing: 'easeInOutCubic' })
-            }, this)
+            this.$refs.thrustGraphicalResult.filePrefix = this.$refs.form.getMotorName()
+            this.hasResult = true
+            nextTick(() => {
+                // location.hash= '#performanceInfosToolbar'
+                scrollToElement('runComputationToolbar')
+            })
         },
         duplicateMotor() {
-            if (this.$refs.form.validateForm() && this.motorId !== null) {
+            if (this.motorId !== null) {
                 this.motorId = null
-                this.$refs.form.duplicateMotor()
+                this.$refs.form.validateForm(() => this.$refs.form.duplicateMotor())
+            }
+        },
+        saveMotorExecutor() {
+            this.errorMessage = null
+            this.displayImportError = false
+            const dataToExport = {
+                version: LAST_VERSION,
+                measureUnit: this.unitSelected,
+                ...this.$refs.form.buildExport()
+            }
+
+            dataToExport.nozzleDesign = this.nozzleDesignValue
+
+            let request = {
+                name: dataToExport.name,
+                description: dataToExport.description
+            }
+            delete dataToExport.name
+            delete dataToExport.description
+            request.json = JSON.stringify(dataToExport)
+
+            this.saveLoading = true
+            if (this.motorId) {
+                Axios.put(`/motors/${this.motorId}`, request)
+                    .then(() => {
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => {
+                            this.displaySuccess = false
+                        }, 4000)
+                    })
+                    .catch(() => {
+                        this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                        this.displayImportError = true
+                    })
+                    .finally(() => {
+                        this.saveLoading = false
+                    })
+            } else {
+                Axios.post(`/motors`, request)
+                    .then((response) => {
+                        this.motorId = extractIdFromHateoasResponse(response)
+                        this.successMessage = 'Motor saved'
+                        this.displaySuccess = true
+                        setTimeout(() => {
+                            this.displaySuccess = false
+                        }, 4000)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                        if (error.response.status === 409) {
+                            this.errorMessage = 'You can\'t have two motors with the same name, please change it to before save as new motor'
+                            this.displayImportError = true
+                        } else {
+                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
+                            this.displayImportError = true
+                        }
+                    })
+                    .finally(() => {
+                        this.saveLoading = false
+                    })
             }
         },
         saveMotor() {
-            if (this.$refs.form.validateForm()) {
-                this.errorMessage = null
-                this.displayImportError = false
-                const dataToExport = {
-                    version: LAST_VERSION,
-                    measureUnit: this.unitSelected,
-                    ...this.$refs.form.buildExport()
-                }
-
-                dataToExport.nozzleDesign = this.nozzleDesignValue
-
-                let request = {
-                    name: dataToExport.name,
-                    description: dataToExport.description
-                }
-                delete dataToExport.name
-                delete dataToExport.description
-                request.json = JSON.stringify(dataToExport)
-
-                this.saveLoading = true
-                if (this.motorId) {
-                    Axios.put(`/motors/${this.motorId}`, request)
-                        .then(() => {
-                            this.successMessage = 'Motor saved'
-                            this.displaySuccess = true
-                            setTimeout(() => {
-                                this.displaySuccess = false
-                            }, 4000)
-                        })
-                        .catch(() => {
-                            this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
-                            this.displayImportError = true
-                        })
-                        .finally(() => {
-                            this.saveLoading = false
-                        })
-                } else {
-                    Axios.post(`/motors`, request)
-                        .then((response) => {
-                            this.motorId = extractIdFromHateoasResponse(response)
-                            this.successMessage = 'Motor saved'
-                            this.displaySuccess = true
-                            setTimeout(() => {
-                                this.displaySuccess = false
-                            }, 4000)
-                        })
-                        .catch((error) => {
-                            console.error(error)
-                            if (error.response.status === 409) {
-                                this.errorMessage = 'You can\'t have two motors with the same name, please change it to before save as new motor'
-                                this.displayImportError = true
-                            } else {
-                                this.errorMessage = 'Saving failed due to unkonw reason! Please contact the support.'
-                                this.displayImportError = true
-                            }
-                        })
-                        .finally(() => {
-                            this.saveLoading = false
-                        })
-                }
-            }
+            this.$refs.form.validateForm(this.saveMotorExecutor)
         },
         formReset() {
             this.motorId = null
-            this.asResult = false
+            this.hasResult = false
             this.displayImportError = false
         }
     },
@@ -429,7 +427,7 @@ export default {
         demo(newValue) {
             // if leave demo
             if (newValue !== undefined && !newValue) {
-                this.asResult = false
+                this.hasResult = false
                 this.$refs.form.loadForm()
                 this.$refs.form.disabledControls(false)
 
@@ -441,9 +439,9 @@ export default {
                 }
 
                 this.importInProgress = true
-                Vue.nextTick(() => {
+                nextTick(() => {
                     this.importInProgress = false
-                }, this)
+                })
             }
         },
         unitSelected(newValue, oldValue) {
@@ -469,7 +467,7 @@ export default {
             set(value) {
                 if (this.isDonator()) {
                     this.showUseRefBtn = value
-                    Vue.nextTick(() => { this.setCompareWithPrevious(value) })
+                    nextTick(() => { this.setCompareWithPrevious(value) })
                 } else {
                     // toggle on when user activate showComparison
                     this.donationMessageAlert = 'Motor comparison is only available for donators.'

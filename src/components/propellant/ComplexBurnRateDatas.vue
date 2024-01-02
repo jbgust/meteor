@@ -1,26 +1,26 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-        <v-layout column>
-            <v-flex>
+        <v-col >
+            <v-col>
                 <v-alert
                     type="info"
-                    dismissible
-                    outlined>
+                    closable
+                    variant="outlined">
                     <ul>
                         <li>Pressure intervals must not overlap.</li>
                         <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
                         <li>Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.</li>
                     </ul>
                 </v-alert>
-            </v-flex>
-            <v-flex>
+            </v-col>
+            <v-col>
                 <v-alert
-                    :value="showError"
+                    :model-value="showError"
                     color="error"
                     icon="mdi-alert-box-outline"
-                    outlined>
+                    variant="outlined">
                     Your burn rate data should not be empty or has incorrect values.
                 </v-alert>
-            </v-flex>
+            </v-col>
 
         <burn-data-editor ref="dataEditor" :units="units" @created="addBurnRateData"></burn-data-editor>
         <v-data-table
@@ -43,19 +43,21 @@
             </template>
             <template v-slot:item.action="{ item }">
                 <v-icon
-                    small
+                    size="small"
                     class="mr-2"
+                    color="green"
                     @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
                 <v-icon
-                    small
+                    size="small"
+                    color="red"
                     @click="deleteItem(item)">
                     mdi-delete
                 </v-icon>
             </template>
         </v-data-table>
-        </v-layout>
+        </v-col>
 </template>
 
 <script>
@@ -70,10 +72,10 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Pressure', value: 'fromPressureIncluded' },
-                { text: 'Burn rate coeff.', value: 'burnRateCoefficient' },
-                { text: 'Pressure exp.', value: 'pressureExponent' },
-                { text: 'Actions', value: 'action', sortable: false }
+                { title: 'Pressure', value: 'fromPressureIncluded' },
+                { title: 'Burn rate coeff.', value: 'burnRateCoefficient' },
+                { title: 'Pressure exp.', value: 'pressureExponent' },
+                { title: 'Actions', value: 'action', sortable: false }
             ],
             burnRateDatas: [],
             showError: false

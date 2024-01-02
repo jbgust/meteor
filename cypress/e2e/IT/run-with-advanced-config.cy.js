@@ -2,28 +2,32 @@ describe('Run computation with advanced settings', function() {
 
     it('Should set advanced config settings', function() {
 
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
         cy.contains('METRIC').click()
         cy.get('input#name').should('have.value', '')
 
         cy.get('#btnAdvancedSettings').click()
 
         cy.get('label').contains('Optimal nozzle design').click()
-        cy.get('input#nozzleExpansionRatio').type(1)
+        cy.get('input#nozzleExpansionRatio').type('1')
 
         cy.get('input#ambiantPressureInMPa')
             .clear()
-            .type(0.0845)
+        cy.get('input#ambiantPressureInMPa')
+            .type('0.0845')
+        cy.get('input#ambiantPressureInMPa')
             .parent()
             .contains('MPa')
             .parent()
             .parent()
             .parent()
+            .parent()
+            .parent()
             .contains('12.255 psi')
 
-        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+        cy.contains('Advanced settings').parent().contains('Save').click()
     })
 
     it ('Should fill and submit the form', function() {

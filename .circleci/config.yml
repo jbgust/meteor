@@ -22,7 +22,7 @@ jobs:
           root: ~/meteor
           paths:
             - node_modules
-  jest:
+  unit-test:
     working_directory: ~/meteor
     docker:
       - image: cimg/node:18.16.0
@@ -31,8 +31,11 @@ jobs:
       - attach_workspace:
           at: ~/meteor
       - run:
+          name: Linter
+          command: npm run lint
+      - run:
           name: Run Tests
-          command: npm run test:unit
+          command: npx vitest run
   cypress:
     working_directory: ~/meteor
     machine:
@@ -41,19 +44,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: remove babel config (bug with Cypress)
-          command: rm ./babel.config.js
-      - run:
           name: Start CI
           command: ssh open-sky.fr "~/env-ci.sh start"
       - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.13.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr,defaultCommandTimeout=8000
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:13.6.2 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://ci.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://ci.meteor.open-sky.fr,defaultCommandTimeout=8000
       - store_artifacts:
           path: ~/meteor/cypress/videos
       - store_artifacts:
           path: ~/meteor/cypress/screenshots
+      - store_artifacts:
+          path: ~/meteor/cypress/downloads
       - run:
           name: Stop CI
           command: ssh open-sky.fr "~/env-ci.sh stop"
@@ -69,10 +71,12 @@ jobs:
           at: ~/meteor
       - run:
           name: Build for CI
-          command: npm run build -- --modern --mode ci
+          command: npm run build -- --mode ci
       - run:
           name: zip dist
-          command: zip -r meteor-dist.zip ./dist
+          command: |
+            cd ./dist
+            zip -r meteor-dist.zip ./
       - store_artifacts:
           path: meteor-dist.zip
       - persist_to_workspace:
@@ -91,10 +95,12 @@ jobs:
           at: ~/meteor
       - run:
           name: Build for CI
-          command: npm run build -- --modern
+          command: npm run build
       - run:
           name: zip dist
-          command: zip -r meteor-dist.zip ./dist
+          command: |
+            cd ./dist
+            zip -r meteor-dist.zip ./
       - store_artifacts:
           path: meteor-dist.zip
       - persist_to_workspace:
@@ -133,12 +139,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: remove babel config (bug with Cypress)
-          command: rm ./babel.config.js
-      - run:
           name: Run cypress tests
           command: |
-            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:12.13.0 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/e2e/IT/run-in-SI-units.cy.js
+            docker run -it -v ~/meteor:/e2e -w /e2e cypress/included:13.6.2 run --env user=ci@open-sky.fr,password=${USER_METEOR_PASSWORD},urlAuth=https://www.meteor.open-sky.fr/jsrm/auth/signin --config baseUrl=https://meteor.open-sky.fr --spec ./cypress/e2e/IT/run-in-SI-units.cy.js
       - store_artifacts:
           path: ~/meteor/cypress/videos
       - store_artifacts:
@@ -161,7 +164,7 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - jest:
+      - unit-test:
           filters:
             tags:
               only: /^v.*/
@@ -169,13 +172,13 @@ workflows:
             - install
       - package-ci:
           requires:
-            - jest
+            - unit-test
           filters:
             tags:
               ignore: /.*/
       - package-prod:
           requires:
-            - jest
+            - unit-test
           filters:
             branches:
               ignore: /.*/

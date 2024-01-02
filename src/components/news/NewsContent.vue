@@ -1,13 +1,12 @@
 <template>
     <v-row justify="center" align="center">
-        <v-flex shrink>
-            <v-col>
-                <div v-for="item in newsToDisplay" v-bind:key="item.id">
-                    <div v-html="item.html" :class="newsClass(item.id)">
-                    </div>
-                </div>
-            </v-col>
-        </v-flex>
+        <v-col class="hidden-md-and-down"></v-col>
+        <v-col>
+            <div v-for="item in newsToDisplay" v-bind:key="item.id">
+                <div v-html="item.html" :class="newsClass(item.id)" />
+            </div>
+        </v-col>
+        <v-col shrink class="hidden-md-and-down"></v-col>
     </v-row>
 </template>
 <script>
@@ -37,5 +36,8 @@ export default {
 <style>
     .unreadNews > ul > li {
         color: red;
+    }
+    ul {
+        padding-left: 24px;
     }
 </style>

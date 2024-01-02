@@ -1,6 +1,6 @@
 describe('Use complexe custom propellant with advance burn rate in SI', function() {
     it('Should create complexe custom propellant in SI', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.contains('METRIC').click()
 
         cy.get('button#custom-propellant-add').click()

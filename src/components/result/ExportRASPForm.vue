@@ -1,18 +1,18 @@
 <template>
-        <v-btn id="btnShowRASPExport" class="pr-4" small @click="show">
-            <v-icon left>mdi-file-export-outline</v-icon>
+        <v-btn id="btnShowRASPExport" class="pr-4" @click="show" color="primary" variant="tonal" density="compact">
+            <v-icon start>mdi-file-export-outline</v-icon>
             RASP export
             <v-layout row justify-center>
                 <v-dialog scrollable v-model="dialog" persistent max-width="600px">
                     <v-card>
                         <v-card-title
-                            class="headline grey lighten-2"
+                            class="text-h5 bg-grey-lighten-2"
                             primary-title>
                             RASP export
                         </v-card-title>
                         <v-card-text>
                             <v-layout column>
-                                <v-flex>
+                                <v-col>
                                     <div style="padding: 10px;">
                                         <v-form ref="exportRaspForm" class="mr-5 ml-5">
                                             <v-text-field id="motorDiameter" label="Motor diameter:" v-model="config.motorDiameter" :rules="motorDiameterRules" :suffix="units.lengthUnit"/>
@@ -21,14 +21,14 @@
                                             <v-text-field id="delay" label="Delay:"  suffix="s" persistent-hint :hint="delayHint" :rules="delayRules" v-model="config.delay"/>
                                         </v-form>
                                     </div>
-                                </v-flex>
+                                </v-col>
                             </v-layout>
                         </v-card-text>
                         <v-card-actions>
                             <v-btn @click="$refs.helpDialog.show()">Help</v-btn>
                             <v-spacer></v-spacer>
                             <v-btn @click="close">Close</v-btn>
-                            <v-btn id="btnExportRASP" v-if="isLogged" @click="exportRASP" :loading="computationInProgress" color="primary">Export</v-btn>
+                            <v-btn id="btnExportRASP" v-if="isLogged" @click="isFormValid" :loading="computationInProgress" color="primary">Export</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -77,10 +77,13 @@ export default {
             this.$refs.exportRaspForm.reset()
             this.dialog = false
         },
-        download() {
-        },
         isFormValid() {
-            return this.$refs.exportRaspForm ? this.$refs.exportRaspForm.validate() : true
+            this.$refs.exportRaspForm.validate()
+                .then((result) => {
+                    if (result.valid) {
+                        this.exportRASP()
+                    }
+                })
         },
         setComputationRequest(grainType, request) {
             this.computationRequest = Object.assign({}, request)
@@ -90,48 +93,47 @@ export default {
             this.safeKN = this.currentComputation.performanceResult.safeKN
         },
         exportRASP() {
-            if (this.isFormValid()) {
-                let fileName = 'meteor-RASP' + '.eng'
-                let motorName = this.computationRequest.name
-                if (motorName != null) {
-                    fileName = 'meteor-RASP_' + motorName + '.eng'
-                }
-
-                const exportRequest = {
-                    computationRequest: this.computationRequest,
-                    delay: this.config.delay,
-                    motorDiameter: this.config.motorDiameter,
-                    motorLength: this.config.motorLength,
-                    motorWeight: this.config.motorWeight,
-                    projectName: motorName || 'default',
-                    safeKN: this.safeKN
-                }
-                this.computationInProgress = true
-                const me = this
-                Axios.post('/export/rasp', exportRequest)
-                    .then(function(response) {
-                        me.computationInProgress = false
-                        const fileContent = response.data
-
-                        if (window.navigator.msSaveOrOpenBlob) {
-                            const blob = new Blob([fileContent], { type: 'text/plain' })
-                            window.navigator.msSaveOrOpenBlob(blob, fileName)
-                        } else {
-                            var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(fileContent)
-                            var downloadAnchorNode = document.createElement('a')
-                            downloadAnchorNode.setAttribute('href', dataStr)
-                            downloadAnchorNode.setAttribute('download', fileName)
-                            document.body.appendChild(downloadAnchorNode) // required for firefox
-                            downloadAnchorNode.click()
-                            downloadAnchorNode.remove()
-                        }
-                    })
-                    .catch(function(error) {
-                        me.computationInProgress = false
-                        alert('Export fail due to unknown error')
-                        console.error(error)
-                    })
+            let fileName = 'meteor-RASP' + '.eng'
+            let motorName = this.computationRequest.name
+            if (motorName != null) {
+                fileName = 'meteor-RASP_' + motorName + '.eng'
             }
+
+            const exportRequest = {
+                computationRequest: this.computationRequest,
+                delay: this.config.delay,
+                motorDiameter: this.config.motorDiameter,
+                motorLength: this.config.motorLength,
+                motorWeight: this.config.motorWeight,
+                projectName: motorName || 'default',
+                safeKN: this.safeKN
+            }
+            this.computationInProgress = true
+            const me = this
+            Axios.post('/export/rasp', exportRequest)
+                .then(function(response) {
+                    me.computationInProgress = false
+                    const fileContent = response.data
+
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        const blob = new Blob([fileContent], { type: 'text/plain' })
+                        window.navigator.msSaveOrOpenBlob(blob, fileName)
+                    } else {
+                        var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(fileContent)
+                        var downloadAnchorNode = document.createElement('a')
+                        downloadAnchorNode.setAttribute('href', dataStr)
+                        downloadAnchorNode.setAttribute('download', fileName)
+                        document.body.appendChild(downloadAnchorNode) // required for firefox
+                        downloadAnchorNode.click()
+                        downloadAnchorNode.remove()
+                    }
+                })
+                .catch(function(error) {
+                    me.computationInProgress = false
+                    alert('Export fail due to unknown error')
+                    console.error(error)
+                })
+
         }
     }
 }

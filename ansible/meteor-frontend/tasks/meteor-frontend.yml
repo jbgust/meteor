@@ -1,14 +1,26 @@
 - name: Activation page maintenance
   shell: "/root/scripts/meteor-maintenance.sh {{frontFolder}} stopFront"
 
+- name: Copie de la version à deployer
+  copy:
+    src: ../dist/meteor-dist.zip
+    dest: /tmp/meteor-dist.zip
+
 - name: Suppression de l'ancienne version
   shell: |
     rm -rf /var/www/{{frontFolder}}/*
 
-- name: Copie du build
-  copy:
-    src: ~/meteor/dist/
+- name: Unzip du livrable
+  unarchive:
+    src: /tmp/meteor-dist.zip
     dest: /var/www/{{frontFolder}}/
+    remote_src: yes
+
+
+#- name: Copie du build
+#  copy:
+#    src: ~/meteor/dist/
+#    dest: /var/www/{{frontFolder}}/
 
 - name: Desactivation page maintenance
   shell: "/root/scripts/meteor-maintenance.sh {{frontFolder}} startFront"

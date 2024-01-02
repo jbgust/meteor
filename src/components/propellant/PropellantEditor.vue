@@ -1,42 +1,45 @@
 <template>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" fullscreen :scrim="false" transition="dialog-bottom-transition">
         <v-card>
-            <v-app-bar dark color="primary">
-                <v-toolbar-title>Custom propellant</v-toolbar-title>
-            </v-app-bar>
-            <!-- v-if="dialog" is here to disable inputs when popup is not show to prevent form validation failure -->
+            <v-card-title class="bg-purple">
+                <v-btn
+                    id="closePropellantEditor"
+                    variant="tonal"
+                    density="compact"
+                    :disabled="loading"
+                    icon="mdi-close"
+                    @click="dialog = false">
+                </v-btn>
+                Custom propellant
+            </v-card-title>
             <v-card-text v-if="dialog">
-                <v-container grid-list-md>
-                    <v-layout row wrap align-center justify-center>
+                <v-container fluid align="center">
+                    <v-col row wrap align-center justify-center>
                         <v-form ref="formCustomPropellant">
-                            <v-flex>
-                                <v-layout column>
-                                    <v-layout row>
-                                        <v-flex d-flex lg3 md3 sm3>
-                                            <v-select
-                                                v-model="propellant.unit"
-                                                :items="unitList"
-                                                :readonly="!!propellant.id"
-                                                :rules="requiredRules"
-                                                @change="unitChanged"
-                                                filled
-                                                label="Unit"
-                                            ></v-select>
-                                        </v-flex>
-                                        <v-flex d-flex lg9>
-                                            <v-text-field filled id="propellantName" label="Propellant name"
-                                                          v-model="propellant.name" :rules="nameRule"/>
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-flex d-flex lg12>
-                                        <v-textarea
-                                            filled
-                                            id="propellantDescription"
-                                            label="Description"
-                                            :rules="descriptionRule"
-                                            v-model="propellant.description"/>
-                                    </v-flex>
-                                    <v-layout d-flex wrap>
+                            <v-col lg="6">
+                                <v-row wrap no-gutters>
+                                        <v-select
+                                            v-model="propellant.unit"
+                                            :items="unitList"
+                                            :readonly="!!propellant.id"
+                                            :rules="requiredRules"
+                                            item-title="text"
+                                            @update:model-value="unitChanged"
+                                            variant="filled"
+                                            label="Unit"
+                                            class="mr-4"
+                                        >
+                                        </v-select>
+                                        <v-text-field variant="filled" id="propellantName" label="Propellant name"
+                                                      v-model="propellant.name" :rules="nameRule"/>
+                                </v-row>
+                                <v-textarea
+                                    variant="filled"
+                                    id="propellantDescription"
+                                    label="Description"
+                                    :rules="descriptionRule"
+                                    v-model="propellant.description"/>
+                                    <v-row wrap>
                                         <v-text-field class="custom-prop-element" id="k" label="Specific heat ratio"
                                                       v-model="propellant.k" :rules="numericGreater0Rules" step="0.01"/>
                                         <v-text-field class="custom-prop-element" id="density"
@@ -47,19 +50,18 @@
                                                       hint="Try 45 if you don't know this value" suffix="kg/kmol"
                                                       v-model="propellant.molarMass" :rules="numericGreater0Rules"
                                                       step="0.01"/>
-                                    </v-layout>
-                                </v-layout>
-                                <v-layout column>
-                                    <v-flex d-flex lg12>
+                                    </v-row>
+                                <v-col>
+                                    <v-row>
                                         <v-switch
                                             hide-details
+                                            color="primary"
                                             id="complexBurnRate-switch"
                                             v-model="useComplexBurnRate"
                                             label="Use complexe burnrate coeff and pressure exponent">
                                         </v-switch>
-                                    </v-flex>
-                                    <v-flex d-flex lg12>
-                                        <v-layout d-flex wrap>
+                                    </v-row>
+                                        <v-row wrap>
                                             <v-text-field id="burnRateCoefficient" v-if="!useComplexBurnRate"
                                                           :hint="hintBurnRate" persistent-hint
                                                           label="Burn rate coefficient"
@@ -73,46 +75,50 @@
                                                           class="custom-prop-element"/>
                                             <complex-burn-rate-datas v-show="useComplexBurnRate" :units="units"
                                                                      ref="burnRateDataEditor"></complex-burn-rate-datas>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex d-flex lg12>
-                                        <v-switch
-                                            hide-details
-                                            id="chamberTemperature-switch"
-                                            v-model="useChamberTemperature"
-                                            label="Set chamber temperature">
-                                        </v-switch>
-                                    </v-flex>
-                                    <v-flex d-flex lg12>
-                                        <v-text-field class="custom-prop-element" id="cstar"
-                                                      v-show="!useChamberTemperature" label="C*"
-                                                      :suffix="units.speedUnit" v-model="propellant.cstar"
-                                                      :rules="numericGreater0Rules" step="0.01"/>
-                                        <v-text-field class="custom-prop-element" id="chamberTemperature"
-                                                      v-show="useChamberTemperature" suffix="K"
-                                                      label="Chamber temperature"
-                                                      v-model="propellant.chamberTemperature"
-                                                      :rules="numericGreater0Rules" step="0.01"/>
-                                    </v-flex>
-                                    <v-flex d-flex lg12>
-                                        <v-switch
-                                            hide-details
-                                            id="k2ph-switch"
-                                            v-model="useK2ph"
-                                            label="Use specific heat ratio for two-phase flow">
-                                        </v-switch>
-                                    </v-flex>
-                                    <v-flex d-flex lg12>
-                                        <v-text-field class="custom-prop-element" id="k2ph" v-show="useK2ph"
-                                                      label="k2ph" hint="Specific heat ratio for two-phase flow"
-                                                      v-model="propellant.k2ph" :rules="numericGreater0Rules"
-                                                      step="0.01"/>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-alert type="error" v-model="showError" dismissible outlined>
+                                        </v-row>
+                                    <v-row wrap>
+                                        <v-col>
+                                            <v-switch
+                                                hide-details
+                                                id="chamberTemperature-switch"
+                                                color="primary"
+                                                v-model="useChamberTemperature"
+                                                label="Set chamber temperature">
+                                            </v-switch>
+
+                                            <v-row wrap d-flex lg="12">
+                                                <v-text-field class="custom-prop-element" id="cstar"
+                                                              v-show="!useChamberTemperature" label="C*"
+                                                              :suffix="units.speedUnit" v-model="propellant.cstar"
+                                                              :rules="numericGreater0Rules" step="0.01"/>
+                                                <v-text-field class="custom-prop-element" id="chamberTemperature"
+                                                              v-show="useChamberTemperature" suffix="K"
+                                                              label="Chamber temperature"
+                                                              v-model="propellant.chamberTemperature"
+                                                              :rules="numericGreater0Rules" step="0.01"/>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col>
+                                            <v-switch
+                                                hide-details
+                                                id="k2ph-switch"
+                                                v-model="useK2ph"
+                                                color="primary"
+                                                label="Use specific heat ratio for two-phase flow">
+                                            </v-switch>
+                                            <v-row wrap d-flex lg="12">
+                                            <v-text-field class="custom-prop-element" id="k2ph" v-show="useK2ph"
+                                                          label="k2ph" hint="Specific heat ratio for two-phase flow"
+                                                          v-model="propellant.k2ph" :rules="numericGreater0Rules"
+                                                          step="0.01"/>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+                                    <v-col>
+                                        <v-alert type="error" v-model="showError" closable variant="outlined">
                                             {{ errorMessage }}
                                         </v-alert>
-                                    </v-flex>
+                                    </v-col>
                                         <div class="text-right">
                                             <v-btn
                                                 id="closePropellantEditor"
@@ -130,10 +136,10 @@
                                                 Save
                                             </v-btn>
                                         </div>
-                                </v-layout>
-                            </v-flex>
+                                </v-col>
+                            </v-col>
                         </v-form>
-                    </v-layout>
+                    </v-col>
                 </v-container>
             </v-card-text>
         </v-card>
@@ -149,7 +155,7 @@ import {
     stringRequiredMaxLengthRule
 } from '../../modules/formValidationRules'
 import ComplexBurnRateDatas from '../propellant/ComplexBurnRateDatas'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 import Axios from 'axios'
 import { getUnit, IMPERIAL_UNITS, SI_UNITS } from '@/modules/computationUtils'
 import { mapGetters } from 'vuex'
@@ -200,7 +206,7 @@ export default {
             this.useComplexBurnRate = !!this.propellant.burnRateDataSet
             this.dialog = show
 
-            Vue.nextTick(() => {
+            nextTick(() => {
                 if (this.useComplexBurnRate) {
                     this.$refs.burnRateDataEditor.loadBurnRateDataSet(this.propellant.burnRateDataSet)
                 }
@@ -240,7 +246,7 @@ export default {
                         })
                 } else {
                     Axios.post(`/propellants`, request)
-                        .then(function(response) {
+                        .then(function() {
                             me.$emit('propellantCommit')
                             me.dialog = false
                         })
@@ -271,7 +277,7 @@ export default {
         }
     },
     watch: {
-        useComplexBurnRate(newValue, oldValue) {
+        useComplexBurnRate(newValue) {
             if (newValue) {
                 this.propellant.burnRateCoefficient = null
                 this.propellant.pressureExponent = null
@@ -279,14 +285,14 @@ export default {
                 this.burnRateDataSet = null
             }
         },
-        useChamberTemperature(newValue, oldValue) {
+        useChamberTemperature(newValue) {
             if (newValue) {
                 this.propellant.cstar = null
             } else {
                 this.propellant.chamberTemperature = null
             }
         },
-        useK2ph(newValue, oldValue) {
+        useK2ph(newValue) {
             if (!newValue) {
                 this.propellant.k2ph = null
             }

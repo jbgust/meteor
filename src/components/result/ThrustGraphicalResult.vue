@@ -13,27 +13,26 @@ export default {
     name: 'thrust-graphical-result',
     data() {
         return {
-            chart: null,
             pressureSerie: null,
             massFluxSerie: null,
             grainMass: null,
-            chartLoader: null
+            chartLoader: null,
+            filePrefix: 'METEOR'
         }
     },
     props: {
         units: Object
     },
+    created() {
+        let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
+        let chartLoader = this.createChartLoader(chart)
+        this.buildChart(chart, chartLoader)
+    },
     mounted() {
-        this.buildChart()
+
     },
     methods: {
-        buildChart() {
-            if (this.chart) {
-                this.chart.dispose()
-            }
-            let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
-            this.createChartLoader(chart)
-
+        buildChart(chart, chartLoader) {
             chart.paddingRight = 20
             chart.numberFormatter.numberFormat = '.##'
             chart.exporting.menu = new am4core.ExportMenu()
@@ -64,26 +63,28 @@ export default {
             })
 
             chart.preloader.disabled = true
-            chart.events.on('validated', function(ev) {
-                if (this.chartLoader) {
-                    this.chartLoader.hide()
+            chart.events.on('validated', function() {
+                if (chartLoader) {
+                    chartLoader.hide()
                 }
             }, this)
-            chart.events.on('beforedatavalidated', function(ev) {
-                if (this.chartLoader) {
-                    this.chartLoader.show()
+            chart.events.on('beforedatavalidated', function() {
+                if (chartLoader) {
+                    chartLoader.show()
                 }
             }, this)
 
             chart.legend = new am4charts.Legend()
-
-            this.chart = chart
         },
         addDataInChart() {
+            let chart = am4core.create(this.$refs.motorParameters, am4charts.XYChart)
+            let chartLoader = this.createChartLoader(chart)
+            this.buildChart(chart, chartLoader)
+            chart.exporting.filePrefix = this.filePrefix
             if (this.compareWithPrevious && !!this.previousComputation) {
-                this.chart.data = mergeCharetResults(this.currentComputation.motorParameters, this.previousComputation.motorParameters)
+                chart.data = mergeCharetResults(this.currentComputation.motorParameters, this.previousComputation.motorParameters)
             } else {
-                this.chart.data = this.currentComputation.motorParameters
+                chart.data = this.currentComputation.motorParameters
             }
         },
         createAxisAndSeries(chart, field, name, opposite, bullet, unit = '') {
@@ -128,17 +129,18 @@ export default {
             return series
         },
         createChartLoader(chart) {
-            this.chartLoader = chart.tooltipContainer.createChild(am4core.Container)
-            this.chartLoader.background.fill = am4core.color('#fff')
-            this.chartLoader.background.fillOpacity = 0.8
-            this.chartLoader.width = am4core.percent(100)
-            this.chartLoader.height = am4core.percent(100)
+            let chartLoader = chart.tooltipContainer.createChild(am4core.Container)
+            chartLoader.background.fill = am4core.color('#fff')
+            chartLoader.background.fillOpacity = 0.8
+            chartLoader.width = am4core.percent(100)
+            chartLoader.height = am4core.percent(100)
 
-            let indicatorLabel = this.chartLoader.createChild(am4core.Label)
+            let indicatorLabel = chartLoader.createChild(am4core.Label)
             indicatorLabel.text = 'Loading result...'
             indicatorLabel.align = 'center'
             indicatorLabel.valign = 'middle'
             indicatorLabel.fontSize = 20
+            return chartLoader;
         },
         getHiddenSeriePropertyKey(series) {
             const compare = this.compareWithPrevious ? 'cpm_' : ''
@@ -164,11 +166,9 @@ export default {
     },
     watch: {
         compareWithPrevious() {
-            this.buildChart()
             this.addDataInChart()
         },
         currentComputation() {
-            this.buildChart()
             this.addDataInChart()
         },
         units(newValue) {
@@ -176,29 +176,13 @@ export default {
             this.massFluxSerie.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.massFluxUnit}`
             this.grainMass.tooltipText = `{name}: [bold]{valueY}[/] ${newValue.grainMassUnit}`
         }
-    },
-    beforeDestroy() {
-        if (this.chart) {
-            this.chart.dispose()
-        }
     }
 }
 </script>
 
 <style>
   .thrust-graphic {
-    width: 100%;
-    height: 100%;
-  }
-
-  @media all and (max-width: 1280px) {
-      .thrust-graphic {
-          min-height: 350px;
-      }
-  }
-  .amcharts-amexport-icon-level-0 {
-      padding: 5px !important;
-      width: 30px !important;
-      height: 30px !important;
+    width: 100vw;
+    min-height: 600px;
   }
 </style>

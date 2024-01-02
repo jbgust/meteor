@@ -1,18 +1,17 @@
 <template>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" fullscreen :scrim="false" transition="dialog-bottom-transition">
         <v-card>
-            <v-app-bar dark color="primary">
-                <v-btn icon dark @click="dialog = false">
-                    <v-icon id="btnCloseHelp">mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>
-                    Meteor Manual
-                </v-toolbar-title>
-            </v-app-bar>
+            <v-card-title class="bg-blue">
+                <v-row no-gutters>
+                    <p>Meteor Manual</p>
+                    <v-spacer></v-spacer>
+                    <v-btn icon="mdi-close" @click="dialog = false"  variant="text" id="btnCloseHelp" density="compact">
+                    </v-btn>
+                </v-row>
+            </v-card-title>
             <v-card-text>
                 <v-container grid-list-md>
-                <v-flex>
-                    <v-card>
+                    <v-card class="mb-5">
                         <v-toolbar>
                             <v-toolbar-title>
                                 Help content
@@ -20,147 +19,37 @@
                         </v-toolbar>
                         <v-card-text>
                             <v-col>
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title><a href="#finocyl">Finocyl grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#star">Star grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#moonburner">Moon burner grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#rodTube">Rod and tube grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#cSlot">C slot grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#hollow">Hollow cylinder grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#endburner">End burner grain settings</a></v-list-item-title>
-                                        <v-list-item-title><a href="#rasp">RASP export and OpenRocket</a></v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
+                                <v-list variant="flat" density="compact">
+                                    <v-list-item @click="showElement('hollow')" class="text-blue-darken-2">
+                                        Hollow cylinder grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('rasp')" class="text-blue-darken-2">
+                                        RASP export and OpenRocket
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('finocyl')" class="text-blue-darken-2">
+                                        Finocyl grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('star')" class="text-blue-darken-2">
+                                        Star grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('moonburner')" class="text-blue-darken-2">
+                                        Moon burner grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('rodTube')" class="text-blue-darken-2">
+                                        Rod and tube grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('cSlot')" class="text-blue-darken-2">
+                                        C slot grain settings
+                                    </v-list-item>
+                                    <v-list-item @click="showElement('endburner')" class="text-blue-darken-2">
+                                        End burner grain settings
+                                    </v-list-item>
+                                </v-list>
                             </v-col>
                         </v-card-text>
                     </v-card>
-                </v-flex>
-                <v-layout row wrap>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="finocyl">
-                                    Finocyl grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/finocyl-help.svg')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
-                                </v-col>
-                                <v-divider inset></v-divider>
-                                <br>
-                                <p>
-                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="star">
-                                    Star grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/star-help.svg')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
-                                </v-col>
-                                <v-divider inset></v-divider>
-                                <br>
-                                <p>
-                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="moonburner">
-                                    Moon burner grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <img :src="require('@/assets/help/moon-burner.png')" class="help-image-large"/>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
-                                </v-col>
-                                <v-divider inset></v-divider>
-                                <br>
-                                <p>
-                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="rodTube">
-                                    Rod and tube grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/rod-tube.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
-                                </v-col>
-                                <v-divider inset></v-divider>
-                                <br>
-                                <p>
-                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="cSlot">
-                                    C slot grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/c-slot_no-core.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/c-slot.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                    </v-flex>
-                                </v-col>
-                                <v-divider inset></v-divider>
-                                <br>
-                                <p>
-                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex lg6 md6>
+                <v-row wrap>
+                    <v-col lg="6" md="6">
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="hollow">
@@ -170,32 +59,32 @@
                             <v-card-text>
                                 <v-layout column>
                                     <v-layout row wrap>
-                                        <v-flex>
-                                            <v-img :src="require('@/assets/help/motor.png')" max-width="450px"></v-img>
-                                        </v-flex>
-                                        <v-flex>
-                                            <v-img :src="require('@/assets/help/grain.png')" max-width="220px"></v-img>
-                                        </v-flex>
+                                        <v-col>
+                                            <v-img :src="motorImage" max-width="450px"></v-img>
+                                        </v-col>
+                                        <v-col>
+                                            <v-img :src="grainImage" max-width="220px"></v-img>
+                                        </v-col>
                                     </v-layout>
                                     <v-layout row wrap>
-                                        <v-flex>
+                                        <v-col>
                                             <h4>Outer surface</h4>
-                                            <v-flex>
-                                                <v-img :src="require('@/assets/help/outer_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
-                                        <v-flex>
+                                            <v-col>
+                                                <v-img :src="outerSurfaceImage" max-width="220px"></v-img>
+                                            </v-col>
+                                        </v-col>
+                                        <v-col>
                                             <h4>End surface</h4>
-                                            <v-flex>
-                                                <v-img :src="require('@/assets/help/end_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
-                                        <v-flex>
+                                            <v-col>
+                                                <v-img :src="endSurfaceImage" max-width="220px"></v-img>
+                                            </v-col>
+                                        </v-col>
+                                        <v-col>
                                             <h4>Core surface</h4>
-                                            <v-flex>
-                                                <v-img :src="require('@/assets/help/core_surface.png')" max-width="220px"></v-img>
-                                            </v-flex>
-                                        </v-flex>
+                                            <v-col>
+                                                <v-img :src="coreSurfaceImage" max-width="220px"></v-img>
+                                            </v-col>
+                                        </v-col>
                                     </v-layout>
                                 </v-layout>
                                 <v-divider inset></v-divider>
@@ -205,24 +94,8 @@
                                 </p>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                    <v-flex  lg6 md6>
-                        <v-card>
-                            <v-toolbar>
-                                <v-toolbar-title id="endburner">
-                                    End burner grain settings
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-col>
-                                    <v-flex>
-                                        <v-img :src="require('@/assets/help/end-burner-help.png')" class="help-image"></v-img>
-                                    </v-flex>
-                                </v-col>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex>
+                    </v-col>
+                    <v-col>
                         <v-card>
                             <v-toolbar>
                                 <v-toolbar-title id="rasp">
@@ -244,8 +117,147 @@
                                 </v-col>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                    <v-col lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="finocyl">
+                                    Finocyl grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <v-img :src="urlFinocylHelp" class="help-image"></v-img>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
+                                    </v-col>
+                                </v-col>
+                                <v-divider inset></v-divider>
+                                <br>
+                                <p>
+                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col  lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="star">
+                                    Star grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <v-img :src="starHelpImage" class="help-image"></v-img>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
+                                    </v-col>
+                                </v-col>
+                                <v-divider inset></v-divider>
+                                <br>
+                                <p>
+                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col  lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="moonburner">
+                                    Moon burner grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <img :src="moonburnerImage" class="help-image-large"/>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
+                                    </v-col>
+                                </v-col>
+                                <v-divider inset></v-divider>
+                                <br>
+                                <p>
+                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col  lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="rodTube">
+                                    Rod and tube grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <v-img :src="rodTubeImage" class="help-image"></v-img>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
+                                    </v-col>
+                                </v-col>
+                                <v-divider inset></v-divider>
+                                <br>
+                                <p>
+                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col  lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="cSlot">
+                                    C slot grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <v-img :src="cslotNoCoreImage" class="help-image"></v-img>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="cslotImage" class="help-image"></v-img>
+                                    </v-col>
+                                    <v-col>
+                                        <v-img :src="motorImage" max-width="450px"></v-img>
+                                    </v-col>
+                                </v-col>
+                                <v-divider inset></v-divider>
+                                <br>
+                                <p>
+                                    When the surface is set to 'Exposed' it's meam that the surface is exposed to the combustion. If set to 'Inhibited' the surface will not burn.
+                                </p>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col  lg="6" md="6">
+                        <v-card>
+                            <v-toolbar>
+                                <v-toolbar-title id="endburner">
+                                    End burner grain settings
+                                </v-toolbar-title>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-col>
+                                    <v-col>
+                                        <v-img :src="endBurnerhelpImage" class="help-image"></v-img>
+                                    </v-col>
+                                </v-col>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
                 </v-container>
             </v-card-text>
         </v-card>
@@ -253,16 +265,44 @@
 </template>
 
 <script>
+import finocylHelp from '@/assets/help/finocyl-help.svg'
+import starHelp from '@/assets/help/star-help.svg'
+import moonburner from '@/assets/help/moon-burner.png'
+import rodTube from '@/assets/help/rod-tube.png'
+import cslotNoCore from '@/assets/help/c-slot_no-core.png'
+import cslot from '@/assets/help/c-slot.png'
+import motor from '@/assets/help/motor.png'
+import grain from '@/assets/help/grain.png'
+import outerSurface from '@/assets/help/outer_surface.png'
+import endSurface from '@/assets/help/end_surface.png'
+import coreSurface from '@/assets/help/core_surface.png'
+import endBurnerhelp from '@/assets/help/end-burner-help.png'
+import { scrollToElement } from '@/modules/utils.mjs'
 export default {
     name: 'HelpDialog',
     data() {
         return {
-            dialog: false
+            dialog: false,
+            urlFinocylHelp: finocylHelp,
+            starHelpImage: starHelp,
+            moonburnerImage: moonburner,
+            rodTubeImage: rodTube,
+            cslotNoCoreImage: cslotNoCore,
+            cslotImage: cslot,
+            motorImage: motor,
+            grainImage: grain,
+            outerSurfaceImage: outerSurface,
+            endSurfaceImage: endSurface,
+            coreSurfaceImage: coreSurface,
+            endBurnerhelpImage: endBurnerhelp
         }
     },
     methods: {
         show(showHelp = true) {
             this.dialog = showHelp
+        },
+        showElement(elementId) {
+            scrollToElement(elementId)
         }
     }
 }

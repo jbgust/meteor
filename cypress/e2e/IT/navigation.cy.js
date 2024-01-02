@@ -1,6 +1,6 @@
 describe('Navigation check', function() {
     it('Should open notification', function() {
-        cy.visit('/#/demo')
+        cy.visit('/demo')
         cy.get('#newsMeteorBtn')
             .click()
         cy.get('#bottomPageNews')
@@ -18,17 +18,17 @@ describe('Navigation check', function() {
         cy.visit('/')
         cy.get('i#btnMeteor').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         cy.get('input#name').should('have.value', '')
         cy.get('#throatDiameter').parent().contains('mm')
     })
 
     it('Should open meteor from demo page', function() {
-        cy.visit('/#/demo')
+        cy.visit('/demo')
         cy.contains('Try it !').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         cy.get('input#name').should('have.value', '')
         cy.get('#throatDiameter').parent().contains('mm')
@@ -38,7 +38,7 @@ describe('Navigation check', function() {
         cy.visit('/')
         cy.get('#btnTryIt').click()
 
-        cy.url().should('include', '/#/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         cy.get('input#name').should('have.value', '')
         cy.get('#throatDiameter').parent().contains('mm')

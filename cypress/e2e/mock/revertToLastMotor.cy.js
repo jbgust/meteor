@@ -1,3 +1,6 @@
+// TODO remove when delete .skip
+/* eslint-disable */
+
 function buildComputationResult(motorDescription) {
     return {
         performanceResult: {
@@ -82,7 +85,7 @@ function buildMotorConfig(name, propellantId) {
 // TODO : marche en local mais plus sur la CI
 describe.skip('Should revert to last motor config', () => {
     it('Revert is disabled when only one result is computed', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.mockMotorList([
             buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
             buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
@@ -115,6 +118,7 @@ describe.skip('Should revert to last motor config', () => {
     it('Change values manually ', () => {
         // SET new config
         cy.contains('IMPERIAL').click()
+
         cy.get('input#name')
             .clear()
             .type('test 2')
@@ -149,3 +153,4 @@ describe.skip('Should revert to last motor config', () => {
         // cy.get('input#densityRatio').should('have.value', 0.96)
     })
 })
+/* eslint-enable */

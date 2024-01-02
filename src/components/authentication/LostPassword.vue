@@ -1,52 +1,48 @@
 <template>
-    <v-container>
-        <v-layout column align-center>
-            <v-flex xs10 sm6>
-                <v-icon size="80">mdi-rocket</v-icon>
-            </v-flex>
-            <v-flex xs10 sm6 class="pb-10">
-                <h1>
-                    Reset your password
-                </h1>
-            </v-flex>
-            <v-flex grow>
-                <v-alert
-                    v-if="showMessage"
-                    border="top"
-                    colored-border
-                    :type="messageType"
-                    elevation="2"
-                    max-width="400"
-                >
-                    {{ message }}
-                </v-alert>
-                <v-card>
-                    <v-card-text>
-                        <v-form
-                            ref="form"
-                            v-model="valid"
+    <v-container fluid align="center">
+        <v-col grow xs="10" sm="6" lg="3">
+            <v-card>
+                <v-card-title>
+                    <v-icon size="80" color="purple">mdi-rocket-launch</v-icon>
+                    <h2>
+                        Reset your password
+                    </h2>
+                </v-card-title>
+                <v-card-text>
+                    <v-alert
+                        v-if="showMessage"
+                        border="start"
+                        border-color="top"
+                        variant="outlined"
+                        :type="messageType"
+                        class="mb-5"
+                    >
+                        {{ message }}
+                    </v-alert>
+                    <v-form
+                        ref="form"
+                        v-model="valid"
+                    >
+                        <v-text-field
+                            id="emailResetPassword"
+                            v-model="email"
+                            label="E-mail"
+                            :rules="emailRules"
+                            required
+                        ></v-text-field>
+                        <v-btn
+                            width="100%"
+                            :disabled="!valid"
+                            color="success"
+                            @click="resetPassword"
+                            :loading="loading"
                         >
-                            <v-text-field
-                                id="emailResetPassword"
-                                v-model="email"
-                                label="E-mail"
-                                :rules="emailRules"
-                                required
-                            ></v-text-field>
-                            <v-btn
-                                width="100%"
-                                :disabled="!valid"
-                                color="success"
-                                @click="resetPassword"
-                                :loading="loading"
-                            >
-                                Reset
-                            </v-btn>
-                        </v-form>
-                    </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
+                            Reset
+                        </v-btn>
+                    </v-form>
+                </v-card-text>
+            </v-card>
+        </v-col>
     </v-container>
 
 </template>
@@ -68,24 +64,27 @@ export default {
     }),
     methods: {
         resetPassword() {
-            if (this.$refs.form.validate() && this.password === this.passwordConfirm) {
-                const me = this
-                me.loading = true
-                Axios.post('/auth/reset-password', {
-                    email: this.email
-                })
+            if (this.password === this.passwordConfirm) {
+                this.$refs.form.validate()
                     .then(() => {
-                        me.message = 'A reset link has been sent to your address. Also please check the Spam folder in your mailbox.'
-                        me.messageType = 'info'
-                        me.showMessage = true
-                        me.loading = false
-                    })
-                    .catch((error) => {
-                        me.message = 'Failed to send reset link, please double check your email. If the problem persist please contact us.'
-                        me.messageType = 'error'
-                        me.showMessage = true
-                        me.loading = false
-                        console.error(error)
+                        const me = this
+                        me.loading = true
+                        Axios.post('/auth/reset-password', {
+                            email: this.email
+                        })
+                            .then(() => {
+                                me.message = 'A reset link has been sent to your address. Also please check the Spam folder in your mailbox.'
+                                me.messageType = 'info'
+                                me.showMessage = true
+                                me.loading = false
+                            })
+                            .catch((error) => {
+                                me.message = 'Failed to send reset link, please double check your email. If the problem persist please contact us.'
+                                me.messageType = 'error'
+                                me.showMessage = true
+                                me.loading = false
+                                console.error(error)
+                            })
                     })
             }
         }

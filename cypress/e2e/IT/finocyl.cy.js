@@ -13,7 +13,7 @@ const expectedResults = {
 
 describe('Run Finocyl in SI units', function() {
     it('Should submit form', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         cy.setMotorSimAdvancedConfig()
 
@@ -35,6 +35,7 @@ describe('Run Finocyl in SI units', function() {
         cy.fillFinocylForm(formDatas, 'METRIC')
 
         // Le calcul peut mettre plus de temps que le timeout sur la CI.
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(5000)
     })
 

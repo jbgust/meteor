@@ -1,6 +1,6 @@
 <template>
-        <v-layout row>
-            <v-flex>
+        <v-row>
+            <v-col>
                 <div class="meteor-container block1">
                     <h1>
                         DESIGN YOUR SOLID ROCKET MOTOR
@@ -44,21 +44,21 @@
                     </div>
                     <div class="block-text">
                         <div class="block-button">
-                            <v-btn :to="'/demo'" outlined>
+                            <v-btn :to="'/demo'" variant="outlined">
                                 View demo
-                                <v-icon right>mdi-play</v-icon>
+                                <v-icon end>mdi-play</v-icon>
                             </v-btn>
-                            <v-btn :to="'/motorDesign'" outlined id="btnTryIt">Try it!</v-btn>
-                            <v-btn outlined href="mailto:meteor@open-sky.fr?subject=METEOR">
+                            <v-btn :to="'/motorDesign'" variant="outlined" id="btnTryIt">Try it!</v-btn>
+                            <v-btn variant="outlined" href="mailto:meteor@open-sky.fr?subject=METEOR">
                                 Contact
-                                <v-icon right>mdi-email-edit-outline</v-icon>
+                                <v-icon end>mdi-email-edit-outline</v-icon>
                             </v-btn>
                         </div>
                     </div>
                     <div class="block-text">
-                        <v-btn :to="'/signup'" color="green">
+                        <v-btn :to="'/signup'" color="green" style="color: black !important;">
                             Sign up for METEOR
-                            <v-icon right>mdi-rocket</v-icon>
+                            <v-icon end>mdi-rocket-launch</v-icon>
                         </v-btn>
                     </div>
                 </div>
@@ -93,9 +93,9 @@
                     </div>
                     <div class="block-text">
                         <div class="block-button">
-                            <v-btn outlined href="mailto:meteor@open-sky.fr?subject=New Feature METEOR">
+                            <v-btn variant="outlined" href="mailto:meteor@open-sky.fr?subject=New Feature METEOR">
                                 Request new feature
-                                <v-icon right>mdi-email-edit-outline</v-icon>
+                                <v-icon end>mdi-email-edit-outline</v-icon>
                             </v-btn>
                         </div>
                     </div>
@@ -117,8 +117,8 @@
                         </ul>
                     </div>
                 </div>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
 </template>
 
 <script>
@@ -193,5 +193,6 @@ export default {
         display: flex;
         justify-content: space-around;
         margin-top: 40px !important;
+        color: black;
     }
 </style>

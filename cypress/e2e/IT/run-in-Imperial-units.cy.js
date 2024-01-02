@@ -1,24 +1,23 @@
+const formDatas = {
+    throatDiameter: 0.68464,
+    outerDiameter: 2.7165354,
+    coreDiameter: 0.787401,
+    segmentLength: 4.527559,
+    numberOfSegment: 4,
+    endsSurface: 'Exposed',
+    coreSurface: 'Exposed',
+    outerSurface: 'Inhibited',
+    propellantId: 'KNDX',
+    chamberInnerDiameter: 2.95275,
+    chamberLength: 18.503937
+}
 describe('Run computation in imperial units', function() {
     it('Should open meteor', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.get('input#name').should('have.value', '')
     })
 
     it('Should submit form', function() {
-        const formDatas = {
-            throatDiameter: 0.68464,
-            outerDiameter: 2.7165354,
-            coreDiameter: 0.787401,
-            segmentLength: 4.527559,
-            numberOfSegment: 4,
-            endsSurface: 'Exposed',
-            coreSurface: 'Exposed',
-            outerSurface: 'Inhibited',
-            propellantId: 'KNDX',
-            chamberInnerDiameter: 2.95275,
-            chamberLength: 18.503937
-        }
-
         cy.fillForm(formDatas, 'IMPERIAL')
     })
 
@@ -43,11 +42,13 @@ describe('Run computation in imperial units', function() {
 
         cy.get('input#convergenceAngle')
             .clear()
-            .type(60)
+        cy.get('input#convergenceAngle')
+            .type('60')
 
         cy.get('input#divergenceAngle')
             .clear()
-            .type(24)
+        cy.get('input#divergenceAngle')
+            .type('24')
 
         cy.get('span').contains('Convergence length:').parent().contains('1.9642 inch')
         cy.get('span').contains('Divergence length:').parent().contains('2.9299 inch')
@@ -56,37 +57,39 @@ describe('Run computation in imperial units', function() {
         cy.get('#btnCloseNozzleDesign').click()
     })
 
-    it.skip('Should export to RASP in IMPERIAL', function() {
-        cy.server()
-        cy.route('POST', '/export/rasp').as('postExportRASPImperial')
+    it('Should export to RASP in IMPERIAL', function() {
 
         cy.get('button#btnShowRASPExport').click()
 
-        cy.get('input#motorDiameter').clear().type(3.14961)
+        cy.get('input#motorDiameter').clear()
+        cy.get('input#motorDiameter').type(3.14961)
+        cy.get('input#motorDiameter')
             .parent()
             .contains('inch')
-        cy.get('input#motorLength').clear().type(19.685)
+
+        cy.get('input#motorLength').clear()
+        cy.get('input#motorLength').type(19.685)
+        cy.get('input#motorLength')
             .parent()
             .contains('inch')
-        cy.get('input#motorWeight').clear().type(9.325554)
+
+        cy.get('input#motorWeight').clear()
+        cy.get('input#motorWeight').type(9.325554)
+        cy.get('input#motorWeight')
             .parent()
             .contains('lb')
-        cy.get('input#delay').clear().type('0-1-P')
+
+        cy.get('input#delay').clear()
+        cy.get('input#delay').type('0-1-P')
+        cy.get('input#delay')
             .parent()
             .contains('s')
 
         cy.get('button#btnExportRASP').click()
 
-        cy.wait('@postExportRASPImperial')
-
-        // Assert on XHR
-        cy.get('@postExportRASPImperial').then(function(xhr) {
-            console.log(xhr)
-            expect(xhr.status).to.eq(200)
-            expect(xhr.method).to.eq('POST')
-            expect(xhr.responseBody.startsWith(`L1672 80.0 500.0 0-1-P 2.812 4.230 METEOR
+        cy.readFile(`cypress/downloads/meteor-RASP_${formDatas.name}.eng`)
+            .should('contain',`L1607 80.0 500.0 0-1-P 2.812 4.230 METEOR
     0.0 0.0
-    0.0253 917`)).to.be(true)
-        })
+    0.0253 889.141`)
     })
 })

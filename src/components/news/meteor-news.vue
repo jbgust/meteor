@@ -1,6 +1,6 @@
 <template>
     <v-bottom-sheet v-model="sheet" v-if="hasNews">
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ props }">
             <v-badge
                 color="red"
                 class="mr-5 ml-5 align-self-center"
@@ -9,7 +9,7 @@
             >
                 <v-icon
                     id="newsMeteorBtn"
-                    large
+                    size="large"
                     @click="sheet = true"
                 >
                     mdi-bell-ring-outline
@@ -19,14 +19,14 @@
                 v-show="newNews.length==0"
                 id="newsMeteorBtn2"
                 class="mr-5 ml-5 align-self-center"
-                large
+                size="large"
                 @click="sheet = true"
             >
                 mdi-bell-ring-outline
             </v-icon>
         </template>
 
-        <v-sheet class="pb-5">
+        <v-sheet class="pb-5" theme="light">
             <h1 align="center" id="bottomPageNews" class="pt-6">
                 What's new!
             </h1>
@@ -57,7 +57,7 @@ export default {
         }
     },
     watch: {
-        sheet(newValue, oldValue) {
+        sheet(newValue) {
             if (!newValue) {
                 this.closeNews()
             }

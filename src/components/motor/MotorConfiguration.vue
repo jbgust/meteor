@@ -1,50 +1,54 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-layout column>
-            <v-col>
-                <v-text-field filled id="name" :rules="nameRule" label="Motor name" v-model="value.name" />
+    <v-col class="pa-0">
+
+                <v-text-field variant="underlined" id="name" :rules="nameRule" label="Motor name" v-model="modelValue.name"  density="compact"/>
                 <v-textarea
                     :rules="descriptionRule"
                     rows="2"
                     id="motorDescription"
                     label="Description"
-                    v-model="value.description"/>
-            </v-col>
+                    variant="underlined"
+                    v-model="modelValue.description"/>
 
-        <v-flex d-flex lg12>
+
+        <v-row no-gutters>
             <v-select id="propellantType" label="Propellant:"
+                      variant="underlined"
+                      item-title="text"
                       :hint="`${propellantHint}`" persistent-hint
-                      :items="propellants" :rules="requiredRules" v-model="value.propellantId" />
-            <v-flex class="add-propellant-icon" v-if="isLogged">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn class="mt-3" text icon @click="managePropellant" v-on="on" id="custom-propellant-add">
-                            <v-icon>mdi-progress-wrench</v-icon>
+                      :items="propellants" :rules="requiredRules" v-model="modelValue.propellantId"  density="compact">
+            <template v-slot:append>
+                <v-tooltip location="bottom">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-if="isLogged" density="compact" variant="text" icon="mdi-progress-wrench" @click="managePropellant" color="purple" v-bind="props" id="custom-propellant-add">
                         </v-btn>
                     </template>
                     <span>Manage propellant</span>
                 </v-tooltip>
-            </v-flex>
-        </v-flex>
-        <v-flex d-flex lg12>
-            <v-layout column>
-            <v-layout colum wrap>
-                <v-flex lg6 md6>
+            </template>
+            </v-select>
+
+        </v-row>
+<!--        <v-col>-->
+            <v-row>
+                <v-col>
                     <v-text-field id="chamberInnerDiameter" label="Combustion chamber diameter"
-                                  :suffix="units.lengthUnit" v-model="value.chamberInnerDiameter"
+                                  :suffix="units.lengthUnit" v-model="modelValue.chamberInnerDiameter" density="compact" variant="underlined"
                                   :rules="chamberDiameterRules" step="0.01" />
-                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat"
-                                  :suffix="units.lengthUnit" v-model="value.chamberLength"
+                    <v-text-field id="chamberLength" label="Combustion chamber length" hint="From bulkhead to throat" density="compact" variant="underlined"
+                                  :suffix="units.lengthUnit" v-model="modelValue.chamberLength"
                                   :rules="chamberLengthRules" step="0.01" />
-                </v-flex>
-                <v-flex lg6 md6>
-                    <v-text-field id="throatDiameter" label="Throat diameter" :suffix="units.lengthUnit" v-model="value.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <GrainConfigurator v-model="value" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
-            </v-layout>
-        </v-flex>
+                </v-col>
+                <v-col>
+                    <v-text-field id="throatDiameter" label="Throat diameter" density="compact" :suffix="units.lengthUnit" variant="underlined" v-model="modelValue.throatDiameter" :rules="numericGreater0Rules" step="0.01" ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <GrainConfigurator :model-value="modelValue" @update:modelValue="modelValue = $event" :units="units" @grainConfigChange="$emit('resetValidation')"></GrainConfigurator>
+            </v-row>
+<!--        </v-col>-->
         <propellant-select :units= "units" ref="dialogPropellant" @propellantDeleted="catchDeletedPropellant"></propellant-select>
-    </v-layout>
+    </v-col>
 </template>
 
 <script>
@@ -64,9 +68,10 @@ export default {
     name: 'motor-configuration',
     components: { PropellantSelect, GrainConfigurator },
     props: {
-        value: Object,
+        modelValue: Object,
         units: Object
     },
+    emits: ['update:modelValue', 'resetValidation'],
     data() {
         return {
             propellantType: NATIVE_PROPELLANTS,
@@ -105,7 +110,7 @@ export default {
             return propellants
         },
         propellantHint() {
-            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.value.propellantId)
+            const matchingPropellants = this.propellantType.filter(propellant => propellant.value === this.modelValue.propellantId)
             if (matchingPropellants.length === 1 && !!matchingPropellants[0].description && !!matchingPropellants[0].idealDensity) {
                 return `${matchingPropellants[0].description} (${matchingPropellants[0].idealDensity})`
             } else {
@@ -117,7 +122,7 @@ export default {
         checkNamesExists(fieldValue) {
             if (fieldValue) {
                 const length = this.motors()
-                    .filter(motor => (!this.value.id || motor.id !== this.value.id) && motor.name === fieldValue)
+                    .filter(motor => (!this.modelValue.id || motor.id !== this.modelValue.id) && motor.name === fieldValue)
                     .length
                 return length !== 0 ? 'A motor already own this name, please change it.' : true
             } else {
@@ -136,8 +141,3 @@ export default {
 }
 </script>
 
-<style scoped>
-    .add-propellant-icon {
-        max-width: 40px;
-    }
-</style>

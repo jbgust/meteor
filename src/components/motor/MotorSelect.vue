@@ -2,7 +2,7 @@
     <v-dialog v-model="sheet" transition="dialog-bottom-transition" max-width="800">
         <v-card>
             <v-card-title
-                class="headline purple"
+                class="text-h5 bg-purple"
                 primary-title
                 style="color: white"
             >
@@ -10,10 +10,7 @@
             </v-card-title>
             <v-card-text>
                 <v-row justify="center" align="center">
-                    <v-flex>
-                        <v-col>
-                            <import-json-motor ref="importForm" @importStart="loading = true"></import-json-motor>
-                            <v-alert type="error" v-model="showError" dismissible outlined>
+                            <v-alert type="error" v-model="showError" closable variant="outlined">
                                 {{ errorMessage }}
                             </v-alert>
                             <v-data-table
@@ -21,7 +18,7 @@
                                 :items="motors"
                                 :items-per-page="10"
                                 :loading="loading"
-                                class="elevation-1"
+                                density="compact"
                             >
                                 <template v-slot:item.name="{ item }">
                                     {{ shortLabel(item.name) }}
@@ -30,34 +27,27 @@
                                     {{ shortLabel(item.description, 150) }}
                                 </template>
                                 <template v-slot:item.actions="{ item }">
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on" @click="loadMotor(item)" text>
-                                                <v-icon color="green">mdi-play</v-icon>
+                                    <v-tooltip location="bottom">
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn icon="mdi-play" v-bind="props" color="green"  @click="loadMotor(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Run computation</span>
                                     </v-tooltip>
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on" @click="confirmDelete(item)" text>
-                                                <v-icon color="red">mdi-delete</v-icon>
+                                    <v-tooltip location="bottom">
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn icon="mdi-delete" v-bind="props" color="red" @click="confirmDelete(item)" variant="text">
                                             </v-btn>
                                         </template>
                                         <span>Delete</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
-                        </v-col>
-                    </v-flex>
-                </v-row>
+                        </v-row>
             </v-card-text>
-            <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                    @click="sheet = false"
-                >
+                <v-btn @click="sheet = false">
                     Close
                 </v-btn>
             </v-card-actions>
@@ -68,21 +58,21 @@
             max-width="400"
         >
             <v-card>
-                <v-card-title class="headline">
+                <v-card-title class="text-h5">
                     Delete "{{ motorToDelete ? motorToDelete.name : ''}}"
                 </v-card-title>
                 <v-card-text>Are you sure ?</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                        outlined
+                        variant="outlined"
                         @click="cancelDelete"
                     >
                         No
                     </v-btn>
                     <v-btn
-                        color="red darken-1"
-                        outlined
+                        color="red-darken-1"
+                        variant="outlined"
                         @click="deleteItem"
                     >
                         Yes
@@ -96,19 +86,17 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
-import ImportJsonMotor from '@/components/motor/ImportJsonMotor'
 import { shortLabel } from '@/modules/utils'
 import { isCustomPropellant } from '@/modules/customPropellant'
 
 export default {
     name: 'MotorSelect',
-    components: { ImportJsonMotor },
     data() {
         return {
             headers: [
-                { text: 'Name', value: 'name' },
-                { text: 'Description', value: 'description' },
-                { text: 'Actions', value: 'actions', sortable: false, align: 'center' }
+                { title: 'Name', value: 'name' },
+                { title: 'Description', value: 'description' },
+                { title: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
             loading: false,
             confirmDialog: false,
@@ -125,7 +113,7 @@ export default {
         sheet(newValue, oldValue) {
             if (newValue && !oldValue) {
                 if (this.$refs.importimportForm) {
-                    this.$refs.importForm.resetErrors()
+                    this.$refs.importForm.resetValidation()
                 }
                 this.errorMessage = null
                 this.showError = false

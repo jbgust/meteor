@@ -4,7 +4,7 @@ const motorName = 'HollowMotorSave_' + generateId()
 
 describe('Crud motor', () => {
     it('Should save form', () => {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
 
         const formDatas = {
             name: motorName,
@@ -26,7 +26,7 @@ describe('Crud motor', () => {
         cy.contains('Reset').click()
     })
     it('Should run saved motor', () => {
-       cy.saveAndRunCheck(motorName, {
+        cy.saveAndRunCheck(motorName, {
             motorClasss: 'F80',
             thrustTime: '0.91',
             maxThrust: '108.77',

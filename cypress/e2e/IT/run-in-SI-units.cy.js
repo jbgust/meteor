@@ -1,16 +1,8 @@
 describe('Run computation in SI units', function() {
-    it('Should open meteor from menu', function() {
-        cy.visit('/#/motorDesign')
-
-        cy.get('input#name').should('have.value', '')
-        cy.get('#throatDiameter').parent().contains('mm')
-
-        // check message about default unit
-        cy.contains('By default you are on metric units. You can change it above.')
-    })
 
     it('Should submit form', function() {
-        cy.url().should('include', '/#/motorDesign')
+        cy.visit('/motorDesign')
+        cy.url().should('include', '/motorDesign')
 
         const formDatas = {
             throatDiameter: 7,
@@ -54,10 +46,12 @@ describe('Run computation in SI units', function() {
 
         cy.get('input#convergenceAngle')
             .clear()
+        cy.get('input#convergenceAngle')
             .type(38)
 
         cy.get('input#divergenceAngle')
             .clear()
+        cy.get('input#divergenceAngle')
             .type(18)
 
         cy.get('span').contains('Convergence length:').parent().contains('30.49 mm')
@@ -70,7 +64,7 @@ describe('Run computation in SI units', function() {
 
 describe('Should dislay error from backend', function() {
     it('Should dislay error from backend', function() {
-        cy.visit('/#/motorDesign')
+        cy.visit('/motorDesign')
         cy.reload()
 
 
@@ -90,10 +84,10 @@ describe('Should dislay error from backend', function() {
 
         cy.fillForm(formDatas, 'METRIC')
 
-        cy.get('.v-dialog > .v-card')
+        cy.get('.v-card-title')
             .contains('Computation failed')
 
-        cy.get('.v-dialog > .v-card')
+        cy.get('.v-card')
             .contains('The motor should have at least core surface or outer surface exposed.')
     })
 })

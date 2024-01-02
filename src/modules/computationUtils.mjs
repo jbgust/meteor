@@ -107,7 +107,13 @@ export function setSelectedUnits(unit) {
 }
 
 export function getSelectedUnit() {
-    return localStorage.getItem('unitSelected')
+    const savedUnit  = localStorage.getItem('unitSelected')
+    if(savedUnit == SI_UNITS) {
+        return SI_UNITS;
+    } else if(savedUnit == IMPERIAL_UNITS) {
+        return IMPERIAL_UNITS;
+    }
+    return undefined
 }
 
 export function getSelectedUnitOrSI() {

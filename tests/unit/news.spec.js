@@ -1,3 +1,4 @@
+import { expect, test, describe } from 'vitest'
 import { news, getNewNewsIds, getReadNewsIds, markNewsAsRead } from '../../src/modules/news'
 
 describe('News content tests', () => {
