@@ -1,3 +1,5 @@
+import { cloneMotor } from '@/modules/computationUtils.mjs'
+
 const state = () => ({
     previousComputation: null,
     currentComputation: null,
@@ -44,9 +46,7 @@ const mutations = {
         }
     },
     saveCurrentMotor(state, motorConfiguration) {
-        const assign = Object.assign({}, motorConfiguration)
-        // TODO : améliorer ?
-        assign.grainConfig = Object.assign({}, motorConfiguration.grainConfig)
+        const assign = cloneMotor(motorConfiguration)
         state.previousMotors = [assign, state.previousMotors[0]]
     },
     setPreviousComputation(state, previousComputation) {

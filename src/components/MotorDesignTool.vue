@@ -209,6 +209,7 @@ import {
 } from '../modules/importValidator'
 import NozzleDesign from './result/NozzleDesign'
 import {
+    cloneMotor,
     getSelectedUnit,
     getSelectedUnitOrSI, getUnit,
     hasSelectedUnits, IMPERIAL_UNITS,
@@ -267,7 +268,7 @@ export default {
     },
     methods: {
         ...mapMutations('computation', ['setCurrentComputation', 'switchResults']),
-        ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation', 'getPreviousMotorComputation']),
+        ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation', 'getPreviousMotorComputation', 'previousMotors']),
         ...mapMutations('computation', ['setCompareWithPrevious', 'toggleUseAsRef']),
         ...mapGetters('authentication', ['isDonator']),
         exportRASP() {
@@ -288,13 +289,8 @@ export default {
         restoreLastMotor() {
             if (this.isDonator()) {
                 this.$refs.form.showLoadingOverlay(true)
-                const previousMotor = this.getPreviousMotorComputation()
-                // TODO : améliorer en mettant dans le store?
-                previousMotor.grainConfig = Object.assign({}, previousMotor.grainConfig)
-                this.motorId = previousMotor.id
-                this.unitSelected = previousMotor.measureUnit
-                this.$refs.form.loadForm(previousMotor, previousMotor.extraConfig)
                 this.switchResults()
+                this.loadMotor(cloneMotor(this.previousMotors()[0]))
                 setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)
             } else {
                 this.donationMessageAlert = 'This feature is reserved to donator.'

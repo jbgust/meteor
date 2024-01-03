@@ -1,6 +1,3 @@
-// TODO remove when delete .skip
-/* eslint-disable */
-
 function buildComputationResult(motorDescription) {
     return {
         performanceResult: {
@@ -83,7 +80,7 @@ function buildMotorConfig(name, propellantId) {
 }
 
 // TODO : marche en local mais plus sur la CI
-describe.skip('Should revert to last motor config', () => {
+describe('Should revert to last motor config', () => {
     it('Revert is disabled when only one result is computed', function() {
         cy.visit('/motorDesign')
         cy.mockMotorList([
@@ -116,25 +113,36 @@ describe.skip('Should revert to last motor config', () => {
             .should('have.value', 'G75')
     })
     it('Change values manually ', () => {
+        // cy.on('uncaught:exception', () => {
+        //     return false
+        // })
+
         // SET new config
         cy.contains('IMPERIAL').click()
 
         cy.get('input#name')
             .clear()
+        cy.get('input#name')
             .type('test 2')
         cy.get('input#throatDiameter')
             .clear()
+        cy.get('input#throatDiameter')
             .type(15)
+        cy.get('input#throatDiameter')
             .parent()
             .contains('inch')
 
         cy.get('input#segmentLength')
             .clear()
+        cy.get('input#segmentLength')
             .type(90)
         // set advance config
         cy.get('#btnAdvancedSettings').click()
-        cy.get('input#densityRatio').clear().type('0.67')
-        cy.get('div.v-card__title').contains('Advanced settings').parent().contains('Save').click()
+
+        cy.get('input#densityRatio').clear()
+        cy.get('input#densityRatio').type('0.67')
+
+        cy.get('.v-card-title').contains('Advanced settings').parent().contains('Save').click()
 
         // compute and revert last config
         cy.intercept('POST', '/compute', buildComputationResult('H45'))
@@ -149,8 +157,8 @@ describe.skip('Should revert to last motor config', () => {
         cy.get('input#throatDiameter').should('have.value', 10)
         cy.get('input#segmentLength').should('have.value', 80)
         // TODO : Faire passer les deux lignes suivantes
-        // cy.get('#btnAdvancedSettings').click()
-        // cy.get('input#densityRatio').should('have.value', 0.96)
+        cy.get('#btnAdvancedSettings').click()
+        cy.get('input#densityRatio').should('have.value', 0.96)
     })
 })
-/* eslint-enable */
+

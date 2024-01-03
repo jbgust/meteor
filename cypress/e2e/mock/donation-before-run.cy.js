@@ -42,11 +42,11 @@ function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
     }
 }
 
-// TODO : marche en local mais plus sur la CI
-describe.skip('Show Donation popup before run', function() {
+describe('Show Donation popup before run', function() {
     it('Should open meteor from menu', () => {
         // Non donator token
-        localStorage.setItem(TOKEN_STORAGE_KEY, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZAbWV0ZW9yLmZyIiwiaWF0IjoxNjEzNTU3NDQ3LCJleHAiOjE2MTM1NjEwNDcsImRvbmF0b3IiOmZhbHNlfQ.2I0V8u7OP2fIZcd3lh8qKxlNqBuxba1nxGCRghn9-hE2bfoW8l-yKf1GDcxa9yMFtzcRE0AJC2zYZSgs7brWRg')
+        // valid until 2059
+        localStorage.setItem(TOKEN_STORAGE_KEY, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZAbWV0ZW9yLmZyIiwiaWF0IjoxNjEzNTU3NDQ3LCJleHAiOjI4MTM1NjEwNDcsImRvbmF0b3IiOmZhbHNlfQ.MfiYJ4sy60qCTdhKmlE5hQ4RmZ7qxBvstp7YdJVCAEHxwf8Y8p1nFIaInmjbYX1w74pcL8sXkRSS--gHulhQyQ')
         localStorage.setItem('nextShowDonationPage', new Date().setDate(new Date().getDate() -1))
         cy.intercept('GET', '/propellants', [])
         cy.intercept('POST', '/compute', buildComputationResult())

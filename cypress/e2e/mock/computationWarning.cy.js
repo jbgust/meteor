@@ -79,8 +79,7 @@ function buildMotorConfig(name) {
     }
 }
 
-// TODO : marche en local mais plus sur la CI
-describe.skip('Display computationWarning', function() {
+describe('Display computationWarning', function() {
     it('Display port-to-throat danger', function() {
         // fill form
         cy.visit('/motorDesign')

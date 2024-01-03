@@ -119,3 +119,11 @@ export function getSelectedUnit() {
 export function getSelectedUnitOrSI() {
     return getSelectedUnit() || SI_UNITS
 }
+
+export function cloneMotor(motor) {
+    const clone = Object.assign({}, motor)
+    clone.grainConfig = Object.assign({}, motor.grainConfig)
+    clone.nozzleDesign = Object.assign({}, motor.nozzleDesign)
+    clone.extraConfig = Object.assign({}, motor.extraConfig)
+    return clone
+}
