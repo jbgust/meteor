@@ -2,8 +2,7 @@
     <v-app id="inspire">
         <v-app-bar color="indigo" theme="dark" density="compact">
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn variant="text" :to="'/home'">
-                    <v-icon>mdi-home</v-icon>
+                <v-btn variant="text" :to="'/home'" icon="mdi-home">
                 </v-btn>
                 <v-btn variant="text" :to="'/motorDesign'">
                     <v-icon start id="btnMeteor" size="25">mdi-rocket-launch</v-icon>
