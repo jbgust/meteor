@@ -119,17 +119,17 @@ export const news = [
     //                     </li>
     //                 </ul>`
     // }, {
-        id: 14,
-        html: `<ul>
-                        <li>
-                            <b>April 2021</b>
-                            <ul>
-                                <li>Remember if plots are chown or hidden.</li>
-                                <li>Revert button to restore the previous computation</li>
-                            </ul>
-                        </li>
-                    </ul>`
-    }, {
+    //     id: 14,
+    //     html: `<ul>
+    //                     <li>
+    //                         <b>April 2021</b>
+    //                         <ul>
+    //                             <li>Remember if plots are chown or hidden.</li>
+    //                             <li>Revert button to restore the previous computation</li>
+    //                         </ul>
+    //                     </li>
+    //                 </ul>`
+    // }, {
         id: 15,
         html: `<ul>
                         <li>
@@ -163,6 +163,19 @@ export const news = [
                                     <li><b>KNFR</b> : 65% potassium nitrate / 35% fructose</li>                                
                                     <li><b>KNPSB</b> : 35% potassium nitrate / 30% potassium perchlorate / 35% sorbitol</li>                                
                                 </ul>
+                            </ul>
+                        </li>
+                    </ul>`
+    }, {
+        id: 18,
+        html: `<ul>
+                        <li>
+                            <b>January 2024</b>
+                            <ul>
+                                <li>UI upgrade</li>
+                                <li>Bugs fix</li>
+                                <li>Migration from Vue 2 to Vue 3</li>
+                                <li>Migration from Vuetify 2 to Vuetify 3</li>
                             </ul>
                         </li>
                     </ul>`

@@ -1,4 +1,4 @@
-import { generateId } from './commands'
+import { buildUrlIntercep, generateId } from './commands'
 
 Cypress.Commands.add('mockMotorList', (motors) => {
     const motorResponses = motors.map(motor => {
@@ -22,7 +22,7 @@ Cypress.Commands.add('mockMotorList', (motors) => {
             }
         }
     })
-    cy.intercept('GET', '/motors', {
+    cy.intercept('GET', buildUrlIntercep('/motors'), {
         '_embedded': {
             'motors': motorResponses
         }

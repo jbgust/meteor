@@ -1,3 +1,5 @@
+import { buildUrlIntercep } from '../../support/commands'
+
 function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
     return {
         performanceResult: {
@@ -85,7 +87,7 @@ describe('Display computationWarning', function() {
         cy.visit('/motorDesign')
         cy.mockMotorList([buildMotorConfig('Mock motor')])
 
-        cy.intercept('POST', '/compute', buildComputationResult('1.00', 'DANGER'))
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult('1.00', 'DANGER'))
         cy.runSavedMotor('Mock motor')
 
         cy.get('p')
@@ -94,7 +96,7 @@ describe('Display computationWarning', function() {
     })
 
     it('Display port-to-throat warning', function() {
-        cy.intercept('POST', '/compute', buildComputationResult('1.50', 'WARNING'))
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult('1.50', 'WARNING'))
         cy.contains('Submit').click()
         cy.get('p')
             .contains('Your port-to-throat ratio is 1.50, it can be a problem')

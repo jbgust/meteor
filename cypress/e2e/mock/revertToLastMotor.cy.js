@@ -1,3 +1,5 @@
+import { buildUrlIntercep } from '../../support/commands'
+
 function buildComputationResult(motorDescription) {
     return {
         performanceResult: {
@@ -87,7 +89,7 @@ describe('Should revert to last motor config', () => {
             buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
             buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
 
-        cy.intercept('POST', '/compute', buildComputationResult('G75'))
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult('G75'))
 
         cy.runSavedMotor('Mock motor 1')
         cy.get('input#motor-class')
@@ -99,7 +101,7 @@ describe('Should revert to last motor config', () => {
             buildMotorConfig('Mock motor 1', 'KNSB_FINE'),
             buildMotorConfig('Mock motor 2', 'KNSB_COARSE')])
 
-        cy.intercept('POST', '/compute', buildComputationResult('F45'))
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult('F45'))
         cy.runSavedMotor('Mock motor 2')
         cy.get('input#motor-class')
             .should('have.value', 'F45')
@@ -145,7 +147,7 @@ describe('Should revert to last motor config', () => {
         cy.get('.v-card-title').contains('Advanced settings').parent().contains('Save').click()
 
         // compute and revert last config
-        cy.intercept('POST', '/compute', buildComputationResult('H45'))
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult('H45'))
         cy.contains('Submit').click()
 
         cy.get('#btnMotorRevert').click()
@@ -156,7 +158,7 @@ describe('Should revert to last motor config', () => {
             .contains('mm')
         cy.get('input#throatDiameter').should('have.value', 10)
         cy.get('input#segmentLength').should('have.value', 80)
-        // TODO : Faire passer les deux lignes suivantes
+
         cy.get('#btnAdvancedSettings').click()
         cy.get('input#densityRatio').should('have.value', 0.96)
     })

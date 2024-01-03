@@ -51,6 +51,10 @@ export function generateId(maxInt = 1000) {
     return Number(Math.random() * maxInt).toFixed(0)
 }
 
+export function buildUrlIntercep(url) {
+    return Cypress.env('prefixProxy') + url
+}
+
 function applyCommonCheck(formValues, units) {
     if (!formValues.name) {
         formValues.name = `Motor-${Number(Math.random() * 1000).toFixed(0)}`

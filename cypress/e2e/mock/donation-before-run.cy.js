@@ -1,3 +1,5 @@
+import { buildUrlIntercep } from '../../support/commands'
+
 const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 function buildComputationResult(portToThroatArea, portToThroatAreaWarning) {
@@ -48,8 +50,8 @@ describe('Show Donation popup before run', function() {
         // valid until 2059
         localStorage.setItem(TOKEN_STORAGE_KEY, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZAbWV0ZW9yLmZyIiwiaWF0IjoxNjEzNTU3NDQ3LCJleHAiOjI4MTM1NjEwNDcsImRvbmF0b3IiOmZhbHNlfQ.MfiYJ4sy60qCTdhKmlE5hQ4RmZ7qxBvstp7YdJVCAEHxwf8Y8p1nFIaInmjbYX1w74pcL8sXkRSS--gHulhQyQ')
         localStorage.setItem('nextShowDonationPage', new Date().setDate(new Date().getDate() -1))
-        cy.intercept('GET', '/propellants', [])
-        cy.intercept('POST', '/compute', buildComputationResult())
+        cy.intercept('GET', buildUrlIntercep('/propellants'), [])
+        cy.intercept('POST', buildUrlIntercep('/compute'), buildComputationResult())
 
         cy.visit('/motorDesign')
 
