@@ -17,7 +17,7 @@
                                 :headers="headers"
                                 :items="motors"
                                 :items-per-page="10"
-                                :loading="loading"
+                                :loading="loadingMotors"
                                 density="compact"
                             >
                                 <template v-slot:item.name="{ item }">
@@ -98,7 +98,6 @@ export default {
                 { title: 'Description', value: 'description' },
                 { title: 'Actions', value: 'actions', sortable: false, align: 'center' }
             ],
-            loading: false,
             confirmDialog: false,
             motorToDelete: null,
             errorMessage: null,
@@ -120,9 +119,6 @@ export default {
                 this.loadMotors(this.displayError)
             }
         },
-        motors() {
-            this.loading = false
-        },
         customPropellants(newValue) {
             this.customPropellantIds = newValue.map(propellant => propellant.id)
         }
@@ -142,7 +138,6 @@ export default {
             this.showError = true
         },
         deleteItem() {
-            this.loading = true
             this.deleteMotor({ motor: this.motorToDelete, showError: this.displayError })
             this.confirmDialog = false
         },
@@ -166,7 +161,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('motors', ['motors']),
+        ...mapGetters('motors', ['motors', 'loadingMotors']),
         ...mapGetters('customPropellants', ['customPropellants'])
     }
 }

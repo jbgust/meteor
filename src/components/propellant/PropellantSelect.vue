@@ -19,7 +19,7 @@
                                 :headers="headers"
                                 :items="customPropellants"
                                 :items-per-page="10"
-                                :loading="loading"
+                                :loading="loadingPropellant"
                                 class="elevation-1"
                             >
                                 <template v-slot:item.name="{ item }">
@@ -126,7 +126,6 @@ export default {
             showError: false,
             sheet: false,
             on: null,
-            loading: false,
             shortLabel: shortLabel
         }
     },
@@ -135,21 +134,16 @@ export default {
             if (newValue && !oldValue) {
                 this.loadCustomPropellants(this.displayError)
             }
-        },
-        customPropellants() {
-            this.loading = false
         }
     },
     methods: {
         ...mapActions('customPropellants', ['loadCustomPropellants', 'deletePropellant']),
         show() {
-            this.loading = false
             this.sheet = true
             this.errorMessage = null
             this.showError = false
         },
         commitPropellant() {
-            this.loading = true
             this.loadCustomPropellants()
         },
         confirmDelete(item) {
@@ -162,7 +156,6 @@ export default {
             this.showError = true
         },
         deleteItem() {
-            this.loading = true
             this.deletePropellant({
                 propellant: this.propellantToDelete,
                 showError: this.displayError,
@@ -185,7 +178,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('customPropellants', ['customPropellants'])
+        ...mapGetters('customPropellants', ['customPropellants', 'loadingPropellant'])
     }
 }
 </script>
