@@ -39,7 +39,7 @@ jobs:
   cypress:
     working_directory: ~/meteor
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:current
     resource_class: large
     steps:
       - checkout
@@ -135,7 +135,7 @@ jobs:
   cypress-check-prod:
     working_directory: ~/meteor
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
