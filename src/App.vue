@@ -8,10 +8,6 @@
                     <v-icon start id="btnMeteor" size="25">mdi-rocket-launch</v-icon>
                     Meteor
                 </v-btn>
-                <v-btn variant="text" href="http://meteor.boards.net/">
-                    <v-icon start id="btnForumMeteor" size="25">mdi-forum-outline</v-icon>
-                    Forum
-                </v-btn>
                 <v-btn variant="text" href="mailto:meteor@open-sky.fr?subject=METEOR">
                     <v-icon start id="contactMain" size="25">mdi-email-edit-outline</v-icon>
                     Contact
@@ -50,9 +46,6 @@
                         </v-list-item>
                         <v-list-item :to="'/motorDesign'" prepend-icon="mdi-rocket-launch">
                             Meteor
-                        </v-list-item>
-                        <v-list-item href="https://meteor.boards.net/" prepend-icon="mdi-forum-outline">
-                            Forum
                         </v-list-item>
                         <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR" prepend-icon="mdi-email-edit-outline">
                             Contact

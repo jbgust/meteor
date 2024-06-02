@@ -6,14 +6,6 @@ describe('Navigation check', function() {
         cy.get('#bottomPageNews')
             .contains('What\'s new')
     })
-    it('Should open forum', function() {
-        cy.visit('/')
-        cy.get('i#btnForumMeteor')
-            .parent()
-            .parent()
-            .should('have.attr', 'href')
-            .and('eq', 'http://meteor.boards.net/')
-    })
     it('Should open meteor from menu', function() {
         cy.visit('/')
         cy.get('i#btnMeteor').click()
