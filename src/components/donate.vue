@@ -26,10 +26,6 @@
                 <v-row justify="center" align="center">
                     <v-col shrink>
                         <v-col>
-                            <div style="text-align: center; padding: 20px; margin: 20px 40px 0 40px; border: 1px solid dimgray; border-radius: 5px;">
-                                <h2 style="margin-bottom: 10px;">Last 30 days donations</h2>
-                                <h2 style="color: #9c27b0">${{ rollingMonthDonationsInDollars }}</h2>
-                            </div>
                             <div class="mb-6 mt-5">
                                 <h4 style="color:purple; margin-top: 5px">Benefits for donors:</h4>
                                 <ul style="margin-bottom: 5px">
@@ -51,7 +47,7 @@
                                     </li>
                                 </ul>
                                 <br />
-                                <p>Donations ensure the survival and future updates for Meteor. Notably by paying the server fees and the CI platform. {{ `METEOR receives $${currentYearDonationsInDollars} in ${new Date().getFullYear()}`}}</p>
+                                <p>Donations ensure the survival and future updates for Meteor. Notably by paying the server fees and the CI platform.</p>
                                 <p class="mt-5">
                                     <b>Thank you for your support.</b>
                                 </p>
@@ -99,7 +95,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -114,21 +109,11 @@ export default {
         return {
             sheet: false,
             on: null,
-            rollingMonthDonationsInDollars: 0,
-            currentYearDonationsInDollars: 0,
             closable: false,
             donateClicked: false
         }
     },
     created() {
-        Axios.get('/donations')
-            .then((response) => {
-                this.rollingMonthDonationsInDollars = response.data.rollingMonthDonationsInCent / 100
-                this.currentYearDonationsInDollars = response.data.currentYearDonationsInCent / 100
-            })
-            .catch(function(error) {
-                console.error(error)
-            })
     },
     methods: {
         setNextShowDate() {
