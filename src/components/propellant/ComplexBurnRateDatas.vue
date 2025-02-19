@@ -5,7 +5,7 @@
                     type="info"
                     closable
                     variant="outlined">
-                    <ul>
+                    <ul style="text-align: left">
                         <li>Pressure intervals must not overlap.</li>
                         <li>If combustion chamber encounters a value that is not covered by your data, the calculation will fail. </li>
                         <li>Provide upper and lower pressure bounds that encompass the pressure range encountered by your motor.</li>

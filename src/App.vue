@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <v-app-bar color="indigo" theme="dark" density="compact">
+        <v-app-bar color="indigo" density="compact">
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn variant="text" :to="'/home'" icon="mdi-home">
                 </v-btn>
