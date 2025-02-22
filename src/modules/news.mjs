@@ -179,6 +179,18 @@ export const news = [
                             </ul>
                         </li>
                     </ul>`
+    }, {
+        id: 19,
+        html: `<ul>
+                        <li>
+                            <b>February 2025</b>
+                            <ul>
+                                <li>Add new menu to display ressources about rocketry.</li>
+                                <li>Show donation objective for the year.</li>
+                                <li>Libraries updates.</li>
+                            </ul>
+                        </li>
+                    </ul>`
     }
 ]
 

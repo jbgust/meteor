@@ -8,6 +8,17 @@
                     <v-icon start id="btnMeteor" size="25">mdi-rocket-launch</v-icon>
                     Meteor
                 </v-btn>
+                <v-btn variant="text" :to="'/learn'" @click="hideBadgeFct1">
+                    <v-icon start id="btnLearn" size="25">mdi-school-outline</v-icon>
+                    Learn rocketry
+                    <template v-slot:append v-if="highlightNewsFct1">
+                        <v-badge
+                            color="error"
+                            inline
+                            content="new"
+                        />
+                    </template>
+                </v-btn>
                 <v-btn variant="text" href="mailto:meteor@open-sky.fr?subject=METEOR">
                     <v-icon start id="contactMain" size="25">mdi-email-edit-outline</v-icon>
                     Contact
@@ -17,9 +28,6 @@
             <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer">
             </v-app-bar-nav-icon>
             <v-toolbar-title class="hidden-md-and-up">Meteor</v-toolbar-title>
-<!--            <div class="hidden-xs ml-10" style="padding: 3px; background-color: #9c27b0; border: 2px solid purple; border-radius: 10px; color: white !important;" v-show="showMessageStarGrain">-->
-<!--                Star grain no longer available. Any help to improve it are welcome, <a style="color: black" href="mailto:meteor@open-sky.fr?subject=METEOR star grain">contact us</a>.-->
-<!--            </div>-->
             <v-spacer></v-spacer>
             <v-btn variant="text" :to="'/signin'" v-if="!isLogged" class="hidden-sm-and-down">
                 <v-icon start id="btnSignIn" size="25">mdi-login</v-icon>
@@ -46,6 +54,16 @@
                         </v-list-item>
                         <v-list-item :to="'/motorDesign'" prepend-icon="mdi-rocket-launch">
                             Meteor
+                        </v-list-item>
+                        <v-list-item :to="'/learn'" prepend-icon="mdi-school-outline" @click="hideBadgeFct1">
+                            Learn rocketry
+                            <template v-slot:append v-if="highlightNewsFct1">
+                                <v-badge
+                                    color="error"
+                                    inline
+                                    content="new"
+                                />
+                            </template>
                         </v-list-item>
                         <v-list-item href="mailto:meteor@open-sky.fr?subject=METEOR" prepend-icon="mdi-email-edit-outline">
                             Contact
@@ -129,7 +147,8 @@ export default {
         drawer: false,
         group: null,
         lostConnectDialog: false,
-        showMessageStarGrain: !localStorage.getItem('starEnabled')
+        showMessageStarGrain: !localStorage.getItem('starEnabled'),
+        highlightNewsFct1 : !localStorage.getItem('newsFct1Shown')
     }),
     methods: {
         closeLostConnectionPopUp() {
@@ -139,6 +158,10 @@ export default {
         signOut() {
             this.clearToken()
             this.$router.push({ name: 'Home' }).catch(() => {})
+        },
+        hideBadgeFct1() {
+            localStorage.setItem('newsFct1Shown', true)
+            this.highlightNewsFct1 = false
         },
         ...mapActions('authentication', ['loadToken', 'clearToken'])
     },

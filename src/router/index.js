@@ -8,6 +8,7 @@ import Home from '@/components/Home.vue'
 import MotorDesignTool from '@/components/MotorDesignTool.vue'
 import { TOKEN_STORAGE_KEY } from '@/store/modules/authentication'
 import { isTokenValid } from '@/modules/utils.mjs'
+import LearnRocketry from '@/components/LearnRocketry.vue'
 
 const routes = [
     {
@@ -38,6 +39,14 @@ const routes = [
         path: '/validate',
         name: 'TokenValidator',
         component: TokenValidator,
+        meta: {
+            publicAccess: true
+        }
+    },
+    {
+        path: '/learn',
+        name: 'LearnRocketry',
+        component: LearnRocketry,
         meta: {
             publicAccess: true
         }

@@ -55,6 +55,27 @@
                         </v-col>
                     </v-col>
                 </v-row>
+                    <v-card-text>
+                        <h3
+                            :style="`right: calc(${review} - 32px)`"
+                            class="position-absolute mt-n8 text-purple"
+                        >
+                            Donation target for {{ new Date().getFullYear() }}
+                        </h3>
+                        <v-progress-linear
+                            color="purple"
+                            height="22"
+                            :model-value="currentYearDonationsInDollarsPercent"
+                            rounded="lg"
+                        >
+                        </v-progress-linear>
+
+                        <div class="d-flex justify-space-between py-3">
+                            <span class="text-purple font-weight-medium">${{ currentYearDonationsInDollars }} remitted
+                            </span>
+                            <span class="text-medium-emphasis" v-text="`$${currentYearDonationsInDollarsTarget}`"></span>
+                        </div>
+                    </v-card-text>
                 <v-alert type="info" v-model="donateClicked" variant="outlined">
                     If you have made a donation, you must log out and log back in to be marked as donator.
                 </v-alert>
@@ -96,6 +117,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Axios from 'axios'
 
 export default {
     name: 'donate',
@@ -110,10 +132,25 @@ export default {
             sheet: false,
             on: null,
             closable: false,
-            donateClicked: false
+            donateClicked: false,
+            currentYearDonationsInDollars: 0,
+            // Try to increase donation by 10% a year from 2025
+            currentYearDonationsInDollarsTarget: 150 *  (1 + (new Date().getFullYear()-2025) / 10)
         }
     },
     created() {
+        Axios.get('/donations')
+            .then((response) => {
+                this.currentYearDonationsInDollars = response.data.currentYearDonationsInCent / 100
+            })
+            .catch(function(error) {
+                console.error(error)
+            })
+    },
+    computed: {
+        currentYearDonationsInDollarsPercent() {
+            return 100 * this.currentYearDonationsInDollars / this.currentYearDonationsInDollarsTarget
+        }
     },
     methods: {
         setNextShowDate() {
