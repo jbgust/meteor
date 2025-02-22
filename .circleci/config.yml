@@ -78,7 +78,7 @@ jobs:
             cd ./dist
             zip -r meteor-dist.zip ./
       - store_artifacts:
-          path: meteor-dist.zip
+          path: dist/meteor-dist.zip
       - persist_to_workspace:
           root: ~/meteor
           paths:
@@ -102,7 +102,7 @@ jobs:
             cd ./dist
             zip -r meteor-dist.zip ./
       - store_artifacts:
-          path: meteor-dist.zip
+          path: dist/meteor-dist.zip
       - persist_to_workspace:
           root: ~/meteor
           paths:
