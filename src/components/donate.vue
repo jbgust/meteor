@@ -25,6 +25,14 @@
             <v-card-text>
                 <v-row justify="center" align="center">
                     <v-col shrink>
+                        <v-alert
+                            border="top"
+                            type="warning"
+                            variant="outlined"
+                            density="compact"
+                        >
+                            Only 1% of users have made a donation !
+                        </v-alert>
                         <v-col>
                             <div class="mb-6 mt-5">
                                 <h4 style="color:purple; margin-top: 5px">Benefits for donors:</h4>
@@ -155,7 +163,7 @@ export default {
     methods: {
         setNextShowDate() {
             const now = new Date()
-            localStorage.setItem('nextShowDonationPage', now.setDate(now.getDate() + 1))
+            localStorage.setItem('nextShowDonationPage', now.setMinutes(now.getMinutes() + 10))
         },
         onDonateClick() {
             this.donateClicked = true
