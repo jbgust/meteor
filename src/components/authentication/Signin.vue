@@ -17,7 +17,7 @@
                             type="error"
                             class="mb-5"
                         >
-                            Authentication failed
+                            {{ authenticationFailedMessage }}
                         </v-alert>
                         <v-form
                             ref="form"
@@ -78,7 +78,8 @@ export default {
         showError: false,
         emailRules: emailRule(),
         passwordRules: passwordRule(),
-        loading: false
+        loading: false,
+        authenticationFailedMessage: null
     }),
     mounted() {
         window.addEventListener('keyup', this.keyEventCatcher)
@@ -108,6 +109,10 @@ export default {
                             me.password = ''
                             me.showError = true
                             me.loading = false
+                            me.authenticationFailedMessage = 'Authentication failed'
+                            if(error.response.data) {
+                                me.authenticationFailedMessage = error.response.data
+                            }
                             console.error(error)
                         })
                 })
