@@ -14,7 +14,7 @@
     "@amcharts/amcharts4": "^4.10.36",
     "@mdi/font": "7.0.96",
     "ajv": "^6.12.6",
-    "axios": "1.7.9",
+    "axios": "1.11.0",
     "core-js": "^3.29.0",
     "deep-equal": "^2.2.1",
     "jwt-decode": "^3.1.2",
