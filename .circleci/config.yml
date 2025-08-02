@@ -111,7 +111,7 @@ jobs:
   deploy:
     working_directory: ~/meteor
     docker:
-      - image: quay.io/ansible/ansible-runner:stable-2.9-latest
+      - image: quay.io/ansible/ansible-runner:stable-2.12-latest
     environment:
       ANSIBLE_HOST_KEY_CHECKING: 'false'
     parameters:
