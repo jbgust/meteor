@@ -13,11 +13,6 @@ const state = () => ({
 const getters = {
     isLogged: (state) => {
         return isTokenValid(state.accessToken)
-    },
-    isDonator: (state) => {
-        const decodedToken = decodeToken(state.accessToken)
-        const isDonator = decodedToken ? decodedToken.donator : false
-        return isDonator
     }
 }
 

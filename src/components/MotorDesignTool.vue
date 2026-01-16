@@ -130,7 +130,6 @@
                         </v-card-actions>
                         <v-card-text v-show="showPerformanceInfo" >
                             <performance-info :units="units" ref="performanceResult"/>
-                            <v-alert density="compact" type="info" v-model="showDonatorInfo" closable variant="outlined" class="mb-5" >{{donationMessageAlert}}</v-alert>
                             <!-- Actions -->
                             <v-row class="ml-2 mr-2">
                                 <v-tooltip location="bottom">
@@ -250,8 +249,6 @@ export default {
             saveLoading: false,
             displaySuccess: false,
             successMessage: null,
-            showDonatorInfo: false,
-            donationMessageAlert: '',
             showUseRefBtn: false
         }
     },
@@ -270,7 +267,6 @@ export default {
         ...mapMutations('computation', ['setCurrentComputation', 'switchResults']),
         ...mapGetters('computation', ['compareWithPrevious', 'previousMotors', 'previousComputation', 'getPreviousMotorComputation', 'previousMotors']),
         ...mapMutations('computation', ['setCompareWithPrevious', 'toggleUseAsRef']),
-        ...mapGetters('authentication', ['isDonator']),
         exportRASP() {
             this.$refs.form.exportRASP()
         },
@@ -287,15 +283,10 @@ export default {
             this.formReset()
         },
         restoreLastMotor() {
-            if (this.isDonator()) {
-                this.$refs.form.showLoadingOverlay(true)
-                this.switchResults()
-                this.loadMotor(cloneMotor(this.previousMotors()[0]))
-                setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)
-            } else {
-                this.donationMessageAlert = 'This feature is reserved to donator.'
-                this.showDonatorInfo = true
-            }
+            this.$refs.form.showLoadingOverlay(true)
+            this.switchResults()
+            this.loadMotor(cloneMotor(this.previousMotors()[0]))
+            setTimeout(() => { this.$refs.form.showLoadingOverlay(false) }, 500)
         },
         loadMotor(loadedConfig, missingPropellant = false, scope = this) {
             if (validateImportVersion3(loadedConfig)) {
@@ -313,7 +304,7 @@ export default {
                 scope.unitSelected = loadedConfig.measureUnit
                 // If nextTick is not here, the form will not be valid when call runComputation()
                 nextTick(() => {
-                    scope.$refs.form.checkDonor()
+                    scope.$refs.form.runComputation()
                     scope.importInProgress = false
                 })
             } else {
@@ -461,14 +452,8 @@ export default {
                 return this.compareWithPrevious()
             },
             set(value) {
-                if (this.isDonator()) {
-                    this.showUseRefBtn = value
-                    nextTick(() => { this.setCompareWithPrevious(value) })
-                } else {
-                    // toggle on when user activate showComparison
-                    this.donationMessageAlert = 'Motor comparison is only available for donators.'
-                    this.showDonatorInfo = value
-                }
+                this.showUseRefBtn = value
+                nextTick(() => { this.setCompareWithPrevious(value) })
             }
         },
         units() {

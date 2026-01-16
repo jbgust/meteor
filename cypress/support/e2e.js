@@ -22,8 +22,6 @@ import './mockCommands'
 const TOKEN_STORAGE_KEY = 'accessToken-1'
 
 beforeEach(function() {
-    localStorage.setItem('nextShowDonationPage', new Date().setMonth(new Date().getMonth() + 1))
-
     localStorage.setItem(TOKEN_STORAGE_KEY, Cypress.env('jwtToken'))
 
     // Do not show registration info

@@ -15,7 +15,7 @@
                 <v-btn class="mr-4" @click="$refs.advanceSettings.show()" variant="tonal">
                     <v-icon dark id="btnAdvancedSettings">mdi-cog</v-icon>
                 </v-btn>
-                <v-btn class="mr-4" @click="checkDonor" color="primary" :loading="loading" variant="tonal">
+                <v-btn class="mr-4" @click="runComputation" color="primary" :loading="loading" variant="tonal">
                     Submit
                 </v-btn>
             </div>
@@ -66,7 +66,6 @@
                 </v-col>
             </v-row>
         </v-overlay>
-        <donate ref="donationPopup" :check-mode="true" @closeDonation="runComputation"></donate>
     </v-container>
 </template>
 
@@ -77,12 +76,11 @@ import AdvancedConfiguration from './motor/AdvancedConfiguration'
 import MotorConfiguration from './motor/MotorConfiguration'
 import { defaultAdvanceConfig } from '../modules/dataDemo'
 import { C_SLOT, END_BURNER, FINOCYL, HOLLOW, MOON_BURNER, ROD_TUBE, STAR } from '../modules/grainsConstants'
-import Donate from '@/components/donate'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: 'solid-rocket-motor',
-    components: { Donate, MotorConfiguration, AdvancedConfiguration },
+    components: { MotorConfiguration, AdvancedConfiguration },
     data() {
         return {
             formValue: { },
@@ -159,20 +157,8 @@ export default {
                 url: url
             }
         },
-        checkDonor() {
-            const checkGrainAndGetURL = this.checkGrainAndGetURL()
-            if (checkGrainAndGetURL.grainCheck) {
-                this.$refs.formJSRM.validate()
-                    .then((result) => {
-                        if(result.valid) {
-                            this.$refs.donationPopup.check()
-                        }
-                    })
-            }
-        },
         ...mapMutations('computation', ['setCurrentComputation', 'setPreviousComputation', 'saveCurrentMotor']),
         ...mapGetters('computation', ['currentComputation', 'isPreviousMotorFlagAsReference']),
-        ...mapGetters('authentication', ['isDonator']),
         runComputationExecutor() {
             const component = this
             let request
@@ -182,7 +168,7 @@ export default {
                 this.loading = true
                 Axios.post(checkGrainAndGetURL.url, request)
                     .then((response) => {
-                        if (this.isDonator() && !!this.currentComputation()) {
+                        if (!!this.currentComputation()) {
                             this.setPreviousComputation(this.currentComputation())
                         }
                         this.setCurrentComputation(response.data)
@@ -211,11 +197,14 @@ export default {
             }
         },
         runComputation() {
-            this.$refs.formJSRM.validate().then(result => {
-                if (result.valid) {
-                    this.runComputationExecutor()
-                }
-            })
+            const checkGrainAndGetURL = this.checkGrainAndGetURL()
+            if (checkGrainAndGetURL.grainCheck) {
+                this.$refs.formJSRM.validate().then(result => {
+                    if (result.valid) {
+                        this.runComputationExecutor()
+                    }
+                })
+            }
         },
         checkMotorDimensions() {
             if (this.formValue.chamberLength < this.formValue.grainConfig.segmentLength * this.formValue.grainConfig.numberOfSegment) {
