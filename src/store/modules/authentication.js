@@ -1,6 +1,6 @@
 // initial state
 import Axios from 'axios'
-import { decodeToken, isTokenValid } from '@/modules/utils.mjs'
+import { isTokenValid } from '@/modules/utils.mjs'
 
 
 export const TOKEN_STORAGE_KEY = 'accessToken-1'
